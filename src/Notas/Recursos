@@ -1,0 +1,10 @@
+-- Drag and Drop Sortable.js en horarios.html
+https://www.youtube.com/watch?v=-N515SDoYuU
+[https://sortablejs.github.io/Sortable/]
+
+CDN:    <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+GraphQL para manejar datos en javascript
+Electron para hacer aplicaciones windows nativas
+React//

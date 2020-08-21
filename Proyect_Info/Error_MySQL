@@ -1,0 +1,17 @@
+
+AL REINSTALAR MYSQL NO CONECTARA: USAR SIGUIENTE QUERY
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YourRootPassword';
+-- or
+CREATE USER 'foo'@'%' IDENTIFIED WITH mysql_native_password BY 'bar';
+-- then
+FLUSH PRIVILEGES;
+
+Eliminar Modo seguro
+SET SQL_SAFE_UPDATES = 0;
+------------------------------------------------------------------------------
+
+  1  Entrar al directorio del proyecto
+  2  Instalar express si no lo tienes: npm install express
+  3  Correr npm install para descargar las dependencias especificadas en el package.json
+  4  Ejecutar node app.js

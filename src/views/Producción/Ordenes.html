@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title >
+           GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('../partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="js/MaquinasFiltradas.js"></script>
+
+
+        <link rel="stylesheet" href="css/style.css">
+
+           
+        <!-------------------------------- plugin Jquery ------------------------------------------>
+        <script
+			  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+        crossorigin="anonymous"></script>
+        
+        <!-------------------------------- plugin y css de paginacion de tablas ------------------------------------------>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+        <!---------------------------------------------------------------------------------------------------------------->
+
+</head>
+<body onload="getTabla()">
+    <%- include ('../partials/navegacion.html')%>
+
+      <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+      <div class="SpaceWork">
+        <form action="/addOrden" method="post">       
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label for="inputAddress">OT</label>
+              <input required type="text" id="ot" class="form-control" placeholder="#Orden de trabajo..." name = "OT" autocomplete="off" >
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress2">Numero de parte</label>
+              <input required type="text" id="numPart" class="form-control" placeholder="Número de parte" name="NumPart" autocomplete="off">
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputState">Estatus</label>
+              <select required id="estuatus"  name="Estatus" class="form-control">
+                <option selected>Sin Material</option>
+                <option selected>En Maquina</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress2">Cantidad</label>
+              <input type="text" id="cantidad" class="form-control" placeholder="cantidad de pza." name="Cantidad" autocomplete="off">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputAddress2">Fecha inicio</label>
+                <input required type="date" id="inicio" class="form-control"  name="Inicio" autocomplete="off">
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress2">Hrs de trabajo c/u</label>
+              <input type="text" id="horas" class="form-control" placeholder="Hora de trabajo c/u" name="Horas" autocomplete="off">
+            </div>
+
+            <div class="form-group col-md-2">
+                <label for="inputAddress2">Fecha Vencimiento</label>
+                <input required type="date" id="fin" class="form-control"  name="vencimiento" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputState">Familia</label>
+              <select id="familia" class="form-control" onchange="Cargar_list_Maquina()">
+                <option selected>Seleccionar...</option>
+                <option >TORNOS</option>
+                <option>CM GRANDES</option>
+                <option>CM MEDIANOS</option>
+                <option>CM CHICOS</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputState">Máquinas</label>
+              <select required id="maquina"  name="maquina" class="form-control">
+                <option selected>Todo</option>
+              </select>
+            </div>
+          </div>
+
+<!-------------------------------------------------------------------------
+          <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck">
+              <label class="form-check-label" for="gridCheck">
+                Listo
+              </label>
+            </div>
+          </div>--->
+
+          <button  type="submit" class="btn btn-primary" >Agregar</button>
+
+        </form>
+       </div>
+<!------------------------------ TABLA-------------------------------------->
+       <div class="SpaceWork">
+          <table class="table table-bordered table-hover" id="OTRegistros">
+            <thead> 
+              <tr>
+                <th>N°</th>
+                <th>OT</th>
+                <th>N° Parte</th>
+                <th>Estatus</th>
+                <th>Cantidad</th>
+                <th>Maquina</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Fecha vencimiento</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <% if (data) { %>
+                <% for(var i = 0; i < data.length; i++) { %>
+                  <tr>
+                    <td id="indice"><%= (i + 1) %></td>
+                    <td id="Rot"><%= data[i].OT %></td>
+                    <td id="numPart"><%= data[i].Parte %></td>
+                    <td id="Estatus"><%= data[i].Estatus %></td>
+                    <td id="cantidad"><%= data[i].CantOt %></td>
+                    <td id="maquina"><%= data[i].Maquina %></td>
+                    <td id="inicio"><%= new Date(data[i].FechaInicio).toDateString() %></td>
+                    <td id="Rfin"><%= new Date(data[i].FechaProd).toDateString() %></td>
+                    <td id="Rfin"><%= new Date(data[i].FechaVenc).toDateString() %></td>
+                    <td>
+                      <a href="/update/<%= data[i].id %>" class="btn btn-info">Editar</a>
+                      <a href="/delete/<%= data[i].id %>" class="btn btn-danger">Eliminar</a>
+                    </td>
+                  </tr>
+                <% } %>
+              <% } %>
+            </tbody>
+          </table>
+       </div>
+
+
+      
+
+                <!------------- LINETIME ------------------------------------
+<div  class="SpaceWork">
+    <div id="MaquinasLap" class="TimeMaquina"> <script type="text/javascript" src="js/Maquinas.js"></script> </div>
+  </div>-->
+
+
+     <!--
+     <div class="SpaceWork">
+      <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Job Id</div>
+          <div class="col col-2">Customer Name</div>
+          <div class="col col-3">Amount Due</div>
+          <div class="col col-4">Payment Status</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42235</div>
+          <div class="col col-2" data-label="Customer Name">John Doe</div>
+          <div class="col col-3" data-label="Amount">$350</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42442</div>
+          <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
+          <div class="col col-3" data-label="Amount">$220</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42257</div>
+          <div class="col col-2" data-label="Customer Name">John Smith</div>
+          <div class="col col-3" data-label="Amount">$341</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42311</div>
+          <div class="col col-2" data-label="Customer Name">John Carpenter</div>
+          <div class="col col-3" data-label="Amount">$115</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+      </ul>
+    </div>-->
+<!--------------------------------- TABLA MAQUINAS -------------------------------------->
+<div class="SpaceWork" id="CMaquinasTabla" visibility: hidden>
+  <table class="table table-bordered table-hover" id="MaquinasTabla" >
+    <thead> 
+      <tr>
+        <th>Familia</th>
+        <th>Maquina</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <% if (Maquinas) { %>
+        <% for(var i = 0; i < Maquinas.length; i++) { %>
+          <tr>
+            <td id="TFamilia"><%= Maquinas[i].Familia %></td>
+            <td id="TNombre"><%= Maquinas[i].Nombre %></td>
+          </tr>
+        <% } %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+  </script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+</script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+</script>
+<script>
+  $(document).ready(function () {
+      $('#OTRegistros').DataTable({
+          language: {
+              processing: "Tratamiento en curso...",
+              search: "Buscar&nbsp;:",
+              lengthMenu: "Agrupar de _MENU_ items",
+              info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+              infoEmpty: "No existen datos.",
+              infoFiltered: "(filtrado de _MAX_ elementos en total)",
+              infoPostFix: "",
+              loadingRecords: "Cargando...",
+              zeroRecords: "No se encontraron datos con tu busqueda",
+              emptyTable: "No hay datos disponibles en la tabla.",
+              paginate: {
+                  first: "Primero",
+                  previous: "Anterior",
+                  next: "Siguiente",
+                  last: "Ultimo"
+              },
+              aria: {
+                  sortAscending: ": active para ordenar la columna en orden ascendente",
+                  sortDescending: ": active para ordenar la columna en orden descendente"
+              }
+          },
+          scrollY: 400,
+          lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
+      });
+  });
+</script>
+
+</body>
+</html>

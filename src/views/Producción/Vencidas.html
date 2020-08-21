@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title >
+           GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('../partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+        <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body onload="getTabla()">
+    <%- include ('../partials/navegacion.html')%>
+
+      <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+      <div class="SpaceWork">
+        <form action="/filtrarMach" method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputState">Familia</label>
+              <select id="familia" class="form-control">
+                <option selected>Todo</option>
+                <option >CENTROS DE MAQUINADO</option>
+                <option>TORNOS CNC</option>
+                <option>TORNOS GRANDES</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputState">Máquinas</label>
+              <select required id="maquina"  name="maquina" class="form-control">
+                <option selected>Todo</option>
+                <option >FANUC 79</option>
+                <option>ZAYER 44</option>
+                <option>PUMA 700 XL-24</option>
+                <option>HASS VF4-2</option>
+                <option>SL-20</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <input type="button" class="btn btn-primary"  value="Filtrar" onclick="CrearTablaMaquinas()"/>
+           
+            <a class="nav-link active" href="/Maquinas"><i class="fas fa-times"></i> Eliminar filtro</a>
+          </div>
+        </form>
+       </div>
+<!------------------------------ TABLA-------------------------------------->
+       <script>
+       if(data){
+         alert('datos: ' + typeof(data));
+       }
+       </script>
+
+       <div class="SpaceWork" id="divTabla">
+          <table class="table table-bordered table-hover" id="OTRegistros">
+            <thead> 
+              <tr>
+                <th>N°</th>
+                <th>OT</th>
+                <th>N° Parte</th>
+                <th>Cantidad</th>
+                <th>Maquina</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Vencimiento</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <% if (data) { %>
+                <% for(var i = 0; i < data.length; i++) { %>
+                  <tr>
+                    <td id="indice"><%= (i + 1) %></td>
+                    <td id="OT"><%= data[i].OT %></td>
+                    <td id="numPart"><%= data[i].Parte %></td>
+                    <td id="cantidad"><%= data[i].CantOt %></td>
+                    <td id="maquina"><%= data[i].Maquina %></td>
+                    <td id="inicio"><%= new Date(data[i].FechaInicio).toDateString() %></td>
+                    <td id="Rfin"><%= new Date(data[i].FechaProd).toDateString() %></td>
+                    <td id="Vencimiento"><%= data[i].FechaVenc %></td>
+                    <td>
+                      <a href="/update/<%= data[i].id %>" class="btn btn-info">Detalles</a>
+                    </td>
+                  </tr>
+                <% } %>
+              <% } %>
+            </tbody>
+          </table>
+       </div>
+
+</body>
+</html>

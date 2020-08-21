@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>
+                GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('../partials/head.html') %>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!------incluir cabezera navegacion----->
+
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet"
+                type="text/css">
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+                integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="js/xlsxfullmin.js"></script>
+        <script type="text/javascript" src="js/FileSaver.js"></script>
+</head>
+
+<body>
+        <%- include ('../partials/navegacion.html')%>
+
+
+        <div class="card text-center">
+                <div class="card-header">
+                        RECEPCIÓN ALMACEN
+                </div>
+                <div class="card-body">
+                        <h5 class="card-title">IMPORTAR CICLO-CM</h5>
+                        <p class="card-text">Selecciona archivo de excel</p>
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a>-->
+                        <input type="file" id="input-excel" />
+                        <input type="button" id="button" class="btn btn-primary" value="Registrar" />
+                </div>
+        </div>
+        <!--Aqui se alimentara la tabla cargar del excel-->
+        <table id="wrapper"> </table>
+
+ 
+
+</body>
+
+</html>
