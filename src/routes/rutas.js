@@ -1,6 +1,6 @@
-const express = require('express');//guardar express en una variable de servidor
+const express = require('express'); //guardar express en una variable de servidor
 const router = express.Router(); //usar modulo de router de ex´press
-const OTController =  require('../Controllers/OTController');
+const OTController = require('../Controllers/OTController');
 const UserController = require('../Controllers/UserController');
 const cPlanerController = require('../Controllers/cPlanerController');
 const VencidasController = require('../Controllers/VencidasController');
@@ -13,8 +13,8 @@ const CRMController = require('../Controllers/CRM_Controller');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
-    //res.send('holoo');
-    res.render('Login.html');
+	//res.send('holoo');
+	res.render('Login.html');
 });
 
 //Iniciar logueo
@@ -22,9 +22,11 @@ router.post('/Login', UserController.login);
 
 //Acceder formulario Registrar usuario
 router.get('/Signup', (req, res) => {
-	if(req.session.loggedin){
-		res.render('Signup.html',{title: 'Gemak'});
-	}else {
+	if (req.session.loggedin) {
+		res.render('Signup.html', {
+			title: 'Gemak'
+		});
+	} else {
 		res.render('Login.html');
 	}
 	res.end();
@@ -35,9 +37,11 @@ router.post('/AddUser', UserController.save);
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
-router.get('/home', function(request, response) {
+router.get('/home', function (request, response) {
 	if (request.session.loggedin) {
-        response.render('index.html',{title: 'Gemak'});
+		response.render('index.html', {
+			title: 'Gemak'
+		});
 		//response.send('Welcome back, ' + request.session.username + '!');
 	} else {
 		response.send('Tu sesión expiró!');
@@ -46,9 +50,11 @@ router.get('/home', function(request, response) {
 });
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A cPlaner /////////////////////////////////////////////////////////////////////////////
-router.get('/cPlaner', function(request, response) {
+router.get('/cPlaner', function (request, response) {
 	if (request.session.loggedin) {
-        response.render('Producción/cPlaner.html',{title: 'Gemak'});
+		response.render('Producción/cPlaner.html', {
+			title: 'Gemak'
+		});
 		//response.send('Welcome back, ' + request.session.username + '!');
 	} else {
 		reinicio;
@@ -74,9 +80,11 @@ router.get('/Vencidas', VencidasController.listVencidas);
 /////////////////////////////////////////////////////////////////////////// REGISTRO DE MAQUINARIA CNC /////////////////////////////////////////////////////////////////////
 //Acceder formulario Registrar Maquina
 router.get('/Alta_Maquina', (req, res) => {
-	if(req.session.loggedin){
-		res.render('Alta_Maquina.html',{title: 'Gemak'});
-	}else {
+	if (req.session.loggedin) {
+		res.render('Alta_Maquina.html', {
+			title: 'Gemak'
+		});
+	} else {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
@@ -88,14 +96,18 @@ router.post('/AddMaquina', MaquinariaController.save);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {
-	if(req.session.loggedin){
+	if (req.session.loggedin) {
 		console.log("Nivel: " + req.session.nivel);
-		if(req.session.nivel == "Admin"){
-			res.render('Admin.html',{title: 'Gemak'});
-		}else{
-			res.render('index.html',{title: 'Gemak'});
+		if (req.session.nivel == "Admin") {
+			res.render('Admin.html', {
+				title: 'Gemak'
+			});
+		} else {
+			res.render('index.html', {
+				title: 'Gemak'
+			});
 		}
-	}else {
+	} else {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
@@ -121,14 +133,20 @@ router.get('/deleteEmpleado/:id', EmpleadosController.delete);
 /////////////////////////////////////////////////////////////////////////// ALMACEN //////////////////////////////////////////////////////////////////////////////
 //====== Administración ========
 router.get('/wh_Admin', (req, res) => {
-	if(req.session.loggedin){
-		if(req.session.nivel == "Admin" && req.session.area == "Almacen"){
-			res.render('Almacen/wh_Admin.html',{title: 'Gemak'});
-		}else{
-			res.render('index.html',{title: 'Gemak'});
+	if (req.session.loggedin) {
+		if (req.session.nivel == "Admin" && req.session.area == "Almacen") {
+			res.render('Almacen/wh_Admin.html', {
+				title: 'Gemak'
+			});
+		} else {
+			res.render('index.html', {
+				title: 'Gemak'
+			});
 		}
-	}else {
-		res.render('index.html',{title: 'Gemak'});
+	} else {
+		res.render('index.html', {
+			title: 'Gemak'
+		});
 	}
 	res.end();
 });
@@ -150,6 +168,20 @@ router.post('/GuardarNotaRetorno', AlmacenController.GuardarNotaRetorno);
 //====== Recepción ========
 router.get('/wh_Recepcion', AlmacenController.MainRecepcion);
 
+
+//====== Recepción ========
+router.get('/wh_Requisicion', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_Requisicion.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('index.html', {
+			title: 'Gemak'
+		});
+	}
+	res.end();
+});
 /////////////////////////////////////////////////////////////////////////// CRM //////////////////////////////////////////////////////////////////////////////
 router.get('/Contactos', CRMController.list);
 router.post('/addCliente', CRMController.save);
@@ -159,40 +191,48 @@ router.post('/AddVendedor', CRMController.AddVendedor);
 router.get('/Tareas', CRMController.listWorks);
 
 router.get('/Tareas', (req, res) => {
-	if(req.session.loggedin){
-		
-		res.render('CRM/Tareas.html',{title: 'Gemak'});
-	}else {
+	if (req.session.loggedin) {
+
+		res.render('CRM/Tareas.html', {
+			title: 'Gemak'
+		});
+	} else {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
 });
 
 router.get('/AdminCRM', (req, res) => {
-	if(req.session.loggedin){
-		
-		res.render('CRM/AdminCRM.html',{title: 'Gemak'});
-	}else {
+	if (req.session.loggedin) {
+
+		res.render('CRM/AdminCRM.html', {
+			title: 'Gemak'
+		});
+	} else {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
 });
 
 router.get('/AddVendedores', (req, res) => {
-	if(req.session.loggedin){
-		
-		res.render('CRM/AddVendedores.html',{title: 'Gemak'});
-	}else {
+	if (req.session.loggedin) {
+
+		res.render('CRM/AddVendedores.html', {
+			title: 'Gemak'
+		});
+	} else {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
 });
 /////////////////////////////////////////////////////////////////////////// Materiales //////////////////////////////////////////////////////////////////////////////
 router.get('/CargaMateriales', (req, res) => {
-	if(req.session.loggedin){
-		
-		res.render('Materiales/Entrada.html',{title: 'Gemak'});
-	}else {
+	if (req.session.loggedin) {
+
+		res.render('Materiales/Entrada.html', {
+			title: 'Gemak'
+		});
+	} else {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
@@ -220,4 +260,3 @@ app.get('/', (req, res) => {
     res.render('index',{title: 'Gemak'});
 });
 */
-
