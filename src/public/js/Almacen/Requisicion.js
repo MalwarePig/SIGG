@@ -41,18 +41,20 @@ function autocompletar(){
 function Seleccion(variable) {
     Registro = document.getElementById("Herr_Encontradas");
 
-    //var Clave = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave
+    var Clave = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave
     var Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
 
-    document.RegistroSalida.Sal_Herramienta.value = Producto;
+    document.RegistroSalida.Req_Clave.value = Clave;
+    document.RegistroSalida.Req_Herramienta.value = Producto;
 }
 
 //=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//
 function CrearNota() {
-    var Producto = document.getElementById("Producto").value; //Obtiene el valor de Clave
-    var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de Clave
-    var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
-    var Arreglo = [Producto, Cantidad, Comentario];
+    var Clave = document.getElementById("Clave").value; //Obtiene el valor de Producto
+    var Producto = document.getElementById("Producto").value; //Obtiene el valor de Producto
+    var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de cantidad
+    var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Comentario
+    var Arreglo = [Clave,Producto, Cantidad, Comentario];
     var Condicion = true;//para campos vacios
     for (var a in Arreglo) {//recorrer arreglo en busca de campos vacios
         if (Arreglo[a].length == 0) {
@@ -72,8 +74,8 @@ function CrearNota() {
             // adjuntar el texto al nodo
             var newText = document.createTextNode(Arreglo[x]);
             newCell.appendChild(newText);
-            if (x == 8) {//Si termina de registrar datos crear el boton
-                var newCell = newRow.insertCell(9); //CREAR CELDA onclick="CrearNota()"
+            if (x == 3) {//Si termina de registrar datos crear el boton
+                var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
                 newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
             }
         }
@@ -83,3 +85,58 @@ function CrearNota() {
         document.getElementById("cantidad").value = "";
     }
 }
+
+//=========================================== Guardar elementos de la nota =================================================//
+function GuardarNota() {
+    var tabla = document.getElementById("Almacen");
+    var total = tabla.rows.length//Total de filas
+
+    for (var j = 1; j <= total - 1; j++) {//filas
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+        var ObjetoTabla = {
+            Clave: tabla.rows[j].cells[0].childNodes[0].nodeValue,
+            Producto: tabla.rows[j].cells[1].childNodes[0].nodeValue,
+            Cantidad: tabla.rows[j].cells[2].childNodes[0].nodeValue,
+            OT: tabla.rows[j].cells[3].childNodes[0].nodeValue,
+            Comentario: tabla.rows[j].cells[4].childNodes[0].nodeValue
+        }
+           console.log("objeto: " + ObjetoTabla.Folio);
+            $.post("/SaveRequest", // url
+            { ObjetoTabla }, // data to be submit
+            function (objeto, estatus) {// success callback
+                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            });
+    }//fin filas
+    //Limpiar tabla
+    var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
+    var limite = TablaAl4tById("RegistroSalida").reset();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -50,3 +50,6 @@ function carga(){//carga la funcion de carga de formulario
      })
     )
   };
+
+
+  

@@ -150,6 +150,7 @@ router.get('/wh_Admin', (req, res) => {
 	}
 	res.end();
 });
+
 router.get('/wh_Retorno', AlmacenController.listRetorno);
 //====== Salidas ========
 router.get('/BuscarHerramientas/:Herra', AlmacenController.search);
@@ -166,10 +167,12 @@ router.get('/FolioRetorno', AlmacenController.FolioRetorno);
 router.post('/GuardarNotaRetorno', AlmacenController.GuardarNotaRetorno);
 
 //====== Recepción ========
+//Abre pagina principal para recepcion
 router.get('/wh_Recepcion', AlmacenController.MainRecepcion);
 
 
-//====== Recepción ========
+//====== Requisicion ========
+//Abre pagina principal para requerir
 router.get('/wh_Requisicion', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/wh_Requisicion.html', {
@@ -182,6 +185,9 @@ router.get('/wh_Requisicion', (req, res) => {
 	}
 	res.end();
 });
+//Guarda nota de requisicion
+router.post('/SaveRequest', AlmacenController.GuardarRequisicion);
+
 /////////////////////////////////////////////////////////////////////////// CRM //////////////////////////////////////////////////////////////////////////////
 router.get('/Contactos', CRMController.list);
 router.post('/addCliente', CRMController.save);
