@@ -287,7 +287,6 @@ Controller.MainRecepcion = (req, res) => {
 ///////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////// == RETORNO == //////////////////// == RETORNO == ///////////////////// == RETORNO == ////////////
 //============================================================================================================================================================================================================================================
 
-
 Controller.GuardarRequisicion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -297,16 +296,15 @@ Controller.GuardarRequisicion = (req, res) => {
             let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
             let OT = Object.values(data)[4]; //obeter datos de un objeto Folio
             let Comentarios = Object.values(data)[8]; //obeter datos de un objeto Folio
-            let Empleado = Object.values(data)[5]; //obeter datos de un objeto Folio
+            let Empleado = req.session.nombre; //obeter datos de un objeto Folio
             let Planta = req.session.planta;
-            let Estatus = 'Retorno';
-    
-            let Usuario = req.session.username;
+            let Estatus = 'Requerido';
+
             if (err) {
                 console.log("Conexion: " + err)
             }
-            console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
-            conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,OT,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, OT, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
+            console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus)
+            conn.query('INSERT INTO requisiciones(Clave, Producto, CantidadReq, OT, Comentarios, EmpleadoReq, Planta, Estatus)values(?,?,?,?,?,?,?,?)', [Clave, Producto, Cantidad, OT, Comentarios, Empleado, Planta, Estatus], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar despacho de herramienta');

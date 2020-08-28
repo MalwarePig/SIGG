@@ -34,12 +34,14 @@ Controller.login = (req,res) => {
                 const planta = results[0].Planta//Obtener contraseña de la consulta
                 const nivel = results[0].Nivel//Obtener nivel de la consulta
                 const Area = results[0].Area//Obtener nivel de la consulta
+                const Nombre = results[0].Nombre//Obtener nivel de la consulta
                 if(password == pass){//si las contraseñas coinciden entran
                     req.session.loggedin = true;
                     req.session.username = username;
                     req.session.planta = planta;
                     req.session.nivel = nivel;
                     req.session.area = Area;
+                    req.session.nombre = Nombre;
                     res.redirect('/home');
                     console.log('Inicia: '+  req.session.username + " con planta: " + req.session.planta);//se obtienen los datos del formulario a traves del req.body
                     //res.send('works');
