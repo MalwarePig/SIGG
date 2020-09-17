@@ -295,7 +295,7 @@ Controller.GuardarRequisicion = (req, res) => {
             let Producto = Object.values(data)[1]; //obeter datos de un objeto Folio
             let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
             let OT = Object.values(data)[4]; //obeter datos de un objeto Folio
-            let Comentarios = Object.values(data)[8]; //obeter datos de un objeto Folio
+            let Comentarios = Object.values(data)[5]; //obeter datos de un objeto Folio
             let Empleado = req.session.nombre; //obeter datos de un objeto Folio
             let Planta = req.session.planta;
             let Estatus = 'Requerido';

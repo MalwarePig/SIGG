@@ -53,8 +53,9 @@ function CrearNota() {
     var Clave = document.getElementById("Clave").value; //Obtiene el valor de Producto
     var Producto = document.getElementById("Producto").value; //Obtiene el valor de Producto
     var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de cantidad
+    var OT = document.getElementById("OT").value; //Obtiene el valor de OT
     var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Comentario
-    var Arreglo = [Clave,Producto, Cantidad, Comentario];
+    var Arreglo = [Clave, Producto, Cantidad, OT, Comentario];
     var Condicion = true;//para campos vacios
     for (var a in Arreglo) {//recorrer arreglo en busca de campos vacios
         if (Arreglo[a].length == 0) {
@@ -68,14 +69,13 @@ function CrearNota() {
         let indice = (TablaAlmacen.rows.length + 1);
         newRow.setAttribute("id", "fila" + indice);//se asigna id al incrementar cada fila +1 para contar el encabezado
         for (var x = 0; x < Arreglo.length; x++) {
-
             // inserta una celda en el indice 0
             var newCell = newRow.insertCell(x);
             // adjuntar el texto al nodo
             var newText = document.createTextNode(Arreglo[x]);
             newCell.appendChild(newText);
-            if (x == 3) {//Si termina de registrar datos crear el boton
-                var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
+            if (x == 4) {//Si termina de registrar datos crear el boton
+                var newCell = newRow.insertCell(5); //CREAR CELDA onclick="CrearNota()"
                 newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
             }
         }
@@ -111,6 +111,10 @@ function GuardarNota() {
     var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
     var limite = TablaAl4tById("RegistroSalida").reset();
 }
+
+
+
+
 
 
 

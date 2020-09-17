@@ -10,6 +10,7 @@ const HorariosController = require('../Controllers/HorariosController');
 const AlmacenController = require('../Controllers/AlmacenController');
 const PruebasController = require('../Controllers/PruebasController');
 const CRMController = require('../Controllers/CRM_Controller');
+const ProcesosController = require('../Controllers/ProcesosController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -243,6 +244,22 @@ router.get('/CargaMateriales', (req, res) => {
 	}
 	res.end();
 });
+
+/////////////////////////////////////////////////////////////////////////// Proceso //////////////////////////////////////////////////////////////////////////////
+//====== Cargar  ========
+router.get('/VerInventario', (req, res) => {
+	if (req.session.loggedin) {
+
+		res.render('Proceso/ReporteInventario.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.send('Tu sesión expiró!');
+	}
+	res.end();
+});
+//====== Salidas ========
+router.get('/VerAlmacen/:Planta', ProcesosController.searchPlanta);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 
