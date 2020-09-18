@@ -7,8 +7,10 @@ Controller.searchPlanta = (req, res) => {
     if (req.session.loggedin) {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
-            const {Planta} = req.params;
-            conn.query("SELECT * FROM almacen WHERE Almacen = '" + Planta + "'", (err, Herramientas) => {
+            const {Herramienta} = req.params;
+            var Planta ="Almacen " + req.session.planta;
+            console.log("PLanta; " + Planta + " " + Herramienta);
+            conn.query("SELECT * FROM almacen WHERE Producto LIKE '%"+ Herramienta + "%' AND Almacen = '" + Planta + "'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');

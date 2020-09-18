@@ -1,9 +1,10 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 $(function () {
-    // GET PRODUCTS
+    // GET PRODUCTS}
+    Modal();
     $('#BuscarPlanta').on('click', () => {
         $.ajax({
-            url: '/VerAlmacen/' + document.getElementById("Planta").value + '',
+            url: '/VerAlmacen/' + document.getElementById("Herramienta").value,
             success: function (Herramientas) {
                 var Arreglo = [];
                 //Limpiar tabla 
@@ -33,7 +34,7 @@ $(function () {
 
                         if (x == 4) {//Si termina de registrar datos crear el boton
                             var newCell = newRow.insertCell(5); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
+                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Apartar </button>';
                         }
                     }//fin de for de columnas
                 }//fin de for de filas
@@ -41,3 +42,13 @@ $(function () {
         });//Ajax
     });//Evento clic
 });//Funcion JQuery
+
+function Modal(){
+    $("#ModalApartado").modal();
+}
+
+function Mostrar(){
+
+    alert(document.getElementById("OT").value);
+
+}

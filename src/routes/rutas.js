@@ -259,7 +259,7 @@ router.get('/VerInventario', (req, res) => {
 	res.end();
 });
 //====== Salidas ========
-router.get('/VerAlmacen/:Planta', ProcesosController.searchPlanta);
+router.get('/VerAlmacen/:Herramienta', ProcesosController.searchPlanta);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 
