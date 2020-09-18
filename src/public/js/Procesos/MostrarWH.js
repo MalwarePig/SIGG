@@ -1,7 +1,11 @@
+let Producto = '';
+let Cantidad = 1000;
+let OT = 'vacio';
+let Clave = '';
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 $(function () {
     // GET PRODUCTS}
-    Modal();
+
     $('#BuscarPlanta').on('click', () => {
         $.ajax({
             url: '/VerAlmacen/' + document.getElementById("Herramienta").value,
@@ -15,7 +19,7 @@ $(function () {
                 }
                 for (var i = 0; i < Herramientas.length; i++) {
                     var Clave = Herramientas[i].Clave;
-                    var Producto = Herramientas[i].Producto;
+                        Producto = Herramientas[i].Producto;
                     var Stock = Herramientas[i].Stock;
                     var StockUsado = Herramientas[i].StockUsado;
                     var Ubicacion = Herramientas[i].Ubicacion;
@@ -47,8 +51,15 @@ function Modal(){
     $("#ModalApartado").modal();
 }
 
+function Seleccion(variable) {
+    Modal();
+    Registro = document.getElementById("Herr_Encontradas");
+    Clave = '-'; //Obtiene el valor de Clave
+    Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    Cantidad = document.getElementById("Cantidad").value; //Obtiene el valor de Stock
+    OT = document.getElementById("OT").value; //Obtiene el valor de Stock
+}
+
 function Mostrar(){
-
-    alert(document.getElementById("OT").value);
-
+    alert(Clave+" "+ " "+ Producto + " " + Cantidad + " "+OT);
 }
