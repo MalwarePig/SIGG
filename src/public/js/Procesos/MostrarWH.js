@@ -2,6 +2,7 @@ let Producto = '';
 let Cantidad = 1000;
 let OT = 'vacio';
 let Clave = '';
+let Estatus = 'Viva';
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 $(function () {
     // GET PRODUCTS}
@@ -56,10 +57,10 @@ function Seleccion(variable) {
     Registro = document.getElementById("Herr_Encontradas");
     Clave = '-'; //Obtiene el valor de Clave
     Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
-    Cantidad = document.getElementById("Cantidad").value; //Obtiene el valor de Stock
-    OT = document.getElementById("OT").value; //Obtiene el valor de Stock
 }
 
-function Mostrar(){
-    alert(Clave+" "+ " "+ Producto + " " + Cantidad + " "+OT);
+function  Guardar(){
+    Cantidad = document.getElementById("Cantidad").value; //Obtiene el valor de Stock
+    OT = document.getElementById("OT").value; //Obtiene el valor de Stock
+    alert(Clave+" "+ " "+ Producto + " " + Cantidad + " "+OT + " " + Estatus);
 }

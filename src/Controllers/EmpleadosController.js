@@ -10,7 +10,7 @@ Controller.list = (req,res)=> {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                res.render('Empleados.html', {
+                res.render('Admin/Empleados.html', {
                     data: Empleados,
                 });
             });

@@ -41,7 +41,7 @@ Controller.list = (req,res)=> {
                     if(err){
                     console.log("Error en lectura de empleados: " + err);
                     }
-                    res.render('Horarios.html', {
+                    res.render('Producción/Horarios.html', {
                         data: Maquinas,
                         Empleados: rows                                 
                     });

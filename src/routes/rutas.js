@@ -15,7 +15,7 @@ const ProcesosController = require('../Controllers/ProcesosController');
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
 	//res.send('holoo');
-	res.render('Login.html');
+	res.render('Admin/Login.html');
 });
 
 //Iniciar logueo
@@ -24,7 +24,7 @@ router.post('/Login', UserController.login);
 //Acceder formulario Registrar usuario
 router.get('/Signup', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Signup.html', {
+		res.render('Admin/Signup.html', {
 			title: 'Gemak'
 		});
 	} else {
@@ -82,7 +82,7 @@ router.get('/Vencidas', VencidasController.listVencidas);
 //Acceder formulario Registrar Maquina
 router.get('/Alta_Maquina', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Alta_Maquina.html', {
+		res.render('Producción/Alta_Maquina.html', {
 			title: 'Gemak'
 		});
 	} else {
@@ -100,7 +100,7 @@ router.get('/Admin', (req, res) => {
 	if (req.session.loggedin) {
 		console.log("Nivel: " + req.session.nivel);
 		if (req.session.nivel == "Admin") {
-			res.render('Admin.html', {
+			res.render('Admin/Admin.html', {
 				title: 'Gemak'
 			});
 		} else {
@@ -246,10 +246,9 @@ router.get('/CargaMateriales', (req, res) => {
 });
 
 /////////////////////////////////////////////////////////////////////////// Proceso //////////////////////////////////////////////////////////////////////////////
-//====== Cargar  ========
+//====== Cargar Reporte Inventario ========
 router.get('/VerInventario', (req, res) => {
 	if (req.session.loggedin) {
-
 		res.render('Proceso/ReporteInventario.html', {
 			title: 'Gemak'
 		});
@@ -258,7 +257,18 @@ router.get('/VerInventario', (req, res) => {
 	}
 	res.end();
 });
-//====== Salidas ========
+//====== Cargar Reporte Pronosticos ========
+router.get('/Pronosticos', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Proceso/PronosticoOT.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.send('Tu sesión expiró!');
+	}
+	res.end();
+});
+//====== Busca Herramientas ========
 router.get('/VerAlmacen/:Herramienta', ProcesosController.searchPlanta);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
