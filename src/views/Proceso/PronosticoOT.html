@@ -23,69 +23,81 @@
     <div class="card text-center">
         <div class="card-header">
             <!------------------------------ BUSCAR -------------------------------------->
-            <form  >
+            <form>
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <input type="text" id="OT" class="form-control" placeholder="OT..."
-                            name="OT" autocomplete="off" required>
+                        <input type="text" id="OT" class="form-control" placeholder="OT..." name="OT" autocomplete="off"
+                            required>
                     </div>
                     <div class="form-group col-md-1">
-                        <button type="button" id="BuscarOT" name="BuscarOT"
-                            class="btn btn-secondary">Buscar</button>
+                        <button type="button" id="BuscarOT" name="BuscarOT" class="btn btn-secondary">Buscar</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="card-body">
 
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-                <table class="table table-bordered table-hover" id="Herr_Encontradas">
-                    <thead>
-                        <tr>
-                            <th>clave</th>
-                            <th>Producto</th>
-                            <th>Solicitado</th>
-                            <th>Estatus</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
+            <!------------------------------ TABLA-------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"">
+            <table class=" table table-bordered table-hover" id="OTRegistros">
+                <thead>
+                    <tr>
+                        <th>clave</th>
+                        <th>Producto</th>
+                        <th>OT</th>
+                        <th>Solicitado</th>
+                        <th>Estatus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (data) { %>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td id="clave"><%= data[i].Clave %></td>
+                        <td id="Producto"><a href="#"><%= data[i].Producto %></a></td>
+                        <td id="OT"><button type="button" class="btn btn-link"><%= data[i].OT %></button></td>
+                        <td id="Solicitado"><%= data[i].Cantidad %></td>
+                        <td id="Estatus"><%= data[i].Estatus %></td>
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-<!--ModalApartado-->
 
-    <div class="modal fade" id="ModalApartado" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Completar registro</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-row">
-                    <div class="form-group col-md-5">
-                        <input type="text" id="OT" class="form-control" placeholder="OT..."
-                            name="OT" autocomplete="off" required>
-                    </div>
 
-                    <div class="form-group col-md-5">
-                        <input type="text" id="Cantidad" class="form-control" placeholder="Cantidad..."
-                            name="Cantidad" autocomplete="off" required>
+            <!--ModalApartado-->
+
+            <div class="modal fade" id="ModalApartado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Completar registro</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-5">
+                                    <input type="text" id="OT" class="form-control" placeholder="OT..." name="OT"
+                                        autocomplete="off" required>
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <input type="text" id="Cantidad" class="form-control" placeholder="Cantidad..."
+                                        name="Cantidad" autocomplete="off" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-</body>
+
+            </body>

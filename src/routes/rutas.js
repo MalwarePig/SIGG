@@ -11,6 +11,7 @@ const AlmacenController = require('../Controllers/AlmacenController');
 const PruebasController = require('../Controllers/PruebasController');
 const CRMController = require('../Controllers/CRM_Controller');
 const ProcesosController = require('../Controllers/ProcesosController');
+const ComprasController = require('../Controllers/ComprasController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -20,7 +21,7 @@ var reinicio = router.get('/', (req, res) => {
 
 //Iniciar logueo
 router.post('/Login', UserController.login);
-
+ 
 //Acceder formulario Registrar usuario
 router.get('/Signup', (req, res) => {
 	if (req.session.loggedin) {
@@ -267,9 +268,19 @@ router.get('/Pronosticos', (req, res) => {
 		res.send('Tu sesión expiró!');
 	}
 	res.end();
-});
-//====== Busca Herramientas ========
+}); 
+//====== Buscar Herramientas ========
 router.get('/VerAlmacen/:Herramienta', ProcesosController.searchPlanta);
+//====== Guardar Pronostico ========
+router.post('/GuardarPronostico', ProcesosController.SavePronostico);
+//====== Mostrar Pronostico ========
+router.get('/PronosticosProcesos', ProcesosController.list);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//====== Mostrar Pronostico ========
+router.get('/ComprasPronosticos', ComprasController.list);
+//====== Mostrar Pronostico ========
+router.get('/ResumenPronosticos/:Herramienta', ComprasController.Resumen);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 

@@ -3,10 +3,10 @@ let Cantidad = 1000;
 let OT = 'vacio';
 let Clave = '';
 let Estatus = 'Viva';
-//CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
+let Comentarios = '';
+//=========================================== Buscar Herramientas =================================================// 
 $(function () {
     // GET PRODUCTS}
-
     $('#BuscarPlanta').on('click', () => {
         $.ajax({
             url: '/VerAlmacen/' + document.getElementById("Herramienta").value,
@@ -16,11 +16,11 @@ $(function () {
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 var limite = TablaAlmacen.rows.length;
                 for (var i = 0; i < limite; i++) {
-                    $("#Rows").remove();//elimina los elementos con id Rows
+                    $("#Rows").remove(); //elimina los elementos con id Rows
                 }
                 for (var i = 0; i < Herramientas.length; i++) {
                     var Clave = Herramientas[i].Clave;
-                        Producto = Herramientas[i].Producto;
+                    Producto = Herramientas[i].Producto;
                     var Stock = Herramientas[i].Stock;
                     var StockUsado = Herramientas[i].StockUsado;
                     var Ubicacion = Herramientas[i].Ubicacion;
@@ -32,26 +32,23 @@ $(function () {
                     for (var x = 0; x < Arreglo.length; x++) {
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows");//se asigna id al incrementar cada fila +1 para contar el encabezado
+                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
 
-                        if (x == 4) {//Si termina de registrar datos crear el boton
+                        if (x == 4) { //Si termina de registrar datos crear el boton
                             var newCell = newRow.insertCell(5); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Apartar </button>';
                         }
-                    }//fin de for de columnas
-                }//fin de for de filas
-            }//Funcion success
-        });//Ajax
-    });//Evento clic
-});//Funcion JQuery
+                    } //fin de for de columnas
+                } //fin de for de filas
+            } //Funcion success
+        }); //Ajax
+    }); //Evento clic
+}); //Funcion JQuery
 
-function Modal(){
-    $("#ModalApartado").modal();
-}
-
+//=========================================== Muestra Modal Para Terminar Registro =================================================//
 function Seleccion(variable) {
     Modal();
     Registro = document.getElementById("Herr_Encontradas");
@@ -59,8 +56,31 @@ function Seleccion(variable) {
     Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
 }
 
-function  Guardar(){
-    Cantidad = document.getElementById("Cantidad").value; //Obtiene el valor de Stock
-    OT = document.getElementById("OT").value; //Obtiene el valor de Stock
-    alert(Clave+" "+ " "+ Producto + " " + Cantidad + " "+OT + " " + Estatus);
+function Modal() {
+    $("#ModalApartado").modal();
+}
+
+//=========================================== Guardar el Registro =================================================//
+
+
+function Guardar() {
+    Cantidad = document.getElementById("Cantidad").value;  
+    OT = document.getElementById("OT").value; 
+    Comentarios = document.getElementById("Comentario").value;
+    alert(Clave + " " + " " + Producto + " " + Cantidad + " " + OT + " " + Estatus + " " + Comentarios);
+
+    var Nota = {
+        Clave: "-",
+        Producto: Producto,
+        Cantidad: Cantidad,
+        OT:       OT,
+        Comentarios: Comentarios,
+        Estatus:  Estatus
+    }
+
+    $.post("/GuardarPronostico", // url
+    { Nota }, // data to be submit
+    function (objeto, estatus) {// success callback
+        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+    });
 }
