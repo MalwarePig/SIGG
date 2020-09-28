@@ -34,6 +34,14 @@ function CrearNota() {
     var tabla = document.getElementById("OTRegistros");
     var total = tabla.rows.length //Total de filas
     var Arreglo = [];
+    var ObjetoTabla = {};
+
+    // Eliminando todos los hijos de un elemento
+    var element = document.getElementById("CuerpoNota");
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+    
     for (var j = 1; j <= total - 1; j++) { //Recorer filas
         var Check = document.getElementById(j); //Obtener filas seleccionadas
         if (Check.checked == true) {
@@ -51,9 +59,7 @@ function CrearNota() {
   
 //Crear Tabla para modal
     var limite = Arreglo.length;
-    alert("Limite: " + limite + " " + Arreglo[1].Producto);
     for (var i = 0; i < limite; i++) {
-        alert("Limite: " + limite + " indice: " + i +  " " + Arreglo[i].Producto);
         var N_Folio = Arreglo[i].Folio;
         var N_Producto = Arreglo[i].Producto;
         var N_Solicitado = Arreglo[i].Solicitado;
