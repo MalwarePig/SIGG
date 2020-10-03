@@ -49,5 +49,36 @@ Controller.Resumen = (req, res) => {
 };
 
 
+///////// == NotaCompras Save == ////////////////////////////// == NotaCompras Save == ////////////////////////////// == NotaCompras Save == ////////////////////////// == NotaCompras Save == //////////////////// 
+Controller.NotaCompras = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Clave = Object.values(data)[0]; //obeter datos de un objeto Folio
+            let Producto = Object.values(data)[1]; //obeter datos de un objeto Folio
+            let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
+            let OT = Object.values(data)[3]; //obeter datos de un objeto Folio
+            let Comentarios = Object.values(data)[4]; //obeter datos de un objeto Folio
+            let Empleado = req.session.nombre; //obeter datos de un objeto Folio
+            let Planta = req.session.planta;
+            let Estatus = 'Requerido';
+
+            if (err) {
+                console.log("Conexion: " + err);
+            }
+            console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus);
+            conn.query('INSERT INTO requisiciones(Clave, Producto, CantidadReq, OT, Comentarios, EmpleadoReq, Planta, Estatus)values(?,?,?,?,?,?,?,?)', [Clave, Producto, Cantidad, OT, Comentarios, Empleado, Planta, Estatus], (err, ot) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error al registrar despacho de herramienta');
+                }
+            });
+        });
+    } else {
+        res.render('Login.html');
+    }
+};
 
 module.exports = Controller;
+
+

@@ -161,6 +161,8 @@ router.get('/Folio', AlmacenController.Folio);
 router.get('/Num_Nomina', AlmacenController.Num_Nomina);
 router.get('/listaMaquinas/:familia', AlmacenController.Maquinas);
 router.post('/GuardarNota', AlmacenController.GuardarNota);
+router.post('/CheckAuditoria', AlmacenController.SavePreAudit);
+router.post('/EstatusAudi', AlmacenController.UpdatePreAudit);
 
 //====== Salidas ========
 router.get('/wh_Retorno', AlmacenController.listRetorno);
@@ -275,12 +277,13 @@ router.get('/VerAlmacen/:Herramienta', ProcesosController.searchPlanta);
 router.post('/GuardarPronostico', ProcesosController.SavePronostico);
 //====== Mostrar Pronostico ========
 router.get('/PronosticosProcesos', ProcesosController.list);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////// Compras //////////////////////////////////////////////////////////////////////////////////////
 //====== Mostrar Pronostico ========
 router.get('/ComprasPronosticos', ComprasController.list);
 //====== Mostrar Pronostico ========
 router.get('/ResumenPronosticos/:Herramienta', ComprasController.Resumen);
-
+//====== Guardar Nota de Compras ========
+router.post('/GuardarNotaCompras', ComprasController.NotaCompras);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 

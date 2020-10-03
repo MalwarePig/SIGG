@@ -23,7 +23,6 @@ Controller.searchPlanta = (req, res) => {
 };
 
 ///////// == Pronostico Save == ////////////////////////////// == Pronostico Save == ////////////////////////////// == Pronostico Save == ////////////////////////// == Pronostico Save == //////////////////// 
-
 Controller.SavePronostico = (req,res) => {
     req.getConnection((err,conn) => {
         

@@ -1,0 +1,14 @@
+*******************************************************************************************************
+*                                       01/10/2020                                                    *
+*******************************************************************************************************
+$ Modificación de tabla usuarios + [Turno]
+$ Creación de tabla [PreAuditoria]
+& Diseño del modal para [PreAuditoria]
+& Creación de rutas para lanzamiento [PreAuditoria]
+$ Creación de ruta para consultas [PreAuditoria]
+$ consulta Controller [PreAuditoria]
+& Despliegue de consulta o insersion del Objeto [Data]
+
+
+
+ 

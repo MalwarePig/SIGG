@@ -81,6 +81,7 @@ function CrearNota() {
     var Maquina = document.getElementById("Maquina").value; //Obtiene el valor de Clave
     var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
     var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Turno, Comentario];
+ 
     var Condicion = true;//para campos vacios
     for (var a in Arreglo) {//recorrer arreglo en busca de campos vacios
         if (Arreglo[a].length == 0) {
@@ -205,3 +206,22 @@ function GuardarNota() {
 }
 
 
+//=========================================== PreAuditoria =================================================//
+function PreAuditoria() {
+    let familia = document.getElementById("Familia").value;
+    var listMaquina = document.getElementById("Maquina");
+    $.ajax({
+        url: '/listaMaquinas/' + familia + '',
+        success: function (maquinas) {
+            for (let i = listMaquina.options.length; i >= 0; i--) { //Borrar elementos option de select
+                listMaquina.remove(i);
+            }
+            for (var i = 0; i < maquinas.length; i++) { //Agregar nuevos options del select
+
+                var option = document.createElement("option");
+                option.text = maquinas[i].Nombre;
+                listMaquina.add(option);
+            }
+        }//Funcion success
+    });//Ajax
+}

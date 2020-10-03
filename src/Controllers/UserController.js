@@ -18,7 +18,7 @@ Controller.save = (req,res) => {
 Controller.login = (req,res) => {
     //const data = req.body;
     //const nombre = req.body.Planta;
-    req.session.Usuario=req.body.username;
+    req.session.Usuario = req.body.username;
     const username = req.body.username;
     const password = req.body.pass;
     req.getConnection((err,conn) => {
@@ -35,6 +35,7 @@ Controller.login = (req,res) => {
                 const nivel = results[0].Nivel//Obtener nivel de la consulta
                 const Area = results[0].Area//Obtener nivel de la consulta
                 const Nombre = results[0].Nombre//Obtener nivel de la consulta
+                const Turno = results[0].Turno//Obtener nivel de la consulta
                 if(password == pass){//si las contraseñas coinciden entran
                     req.session.loggedin = true;
                     req.session.username = username;
@@ -42,6 +43,7 @@ Controller.login = (req,res) => {
                     req.session.nivel = nivel;
                     req.session.area = Area;
                     req.session.nombre = Nombre;
+                    req.session.turno = Turno;
                     res.redirect('/home');
                     console.log('Inicia: '+  req.session.username + " con planta: " + req.session.planta);//se obtienen los datos del formulario a traves del req.body
                     //res.send('works');

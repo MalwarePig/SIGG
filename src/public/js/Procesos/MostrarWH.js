@@ -1,9 +1,9 @@
 let Producto = '';
 let Cantidad = 1000;
 let OT = 'vacio';
-let Clave = '';
+let Clave = '-';
 let Estatus = 'Viva';
-let Comentarios = '';
+let Comentarios = '-';
 //=========================================== Buscar Herramientas =================================================// 
 $(function () {
     // GET PRODUCTS}

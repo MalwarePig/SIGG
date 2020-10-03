@@ -28,26 +28,57 @@ Controller.search = (req, res) => {
 
 Controller.list = (req, res) => {
     if (req.session.loggedin) {
+        const planta = req.session.planta;
+        const Turno = req.session.turno;
+        var FechaFinal = new Date();
+        var FechaInicial = new Date();
+        FechaInicial.setDate(FechaInicial.getDate() - 2)
+
+        console.log(FechaFinal.getDay());
+ //console.log("inicial: " + FechaInicial.toISOString().slice(0,10) + " Final: " +FechaFinal.toISOString().slice(0,10));
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query("SELECT * FROM almacen where producto = 'pivote'", (err, Herramientas) => {
+            conn.query("SELECT * FROM EstadoAuditoria where Almacen = '" + planta + "' AND Turno = '" + Turno + "'", (err, Estado) => { //Obtiene el estado de auditoria del turno actual
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                res.render('Almacen/wh_Salidas.html', {
-                    data: Herramientas,
-                });
+                if (Estado[0].Estado == "0") {
+                    if(FechaFinal.getDay() == 1){//Si es lunes
+                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '"+FechaInicial+"' AND  '"+FechaFinal.toISOString().slice(0,10)+"'", (err, Herramientas) => {
+                            if (err) {
+                                res.json("Error json: " + err);
+                                console.log('Error de lectura');
+                            }
+                            console.log(Herramientas);
+                            res.render('Almacen/PreAuditoria.html', {
+                                data: Herramientas
+                            });
+                        });
+                    }else{//Si no es lunes
+                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '"+FechaFinal.toISOString().slice(0,10)+"'", (err, Herramientas) => {
+                            if (err) {
+                                res.json("Error json: " + err);
+                                console.log('Error de lectura');
+                            }
+                            console.log(Herramientas);
+                            res.render('Almacen/PreAuditoria.html', {
+                                data: Herramientas
+                            });
+                        });
+                    }
+                }else{
+                    res.render('Almacen/wh_Salidas.html');
+                }
             });
         });
     } else {
         res.render('Login.html');
     }
-};
-
+}; //Falta lanzar el modal
 
 Controller.Folio = (req, res) => {
     if (req.session.loggedin) {
@@ -150,6 +181,63 @@ Controller.GuardarNota = (req, res) => {
                         }
                     });
                 });
+            });
+        });
+    } else {
+        res.render('Login.html');
+    }
+};
+
+
+Controller.SavePreAudit = (req, res) => { //Guarda la auditoria diaria de cada almacen
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Producto = Object.values(data)[0]; //obeter datos de un objeto Folio
+            let Cantidad = Object.values(data)[1]; //obeter datos de un objeto Folio
+
+            let Planta = req.session.planta;
+            let Usuario = req.session.nombre;
+            let FechaReq = new Date();
+            if (err) {
+                console.log("Conexion: " + err)
+            }
+            conn.query('INSERT INTO RegistrosFaltantes(id,Producto, Cantidad, Auditor,Almacen,FechaReq)values(?,?,?,?,?,?)', [0, Producto, Cantidad, Usuario, Planta, FechaReq], (err, ot) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error al registrar auditoria' + err);
+                }
+            });
+        });
+    } else {
+        res.render('Login.html');
+    }
+};
+
+Controller.UpdatePreAudit = (req, res) => { //Guarda la auditoria diaria de cada almacen
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            const Usuario = req.session.nombre;
+            const planta = req.session.planta;
+            const Turno = req.session.turno;
+            let FechaReq = new Date();
+            /**id   Turno  Estado  Planta
+             *  1	Dia  	  0	    Morelos
+                2	Tarde	  0	    Morelos
+                3	Tarde	  0	    Bravo
+                4	Dia	      0	    Bravo
+             */
+            if (err) {
+                console.log("Conexion: " + err)
+            }
+            conn.query("call CambiarEstadoAuditoria('" + Turno + "','" + planta + "');", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al registrar folios' + err);
+                } else {
+                    console.log('Se cambio de estado');
+                }
             });
         });
     } else {

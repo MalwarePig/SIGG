@@ -37,7 +37,7 @@
     </div>
     <div class="card-body">
       <!------------------------------ TABLA -------------------------------------->
-      <div class="SpaceWork" style="width:96%; height:350px; overflow: scroll;">
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%; height:350px; overflow: scroll;">
         <table class="table table-condensed table-hover" id="Herr_Encontradas">
           <thead>
             <tr>
@@ -55,7 +55,7 @@
         </table>
       </div>
 
-      <div class="SpaceWork">
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
         <form  id="RegistroSalida" name="RegistroSalida">
 
           <div class="form-row">
@@ -113,9 +113,11 @@
             </div>
 
             <div class="form-group col-md-1">
-              <label for="inputAddress2" class="font-weight-bold">Turno</label>
-              <input type="text" id="Turno" class="form-control" placeholder="Turno..." name="Sal_Turno"
-                autocomplete="off" required>
+              <label for="inputState" class="font-weight-bold">Turno</label>
+              <select requiredname="Turno" id="Turno" class="form-control" required>
+                <option value="Dia" selected>Dia</option>
+                <option value="Tarde" >Tarde</option>
+              </select>
             </div>
 
             <div class="form-group col-md-2">
@@ -146,34 +148,33 @@
             </div>
           </div>
          
-          <button type="submit" class="btn btn-secondary" onclick="CrearNota()">Agregar</button>
+        
         </form>
+        <button type="submit" class="btn btn-secondary" onclick="CrearNota()">Agregar</button>
         <br>
         <div style="width: 5%px;display: inline-block;">
           <input type="text" id="Folio" class="form-control" placeholder="Folio" name="Sal_Folio" autocomplete="off"
             required readonly>
         </div>
-      
-
       </div>
 
-      <div class="SpaceWork">
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
         <table class="table table-condensed table-hover" id="Almacen">
-          <thead class="thead-dark">
-            <tr>
-              <th>Folio</th>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Estado</th>
-              <th>OT</th>
-              <th>Estatus</th>
-              <th>Maquina</th>
-              <th>Empleado</th>
-              <th>Turno</th>
-              <th>Comentario</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
+            <thead class="thead-dark">
+              <tr>
+                <th>Folio</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Estado</th>
+                <th>OT</th>
+                <th>Estatus</th>
+                <th>Maquina</th>
+                <th>Empleado</th>
+                <th>Turno</th>
+                <th>Comentario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
           <tbody>
 
           </tbody>
@@ -182,7 +183,6 @@
         <hr />
         <button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal" data-toggle="modal">Registrar</button>
       </div>
-
     </div>
   </div>
 
@@ -202,3 +202,4 @@
 
 
 </body>
+
