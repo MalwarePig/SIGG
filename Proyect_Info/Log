@@ -8,6 +8,24 @@ $ Creación de tabla [PreAuditoria]
 $ Creación de ruta para consultas [PreAuditoria]
 $ consulta Controller [PreAuditoria]
 & Despliegue de consulta o insersion del Objeto [Data]
+*******************************************************************************************************
+*                                       02/10/2020                                                    *
+*******************************************************************************************************
+& Creación de tabla [RegistrosFaltantes]
+& Alteraciones de tabla [PreAuditoria]
+& Creación de tabla [EstadoAuditoria]
+$ Creación de rutas de insersion [RegistrosFaltantes]
+$ Creación de rutinas metodo POST [RegistrosFaltantes]
+& Stored Procedure [CambioEstadoAuditoria]
+*******************************************************************************************************
+*                                       03/10/2020                                                    *
+*******************************************************************************************************
+& Modificación de Modal [PreAuditoria]
+& Modificación de elementos [id] [CheckBox]
+& Modificación en rutinas de recolección de datos
+$ Modificación Controller [list]
+$ Modificación javascript metodo POST [Check]
+
 
 
 

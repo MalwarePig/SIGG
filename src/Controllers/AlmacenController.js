@@ -30,12 +30,11 @@ Controller.list = (req, res) => {
     if (req.session.loggedin) {
         const planta = req.session.planta;
         const Turno = req.session.turno;
-        var FechaFinal = new Date();
-        var FechaInicial = new Date();
-        FechaInicial.setDate(FechaInicial.getDate() - 2)
+        var FechaActual = new Date();
+ 
 
-        console.log(FechaFinal.getDay());
- //console.log("inicial: " + FechaInicial.toISOString().slice(0,10) + " Final: " +FechaFinal.toISOString().slice(0,10));
+        //.log(FechaFinal.getDay());
+        //console.log("inicial: " + FechaInicial.toISOString().slice(0,10) + " Final: " +FechaFinal.toISOString().slice(0,10));
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             if (err) {
@@ -46,31 +45,52 @@ Controller.list = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                if (Estado[0].Estado == "0") {
-                    if(FechaFinal.getDay() == 1){//Si es lunes
-                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '"+FechaInicial+"' AND  '"+FechaFinal.toISOString().slice(0,10)+"'", (err, Herramientas) => {
-                            if (err) {
-                                res.json("Error json: " + err);
-                                console.log('Error de lectura');
-                            }
-                            console.log(Herramientas);
-                            res.render('Almacen/PreAuditoria.html', {
-                                data: Herramientas
+                if (Estado[0].Estado == "0") {//Si no se ha realizado la auditoria debe entrar
+                    if (Turno == "Dia") {
+                        if (FechaActual.getDay() == 1) {//Si es lunes
+                            var FechaFinal = new Date();
+                            var FechaInicial = new Date();
+                            FechaInicial.setDate(FechaInicial.getDate() - 2);
+                            conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '" + FechaInicial + "' AND  '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
+                                if (err) {
+                                    res.json("Error json: " + err);
+                                    console.log('Error de lectura');
+                                }
+                                //console.log(Herramientas);
+                                res.render('Almacen/PreAuditoria.html', {
+                                    data: Herramientas
+                                });
                             });
-                        });
-                    }else{//Si no es lunes
-                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '"+FechaFinal.toISOString().slice(0,10)+"'", (err, Herramientas) => {
+                        } else {//Si no es lunes
+                            var FechaFinal = new Date();
+                            var FechaInicial = new Date();
+                            FechaInicial.setDate(FechaInicial.getDate() - 1);
+                            conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
+                                if (err) {
+                                    res.json("Error json: " + err);
+                                    console.log('Error de lectura');
+                                }
+                                //console.log(Herramientas);
+                                res.render('Almacen/PreAuditoria.html', {
+                                    data: Herramientas
+                                });
+                            });
+                        }
+                    }else{//Si no es de dia
+                        var FechaFinal = new Date();
+                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                             if (err) {
                                 res.json("Error json: " + err);
                                 console.log('Error de lectura');
                             }
-                            console.log(Herramientas);
+                            //console.log(Herramientas);
                             res.render('Almacen/PreAuditoria.html', {
                                 data: Herramientas
                             });
                         });
                     }
-                }else{
+
+                } else {
                     res.render('Almacen/wh_Salidas.html');
                 }
             });
@@ -237,6 +257,7 @@ Controller.UpdatePreAudit = (req, res) => { //Guarda la auditoria diaria de cada
                     console.log('Error al registrar folios' + err);
                 } else {
                     console.log('Se cambio de estado');
+                    res.render('Almacen/wh_Salidas.html');
                 }
             });
         });
@@ -271,7 +292,7 @@ Controller.searchRetorno = (req, res) => {
             const {
                 Maquina
             } = req.params;
-            console.log(Maquina);
+
             conn.query("select * from itemprestado WHERE Maquina = '" + Maquina + "' AND Devuelto < Entregado", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
@@ -324,7 +345,7 @@ Controller.GuardarNotaRetorno = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
+            //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
             conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,OT,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, OT, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
@@ -391,7 +412,7 @@ Controller.GuardarRequisicion = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus)
+            //console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus)
             conn.query('INSERT INTO requisiciones(Clave, Producto, CantidadReq, OT, Comentarios, EmpleadoReq, Planta, Estatus)values(?,?,?,?,?,?,?,?)', [Clave, Producto, Cantidad, OT, Comentarios, Empleado, Planta, Estatus], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);

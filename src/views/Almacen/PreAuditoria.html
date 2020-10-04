@@ -51,10 +51,10 @@
                       <% if (data) { %>
                       <% for(var i = 0; i < data.length; i++) { %>
                       <tr>
-                          <td id="Check"><input type="checkbox" name="" id="<%= data[i].id %>"></td>
-                          <td id="clave"><%= data[i].Producto %></td>
-                          <td id="clave"><%= data[i].Entregado %></td>
-                          <td id="clave"><%= data[i].Salida %></td>
+                          <td id="Check"><input type="checkbox" name="" id ="<%= i %>"  ></td>
+                          <td id="Producto"><%= data[i].Producto %></td>
+                          <td id="Entregado"><%= data[i].Entregado %></td>
+                          <td id="Salida"><%= data[i].Salida %></td>
                       </tr>
                       <% } %>
                       <% } %>
