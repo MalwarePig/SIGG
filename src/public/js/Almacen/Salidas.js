@@ -12,7 +12,6 @@ $(function () {
                 for (var i = 0; i < limite; i++) {
                     $("#Rows").remove();//elimina los elementos con id Rows
                 }
-
                 for (var i = 0; i < Herramientas.length; i++) {
                     var Clave = Herramientas[i].Clave;
                     var Producto = Herramientas[i].Producto;
@@ -80,7 +79,8 @@ function CrearNota() {
     var Turno = document.getElementById("Turno").value; //Obtiene el valor de Clave
     var Maquina = document.getElementById("Maquina").value; //Obtiene el valor de Clave
     var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
-    var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Turno, Comentario];
+    var Parcial = document.getElementById("Parcial").value; //Obtiene el valor de Clave
+    var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Turno, Parcial,Comentario];
  
     var Condicion = true;//para campos vacios
     for (var a in Arreglo) {//recorrer arreglo en busca de campos vacios
@@ -185,7 +185,8 @@ function GuardarNota() {
             Empleado: tabla.rows[j].cells[5].childNodes[0].nodeValue,
             Turno: tabla.rows[j].cells[6].childNodes[0].nodeValue,
             Maquina: tabla.rows[j].cells[7].childNodes[0].nodeValue,
-            Comentario: tabla.rows[j].cells[8].childNodes[0].nodeValue            
+            Parcial: tabla.rows[j].cells[8].childNodes[0].nodeValue,
+            Comentario: tabla.rows[j].cells[9].childNodes[0].nodeValue            
         }
            console.log("objeto: " + ObjetoTabla.Folio);
             $.post("/GuardarNota", // url

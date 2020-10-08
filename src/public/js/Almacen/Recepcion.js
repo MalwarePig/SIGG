@@ -1,0 +1,212 @@
+function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
+    var i = 0; //Contador para brincar la cabaezera y suar la referencia de indice
+    $('#wrapper tr').each(function () { //leer una tabla html    
+        var Tabla = { //CREAR UN OBJETO MATRIS
+            Producto: $(this).find("td").eq(0).html(),
+            Ordenado: $(this).find("td").eq(1).html(), //LEER LA TABLA
+            Entregado: $(this).find("td").eq(2).html(),
+        } //fin de objeto}
+
+        if (i > 0 && ($(this).find("td").eq(1).html() !== '')) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
+            var indice = Object.keys(Tabla).length; //Cantidad de elementos dentro del objeto
+            $.post("/PostRecepcion", // url
+                {
+                    Tabla
+                }, // data to be submit
+                function (Tabla, status) { // success callback
+                    console.log(Tabla);
+                })
+        }
+        i++;
+    }); //each para recorrer tabla
+
+    /*var elemento = document.getElementById("wrapper");
+    document.body.removeChild(elemento);
+    alert("Registrado en BD");*/
+}
+
+//=========================================== CONSULTAR HERRAMIENTAS -- BOTON BUSCAR =================================================//
+function ConsultaRecepcion() {
+    // GET PRODUCTS
+    $.ajax({
+        url: '/ConsultaRecepcion/',
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < Herramientas.length; i++) {
+                var indice = Herramientas[i].id;
+                var Producto = Herramientas[i].Producto;
+                var Entregado = Herramientas[i].Entregado;
+                var Estatus = Herramientas[i].Estatus;
+                //Eliminar variable dentro del For
+                Arreglo = [indice, Producto, Entregado, Estatus]
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+
+                    if (x == 3) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(4); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
+                    }
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax
+}
+
+//=========================================== EVENTO CLIC SOBRE LA TABLA DE BUSQUEDA PARA SELECCIONAR HERRAMIENTA =================================================//
+function Seleccion(variable) {
+    Registro = document.getElementById("Herr_Encontradas");
+
+    var id = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave
+    var Herramienta = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
+
+
+    document.RegistroSalida.id.value = id;
+    document.RegistroSalida.Herramienta.value = Herramienta;
+}
+
+
+//=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//
+function CrearNota() {
+    var id = document.getElementById("id").value; //Obtiene el valor de Clave
+    var Producto = document.getElementById("Herramienta").value; //Obtiene el valor de Clave
+    var Cantidad = document.getElementById("Cantidad").value; //Obtiene el valor de Clave
+    var Estatus = document.getElementById("Planta").value; //Obtiene el valor de Clave
+    if (Cantidad == null || Cantidad <= 0) {
+        alert("Cantidad incorrecta");
+    } else {
+        var Arreglo = [id, Producto, Cantidad, Estatus];
+
+        var Condicion = true; //para campos vacios
+        for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
+            if (Arreglo[a].length == 0) {
+                Condicion = false; //si algun campo esta vacio cambia a falso
+            }
+        }
+        if (Condicion == true) { //si todos los campos estan llenos avanza
+            var TablaAlmacen = document.getElementById('TablaAsignacion').getElementsByTagName('tbody')[0];
+            // inserta una fila al final de la tabla
+            var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+            let indice = (TablaAlmacen.rows.length + 1);
+            newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
+            for (var x = 0; x < Arreglo.length; x++) {
+
+                // inserta una celda en el indice 0
+                var newCell = newRow.insertCell(x);
+                // adjuntar el texto al nodo
+                var newText = document.createTextNode(Arreglo[x]);
+                newCell.appendChild(newText);
+                if (x == 3) { //Si termina de registrar datos crear el boton
+                    var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
+                    newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
+                }
+            }
+            //document.getElementById("RegistroSalida").reset();
+            document.getElementById("Herramienta").value = "";
+            document.getElementById("id").value = "";
+            document.getElementById("Cantidad").value = "";
+        }
+    }
+}
+
+//=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
+$(function () {
+    $(".solo-numero").keydown(function (event) {
+        //alert(event.keyCode);
+        if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !== 190 && event.keyCode !== 110 && event.keyCode !== 8 && event.keyCode !== 9) {
+            return false;
+        }
+    });
+}); //Funcion JQuery
+
+//=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
+function EliminarFila(index) {
+    $("#fila" + index).remove();
+}
+
+//=========================================== Guardar elementos asignados =================================================//
+function GuardarNota() {
+    var tabla = document.getElementById("TablaAsignacion");
+    var total = tabla.rows.length //Total de filas
+
+    for (var j = 1; j <= total - 1; j++) { //filas
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+
+        var ObjetoTabla = {
+            id: tabla.rows[j].cells[0].childNodes[0].nodeValue,
+            Item: tabla.rows[j].cells[1].childNodes[0].nodeValue,
+            Cantidad: tabla.rows[j].cells[2].childNodes[0].nodeValue,
+            Planta: tabla.rows[j].cells[3].childNodes[0].nodeValue
+        }
+        console.table({
+            ObjetoTabla
+        });
+        $.post("/Asignar", // url
+            {
+                ObjetoTabla
+            }, // data to be submit
+            function (objeto, estatus) { // success callback
+                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            });
+    } //fin filas
+
+    //Limpiar tabla 
+    var TablaAlmacen = document.getElementById('TablaAsignacion').getElementsByTagName('tbody')[0];
+    var limite = TablaAlmacen.rows.length;
+    for (var i = 0; i <= limite; i++) {
+        $("#fila" + (i + 1)).remove(); //elimina los elementos con id Rows
+    }
+    document.getElementById("RegistroSalida").reset();
+}
+
+
+//=========================================== CONSULTAR HERRAMIENTAS Flotante =================================================//
+function ConsultaFlotante() {
+    // GET PRODUCTS
+    $.ajax({
+        url: '/ConsultaFlotante/',
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < Herramientas.length; i++) {
+                var Producto = Herramientas[i].Producto;
+                var Entregado = Herramientas[i].Entregado;
+                var Planta = Herramientas[i].Planta;
+                //Eliminar variable dentro del For
+                Arreglo = [Producto, Entregado, Planta]
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+
+                    if (x == 3) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(4); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
+                    }
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax
+}

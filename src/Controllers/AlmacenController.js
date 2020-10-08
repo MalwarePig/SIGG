@@ -31,7 +31,6 @@ Controller.list = (req, res) => {
         const planta = req.session.planta;
         const Turno = req.session.turno;
         var FechaActual = new Date();
- 
 
         //.log(FechaFinal.getDay());
         //console.log("inicial: " + FechaInicial.toISOString().slice(0,10) + " Final: " +FechaFinal.toISOString().slice(0,10));
@@ -175,7 +174,8 @@ Controller.GuardarNota = (req, res) => {
             let Maquina = Object.values(data)[6]; //obeter datos de un objeto Maquina
             let Empleado = Object.values(data)[7]; //obeter datos de un objeto Empleado
             let Turno = Object.values(data)[8]; //obeter datos de un objeto Empleado
-            let Comentario = Object.values(data)[9]; //obeter datos de un objeto Comentario
+            let Parcial = Object.values(data)[9]; //obeter datos de un objeto Comentario
+            let Comentario = Object.values(data)[10]; //obeter datos de un objeto Comentario
             let Movimiento = 'Salida';
             let Planta = req.session.planta;
             let Usuario = req.session.username;
@@ -183,7 +183,7 @@ Controller.GuardarNota = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario)values(?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario], (err, ot) => {
+            conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario,Parcial], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar despacho de herramienta');
@@ -281,7 +281,7 @@ Controller.listRetorno = (req, res) => {
             res.render('Almacen/wh_Retorno.html');
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -302,7 +302,7 @@ Controller.searchRetorno = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -322,7 +322,7 @@ Controller.FolioRetorno = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -339,19 +339,21 @@ Controller.GuardarNotaRetorno = (req, res) => {
             let Turno = Object.values(data)[6]; //obeter datos de un objeto Folio
             let Maquina = Object.values(data)[7]; //obeter datos de un objeto Folio
             let Comentarios = Object.values(data)[8]; //obeter datos de un objeto Folio
+            let FolioSalida = Object.values(data)[9]; //obeter datos de un objeto Folio
             let Movimiento = 'Retorno';
             let Planta = req.session.planta;
             let Usuario = req.session.username;
             if (err) {
                 console.log("Conexion: " + err)
             }
+            console.log("Cantidad a retornorar: " +Cantidad);
             //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
             conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,OT,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, OT, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar despacho de herramienta');
                 }
-                conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "')", true, (err, rows, fields) => {
+                conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" +FolioSalida+"')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al descontar almacen' + err);
@@ -370,7 +372,7 @@ Controller.GuardarNotaRetorno = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -388,7 +390,81 @@ Controller.MainRecepcion = (req, res) => {
             res.render('Almacen/wh_Recepcion.html');
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.GuardarRecepcion = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Producto = Object.values(data)[0]; //obeter datos de un objeto Folio
+            let Ordenado = Object.values(data)[1]; //obeter datos de un objeto Folio
+            let Entregado = Object.values(data)[2]; //obeter datos de un objeto Folio
+            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+            let Estatus = "N/A"; //obeter datos de un objeto Folio
+
+            if (err) {
+                console.log("Conexion: " + err)
+            }
+            //console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus)
+            conn.query('INSERT INTO Recepcion(Producto, Ordenado, Entregado, Usuario, Estatus)values(?,?,?,?,?)', [Producto, Ordenado, Entregado, Usuario, Estatus], (err, ot) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion');
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.ConsultaRecepcion = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Maquina
+            } = req.params;
+
+            conn.query("SELECT * FROM Recepcion WHERE Estatus = 'N/A' ORDER BY Entrada", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.Asignar = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            var id = Object.values(data)[0]; //obeter datos de un objeto id
+            var Item = Object.values(data)[1]; //obeter datos de un objeto Item
+            var Cantidad = Object.values(data)[2]; //obeter datos de un objeto Cantidad
+            var Planta = Object.values(data)[3]; //obeter datos de un objeto Planta
+            console.log( id + "','"+Item +"','"+Cantidad+"','"+Planta);
+            if (err) {
+                console.log("Conexion: " + err)
+            }else{
+                conn.query("call Asignar('" + id + "','"+Item +"','"+Cantidad+"','"+Planta+"')", true, (err, rows, fields) => {
+                    if (err) {
+                        res.json(err);
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log('Se asigno herramienta a almacen');
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
     }
 };
 
@@ -400,12 +476,12 @@ Controller.GuardarRequisicion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Clave = Object.values(data)[0]; //obeter datos de un objeto Folio
-            let Producto = Object.values(data)[1]; //obeter datos de un objeto Folio
-            let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
-            let OT = Object.values(data)[4]; //obeter datos de un objeto Folio
-            let Comentarios = Object.values(data)[5]; //obeter datos de un objeto Folio
-            let Empleado = req.session.nombre; //obeter datos de un objeto Folio
+            let Clave = Object.values(data)[0]; //obeter datos de un objeto Clave
+            let Producto = Object.values(data)[1]; //obeter datos de un objeto Producto
+            let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Cantidad
+            let OT = Object.values(data)[4]; //obeter datos de un objeto OT
+            let Comentarios = Object.values(data)[5]; //obeter datos de un objeto Comentarios
+            let Empleado = req.session.nombre; //obeter datos de un objeto nombre
             let Planta = req.session.planta;
             let Estatus = 'Requerido';
 
@@ -421,7 +497,7 @@ Controller.GuardarRequisicion = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 

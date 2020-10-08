@@ -25,6 +25,68 @@ $ Creación de rutinas metodo POST [RegistrosFaltantes]
 & Modificación en rutinas de recolección de datos
 $ Modificación Controller [list]
 $ Modificación javascript metodo POST [Check]
+*******************************************************************************************************
+*                                       06/10/2020                                                    *
+*******************************************************************************************************
+& Confirmación de responsabilidad Auditoria [Almacen]
+& Modales de evento [Almacen]
+ 
+*******************************************************************************************************
+*                                       06/10/2020                                                    *
+*******************************************************************************************************
+$ Corrección en Controller [Almacen]
+$ Cambio de consultas [Maquinas]
+& Cambio de despliegue de [list] Maquinas
+& Agregadar dato de productos parciales
+$ Actualizar rutinas y base de datos para guardado [parciales]
+$ Importación de empleados [parciales]
+
+*******************************************************************************************************
+*                                       07/10/2020                                                    *
+*******************************************************************************************************
+& Creación de ventanas recepción [Recepción]
+& Scripts Recepción
+$ Creación de rutas de insersion [Recepción]
+$ Creacion de tablas [Recepción]
+$ Creacion de Stored Procedure [Recepción]
+& Div Menu [Asignación]
+$ Controller Asignación[Asignación]
+$ Creación de rutas [Asignación]
+$ Funciones javascript [Asignación]
+$ Consultas Recepción y despliegue [Asignación]
+& Modulo PM2 [Admin]
+$ Controller Permisos Administrador [root]
+*******************************************************************************************************
+*                                       08/10/2020                                                    *
+*******************************************************************************************************
+
+$ Modificación [Asignación]
+& Modificación Scripts Recepción [Asignación]
+$ Stored Procedure [Asignación]
+$ Stored Procedure [Herramienta en espera]
+& Modificación Tablas [Herramienta en espera]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

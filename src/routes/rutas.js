@@ -37,6 +37,11 @@ router.get('/Signup', (req, res) => {
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
 
+router.get('/Desarrollo', (req, res) => {
+	//res.send('holoo');
+	res.render('Almacen/wh_Recepcion.html');
+});
+
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
 router.get('/home', function (request, response) {
@@ -100,7 +105,8 @@ router.post('/AddMaquina', MaquinariaController.save);
 router.get('/Admin', (req, res) => {
 	if (req.session.loggedin) {
 		console.log("Nivel: " + req.session.nivel);
-		if (req.session.nivel == "Admin") {
+		var nivel = "Admin";
+		if (req.session.nivel.toLowerCase() == nivel.toLowerCase()) {
 			res.render('Admin/Admin.html', {
 				title: 'Gemak'
 			});
@@ -136,7 +142,7 @@ router.get('/deleteEmpleado/:id', EmpleadosController.delete);
 //====== Administración ========
 router.get('/wh_Admin', (req, res) => {
 	if (req.session.loggedin) {
-		if (req.session.nivel == "Admin" && req.session.area == "Almacen") {
+		if ((req.session.nivel == "Admin" && req.session.area == "Almacen") || (req.session.nivel == "Admin" && req.session.area == "Admin")) {
 			res.render('Almacen/wh_Admin.html', {
 				title: 'Gemak'
 			});
@@ -153,7 +159,6 @@ router.get('/wh_Admin', (req, res) => {
 	res.end();
 });
 
-router.get('/wh_Retorno', AlmacenController.listRetorno);
 //====== Salidas ========
 router.get('/BuscarHerramientas/:Herra', AlmacenController.search);
 router.get('/wh_Salidas', AlmacenController.list);
@@ -173,8 +178,9 @@ router.post('/GuardarNotaRetorno', AlmacenController.GuardarNotaRetorno);
 //====== Recepción ========
 //Abre pagina principal para recepcion
 router.get('/wh_Recepcion', AlmacenController.MainRecepcion);
-
-
+router.post('/PostRecepcion', AlmacenController.GuardarRecepcion);
+router.get('/ConsultaRecepcion', AlmacenController.ConsultaRecepcion);
+router.post('/Asignar', AlmacenController.Asignar);
 //====== Requisicion ========
 //Abre pagina principal para requerir
 router.get('/wh_Requisicion', (req, res) => {

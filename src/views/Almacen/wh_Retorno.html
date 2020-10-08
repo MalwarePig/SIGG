@@ -31,12 +31,11 @@
                     <div class="form-group col-md-2">
                         <select required id="Familia" name="Ret_Familia" class="form-control" onchange="Maquinas()">
                           <option value="a" selected disabled>seleccione la familia</option>
-                          <option value="ACABADO" selected>ACABADOS</option>
+                          <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
+                          <option value="TORNOS CNC" selected>TORNOS CNC</option>
+                          <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
+                          <option value="ACABADO" selected>ACABADO</option>
                           <option value="CALIDAD" selected>CALIDAD</option>
-                          <option value="TORNOS" selected>TORNOS</option>
-                          <option value="CM CHICOS" selected>CM CHICOS</option>
-                          <option value="CM MEDIANOS" selected>CM MEDIANOS</option>
-                          <option value="CM GRANDES" selected>CM GRANDES</option>
                           <option value="OTROS" selected>OTROS</option>
                         </select>
                       </div>
@@ -83,6 +82,13 @@
                 <form id="RegistroRetorno" name="RegistroRetorno">
 
                     <div class="form-row">
+
+                        <div class="form-group col-md-3" style="display: none">
+                            <label for="inputAddress" class="font-weight-bold">Folio salida</label>
+                            <input required type="text" id="FolioAnterior" class="form-control text-dark"
+                                placeholder="Folio Anterior..." name="Ret_FolioAnterior" autocomplete="off">
+                        </div>
+
                         <div class="form-group col-md-3">
                             <label for="inputAddress" class="font-weight-bold">Descripción herramienta</label>
                             <input required type="text" id="Producto" class="form-control text-dark"
@@ -149,7 +155,7 @@
             <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
                 <table class="table table-condensed table-hover" id="Almacen">
                     <thead class="thead-dark">
-                        <tr>
+                        <tr>                     
                             <th>Folio</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
@@ -159,6 +165,7 @@
                             <th>Turno</th>
                             <th>Maquina</th>
                             <th>Comentario</th>
+                            <th>Folio Salida</th>
                             <th>Acción</th>
                         </tr>
                     </thead>

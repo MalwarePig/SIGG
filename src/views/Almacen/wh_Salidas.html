@@ -46,7 +46,7 @@
               <th>Cantidad</th>
               <th>Usados</th>
               <th>Ubicacion</th>
-              <th>Agregar</th>
+              <th >Agregar</th>
             </tr>
           </thead>
           <tbody>
@@ -124,12 +124,11 @@
               <label for="inputState" class="font-weight-bold">Familia</label>
               <select required id="Familia" name="Sal_Familia" class="form-control" onchange="Maquinas()">
                 <option value="a" selected disabled>seleccione la familia</option>
-                <option value="ACABADO" selected>ACABADOS</option>
+                <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
+                <option value="TORNOS CNC" selected>TORNOS CNC</option>
+                <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
+                <option value="ACABADO" selected>ACABADO</option>
                 <option value="CALIDAD" selected>CALIDAD</option>
-                <option value="TORNOS" selected>TORNOS</option>
-                <option value="CM CHICOS" selected>CM CHICOS</option>
-                <option value="CM MEDIANOS" selected>CM MEDIANOS</option>
-                <option value="CM GRANDES" selected>CM GRANDES</option>
                 <option value="OTROS" selected>OTROS</option>
               </select>
             </div>
@@ -138,6 +137,15 @@
               <label for="inputState" class="font-weight-bold">Máquina</label>
               <select required id="Maquina" name="Sal_Maquina" class="form-control">
                 <option value="" selected disabled>seleccione la máquina</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputState" class="font-weight-bold">Parcial</label>
+              <select requiredname="Parcial" id="Parcial" class="form-control" required>
+                <option value="N/A" selected>N/A</option>
+                <option value="Completo" >Completo</option>
+                <option value="Parcial" >Parcial</option>
               </select>
             </div>
 
@@ -171,6 +179,7 @@
                 <th>Maquina</th>
                 <th>Empleado</th>
                 <th>Turno</th>
+                <th>Parcialidad</th>
                 <th>Comentario</th>
                 <th>Acción</th>
               </tr>
