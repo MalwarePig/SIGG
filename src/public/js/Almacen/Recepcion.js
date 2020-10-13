@@ -180,32 +180,46 @@ function ConsultaFlotante() {
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
-            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
-            var limite = TablaAlmacen.rows.length;
-            for (var i = 0; i < limite; i++) {
+            var PlantaBravo = document.getElementById('PlantaBravo').getElementsByTagName('tbody')[0];
+            var PlantaMorelos = document.getElementById('PlantaMorelos').getElementsByTagName('tbody')[0];
+            var limiteMorelos = PlantaMorelos.rows.length;
+            var limiteBravo = PlantaBravo.rows.length;
+            for (var i = 0; i < limiteMorelos; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < limiteBravo; i++) {
                 $("#Rows").remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < Herramientas.length; i++) {
                 var Producto = Herramientas[i].Producto;
-                var Entregado = Herramientas[i].Entregado;
+                var Cantidad = Herramientas[i].Cantidad;
                 var Planta = Herramientas[i].Planta;
                 //Eliminar variable dentro del For
-                Arreglo = [Producto, Entregado, Planta]
-                // inserta una fila al final de la tabla
-                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-                for (var x = 0; x < Arreglo.length; x++) {
-                    // inserta una celda en el indice 0
-                    var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    // adjuntar el texto al nodo
-                    var newText = document.createTextNode(Arreglo[x]);
-                    newCell.appendChild(newText);
+                Arreglo = [Producto, Cantidad, Planta];
+                if (Planta == 'Almacen Bravo') { //Si es planta Bravo
+                    // inserta una fila al final de la tabla
+                    var newRow = PlantaBravo.insertRow(PlantaBravo.rows.length);
+                    for (var x = 0; x < Arreglo.length; x++) {
+                        // inserta una celda en el indice 0
+                        var newCell = newRow.insertCell(x);
+                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        // adjuntar el texto al nodo
+                        var newText = document.createTextNode(Arreglo[x]);
+                        newCell.appendChild(newText);
+                    } //fin de for de columnas
+                } else { //Si es Morelos
+                    // inserta una fila al final de la tabla
+                    var newRow = PlantaMorelos.insertRow(PlantaMorelos.rows.length);
+                    for (var x = 0; x < Arreglo.length; x++) {
+                        // inserta una celda en el indice 0
+                        var newCell = newRow.insertCell(x);
+                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        // adjuntar el texto al nodo
+                        var newText = document.createTextNode(Arreglo[x]);
+                        newCell.appendChild(newText);
+                    } //fin de for de columnas
+                }
 
-                    if (x == 3) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(4); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
-                    }
-                } //fin de for de columnas
             } //fin de for de filas
         } //Funcion success
     }); //Ajax

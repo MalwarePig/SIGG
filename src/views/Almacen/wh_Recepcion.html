@@ -28,7 +28,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#Recepcion">Recepción</a></li>
 		<li onclick="ConsultaRecepcion()"><a data-toggle="tab" href="#Asignacion">Asignación</a></li>
-		<li><a data-toggle="tab" href="#Flotante">Herramienta en espera</a></li>
+		<li onclick="ConsultaFlotante()"><a data-toggle="tab" href="#Flotante">Herramienta en espera</a></li>
 	</ul>
 	<!-----------------------------------------   div-Contenido  ----------------------------------------------------------------->
 	<div class="tab-content">
@@ -151,17 +151,16 @@
 		</div>
 		<!-----------------------------------------   Tab Tres  ----------------------------------------------------------------->
 		<div id="Flotante" class="tab-pane fade">
-			<div class="card text-center">
+			<div class="card">
 				<div class="card-header">
 					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-						<label for="inputAddress2" class="font-weight-bold">Bravo</label>
-						<table class="table table-condensed table-hover" id="TablaAsignacion">
+						<label for="inputAddress2" class="font-weight-bold  text-center">Bravo</label>
+						<table class="table table-condensed table-hover" id="PlantaBravo">
 							<thead>
 								<tr>
 									<th>Item</th>
 									<th>Entregado</th>
 									<th>Planta asignada</th>
-									<th class="col-sm-1">Eliminar</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -172,14 +171,13 @@
 				</div>
 				<div class="card-body">
 					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-						<label for="inputAddress2" class="font-weight-bold">Morelos</label>
-						<table class="table table-condensed table-hover" id="TablaAsignacion">
+						<label for="inputAddress2" class="font-weight-bold ">Morelos</label>
+						<table class="table table-condensed table-hover" id="PlantaMorelos">
 							<thead>
 								<tr>
 									<th>Item</th>
 									<th>Entregado</th>
 									<th>Planta asignada</th>
-									<th class="col-sm-1">Eliminar</th>
 								</tr>
 							</thead>
 							<tbody>

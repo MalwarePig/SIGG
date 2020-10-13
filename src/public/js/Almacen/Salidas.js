@@ -123,6 +123,7 @@ function Folios() {
             document.getElementById("Folio").value = "GemS-" + zerofilled;
         }//Funcion success
     });//Ajax 
+    TablaRecoleccion();
 }
 
 //=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
@@ -206,7 +207,6 @@ function GuardarNota() {
     document.getElementById("RegistroSalida").reset();
 }
 
-
 //=========================================== PreAuditoria =================================================//
 function PreAuditoria() {
     let familia = document.getElementById("Familia").value;
@@ -226,3 +226,121 @@ function PreAuditoria() {
         }//Funcion success
     });//Ajax
 }
+ 
+//=========================================== Contador =================================================//
+
+function animateValue(id, start, end, duration) {
+    if (start === end) return;
+    var range = end - start;
+    var current = start;
+    var increment = end > start? 1 : +1;
+    var stepTime = Math.abs(Math.floor(duration / range));
+    var obj = document.getElementById(id);
+    var timer = setInterval(function() {
+        current += increment;
+        obj.innerHTML = current;
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
+
+
+//=========================================== Mostrar Recolección =================================================//
+function TablaRecoleccion() {
+    $.ajax({
+        url: '/MostrarRecoleccion/',
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
+            var limite = Tabla.rows.length;
+            animateValue("value", 1, Herramientas.length, 3000);
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove();//elimina los elementos con id Rows
+            }
+            for (var i = 0; i < Herramientas.length; i++) {
+                var ID = Herramientas[i].id;
+                var Producto = Herramientas[i].Producto;
+                var Cantidad = Herramientas[i].Cantidad;
+                var Planta = Herramientas[i].Planta;
+                //Eliminar variable dentro del For
+                Arreglo = [ID,Producto, Cantidad, Planta];
+                // inserta una fila al final de la tabla
+                var newRow = Tabla.insertRow(Tabla.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows");//se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+
+                    if (x == 3) {//Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(4); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Recolectar(' + (i + 1) + ')> Recolectar </button>';
+                    }
+                }//fin de for de columnas
+            }//fin de for de filas
+        }//Funcion success
+    });//Ajax
+}
+
+
+//=========================================== Guardar producto a recolectar =================================================//
+function Recolectar(indice) {
+    var tabla = document.getElementById("TablaRecoleccion");
+    var total = tabla.rows.length//Total de filas
+    var ObjetoTabla = {
+        id: tabla.rows[indice].cells[0].childNodes[0].nodeValue,
+        Producto: tabla.rows[indice].cells[1].childNodes[0].nodeValue,
+        Cantidad: tabla.rows[indice].cells[2].childNodes[0].nodeValue  
+    }
+       console.log("objeto: " + ObjetoTabla.Producto + " " + ObjetoTabla.Cantidad);
+        $.post("/GuardarRecoleccion", // url
+        { ObjetoTabla }, // data to be submit
+        function (objeto, estatus) {// success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

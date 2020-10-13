@@ -56,21 +56,41 @@ $ Funciones javascript [Asignación]
 $ Consultas Recepción y despliegue [Asignación]
 & Modulo PM2 [Admin]
 $ Controller Permisos Administrador [root]
+
 *******************************************************************************************************
 *                                       08/10/2020                                                    *
 *******************************************************************************************************
-
 $ Modificación [Asignación]
 & Modificación Scripts Recepción [Asignación]
 $ Stored Procedure [Asignación]
 $ Stored Procedure [Herramienta en espera]
 & Modificación Tablas [Herramienta en espera]
 
+*******************************************************************************************************
+*                                       09/10/2020                                                    *
+*******************************************************************************************************
+$ Corrección Modulo [Pronosticos]
+$ Corrección Stored Procedure [Pronosticos]
+& Modulo de recolección de herramientas [Recolección]
 
 
+*******************************************************************************************************
+*                                       10/10/2020                                                    *
+*******************************************************************************************************
+& Creación badge [wh_Salidas]
+$ Creación de rutas para badge[Recolección]
+$ Counter-up [badge]
+& Cambio de tebla [Recolección]
 
+*******************************************************************************************************
+*                                       12/10/2020                                                    *
+*******************************************************************************************************
+$ Adaptar Stored Procedure [Recolección]
 
-
+*******************************************************************************************************
+*                                       13/10/2020                                                    *
+*******************************************************************************************************
+$ Adaptar Stored Procedure [Recolección]
 
 
 

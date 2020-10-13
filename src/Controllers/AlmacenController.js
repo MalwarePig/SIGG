@@ -22,7 +22,7 @@ Controller.search = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -95,7 +95,7 @@ Controller.list = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 }; //Falta lanzar el modal
 
@@ -115,7 +115,7 @@ Controller.Folio = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -135,7 +135,7 @@ Controller.Num_Nomina = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -157,7 +157,7 @@ Controller.Maquinas = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -204,7 +204,7 @@ Controller.GuardarNota = (req, res) => {
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -230,7 +230,7 @@ Controller.SavePreAudit = (req, res) => { //Guarda la auditoria diaria de cada a
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -262,7 +262,7 @@ Controller.UpdatePreAudit = (req, res) => { //Guarda la auditoria diaria de cada
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 
@@ -449,7 +449,7 @@ Controller.Asignar = (req, res) => {
             var Item = Object.values(data)[1]; //obeter datos de un objeto Item
             var Cantidad = Object.values(data)[2]; //obeter datos de un objeto Cantidad
             var Planta = Object.values(data)[3]; //obeter datos de un objeto Planta
-            console.log( id + "','"+Item +"','"+Cantidad+"','"+Planta);
+            //console.log( id + "','"+Item +"','"+Cantidad+"','"+Planta);
             if (err) {
                 console.log("Conexion: " + err)
             }else{
@@ -467,6 +467,77 @@ Controller.Asignar = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+Controller.ConsultaFlotante = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Maquina
+            } = req.params;
+
+            conn.query("SELECT * FROM ProductoFlotante", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.MostrarRecoleccion = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Maquina
+            } = req.params;
+            let Planta = req.session.planta;
+            conn.query("SELECT * FROM ProductoFlotante where Planta = 'Almacen "+ Planta +"'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.GuardarRecoleccion = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            var id = Object.values(data)[0]; //obeter datos de un objeto id
+            var Item = Object.values(data)[1]; //obeter datos de un objeto Item
+            var Cantidad = Object.values(data)[2]; //obeter datos de un objeto Cantidad
+            let Planta = "Almacen " +req.session.planta; //obeter datos de un objeto Planta
+            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+            console.log( "id " + id + "','"+Item +"','"+Cantidad+"','"+Planta+ ","+ Usuario);
+            if (err) {
+                console.log("Conexion: " + err)
+            }else{
+                conn.query("call Recolectar(" + id + ",'"+Item +"',"+Cantidad+",'"+Planta+"','" + Usuario +"')", true, (err, rows, fields) => {
+                    if (err) {
+                        res.json(err);
+                        console.log('Error al Recolectar' + err);
+                    } else {
+                        console.log('Se recolectó herramienta a almacen');
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 //============================================================================================================================================================================================================================================
 ///////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////// == RETORNO == //////////////////// == RETORNO == ///////////////////// == RETORNO == ////////////

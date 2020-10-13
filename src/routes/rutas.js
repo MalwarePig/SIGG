@@ -181,6 +181,9 @@ router.get('/wh_Recepcion', AlmacenController.MainRecepcion);
 router.post('/PostRecepcion', AlmacenController.GuardarRecepcion);
 router.get('/ConsultaRecepcion', AlmacenController.ConsultaRecepcion);
 router.post('/Asignar', AlmacenController.Asignar);
+router.get('/ConsultaFlotante', AlmacenController.ConsultaFlotante);
+router.get('/MostrarRecoleccion', AlmacenController.MostrarRecoleccion);
+router.post('/GuardarRecoleccion', AlmacenController.GuardarRecoleccion);
 //====== Requisicion ========
 //Abre pagina principal para requerir
 router.get('/wh_Requisicion', (req, res) => {

@@ -42,7 +42,7 @@
             <table class=" table table-bordered table-hover" id="OTRegistros">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" name="Todo" id="Todo"> Todo</th>
+                        <th></th>
                         <th>clave</th>
                         <th>Producto</th>
                         <th>Solicitado</th>
@@ -59,9 +59,9 @@
                     <% if (data) { %>
                     <% for(var i = 0; i < data.length; i++) { %>
                     <tr>
-                        <td id="Check"><input type="checkbox" name="" id="<%= data[i].id %>"></td>
+                        <td id="Check"><input type="checkbox" name="" id="<%= i %>"></td>
                         <td id="clave"><%= data[i].Clave %></td>
-                        <td id="Producto" value="<%= data[i].Producto %>"><button type="button" class="btn btn-link" id ="Button<%= data[i].id %>" value="<%= data[i].Producto %>" onclick="MostrarOTs('<%= data[i].Producto %>')"><%= data[i].Producto %></button></td>
+                        <td id="Producto" value="<%= data[i].Producto %>"><button type="button" class="btn btn-link" id ="Button<%= i %>" value="<%= data[i].Producto %>" onclick="MostrarOTs('<%= data[i].Producto %>')"><%= data[i].Producto %></button></td>
                         <td id="Solicitado"><%= data[i].Cantidad %></td>
                         <td id="Stock"><%= data[i].Stock %></td>
                         <td id="OT"><%= data[i].OT %></td>

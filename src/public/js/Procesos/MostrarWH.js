@@ -67,8 +67,9 @@ function Guardar() {
     Cantidad = document.getElementById("Cantidad").value;  
     OT = document.getElementById("OT").value; 
     Comentarios = document.getElementById("Comentario").value;
-    alert(Clave + " " + " " + Producto + " " + Cantidad + " " + OT + " " + Estatus + " " + Comentarios);
-
+    if(Comentarios == null || Comentarios == ''){
+        Comentarios = '-';
+    }
     var Nota = {
         Clave: "-",
         Producto: Producto,

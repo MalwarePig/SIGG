@@ -50,8 +50,9 @@ function CrearNota() {
         element.removeChild(element.firstChild);
     }
 
-    for (var j = 1; j <= total - 1; j++) { //Recorer filas
+    for (var j = 0; j < total-1; j++) { //Recorer filas
         var Check = document.getElementById(j); //Obtener filas seleccionadas
+        alert(j);
         if (Check.checked == true) {
             var identificador = "Button" + j; //Traer el valor del boton que es el nombre de la herramienta
 

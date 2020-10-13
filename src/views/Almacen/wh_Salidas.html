@@ -25,13 +25,17 @@
       <!------------------------------ BUSCAR -------------------------------------->
       <form action="/BuscarHerramienta" method="post">
         <div class="form-row">
+          <div class="form-group col-md-0">
+            <a href="#" class="badge badge-info"  data-target="#ModalRecoleccion" data-toggle="modal"><span id="value">0</span></a>
+          </div>
           <div class="form-group col-md-2">
             <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
-              name="BHerramienta" autocomplete="off" value="prueba">
+              name="BHerramienta" autocomplete="off" >
           </div>
           <div class="form-group col-md-1">
             <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary">Buscar</button>
           </div>
+         
         </div>
       </form>
     </div>
@@ -195,7 +199,7 @@
     </div>
   </div>
 
-<!-- Modal -->
+<!-- Modal Nota -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -205,6 +209,34 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!--ModalRecoleccion-->
+<div class="modal fade bd-example-modal-lg" id="ModalRecoleccion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div id="Nota" class="list-group">
+      <!------------------------------ TABLA-------------------------------------->
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+          <table class=" table table-bordered table-hover" id="TablaRecoleccion">
+              <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Producto</th>
+                      <th>Cantidad</th>
+                      <th>Planta</th>
+                      <th>Recolectar</th>
+                  </tr>
+              </thead>
+              <tbody id="CuerpoNota">
+
+              </tbody>
+              </table>
+          </div>
+         <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
+        </div>
     </div>
   </div>
 </div>
