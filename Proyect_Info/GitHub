@@ -1,6 +1,6 @@
 ================================= CONFIGURAR GIT =========================================
-git congig --global user.email "xxxx"
-git congig --global user.name "xxxx"
+git config --global user.email "xxxx"
+git config --global user.name "xxxx"
 ================================= COMANDOS GIT UP ========================================
 git init  >> Inicializar proyecto para git
 git status >> Muestra el estado de los archivos
