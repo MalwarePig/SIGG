@@ -27,7 +27,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <input type="text" id="Herramienta" class="form-control" placeholder="Herramienta..."
-                            name="Herramienta" autocomplete="off" required value="prueba">
+                            name="Herramienta" autocomplete="off" required>
                     </div>
                     <div class="form-group col-md-1">
                         <button type="button" id="BuscarPlanta" name="BuscarPlanta"
@@ -88,11 +88,24 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiar()">Cerrar</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Guardar()">Guardar</button>
             </div>
           </div>
         </div>
       </div>
     
+
+        <!-- Modal Listo-->
+  <div class="modal fade" id="Listo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Herramienta pronosticada.
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>

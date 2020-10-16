@@ -10,8 +10,8 @@ Controller.list = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query('SELECT pronostico.id,pronostico.Clave, pronostico.Producto, pronostico.Cantidad, almacen.Stock, pronostico.OT, pronostico.Comentarios, pronostico.Planta, pronostico.EmpleadoReq, pronostico.FechaReq, pronostico.Estatus FROM pronostico' +
-                ' INNER JOIN almacen ON pronostico.Producto = almacen.Producto', [], (err, Pronostico) => {
+            conn.query("SELECT pronostico.id,pronostico.Clave, pronostico.Producto, pronostico.Cantidad, almacen.Stock, pronostico.OT, pronostico.Comentarios, pronostico.Planta, pronostico.EmpleadoReq, pronostico.FechaReq, pronostico.Estatus FROM pronostico" +
+                " INNER JOIN almacen ON pronostico.Producto = almacen.Producto WHERE Estatus = 'Viva'", [], (err, Pronostico) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error al registrar despacho de herramienta');
@@ -48,34 +48,40 @@ Controller.Resumen = (req, res) => {
     }
 };
 
-
 ///////// == NotaCompras Save == ////////////////////////////// == NotaCompras Save == ////////////////////////////// == NotaCompras Save == ////////////////////////// == NotaCompras Save == //////////////////// 
 Controller.NotaCompras = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Clave = Object.values(data)[0]; //obeter datos de un objeto Folio
-            let Producto = Object.values(data)[1]; //obeter datos de un objeto Folio
-            let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
-            let OT = Object.values(data)[3]; //obeter datos de un objeto Folio
-            let Comentarios = Object.values(data)[4]; //obeter datos de un objeto Folio
-            let Empleado = req.session.nombre; //obeter datos de un objeto Folio
-            let Planta = req.session.planta;
-            let Estatus = 'Requerido';
+            var Folio = Object.values(data)[0]; //obeter datos de un objeto Folio
+            var Clave = Object.values(data)[1]; //obeter datos de un objeto Folio
+            var Producto = Object.values(data)[2]; //obeter datos de un objeto Folio
+            var Cantidad = Object.values(data)[3]; //obeter datos de un objeto Folio
+            var OT = Object.values(data)[4]; //obeter datos de un objeto Folio
+            var Comentarios = Object.values(data)[5]; //obeter datos de un objeto Folio
+            var Empleado = req.session.nombre; //obeter datos de un objeto Folio
+            var Planta = req.session.planta;
+            var Estatus = 'Requerido';
 
             if (err) {
                 console.log("Conexion: " + err);
             }
-            console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus);
-            conn.query('INSERT INTO requisiciones(Clave, Producto, CantidadReq, OT, Comentarios, EmpleadoReq, Planta, Estatus)values(?,?,?,?,?,?,?,?)', [Clave, Producto, Cantidad, OT, Comentarios, Empleado, Planta, Estatus], (err, ot) => {
+            console.log(Folio + " -Clave " +Clave + " -producto " + Producto + " -Cantidad " + Cantidad + " -OT " + OT + " -Comentario " + Comentarios + " - Empleado" + Empleado + " -Planta " + Planta + " -Estatus " + Estatus);
+            conn.query('INSERT INTO requisiciones(Folio, Clave, Producto, CantidadReq, OT, Comentarios, EmpleadoReq, Planta, Estatus)values(?,?,?,?,?,?,?,?,?)', [Folio, Clave, Producto, Cantidad, OT, Comentarios, Empleado, Planta, Estatus], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
-                    console.log('Error al registrar despacho de herramienta');
+                    console.log('Error al registrar requerimiento');
                 }
+                conn.query("UPDATE pronostico SET Estatus = 'Por requerir' WHERE Producto = '"+Producto + "' AND OT = '"+OT+"'", [Folio, Clave, Producto, Cantidad, OT, Comentarios, Empleado, Planta, Estatus], (err, ot) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error al registrar s');
+                    }
+                });
             });
         });
     } else {
-        res.render('Login.html');
+        res.render('Admin/Login.html');
     }
 };
 

@@ -1,7 +1,5 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
-$(function () {
-    // GET PRODUCTS
-    $('#getProducts').on('click', () => {
+function GETPRODUCTS() {
         $.ajax({
             url: '/BuscarHerramientas/' + document.getElementById("BHerramienta").value + '',
             success: function (Herramientas) {
@@ -11,6 +9,9 @@ $(function () {
                 var limite = TablaAlmacen.rows.length;
                 for (var i = 0; i < limite; i++) {
                     $("#Rows").remove();//elimina los elementos con id Rows
+                }
+                if(Herramientas.length == 0){
+                    $("#Vacio").modal();
                 }
                 for (var i = 0; i < Herramientas.length; i++) {
                     var Clave = Herramientas[i].Clave;
@@ -39,8 +40,8 @@ $(function () {
                 }//fin de for de filas
             }//Funcion success
         });//Ajax
-    });//Evento clic
-});//Funcion JQuery
+}//Evento clic
+
 
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
 $(function () {
@@ -88,6 +89,7 @@ function CrearNota() {
             Condicion = false;//si algun campo esta vacio cambia a falso
         }
     }
+    
     if (Condicion == true) {//si todos los campos estan llenos avanza
         var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
         // inserta una fila al final de la tabla
@@ -203,7 +205,7 @@ function GuardarNota() {
     for (var i = 0; i <= limite; i++) {
         $("#fila" + (i + 1)).remove();//elimina los elementos con id Rows
     }
-
+ 
     document.getElementById("RegistroSalida").reset();
 }
 
@@ -255,7 +257,9 @@ function TablaRecoleccion() {
             //Limpiar tabla 
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             var limite = Tabla.rows.length;
-            animateValue("value", 1, Herramientas.length, 3000);
+            if(Herramientas.length>0){ //Si existen elementos llamar a contador para incremento.
+                animateValue("value", 1, Herramientas.length, 3000);
+            }
             for (var i = 0; i < limite; i++) {
                 $("#Rows").remove();//elimina los elementos con id Rows
             }
@@ -303,33 +307,12 @@ function Recolectar(indice) {
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+function runScript(e) {
+    if (e.keyCode == 13) {
+        GETPRODUCTS();
+    }
+}
 
 
 

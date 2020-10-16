@@ -50,14 +50,14 @@ function CrearNota() {
         element.removeChild(element.firstChild);
     }
 
-    for (var j = 0; j < total-1; j++) { //Recorer filas
-        var Check = document.getElementById(j); //Obtener filas seleccionadas
-        alert(j);
+    for (var j = 1; j <= total-1; j++) { //Recorer filas
+        var Check = document.getElementById((j-1)); //Obtener filas seleccionada
         if (Check.checked == true) {
-            var identificador = "Button" + j; //Traer el valor del boton que es el nombre de la herramienta
+            var identificador = "Button" + (j-1); //Traer el valor del boton que es el nombre de la herramienta
 
             ObjetoTabla = {
                 Folio: "GEMCOM-00001",
+                Clave: tabla.rows[j].cells[1].childNodes[0].nodeValue,
                 Producto: document.getElementById(identificador).value,
                 Solicitado: tabla.rows[j].cells[3].childNodes[0].nodeValue,
                 OTs: tabla.rows[j].cells[5].childNodes[0].nodeValue,
@@ -71,13 +71,14 @@ function CrearNota() {
     var limite = Arreglo.length;
     for (var i = 0; i < limite; i++) {
         N_Folio = Arreglo[i].Folio;
+        N_Clave = Arreglo[i].Clave;
         N_Producto = Arreglo[i].Producto;
         N_Solicitado = Arreglo[i].Solicitado;
         N_OT = Arreglo[i].OTs;
         N_Comentario = Arreglo[i].Comentario;
 
         //Eliminar variable dentro del For
-        ArregloFinal = [N_Folio, N_Producto, N_Solicitado, N_OT,N_Comentario];
+        ArregloFinal = [N_Folio,N_Clave, N_Producto, N_Solicitado, N_OT,N_Comentario];
         var TablaAlmacen = document.getElementById('TablaRequisicion').getElementsByTagName('tbody')[0];
         // inserta una fila al final de la tabla
         var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -95,20 +96,37 @@ function CrearNota() {
 
 //=========================================== Guardar elementos de la nota =================================================//
 function GuardarNota() {
-    var ObjetoTabla = {
-        Clave: '-',
-        Producto: N_Producto,
-        Solicitado: N_Solicitado,
-        OT: N_OT,
-        Comentario: N_Comentario
+    var tabla = document.getElementById("TablaRequisicion");
+    var total = tabla.rows.length//Total de filas
+    for (var j = 1; j <= total - 1; j++) {//filas
+
+        var ObjetoTabla = {
+            Folio: tabla.rows[j].cells[0].childNodes[0].nodeValue,
+            Clave: tabla.rows[j].cells[1].childNodes[0].nodeValue,
+            Producto: tabla.rows[j].cells[2].childNodes[0].nodeValue,
+            Solicitado: tabla.rows[j].cells[3].childNodes[0].nodeValue,
+            OT: tabla.rows[j].cells[4].childNodes[0].nodeValue,
+            Comentario:tabla.rows[j].cells[5].childNodes[0].nodeValue
+        }
+
+        console.log(ObjetoTabla);
+        $.post("/GuardarNotaCompras", // url
+            {
+                ObjetoTabla
+            }, // data to be submit
+            function (objeto, estatus) { // success callback
+                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            });
     }
- 
-    alert(ObjetoTabla.OT + " " + ObjetoTabla.Comentario);
-    $.post("/GuardarNotaCompras", // url
-        {
-            ObjetoTabla
-        }, // data to be submit
-        function (objeto, estatus) { // success callback
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
-        });
+    $("#Listo").modal();
+setTimeout ("redireccionar()", 2000);//Tiempo para reedireccionar
 }
+
+function redireccionar() {
+    location.reload();
+}
+
+
+
+
+

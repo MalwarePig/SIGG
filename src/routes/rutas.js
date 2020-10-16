@@ -29,7 +29,7 @@ router.get('/Signup', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.render('Login.html');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -39,7 +39,7 @@ router.post('/AddUser', UserController.save);
 
 router.get('/Desarrollo', (req, res) => {
 	//res.send('holoo');
-	res.render('Almacen/wh_Recepcion.html');
+	res.render('Almacen/wh_AjustesInventario.html');
 });
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ router.get('/home', function (request, response) {
 		});
 		//response.send('Welcome back, ' + request.session.username + '!');
 	} else {
-		response.send('Tu sesión expiró!');
+		response.render('Admin/Login.html');
 	}
 	response.end();
 });
@@ -92,7 +92,7 @@ router.get('/Alta_Maquina', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -116,7 +116,7 @@ router.get('/Admin', (req, res) => {
 			});
 		}
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -184,6 +184,36 @@ router.post('/Asignar', AlmacenController.Asignar);
 router.get('/ConsultaFlotante', AlmacenController.ConsultaFlotante);
 router.get('/MostrarRecoleccion', AlmacenController.MostrarRecoleccion);
 router.post('/GuardarRecoleccion', AlmacenController.GuardarRecoleccion);
+//====== Editar Herramienta ========
+//Abre pagina principal para editar
+router.get('/wh_Editar', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_Editar.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('index.html', {
+			title: 'Gemak'
+		});
+	}
+	res.end();
+});
+
+router.post('/ActualizarProducto', AlmacenController.ActualizarProducto);
+//====== Ajuste Inventario ========
+//Abre pagina principal para editar
+router.get('/AjusteInventario', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_AjustesInventario.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('index.html', {
+			title: 'Gemak'
+		});
+	}
+	res.end();
+});
 //====== Requisicion ========
 //Abre pagina principal para requerir
 router.get('/wh_Requisicion', (req, res) => {
@@ -228,7 +258,7 @@ router.get('/AdminCRM', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -240,7 +270,7 @@ router.get('/AddVendedores', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -252,7 +282,7 @@ router.get('/CargaMateriales', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -265,7 +295,7 @@ router.get('/VerInventario', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 });
@@ -276,7 +306,7 @@ router.get('/Pronosticos', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.send('Tu sesión expiró!');
+		res.render('Admin/Login.html');
 	}
 	res.end();
 }); 

@@ -405,7 +405,7 @@ Controller.GuardarRecepcion = (req, res) => {
             let Estatus = "N/A"; //obeter datos de un objeto Folio
 
             if (err) {
-                console.log("Conexion: " + err)
+                console.log("Conexion: " + err);
             }
             //console.log(Clave + " - " + Producto + " - " + Cantidad + " - " + OT + " - " + Comentarios + " - " + Empleado + " - " + Planta + " - " + Estatus)
             conn.query('INSERT INTO Recepcion(Producto, Ordenado, Entregado, Usuario, Estatus)values(?,?,?,?,?)', [Producto, Ordenado, Entregado, Usuario, Estatus], (err, ot) => {
@@ -433,7 +433,7 @@ Controller.ConsultaRecepcion = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                res.json(Herramientas)
+                res.json(Herramientas);
             });
         });
     } else {
@@ -529,6 +529,40 @@ Controller.GuardarRecoleccion = (req, res) => {
                         console.log('Error al Recolectar' + err);
                     } else {
                         console.log('Se recolectó herramienta a almacen');
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//============================================================================================================================================================================================================================================
+///////// == Actualizar Herramienta == ////////////////////////////// == Actualizar Herramienta == ////////////////////////////// == Actualizar Herramienta == ////////////////////////// == Actualizar Herramienta == //////////////////// == 
+//============================================================================================================================================================================================================================================
+
+
+Controller.ActualizarProducto = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            var id = Object.values(data)[0]; //obeter datos de un objeto id
+            var Clave = Object.values(data)[1]; //obeter datos de un objeto Clave
+            var Producto = Object.values(data)[2]; //obeter datos de un objeto Producto
+            var Ubicacion = Object.values(data)[3]; //obeter datos de un objeto Ubicacion
+ 
+            console.log( "id " + id + "','"+Clave +"','"+Producto+"','"+Ubicacion);
+            if (err) {
+                console.log("Conexion: " + err)
+            }else{
+                conn.query("call ActualizarProducto(" + id + ",'"+Clave +"','"+Producto+"','"+Ubicacion+"')", true, (err, rows, fields) => {
+                    if (err) {
+                        res.json(err);
+                        console.log('Error al actualizar' + err);
+                    } else {
+                        console.log('Se actualizó herramienta de almacen');
                     }
                 });
             }

@@ -105,6 +105,7 @@
                     <thead>
                         <tr>
                             <th>Folio</th>
+                            <th>Clave</th>
                             <th>Producto</th>
                             <th>Solicitado</th>
                             <th>OT</th>
@@ -115,7 +116,7 @@
  
                     </tbody>
                     </table>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="GuardarNota()">Crear Nota</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="GuardarNota()">Solicitar requisición</button>
                 </div>
                <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
               </div>
@@ -123,4 +124,16 @@
         </div>
       </div>
 
-    </body>
+
+    <!-- Modal Listo-->
+    <div class="modal fade" id="Listo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+          Seleccionada herramienta por requerir.
+          </div>
+        </div>
+      </div>
+    </div>
+</body>

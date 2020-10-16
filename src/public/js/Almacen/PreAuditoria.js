@@ -1,5 +1,4 @@
 function Modal() {
- 
     $("#ModalAuditoria").modal();
 }
 
@@ -35,7 +34,7 @@ function Aplicar() {
 
                 });
         }
-        setTimeout ("redireccionar()", 1000);
+        setTimeout ("redireccionar()", 1000);//Tiempo para reedireccionar
     }else{
         alert("Debes confirmar la auditoria");
     }

@@ -82,6 +82,21 @@ function Guardar() {
     $.post("/GuardarPronostico", // url
     { Nota }, // data to be submit
     function (objeto, estatus) {// success callback
-        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        
     });
+    limpiar();
+}
+
+function limpiar(){
+document.getElementById("OT").value = "";
+document.getElementById("Cantidad").value = "";
+document.getElementById("Comentario").value = "";
+$("#Listo").modal();
+
+//setTimeout ("redireccionar()", 2000);//Tiempo para reedireccionar
+}
+
+
+function redireccionar() {
+    location.reload();
 }
