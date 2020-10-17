@@ -126,7 +126,28 @@ function redireccionar() {
     location.reload();
 }
 
+//=========================================== Fromato Fechas =================================================//
 
+function Fecha() {
+    var tabla = document.getElementById('OTRegistros').getElementsByTagName('tbody')[0];
+    var total = tabla.rows.length//Total de filasa
+    for (var j = 0; j < total; j++) {//filas
+        var Fecha =  new Date(tabla.rows[j].cells[9].childNodes[0].nodeValue);
+        var dd = Fecha.getDate();
+        var mm = Fecha.getMonth() + 1;
+        var yyyy = Fecha.getFullYear();
+        var HH = Fecha.getHours();
+        var mi = Fecha.getMinutes();
 
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        document.getElementById("Fecha_solicitado"+j).innerHTML = today;
+    }//fin filas
+}
 
 

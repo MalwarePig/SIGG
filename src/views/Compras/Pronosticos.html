@@ -16,7 +16,7 @@
     <script type="text/javascript" src="js/Compras/Pronostico.js"></script>
 </head>
 
-<body">
+<body onload="Fecha()">
     <%- include ('../partials/navegacion.html') %>
     <!------incluir navegacion Menu----->
 
@@ -68,7 +68,7 @@
                         <td id="Comentarios"><%= data[i].Comentarios %></td>
                         <td id="Planta"><%= data[i].Planta %></td>
                         <td id="Empleado"><%= data[i].EmpleadoReq %></td>
-                        <td id="Fecha solicitado"><%= data[i].FechaReq %></td>
+                        <td id="Fecha_solicitado<%= i %>"><%= data[i].FechaReq %></td>
                         <td id="Estatus"><%= data[i].Estatus %></td>
                     </tr>
                     <% } %>

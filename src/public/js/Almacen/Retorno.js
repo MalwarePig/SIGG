@@ -32,7 +32,7 @@ $(function () {
                     var OT = Herramientas[i].OT;
                     var Maquina = Herramientas[i].Maquina;
                     var Empleado = Herramientas[i].Empleado;
-                    var Salida = Herramientas[i].Salida;
+                    var Salida = Fecha(Herramientas[i].Salida);
                     //Eliminar variable dentro del For
                     Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida];
                     var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
@@ -226,4 +226,25 @@ function GuardarNota() {
     }
 
     document.getElementById("RegistroRetorno").reset();
+}
+
+//=========================================== Guardar producto a recolectar =================================================//
+
+function Fecha(parametro) {
+        var Fecha = new Date(parametro);
+        console.log('Fecha tabla ' + Fecha);
+        var dd = Fecha.getDate();
+        var mm = Fecha.getMonth() + 1;
+        var yyyy = Fecha.getFullYear();
+        var HH = Fecha.getHours();
+        var mi = Fecha.getMinutes();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        return today;
 }

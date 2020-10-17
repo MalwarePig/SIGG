@@ -122,11 +122,12 @@ Controller.Folio = (req, res) => {
 Controller.Num_Nomina = (req, res) => {
     if (req.session.loggedin) {
         //res.send('Metodo Get list');
+        const planta = req.session.planta;
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query("SELECT * from empleados", (err, empleados) => {
+            conn.query("SELECT * from empleados WHERE Planta = '"+planta+"'", (err, empleados) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
