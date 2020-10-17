@@ -144,11 +144,12 @@ Controller.Maquinas = (req, res) => {
         const {
             familia
         } = req.params;
+        const planta = req.session.planta;
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query("SELECT * from maquinas where Familia ='" + familia + "'", (err, maquinas) => {
+            conn.query("SELECT * from maquinas where Familia ='" + familia + "' AND Planta = '"+planta+"'", (err, maquinas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');

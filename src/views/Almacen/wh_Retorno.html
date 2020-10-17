@@ -101,10 +101,10 @@
                                 placeholder="cantidad de pza." name="Ret_Cantidad" autocomplete="off" required>
                         </div>
 
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-1" style="display: none">
                             <label for="inputAddress2" class="font-weight-bold">OT</label>
                             <input type="text" id="OT" class="form-control" placeholder="Orden de trabajo" name="Ret_OT"
-                                autocomplete="off" required>
+                                autocomplete="off" value="-">
                         </div>
 
                         <div class="form-group col-md-1">
@@ -131,10 +131,12 @@
                         </div>
 
                         <div class="form-group col-md-1">
-                            <label for="inputAddress2" class="font-weight-bold">Turno</label>
-                            <input type="text" id="Turno" class="form-control" placeholder="Turno..." name="Ret_Turno"
-                                autocomplete="off" required>
-                        </div>
+                            <label for="inputState" class="font-weight-bold">Turno</label>
+                            <select requiredname="Turno" id="Turno" name="Ret_Turno" class="form-control" required>
+                              <option value="Dia" selected>Dia</option>
+                              <option value="Tarde" >Tarde</option>
+                            </select>
+                          </div>
 
                         <div class="form-group col-md-2">
                             <label for="inputAddress2" class="font-weight-bold">Comentario</label>

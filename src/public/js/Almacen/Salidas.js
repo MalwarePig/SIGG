@@ -185,13 +185,14 @@ function GuardarNota() {
             Entregado: tabla.rows[j].cells[2].childNodes[0].nodeValue,
             Estado: tabla.rows[j].cells[3].childNodes[0].nodeValue,
             OT: tabla.rows[j].cells[4].childNodes[0].nodeValue,
-            Empleado: tabla.rows[j].cells[5].childNodes[0].nodeValue,
-            Turno: tabla.rows[j].cells[6].childNodes[0].nodeValue,
-            Maquina: tabla.rows[j].cells[7].childNodes[0].nodeValue,
-            Parcial: tabla.rows[j].cells[8].childNodes[0].nodeValue,
-            Comentario: tabla.rows[j].cells[9].childNodes[0].nodeValue            
+            Estatus: tabla.rows[j].cells[5].childNodes[0].nodeValue,
+            Maquina: tabla.rows[j].cells[6].childNodes[0].nodeValue,
+            Empleado: tabla.rows[j].cells[7].childNodes[0].nodeValue,
+            Turno: tabla.rows[j].cells[8].childNodes[0].nodeValue,
+            Parcial: tabla.rows[j].cells[9].childNodes[0].nodeValue,
+            Comentario: tabla.rows[j].cells[10].childNodes[0].nodeValue  
         }
-           console.log("objeto: " + ObjetoTabla.Folio);
+           console.table(ObjetoTabla);
             $.post("/GuardarNota", // url
             { ObjetoTabla }, // data to be submit
             function (objeto, estatus) {// success callback
