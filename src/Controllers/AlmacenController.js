@@ -175,9 +175,9 @@ Controller.GuardarNota = (req, res) => {
             let OTEstatus = Object.values(data)[5]; //obeter datos de un objeto OT
             let Maquina = Object.values(data)[6]; //obeter datos de un objeto Maquina
             let Empleado = Object.values(data)[7]; //obeter datos de un objeto Empleado
-            let Turno = Object.values(data)[8]; //obeter datos de un objeto Empleado
-            let Parcial = Object.values(data)[9]; //obeter datos de un objeto Comentario
-            let Comentario = Object.values(data)[10]; //obeter datos de un objeto Comentario
+            let Parcial = Object.values(data)[8]; //obeter datos de un objeto Comentario
+            let Comentario = Object.values(data)[9]; //obeter datos de un objeto Comentario
+            let Turno =  req.session.turno;
             let Movimiento = 'Salida';
             let Planta = req.session.planta;
             let Usuario = req.session.username;
@@ -190,12 +190,11 @@ Controller.GuardarNota = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error al registrar despacho de herramienta');
                 }
-                conn.query("call RestarAlmacen(" + Entregado + ",'" + Producto + "','" + Estado + "');", true, (err, rows, fields) => {
+                conn.query("call RestarAlmacen(" + Entregado + ",'" + Producto + "','" + Estado + "','Almacen "+Planta +"');", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al descontar almacen' + err);
                     }
-                    console.log("RestoAlmacen: " + rows);
                     conn.query("call IncrementarFolioAlmacen('" + Folio + "');", true, (err, rows, fields) => {
                         if (err) {
                             res.json(err);
@@ -336,12 +335,11 @@ Controller.GuardarNotaRetorno = (req, res) => {
             let Producto = Object.values(data)[1]; //obeter datos de un objeto Folio
             let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
             let Estado = Object.values(data)[3]; //obeter datos de un objeto Folio
-            let OT = Object.values(data)[4]; //obeter datos de un objeto Folio
-            let Empleado = Object.values(data)[5]; //obeter datos de un objeto Folio
-            let Turno = Object.values(data)[6]; //obeter datos de un objeto Folio
-            let Maquina = Object.values(data)[7]; //obeter datos de un objeto Folio
-            let Comentarios = Object.values(data)[8]; //obeter datos de un objeto Folio
-            let FolioSalida = Object.values(data)[9]; //obeter datos de un objeto Folio
+            let Empleado = Object.values(data)[4]; //obeter datos de un objeto Folio
+            let Maquina = Object.values(data)[5]; //obeter datos de un objeto Folio
+            let Comentarios = Object.values(data)[6]; //obeter datos de un objeto Folio
+            let FolioSalida = Object.values(data)[7]; //obeter datos de un objeto Folio
+            let Turno = req.session.turno; //obeter datos de un objeto Folio
             let Movimiento = 'Retorno';
             let Planta = req.session.planta;
             let Usuario = req.session.username;
@@ -350,12 +348,12 @@ Controller.GuardarNotaRetorno = (req, res) => {
             }
             console.log("Cantidad a retornorar: " +Cantidad);
             //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
-            conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,OT,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, OT, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
+            conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar despacho de herramienta');
                 }
-                conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" +FolioSalida+"')", true, (err, rows, fields) => {
+                conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" +FolioSalida+"','Almacen " + Planta + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al descontar almacen' + err);
@@ -608,9 +606,31 @@ Controller.GuardarRequisicion = (req, res) => {
     }
 };
 
+//============================================================================================================================================================================================================================================
+///////// == REPORTE == ////////////////////////////// == REPORTE == ////////////////////////////// == REPORTE == ////////////////////////// == REPORTE == //////////////////// == REPORTE == ///////////////////// == REPORTE == ////////////
+//============================================================================================================================================================================================================================================
 
+Controller.MostrarReporte = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {parametros} = req.params;
+            var categoria = parametros.split('|')[0]; // categoria o tipo de reporte
+            var fechaInicio = parametros.split('|')[1]; // Fecha inicial
+            var fechafin = parametros.split('|')[2]; // Fecha limite
+            var Almacen = parametros.split('|')[3]; // Almacen
 
-
+            conn.query("SELECT * FROM "+categoria+" WHERE Almacen = '"+Almacen+"' AND Salida BETWEEN '"+fechaInicio+"' AND '"+fechafin+"'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 
 

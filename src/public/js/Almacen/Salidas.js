@@ -77,11 +77,10 @@ function CrearNota() {
     var Ubicacion = document.getElementById("Ubicacion").value; //Obtiene el valor de Clave
     var OT = document.getElementById("OT").value; //Obtiene el valor de Clave
     var Empleado = document.getElementById("Nombre").value; //Obtiene el valor de Clave
-    var Turno = document.getElementById("Turno").value; //Obtiene el valor de Clave
     var Maquina = document.getElementById("Maquina").value; //Obtiene el valor de Clave
     var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
     var Parcial = document.getElementById("Parcial").value; //Obtiene el valor de Clave
-    var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Turno, Parcial,Comentario];
+    var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial,Comentario];
  
     var Condicion = true;//para campos vacios
     for (var a in Arreglo) {//recorrer arreglo en busca de campos vacios
@@ -103,8 +102,8 @@ function CrearNota() {
             // adjuntar el texto al nodo
             var newText = document.createTextNode(Arreglo[x]);
             newCell.appendChild(newText);
-            if (x == 8) {//Si termina de registrar datos crear el boton
-                var newCell = newRow.insertCell(9); //CREAR CELDA onclick="CrearNota()"
+            if (x == 7) {//Si termina de registrar datos crear el boton
+                var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
                 newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
             }
         }
@@ -188,9 +187,8 @@ function GuardarNota() {
             Estatus: tabla.rows[j].cells[5].childNodes[0].nodeValue,
             Maquina: tabla.rows[j].cells[6].childNodes[0].nodeValue,
             Empleado: tabla.rows[j].cells[7].childNodes[0].nodeValue,
-            Turno: tabla.rows[j].cells[8].childNodes[0].nodeValue,
-            Parcial: tabla.rows[j].cells[9].childNodes[0].nodeValue,
-            Comentario: tabla.rows[j].cells[10].childNodes[0].nodeValue  
+            Parcial: tabla.rows[j].cells[8].childNodes[0].nodeValue,
+            Comentario: tabla.rows[j].cells[9].childNodes[0].nodeValue  
         }
            console.table(ObjetoTabla);
             $.post("/GuardarNota", // url

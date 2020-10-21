@@ -102,6 +102,7 @@ function Seleccion(variable) {
     document.RegistroRetorno.Ret_FolioAnterior.value = Folio;
     document.RegistroRetorno.Ret_Herramienta.value = Producto;
     document.RegistroRetorno.Ret_OT.value = OT;
+    document.RegistroRetorno.Ret_Nombre.value = Empleado;
 }
 
 //=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
@@ -135,11 +136,9 @@ function CrearNota() {
         var Producto = document.getElementById("Producto").value; //Obtiene el valor de Producto
         var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de cantidad
         var Estado = document.getElementById("Estado").value; //Obtiene el valor de Estado
-        var OT = document.getElementById("OT").value; //Obtiene el valor de OT
         var Empleado = document.getElementById("Nombre").value; //Obtiene el valor de Nombre
-        var Turno = document.getElementById("Turno").value; //Obtiene el valor de Turno
         var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Comentario
-        var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Empleado, Turno, Maquina, Comentario,FolioSalida];
+        var Arreglo = [Folio, Producto, Cantidad, Estado, Empleado, Maquina, Comentario,FolioSalida];
         var Condicion = true; //para campos vacios
         for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
             if (Arreglo[a].length == 0) {
@@ -158,8 +157,8 @@ function CrearNota() {
                 // adjuntar el texto al nodo
                 var newText = document.createTextNode(Arreglo[x]);
                 newCell.appendChild(newText);
-                if (x == 9) { //Si termina de registrar datos crear el boton
-                    var newCell = newRow.insertCell(10); //CREAR CELDA onclick="CrearNota()"
+                if (x == 7) { //Si termina de registrar datos crear el boton
+                    var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
                     newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
                 }
             }
@@ -201,14 +200,11 @@ function GuardarNota() {
             Producto: tabla.rows[j].cells[1].childNodes[0].nodeValue,
             Cantidad: tabla.rows[j].cells[2].childNodes[0].nodeValue,
             Estado: tabla.rows[j].cells[3].childNodes[0].nodeValue,
-            OT: tabla.rows[j].cells[4].childNodes[0].nodeValue,
-            Empleado: tabla.rows[j].cells[5].childNodes[0].nodeValue,
-            Turno: tabla.rows[j].cells[6].childNodes[0].nodeValue,
-            Maquina: tabla.rows[j].cells[7].childNodes[0].nodeValue,
-            Comentario: tabla.rows[j].cells[8].childNodes[0].nodeValue,
-            FolioSalida: tabla.rows[j].cells[9].childNodes[0].nodeValue,
+            Empleado: tabla.rows[j].cells[4].childNodes[0].nodeValue,
+            Maquina: tabla.rows[j].cells[5].childNodes[0].nodeValue,
+            Comentario: tabla.rows[j].cells[6].childNodes[0].nodeValue,
+            FolioSalida: tabla.rows[j].cells[7].childNodes[0].nodeValue,
         }
-        console.log("");
         $.post("/GuardarNotaRetorno", // url
             {
                 ObjetoTabla
@@ -232,7 +228,6 @@ function GuardarNota() {
 
 function Fecha(parametro) {
         var Fecha = new Date(parametro);
-        console.log('Fecha tabla ' + Fecha);
         var dd = Fecha.getDate();
         var mm = Fecha.getMonth() + 1;
         var yyyy = Fecha.getFullYear();

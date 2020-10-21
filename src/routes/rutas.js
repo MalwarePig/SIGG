@@ -31,7 +31,7 @@ router.get('/Signup', (req, res) => {
 	} else {
 		res.render('Admin/Login.html');
 	}
-	res.end();
+	//res.end();
 });
 
 //Registrar usuario en db
@@ -156,7 +156,7 @@ router.get('/wh_Admin', (req, res) => {
 			title: 'Gemak'
 		});
 	}
-	res.end();
+	res.render('Admin/Login.html');
 });
 
 //====== Salidas ========
@@ -192,11 +192,10 @@ router.get('/wh_Editar', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.render('index.html', {
-			title: 'Gemak'
-		});
+		res.render('Admin/Login.html');
 	}
-	res.end();
+	res.render('Admin/Login.html');
+	//res.end();
 });
 
 router.post('/ActualizarProducto', AlmacenController.ActualizarProducto);
@@ -208,11 +207,9 @@ router.get('/AjusteInventario', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.render('index.html', {
-			title: 'Gemak'
-		});
+		res.render('Admin/Login.html');
 	}
-	res.end();
+	res.render('Admin/Login.html');
 });
 //====== Requisicion ========
 //Abre pagina principal para requerir
@@ -222,15 +219,26 @@ router.get('/wh_Requisicion', (req, res) => {
 			title: 'Gemak'
 		});
 	} else {
-		res.render('index.html', {
-			title: 'Gemak'
-		});
+		res.render('Admin/Login.html');
 	}
-	res.end();
+	res.render('Admin/Login.html');
 });
 //Guarda nota de requisicion
 router.post('/SaveRequest', AlmacenController.GuardarRequisicion);
 
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
+router.get('/wh_Reporte', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_Reporte.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+//Muestra reporte de entradas y salidas de herramienta
+router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);
 /////////////////////////////////////////////////////////////////////////// CRM //////////////////////////////////////////////////////////////////////////////
 router.get('/Contactos', CRMController.list);
 router.post('/addCliente', CRMController.save);

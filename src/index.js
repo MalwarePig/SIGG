@@ -27,12 +27,18 @@ app.use(myConnection(mysql,{
 app.use(session({
      secret: 'keyboard cat',  //semilla para criptografia en la seguridad que se envia el id al cliente
      resave: true,  //Guarda los cambios en cada cambio que se haga en los datos de sesion
-     saveUninitialized: true //Inicializa la variable de sesion aun sin guardar datos
+     rolling: true, //Entre resave y rolling toman el tiempo para expirar la sesion
+     saveUninitialized: true, //Inicializa la variable de sesion aun sin guardar datos
+     cookie: {
+          expires: 5 * 60 * 1000 //5 minutos de inactividad y se cierra la sesion
+          }
  }))
 
 app.use(express.urlencoded({extended: false}));//para que el servidor entienda los datos del navegador al hacer un guardado de formulario
-
-
+/*
+app.get('/', function (req, res) {
+     res.send('Hello World')
+   })*/
 //routes o urls
 app.use(require('./routes/rutas.js'));//usar las rutas
 
