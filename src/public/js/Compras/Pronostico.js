@@ -6,33 +6,37 @@ let N_OT = "";
 let N_Estatus = "Revision";
 
 function MostrarOTs(Producto) {
+    var Herramienta = Tranformer(Producto);
     $.ajax({
-        url: '/RPronosticos/' + Producto,
+        url: '/RPronosticos/' + Herramienta,
         success: function (Herramientas) {
-            var Arreglo = [];
+            if(Herramientas.length > 0){
+                var Arreglo = [];
 
-            // Eliminando todos los hijos de un elemento
-            var element = document.getElementById("list-OT");
-            while (element.firstChild) {
-                element.removeChild(element.firstChild);
-            }
-            var Total = Herramientas[0].Stock;
-            var MaterialApartado = 0;
-            for (var i = 0; i < Herramientas.length; i++) {
+                // Eliminando todos los hijos de un elemento
+                var element = document.getElementById("list-OT");
+                while (element.firstChild) {
+                    element.removeChild(element.firstChild);
+                }
+                var Total = Herramientas[0].Stock;
+                var MaterialApartado = 0;
+                for (var i = 0; i < Herramientas.length; i++) {
+                    var item = document.createElement('a');
+                    item.setAttribute("id", Herramientas[i].Producto);
+                    item.setAttribute("class", "list-group-item list-group-item-action");
+                    item.innerHTML = "Item: [" + Herramientas[i].Producto + "] OT: [" + Herramientas[i].OT + "] Ordenado: [" + Herramientas[i].Cantidad + "]";
+                    MaterialApartado = MaterialApartado + Herramientas[i].Cantidad;
+                    document.getElementById('list-OT').appendChild(item);
+                    $("#Modal").modal();
+                }
                 var item = document.createElement('a');
-                item.setAttribute("id", Herramientas[i].Producto);
+                item.setAttribute("id", Herramientas[0].Producto);
                 item.setAttribute("class", "list-group-item list-group-item-action");
-                item.innerHTML = "Item: [" + Herramientas[i].Producto + "] OT: [" + Herramientas[i].OT + "] Ordenado: [" + Herramientas[i].Cantidad + "]";
-                MaterialApartado = MaterialApartado + Herramientas[i].Cantidad;
+                item.innerHTML = Herramientas[0].Producto + " " + (Total-MaterialApartado) + " Sobrante";
                 document.getElementById('list-OT').appendChild(item);
                 $("#Modal").modal();
             }
-            var item = document.createElement('a');
-            item.setAttribute("id", Herramientas[0].Producto);
-            item.setAttribute("class", "list-group-item list-group-item-action");
-            item.innerHTML = Herramientas[0].Producto + " " + (Total-MaterialApartado) + " Sobrante";
-            document.getElementById('list-OT').appendChild(item);
-            $("#Modal").modal();
+            
         } //Funcion success
     }); //Ajax 
 }
@@ -151,3 +155,16 @@ function Fecha() {
 }
 
 
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer (variable){
+    var Herramienta = "";
+    for(var q = 0; q< variable.length;q++){
+       if(variable.charAt(q) == '/'){
+           Herramienta += '|';
+       }else{
+        Herramienta += variable.charAt(q);
+       }
+    }
+    return Herramienta;
+}

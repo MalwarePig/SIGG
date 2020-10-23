@@ -168,6 +168,7 @@ router.get('/listaMaquinas/:familia', AlmacenController.Maquinas);
 router.post('/GuardarNota', AlmacenController.GuardarNota);
 router.post('/CheckAuditoria', AlmacenController.SavePreAudit);
 router.post('/EstatusAudi', AlmacenController.UpdatePreAudit);
+router.post('/AudiCiclica', AlmacenController.AudiCiclica);
 
 //====== Salidas ========
 router.get('/wh_Retorno', AlmacenController.listRetorno);
@@ -328,7 +329,7 @@ router.get('/PronosticosProcesos', ProcesosController.list);
 //====== Mostrar Pronostico ========
 router.get('/ComprasPronosticos', ComprasController.list);
 //====== Mostrar Pronostico ========
-router.get('/RPronosticos/:Herramienta', ComprasController.Resumen);
+router.get('/RPronosticos/:Herr', ComprasController.Resumen);
 //====== Guardar Nota de Compras ========
 router.post('/GuardarNotaCompras', ComprasController.NotaCompras);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

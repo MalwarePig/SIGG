@@ -1,16 +1,8 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
-    var variable =  document.getElementById("BHerramienta").value;
-    var Herramienta = "";
-    for(var q = 0; q< variable.length;q++){
-       if(variable.charAt(q) == '/'){
-           alert(variable.charAt(q));
-           Herramienta += '|';
-       }else{
-        Herramienta += variable.charAt(q);
-       }
-    }
- alert(Herramienta);
+    var variable = Tranformer(document.getElementById("BHerramienta").value);//Cambia el simbolo '/'
+    
+ alert(variable);
     $.ajax({
         url: '/BuscarHerramientas/'+variable,
         success: function (Herramientas) {
@@ -72,7 +64,6 @@ function runScript(e) {
         GETPRODUCTS();
     }
 }
-
 //=========================================== Actualizar Seleccion =================================================//
 
 function Seleccion(variable) {
@@ -97,4 +88,17 @@ function Seleccion(variable) {
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
+}
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer (variable){
+    var Herramienta = "";
+    for(var q = 0; q< variable.length;q++){
+       if(variable.charAt(q) == '/'){
+           Herramienta += '|';
+       }else{
+        Herramienta += variable.charAt(q);
+       }
+    }
+    return Herramienta;
 }

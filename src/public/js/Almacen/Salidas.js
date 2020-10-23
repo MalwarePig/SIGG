@@ -1,7 +1,8 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
+    var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
         $.ajax({
-            url: '/BuscarHerramientas/' + document.getElementById("BHerramienta").value + '',
+            url: '/BuscarHerramientas/'+Herramientas,
             success: function (Herramientas) {
                 var Arreglo = [];
                 //Limpiar tabla 
@@ -340,7 +341,18 @@ function Fecha() {
 }
 
 
-
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer (variable){
+    var Herramienta = "";
+    for(var q = 0; q< variable.length;q++){
+       if(variable.charAt(q) == '/'){
+           Herramienta += '|';
+       }else{
+        Herramienta += variable.charAt(q);
+       }
+    }
+    return Herramienta;
+}
 
 
 

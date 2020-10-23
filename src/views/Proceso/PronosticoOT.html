@@ -23,47 +23,47 @@
     <div class="card text-center">
         <div class="card-header">
             <!------------------------------ BUSCAR -------------------------------------->
-            <form>
-                <div class="form-row">
-                    <div class="form-group col-md-2">
-                        <input type="text" id="OT" class="form-control" placeholder="OT..." name="OT" autocomplete="off"
-                            required>
-                    </div>
-                    <div class="form-group col-md-1">
-                        <button type="button" id="BuscarOT" name="BuscarOT" class="btn btn-secondary">Buscar</button>
-                    </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <input type="text" id="OT" class="form-control" placeholder="OT..." name="OT" autocomplete="off"
+                        required onkeypress="runScript(event)">
                 </div>
-            </form>
+                <div class="form-group col-md-1">
+                    <button type="button" id="BuscarOT" name="BuscarOT" class="btn btn-secondary">Buscar</button>
+                </div>
+            </div>
+
         </div>
         <div class="card-body">
 
             <!------------------------------ TABLA-------------------------------------->
-        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-            <table class=" table table-bordered table-hover" id="OTRegistros">
-                <thead>
-                    <tr>
-                        <th>clave</th>
-                        <th>Producto</th>
-                        <th>OT</th>
-                        <th>Solicitado</th>
-                        <th>Estatus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% if (data) { %>
-                    <% for(var i = 0; i < data.length; i++) { %>
-                    <tr>
-                        <td id="clave"><%= data[i].Clave %></td>
-                        <td id="Producto"><a href="#"><%= data[i].Producto %></a></td>
-                        <td id="OT"><button type="button" class="btn btn-link"><%= data[i].OT %></button></td>
-                        <td id="Solicitado"><%= data[i].Cantidad %></td>
-                        <td id="Estatus"><%= data[i].Estatus %></td>
-                    </tr>
-                    <% } %>
-                    <% } %>
-                </tbody>
-            </table>
-        </div>
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                <table class=" table table-bordered table-hover" id="OTRegistros">
+                    <thead>
+                        <tr>
+                            <th>clave</th>
+                            <th>Producto</th>
+                            <th>OT</th>
+                            <th>Solicitado</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (data) { %>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <td id="clave"><%= data[i].Clave %></td>
+                            <td id="Producto"><a href="#"><%= data[i].Producto %></a></td>
+                            <td id="OT"><button type="button" class="btn btn-link"><%= data[i].OT %></button></td>
+                            <td id="Solicitado"><%= data[i].Cantidad %></td>
+                            <td id="Estatus"><%= data[i].Estatus %></td>
+                        </tr>
+                        <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
 
 
 
@@ -101,4 +101,4 @@
             </div>
         </div>
 
-            </body>
+        </body>

@@ -5,11 +5,12 @@ let Clave = '-';
 let Estatus = 'Viva';
 let Comentarios = '-';
 //=========================================== Buscar Herramientas =================================================// 
-$(function () {
+function BuscarHerramienta() {
     // GET PRODUCTS}
-    $('#BuscarPlanta').on('click', () => {
+    var Herramienta = Tranformer(document.getElementById("Herramienta").value);
+ 
         $.ajax({
-            url: '/VerAlmacen/' + document.getElementById("Herramienta").value,
+            url: '/VerAlmacen/' + Herramienta,
             success: function (Herramientas) {
                 var Arreglo = [];
                 //Limpiar tabla 
@@ -45,8 +46,8 @@ $(function () {
                 } //fin de for de filas
             } //Funcion success
         }); //Ajax
-    }); //Evento clic
-}); //Funcion JQuery
+
+}  //Funcion JQuery
 
 //=========================================== Muestra Modal Para Terminar Registro =================================================//
 function Seleccion(variable) {
@@ -96,7 +97,27 @@ $("#Listo").modal();
 //setTimeout ("redireccionar()", 2000);//Tiempo para reedireccionar
 }
 
-
 function redireccionar() {
     location.reload();
+}
+
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer (variable){
+    var Herramienta = "";
+    for(var q = 0; q< variable.length;q++){
+       if(variable.charAt(q) == '/'){
+           Herramienta += '|';
+       }else{
+        Herramienta += variable.charAt(q);
+       }
+    }
+    return Herramienta;
+}
+
+
+function runScript(e) {
+    if (e.keyCode == 13) {
+        BuscarHerramienta();
+    }
 }

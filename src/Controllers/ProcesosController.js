@@ -8,8 +8,10 @@ Controller.searchPlanta = (req, res) => {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             const {Herramienta} = req.params;
+            var Herramientas = Tranformer(Herramienta);
+            console.log("HErramienta; " + Herramientas)
             var Planta = "Almacen " + req.session.planta;
-            conn.query("SELECT * FROM almacen WHERE Producto LIKE '%"+ Herramienta + "%' AND Almacen = '" + Planta + "'", (err, Herramientas) => {
+            conn.query("SELECT * FROM almacen WHERE Producto LIKE '%"+ Herramientas + "%' AND Almacen = '" + Planta + "'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -73,6 +75,18 @@ Controller.list = (req, res) => {
 
 
 
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer (variable){
+    var Herramienta = "";
+    for(var q = 0; q< variable.length;q++){
+       if(variable.charAt(q) == '|'){
+           Herramienta += '/';
+       }else{
+        Herramienta += variable.charAt(q);
+       }
+    }
+    return Herramienta;
+}
 
 
 

@@ -23,18 +23,18 @@
     <div class="card text-center">
         <div class="card-header">
             <!------------------------------ BUSCAR -------------------------------------->
-            <form  >
+        
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <input type="text" id="Herramienta" class="form-control" placeholder="Herramienta..."
-                            name="Herramienta" autocomplete="off" required>
+                            name="Herramienta" autocomplete="off" required onkeypress="runScript(event)">
                     </div>
                     <div class="form-group col-md-1">
                         <button type="button" id="BuscarPlanta" name="BuscarPlanta"
-                            class="btn btn-secondary">Buscar</button>
+                            class="btn btn-secondary" onclick="BuscarHerramienta()">Buscar</button>
                     </div>
                 </div>
-            </form>
+ 
         </div>
         <div class="card-body">
 

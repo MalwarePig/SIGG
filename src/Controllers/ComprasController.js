@@ -32,8 +32,8 @@ Controller.Resumen = (req, res) => {
     if (req.session.loggedin) {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
-            const {Herramienta} = req.params;
-            console.log(Herramienta);
+            const {Herr} = req.params;
+            var Herramienta = Tranformer(Herr);
             var Planta = "Almacen " + req.session.planta;
             conn.query("SELECT pronostico.id,pronostico.Clave, pronostico.Producto, pronostico.Cantidad, almacen.Stock, pronostico.OT, pronostico.Comentarios, pronostico.Planta, pronostico.EmpleadoReq, pronostico.FechaReq, pronostico.Estatus FROM pronostico" +
             " INNER JOIN almacen ON pronostico.Producto = '" +Herramienta+ "' AND almacen.Producto = '"+Herramienta+"' AND pronostico.Planta = '"+Planta+"' AND almacen.Almacen = '"+Planta+"'", [], (err, Pronostico) => {
@@ -85,6 +85,21 @@ Controller.NotaCompras = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer (variable){
+    var Herramienta = "";
+    for(var q = 0; q< variable.length;q++){
+       if(variable.charAt(q) == '|'){
+           Herramienta += '/';
+       }else{
+        Herramienta += variable.charAt(q);
+       }
+    }
+    return Herramienta;
+}
+
 
 module.exports = Controller;
 
