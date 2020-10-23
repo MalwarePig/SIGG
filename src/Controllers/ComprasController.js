@@ -33,9 +33,10 @@ Controller.Resumen = (req, res) => {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             const {Herramienta} = req.params;
+            console.log(Herramienta);
             var Planta = "Almacen " + req.session.planta;
             conn.query("SELECT pronostico.id,pronostico.Clave, pronostico.Producto, pronostico.Cantidad, almacen.Stock, pronostico.OT, pronostico.Comentarios, pronostico.Planta, pronostico.EmpleadoReq, pronostico.FechaReq, pronostico.Estatus FROM pronostico" +
-            " INNER JOIN almacen ON pronostico.Producto = '" +Herramienta+ "' AND almacen.Producto = '"+Herramienta+"'", [], (err, Pronostico) => {
+            " INNER JOIN almacen ON pronostico.Producto = '" +Herramienta+ "' AND almacen.Producto = '"+Herramienta+"' AND pronostico.Planta = '"+Planta+"' AND almacen.Almacen = '"+Planta+"'", [], (err, Pronostico) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');

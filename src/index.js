@@ -42,7 +42,6 @@ app.get('/', function (req, res) {
 //routes o urls
 app.use(require('./routes/rutas.js'));//usar las rutas
 
-
 //Escuchando el servidor
 app.listen(app.get('port'),() => {
      console.log('servidor escuchando en puerto: ',app.get('port'));
@@ -50,4 +49,13 @@ app.listen(app.get('port'),() => {
 
 //file statics
 app.use(express.static(path.join(__dirname, 'public')));//para archivos como imagenes,css,javascript
+
+//ERROR 404
+app.use('*', function(req, res, next) {
+     res.status(404).render('Admin/Error.html');
+   next();
+});
+
+
+
 

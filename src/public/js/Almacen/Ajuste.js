@@ -35,21 +35,21 @@ function GETPRODUCTS() {
                     newRow.setAttribute("id", "Rows");//se asigna id al incrementar cada fila +1 para contar el encabezado
  
                     switch(x){
-                        case 0: newCell.innerHTML = '<input required type="text" id="id'+i+'" class="form-control" placeholder="#####" value='+ Arreglo[x] +' readonly></input>';
+                        case 0: newCell.innerHTML = '<input required type="text" id="id'+i+'" class="form-control" value="'+ Arreglo[x] +'" readonly></input>';
                         break;
-                        case 1: newCell.innerHTML = '<input  type="text" id="Clave'+i+'" class="form-control" placeholder="#####" value='+ Arreglo[x] +'></input>';
+                        case 1: newCell.innerHTML = '<input  type="text" id="Clave'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
-                        case 2: newCell.innerHTML = '<input  type="text" id="Producto'+i+'" class="form-control" placeholder="Herramienta..." value='+ Arreglo[x] +'></input>';
+                        case 2: newCell.innerHTML = '<input  type="text" id="Producto'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
-                        case 3: newCell.innerHTML = '<input  type="text" id="Almacen'+i+'" class="form-control" placeholder="E5C9..." value='+ Arreglo[x] +'></input>';
+                        case 3: newCell.innerHTML = '<input  type="text" id="Almacen'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
-                        case 4: newCell.innerHTML = '<input  type="text" id="StockNuevo'+i+'" class="form-control" placeholder="E5C9..." value='+ Arreglo[x] +'></input>';
+                        case 4: newCell.innerHTML = '<input  type="text" id="StockNuevo'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
-                        case 5: newCell.innerHTML = '<input  type="text" id="StockUsado'+i+'" class="form-control" placeholder="E5C9..." value='+ Arreglo[x] +'></input>';
+                        case 5: newCell.innerHTML = '<input  type="text" id="StockUsado'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
-                        case 6: newCell.innerHTML = '<input  type="text" id="StockMinimo'+i+'" class="form-control" placeholder="E5C9..." value='+ Arreglo[x] +'></input>';
+                        case 6: newCell.innerHTML = '<input  type="text" id="StockMinimo'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
-                        case 7: newCell.innerHTML = '<input  type="text" id="StockMaximo'+i+'" class="form-control" placeholder="E5C9..." value='+ Arreglo[x] +'></input>';
+                        case 7: newCell.innerHTML = '<input  type="text" id="StockMaximo'+i+'" class="form-control" value="'+ Arreglo[x] +'"></input>';
                         break;
                     }
 

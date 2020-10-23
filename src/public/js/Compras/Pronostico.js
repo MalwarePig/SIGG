@@ -7,7 +7,7 @@ let N_Estatus = "Revision";
 
 function MostrarOTs(Producto) {
     $.ajax({
-        url: '/ResumenPronosticos/' + Producto,
+        url: '/RPronosticos/' + Producto,
         success: function (Herramientas) {
             var Arreglo = [];
 

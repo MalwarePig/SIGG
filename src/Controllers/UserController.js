@@ -16,8 +16,6 @@ Controller.save = (req,res) => {
 
 /////////////////////////////////////////////////////////////////////--------------- LOGIN ----------------------/////////////////////////////////////////////////////////////////////
 Controller.login = (req,res) => {
-    //const data = req.body;
-    //const nombre = req.body.Planta;
     req.session.Usuario = req.body.username;
     const username = req.body.username;
     const password = req.body.pass;

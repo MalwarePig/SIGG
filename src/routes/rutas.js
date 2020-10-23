@@ -39,7 +39,7 @@ router.post('/AddUser', UserController.save);
 
 router.get('/Desarrollo', (req, res) => {
 	//res.send('holoo');
-	res.render('Almacen/wh_AjustesInventario.html');
+	res.render('Almacen/wh_Editar.html');
 });
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
@@ -328,7 +328,7 @@ router.get('/PronosticosProcesos', ProcesosController.list);
 //====== Mostrar Pronostico ========
 router.get('/ComprasPronosticos', ComprasController.list);
 //====== Mostrar Pronostico ========
-router.get('/ResumenPronosticos/:Herramienta', ComprasController.Resumen);
+router.get('/RPronosticos/:Herramienta', ComprasController.Resumen);
 //====== Guardar Nota de Compras ========
 router.post('/GuardarNotaCompras', ComprasController.NotaCompras);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
