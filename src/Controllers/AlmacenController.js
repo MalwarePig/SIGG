@@ -243,15 +243,15 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
             let Producto = Object.values(data)[0]; //obeter datos de un objeto Producto
-            let Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
-            console.log(Nota);
+            let Contado = Object.values(data)[1]; //obeter datos de un objeto Cantidad
+            let Stock = Object.values(data)[2]; //obeter datos de un objeto Cantidad
             let Planta = req.session.planta;
             let Usuario = req.session.nombre;
             let FechaReq = new Date();
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query('INSERT INTO RegistrosFaltantes(id,Producto, Cantidad, Auditor,Almacen,FechaReq, Notas)values(?,?,?,?,?,?,?)', [0, Producto, Cantidad, Usuario, Planta, FechaReq, Nota], (err, ot) => {
+            conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado,Stock, Usuario, Planta, FechaReq], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar auditoria' + err);
@@ -262,6 +262,32 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
         res.render('Admin/Login.html');
     }
 };
+
+
+Controller.StockActual = (req, res) => { //Guarda la auditoria diaria de cada almacen
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                Herramienta
+            } = req.params;
+ 
+            var Producto = Tranformer(Herramienta);
+            let Planta = "Almacen " +req.session.planta;
+            let FechaReq = new Date(); 
+ 
+            conn.query("SELECT * FROM almacen where Producto ='" + Producto + "' AND Almacen = '" + Planta + "'", (err, maquinas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(maquinas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 Controller.UpdatePreAudit = (req, res) => { //Guarda la auditoria diaria de cada almacen
     if (req.session.loggedin) {

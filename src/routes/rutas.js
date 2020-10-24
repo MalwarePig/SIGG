@@ -169,7 +169,7 @@ router.post('/GuardarNota', AlmacenController.GuardarNota);
 router.post('/CheckAuditoria', AlmacenController.SavePreAudit);
 router.post('/EstatusAudi', AlmacenController.UpdatePreAudit);
 router.post('/AudiCiclica', AlmacenController.AudiCiclica);
-
+router.get('/StockActual/:Herramienta', AlmacenController.StockActual);
 //====== Salidas ========
 router.get('/wh_Retorno', AlmacenController.listRetorno);
 router.get('/BuscarHerrRetorno/:Maquina', AlmacenController.searchRetorno);

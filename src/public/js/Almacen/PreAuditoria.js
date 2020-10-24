@@ -51,7 +51,7 @@ function Aplicar() {
         var TablaAlmacen = document.getElementById('Auditoria').getElementsByTagName('tbody')[0];
         var limiteAuditoria = TablaAlmacen.rows.length;
         for (var i = 0; i < limiteAuditoria; i++) {
-            $("#Rows").remove();//elimina los elementos con id Rows
+            // $("#Rows").remove(); //elimina los elementos con id Rows
         }
 
         //Toma los registros de la tabla y se guardan en un arreglo
@@ -134,21 +134,43 @@ function redireccionar() {
         });
 }
 
-function SaveAuditoriaCiclica(){
-      //Toma los registros de la tabla y se guardan en un arreglo
-      Registro = document.getElementById("Registros").getElementsByTagName('tbody')[0];
-      var limiteRegistros = Registro.rows.length;
-      for (var j = 0; j < limiteRegistros; j++) {
-        var ObjetoTabla = {
-            Producto: tabla.rows[j].cells[0].childNodes[0].nodeValue,
-            Cantidad: document.getElementById("Producto"+(j+1)).value
-        }
-           console.table(ObjetoTabla);
-            $.post("/AudiCiclica", // url
-            { ObjetoTabla }, // data to be submit
-            function (objeto, estatus) {// success callback
-                //console.log("objeto: " + objeto + "Estatus: " + estatus);
-            });
-      }
+function SaveAuditoriaCiclica() {
+    //Toma los registros de la tabla y se guardan en un arreglo
+    Registro = document.getElementById("Auditoria");
+    var limiteRegistros = Registro.rows.length;
+    for (var j = 1; j < limiteRegistros; j++) {
+      var Producto = Tranformer(Registro.rows[(j)].cells[0].childNodes[0].nodeValue);
+        $.ajax({
+            url: '/StockActual/' + Producto,
+            success: function (Consulta) {
+                console.log("Producto" +(j-1));
+                var ObjetoTabla = {
+                    Producto:  Producto,
+                    Supuesto: document.getElementById("Producto" + (j-1)).value,
+                    Actual: Consulta[0].Stock
+                }
+                console.table(ObjetoTabla);
+                $.post("/AudiCiclica", // url
+                    {
+                        ObjetoTabla
+                    }, // data to be submit
+                    function (objeto, estatus) { // success callback
+                        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+                    });
+            } //Funcion success
+        }); //Ajax
+    }
+}
 
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer(variable) {
+    var Herramienta = "";
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '/') {
+            Herramienta += '|';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
+    }
+    return Herramienta;
 }
