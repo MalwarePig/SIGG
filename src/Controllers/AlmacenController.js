@@ -14,13 +14,14 @@ Controller.search = (req, res) => {
                 Herra
             } = req.params;
             var Herramienta = Tranformer(Herra);
+            const planta = "Almacen " + req.session.planta;
 
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = '"+planta+"'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                res.json(Herramientas)
+                res.json(Herramientas);
             });
         });
     } else {
@@ -690,20 +691,23 @@ Controller.MostrarReporte = (req, res) => {
 
 
 
+//============================================================================================================================================================================================================================================
+///////// == INTERCAMBIO == ////////////////////////////// == INTERCAMBIO == ////////////////////////////// == INTERCAMBIO == ////////////////////////// == INTERCAMBIO == //////////////////// == INTERCAMBIO == /////////////////////     == 
+//============================================================================================================================================================================================================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Controller.Intercambio = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            if (err) {
+                console.log("Conexion: " + err)
+            }
+            res.render('Almacen/Intercambios.html');
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url
 function Tranformer(variable) {
@@ -720,4 +724,132 @@ function Tranformer(variable) {
 
 
 
+Controller.CrearIntercambio = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Producto = Object.values(data)[0]; //obeter datos de un objeto Producto
+            let Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
+            let Estado = Object.values(data)[2]; //obeter datos de un objeto OT
+            let Empleado = Object.values(data)[3]; //obeter datos de un objeto OT
+            let Comentario = Object.values(data)[4]; //obeter datos de un objeto OT
+            let Estatus = 'Pendiente';
+            let Planta = req.session.planta;
+
+            if (err) {
+                console.log("Conexion: " + err)
+            }
+ 
+            conn.query('INSERT INTO IntercambioActivo(Producto, Cantidad, Estado, Empleado, Planta,Comentario,Estatus)values(?,?,?,?,?,?,?)', [Producto, Cantidad, Estado,Empleado, Planta, Comentario,Estatus], (err, ot) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error al registrar despacho de herramienta'+err);
+                }
+            });
+        });
+    }else{
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.MostrarIntercambio = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const planta = req.session.planta;
+
+            conn.query("SELECT * FROM IntercambioActivo WHERE Planta != '"+planta+"' AND Estatus = 'Pendiente'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.GuardarIntercambio = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            var Item = Object.values(data)[0]; //obeter datos de un objeto Item
+            var Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
+            var Estado = Object.values(data)[2]; //obeter datos de un objeto Cantidad
+            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+            console.log( Item + "','" + Cantidad + "','" + Planta );
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("call GuardarIntercambio('" + Item + "'," + Cantidad + ",'" + Planta + "','"+Estado+"')", true, (err, rows, fields) => {
+                    if (err) {
+                        res.json(err);
+                        console.log('Error al Recolectar' + err);
+                    } else {
+                        console.log('Se recolectó herramienta a almacen');
+                        conn.query("UPDATE IntercambioActivo SET Estatus = 'Completado' WHERE Producto = '"+Item+"' AND Planta != '"+req.session.planta+"'", (err, Herramientas) => {
+                            if (err) {
+                                res.json("Error json: " + err);
+                                console.log('Error de lectura');
+                            }
+                            res.json(Herramientas);
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.MostrarCancelacion = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const planta = req.session.planta;
+
+            conn.query("SELECT * FROM IntercambioActivo WHERE Planta = '"+planta+"' AND Estatus = 'Pendiente'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.CancelarIntercambio = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const planta = req.session.planta;
+            var { Producto } = req.params;
+            Producto = Tranformer(Producto);
+            conn.query("DELETE FROM intercambioactivo WHERE Producto = '"+ Producto +"' AND Planta = '"+ planta +"' AND Estatus = 'Pendiente'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error al eliminar');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 module.exports = Controller;
+
+
+
+
+
+
+
+

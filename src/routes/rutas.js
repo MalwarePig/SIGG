@@ -238,8 +238,19 @@ router.get('/wh_Reporte', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 });
+
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);
+//====== Intercambios ========
+//Abre pagina principal para recepcion
+router.get('/wh_Intercambio', AlmacenController.Intercambio);
+//Guarda nota de intercambio
+router.post('/CrearIntercambio', AlmacenController.CrearIntercambio);
+//Abre pagina principal para recepcion
+router.get('/MostrarIntercambio', AlmacenController.MostrarIntercambio);
+router.post('/GuardarIntercambio', AlmacenController.GuardarIntercambio);
+router.get('/MostrarCancelacion', AlmacenController.MostrarCancelacion);
+router.get('/CancelarIntercambio/:Producto', AlmacenController.CancelarIntercambio);
 /////////////////////////////////////////////////////////////////////////// CRM //////////////////////////////////////////////////////////////////////////////
 router.get('/Contactos', CRMController.list);
 router.post('/addCliente', CRMController.save);
@@ -250,7 +261,6 @@ router.get('/Tareas', CRMController.listWorks);
 
 router.get('/Tareas', (req, res) => {
 	if (req.session.loggedin) {
-
 		res.render('CRM/Tareas.html', {
 			title: 'Gemak'
 		});
@@ -308,6 +318,7 @@ router.get('/VerInventario', (req, res) => {
 	}
 	res.end();
 });
+
 //====== Cargar Reporte Pronosticos ========
 router.get('/Pronosticos', (req, res) => {
 	if (req.session.loggedin) {

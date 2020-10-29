@@ -224,6 +224,10 @@
 
               </tbody>
               </table>
+
+              <br><br>
+              <hr />
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="Recolectar()" data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
           </div>
          <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
         </div>
@@ -236,7 +240,21 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        No se encontraron elemenos con ese nombre.
+        No se encontraron elementos con ese nombre.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Sin elementos -->
+<div class="modal fade" id="RecoleccionExito" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+       Recolección exitosa.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>

@@ -258,11 +258,9 @@ function TablaRecoleccion() {
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             var limite = Tabla.rows.length;
             if(Herramientas.length>0){ //Si existen elementos llamar a contador para incremento.
-                animateValue("value", 1, Herramientas.length, 3000);
+                animateValue("value", 0, Herramientas.length, 3000);
             }
-            for (var i = 0; i < limite; i++) {
-                $("#Rows").remove();//elimina los elementos con id Rows
-            }
+ 
             for (var i = 0; i < Herramientas.length; i++) {
                 var ID = Herramientas[i].id;
                 var Producto = Herramientas[i].Producto;
@@ -275,14 +273,14 @@ function TablaRecoleccion() {
                 for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "Rows");//se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("id", "Rows"+(i+1));//se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
                     if (x == 3) {//Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(4); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Recolectar(' + (i + 1) + ')> Recolectar </button>';
+                        var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
+                        newCell.innerHTML = '<input  type="checkbox"  id="Check'+(i+1)+'">';
                     }
                 }//fin de for de columnas
             }//fin de for de filas
@@ -292,20 +290,33 @@ function TablaRecoleccion() {
 
 
 //=========================================== Guardar producto a recolectar =================================================//
-function Recolectar(indice) {
+function Recolectar() {
     var tabla = document.getElementById("TablaRecoleccion");
     var total = tabla.rows.length//Total de filas
-    var ObjetoTabla = {
-        id: tabla.rows[indice].cells[0].childNodes[0].nodeValue,
-        Producto: tabla.rows[indice].cells[1].childNodes[0].nodeValue,
-        Cantidad: tabla.rows[indice].cells[2].childNodes[0].nodeValue  
+    var EliminarFila = [];
+    for(var i = 1; i < total; i++){
+        var FilaCheck = document.getElementById("Check"+i);
+ 
+        if(FilaCheck.checked == true){
+            var ObjetoTabla = {
+                id: tabla.rows[i].cells[0].childNodes[0].nodeValue,
+                Producto: tabla.rows[i].cells[1].childNodes[0].nodeValue,
+                Cantidad: tabla.rows[i].cells[2].childNodes[0].nodeValue  
+            }
+            EliminarFila.push(i);
+
+            $.post("/GuardarRecoleccion", // url
+            { ObjetoTabla }, // data to be submit
+            function (objeto, estatus) {// success callback
+                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            });
+        }
     }
-       console.log("objeto: " + ObjetoTabla.Producto + " " + ObjetoTabla.Cantidad);
-        $.post("/GuardarRecoleccion", // url
-        { ObjetoTabla }, // data to be submit
-        function (objeto, estatus) {// success callback
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
-        });
+
+    for(var j=0; j < EliminarFila.length; j++){
+        $("#Rows"+EliminarFila[j]).remove();//elimina los elementos con id Rows
+    }
+    setTimeout ("redireccionar()", 2000);//Tiempo para reedireccionar
 }
  
 function runScript(e) {
@@ -336,7 +347,7 @@ function Fecha() {
         }
         var today = dd + '/' + mm + '/' + yyyy;
         document.getElementById("Fecha" + j).innerHTML = today;
-        console.log('Fecha Funcion ' + today);
+ 
     }//fin filas
 }
 
@@ -354,9 +365,11 @@ function Tranformer (variable){
     return Herramienta;
 }
 
-
-
-
+//Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
+function redireccionar() {
+    var pagina = "/wh_Salidas";
+    location.href = pagina;
+}
 
 
 

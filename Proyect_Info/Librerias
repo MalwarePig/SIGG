@@ -20,3 +20,6 @@ nodemon //Reiniciar servidor al guardar cambios
 npm i nodemon -D
 
 mkdir lib public routes views
+
+
+https://github.com/simonbengtsson/jsPDF-AutoTable // CrearPDF
