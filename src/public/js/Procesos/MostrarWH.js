@@ -22,11 +22,13 @@ function BuscarHerramienta() {
                 for (var i = 0; i < Herramientas.length; i++) {
                     var Clave = Herramientas[i].Clave;
                     Producto = Herramientas[i].Producto;
-                    var Stock = Herramientas[i].Stock;
-                    var StockUsado = Herramientas[i].StockUsado;
+                    var Stock = Herramientas[i].M_Nuevo;
+                    var StockUsado = Herramientas[i].M_Usado;
+                    var BStock = Herramientas[i].B_Nuevo;
+                    var BStockUsado = Herramientas[i].B_Usado;
                     var Ubicacion = Herramientas[i].Ubicacion;
                     //Eliminar variable dentro del For
-                    Arreglo = [Clave, Producto, Stock, StockUsado, Ubicacion]
+                    Arreglo = [Clave, Producto, Stock,BStock, StockUsado,BStockUsado,(Stock + BStock),(StockUsado + BStockUsado)]
                     var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -38,16 +40,15 @@ function BuscarHerramienta() {
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
 
-                        if (x == 4) { //Si termina de registrar datos crear el boton
-                            var newCell = newRow.insertCell(5); //CREAR CELDA
+                        if (x == 6) { //Si termina de registrar datos crear el boton
+                            var newCell = newRow.insertCell(7); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Apartar </button>';
                         }
                     } //fin de for de columnas
                 } //fin de for de filas
             } //Funcion success
         }); //Ajax
-
-}  //Funcion JQuery
+}//Funcion JQuery
 
 //=========================================== Muestra Modal Para Terminar Registro =================================================//
 function Seleccion(variable) {

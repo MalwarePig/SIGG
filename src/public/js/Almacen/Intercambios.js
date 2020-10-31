@@ -329,8 +329,6 @@ function EliminarFila(index) {
     }); //Ajax
 }
 
-
-
 function FuncionFecha(variable) {
     var Fecha = new Date(variable)
     var dd = Fecha.getDate();
@@ -347,9 +345,7 @@ function FuncionFecha(variable) {
     }
     var today = dd + '/' + mm + '/' + yyyy;
     return today;
-
 }
-
 
 function PDF() {
     var doc = new jsPDF();

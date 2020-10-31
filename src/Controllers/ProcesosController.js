@@ -8,15 +8,16 @@ Controller.searchPlanta = (req, res) => {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             const {Herramienta} = req.params;
-            var Herramientas = Tranformer(Herramienta);
-            console.log("HErramienta; " + Herramientas)
+            var RealHerramientas = Tranformer(Herramienta);
+            console.log("Herramienta; " + RealHerramientas)
             var Planta = "Almacen " + req.session.planta;
-            conn.query("SELECT * FROM almacen WHERE Producto LIKE '%"+ Herramientas + "%' AND Almacen = '" + Planta + "'", (err, Herramientas) => {
+            conn.query("SELECT M.Clave, M.Producto,M.Stock AS M_Nuevo,M.StockUsado AS M_Usado, B.Stock AS B_Nuevo, B.StockUsado AS B_Usado FROM almacen M, almacen B WHERE M.Producto LIKE '%"+RealHerramientas+"%' AND B.Producto = M.Producto AND M.Almacen = 'Almacen Morelos' AND B.Almacen = 'Almacen Bravo' ORDER BY M.Producto,B.Producto", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                res.json(Herramientas)
+                console.table(Herramientas);
+                res.json(Herramientas);
             });
         });
     } else {
@@ -27,7 +28,6 @@ Controller.searchPlanta = (req, res) => {
 ///////// == Pronostico Save == ////////////////////////////// == Pronostico Save == ////////////////////////////// == Pronostico Save == ////////////////////////// == Pronostico Save == //////////////////// 
 Controller.SavePronostico = (req,res) => {
     req.getConnection((err,conn) => {
-        
         const data = req.body;
         var Clave = Object.values(data)[0];
         var Producto = Object.values(data)[1];
@@ -37,7 +37,6 @@ Controller.SavePronostico = (req,res) => {
         var Estatus = Object.values(data)[5];
         var Planta = "Almacen " + req.session.planta;
         var EmpleadoReq = req.session.nombre;
-    
         console.log(Clave + " "  + Producto);
 
         conn.query('INSERT INTO pronostico(Clave,Producto,Cantidad,OT,Comentarios,Planta,Estatus,EmpleadoReq)VALUES(?,?,?,?,?,?,?,?)',[Clave,Producto,Cantidad,OT,Comentarios,Planta,Estatus,EmpleadoReq], (err, ot) =>{
