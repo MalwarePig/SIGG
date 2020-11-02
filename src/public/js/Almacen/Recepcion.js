@@ -2,12 +2,12 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
     var i = 0; //Contador para brincar la cabaezera y suar la referencia de indice
     $('#wrapper tr').each(function () { //leer una tabla html    
         var Tabla = { //CREAR UN OBJETO MATRIS
-            Producto: $(this).find("td").eq(0).html(),
-            Ordenado: $(this).find("td").eq(1).html(), //LEER LA TABLA
-            Entregado: $(this).find("td").eq(2).html(),
+            Producto: $(this).find("td").eq(4).html(),
+            Ordenado: 0, //LEER LA TABLA
+            Entregado: $(this).find("td").eq(5).html(),
         } //fin de objeto}
 
-        if (i > 0 && ($(this).find("td").eq(1).html() !== '')) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
+        if (i > 0 ) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
             var indice = Object.keys(Tabla).length; //Cantidad de elementos dentro del objeto
             $.post("/PostRecepcion", // url
                 {
@@ -19,6 +19,8 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
         }
         i++;
     }); //each para recorrer tabla
+    alert("Listo!");
+    setTimeout ("redireccionar()", 800);//Tiempo para reedireccionar
 
     /*var elemento = document.getElementById("wrapper");
     document.body.removeChild(elemento);
@@ -223,4 +225,10 @@ function ConsultaFlotante() {
             } //fin de for de filas
         } //Funcion success
     }); //Ajax
+}
+
+
+//Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
+function redireccionar() {
+    location.reload();
 }

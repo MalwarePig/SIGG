@@ -39,7 +39,7 @@ router.post('/AddUser', UserController.save);
 
 router.get('/Desarrollo', (req, res) => {
 	//res.send('holoo');
-	res.render('Almacen/wh_Editar.html');
+	res.render('Almacen/ML.html');
 });
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
@@ -352,8 +352,7 @@ router.get('/home', (req, res) => {
     res.render('index.html',{title: 'Gemak'});
 });*/
 
-/*
-router.get('/Maquinas', (req, res) => {
+/*router.get('/Maquinas', (req, res) => {
     res.render('Maquinas.html',{title: 'Maquinas'});
 });*/
 
