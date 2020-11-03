@@ -12,11 +12,11 @@ function Aplicar() {
         var Arreglo = [];
         var ObjetoTabla = {};
         for (var j = 1; j <= total - 1; j++) { //Recorer filas
-            var Check = document.getElementById(j - 1); //Obtener filas seleccionadas
+            var Check = document.getElementById("F"+(j - 1)); //Obtener filas seleccionadas
             if (Check.checked == true) {
                 ObjetoTabla = {
-                    Producto: tabla.rows[j].cells[1].childNodes[0].nodeValue,
-                    Cantidad: tabla.rows[j].cells[2].childNodes[0].nodeValue,
+                    Producto: tabla.rows[j].cells[2].childNodes[0].nodeValue,
+                    Cantidad: tabla.rows[j].cells[3].childNodes[0].nodeValue,
                     Nota: '-'
                 }
                 Arreglo.push(ObjetoTabla);
@@ -59,7 +59,7 @@ function Aplicar() {
         var limitesRegistros = Registro.rows.length;
         var ListaTabla = [];
         for (var j = 0; j < limitesRegistros; j++) {
-            ListaTabla.push(Registro.rows[j].cells[1].childNodes[0].nodeValue); //Obtiene el valor de Producto
+            ListaTabla.push(Registro.rows[j].cells[2].childNodes[0].nodeValue); //Obtiene el valor de Producto
         }
 
         //se pasan a una lista para ser auditados de manera aleatoria si son 5 se toman al alazar o si son menos se toma los que existan

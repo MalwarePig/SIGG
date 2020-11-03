@@ -42,7 +42,8 @@
           <table class=" table table-bordered table-hover" id="Registros">
             <thead>
               <tr>
-                <th>Todo</th>
+                <th>Correcto</th>
+                <th>Faltante</th>
                 <th>Producto</th>
                 <th>Entregado</th>
                 <th>Fecha</th>
@@ -52,7 +53,8 @@
               <% if (data) { %>
               <% for(var i = 0; i < data.length; i++) { %>
               <tr>
-                <td id="Check"><input type="checkbox" name="" id="<%= i %>"></td>
+                <td id="CheckCorrecto"><input type="checkbox" name="" id="C<%= i %>"></td>
+                <td id="CheckFaltante"><input type="checkbox" name="" id="F<%= i %>"></td>
                 <td id="Producto"><%= data[i].Producto %></td>
                 <td id="Entregado"><%= data[i].Entregado %></td>
                 <td id="Salida"><%= data[i].Salida %></td>
