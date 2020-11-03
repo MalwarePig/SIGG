@@ -456,9 +456,9 @@ Controller.GuardarRecepcion = (req, res) => {
           // console.log("Tamaño " + Object.values(data).length + " keys " +  Object.keys(data)[0] + " Valores " + Object.values(data)[0] +  " Valores dobles " + Object.values(data)[0][0]  + Object.values(data)[0][1]  + Object.values(data)[0][2]  );
            var limite = Object.values(data).length;
            for(var i = 0; i < limite; i ++){
-            let Producto = Object.values(data)[i][0]; //obeter datos de un objeto Folio
-            let Ordenado = Object.values(data)[i][1]; //obeter datos de un objeto Folio
-            let Entregado = Object.values(data)[i][2]; //obeter datos de un objeto Folio
+            let Producto = Object.values(data)[i][0]; //obeter datos de un objeto Producto
+            let Ordenado = Object.values(data)[i][1]; //obeter datos de un objeto Ordenado
+            let Entregado = Object.values(data)[i][2]; //obeter datos de un objeto Entregado
             let Usuario = req.session.nombre; //obeter datos de un objeto nombre
             let Estatus = "N/A"; //obeter datos de un objeto Folio
 

@@ -190,10 +190,10 @@ function ConsultaFlotante() {
             var limiteMorelos = PlantaMorelos.rows.length;
             var limiteBravo = PlantaBravo.rows.length;
             for (var i = 0; i < limiteMorelos; i++) {
-                $("#Rows").remove(); //elimina los elementos con id Rows
+                $("#RowsM"+i).remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < limiteBravo; i++) {
-                $("#Rows").remove(); //elimina los elementos con id Rows
+                $("#RowsB"+i).remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < Herramientas.length; i++) {
                 var Producto = Herramientas[i].Producto;
@@ -207,7 +207,7 @@ function ConsultaFlotante() {
                     for (var x = 0; x < Arreglo.length; x++) {
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        newRow.setAttribute("id", "RowsB"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
@@ -218,7 +218,7 @@ function ConsultaFlotante() {
                     for (var x = 0; x < Arreglo.length; x++) {
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        newRow.setAttribute("id", "RowsM"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
