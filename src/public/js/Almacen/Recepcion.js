@@ -1,26 +1,29 @@
 function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
     var i = 0; //Contador para brincar la cabaezera y suar la referencia de indice
+    var Arreglo = [];
     $('#wrapper tr').each(function () { //leer una tabla html    
-        var Tabla = { //CREAR UN OBJETO MATRIS
-            Producto: $(this).find("td").eq(4).html(),
-            Ordenado: 0, //LEER LA TABLA
-            Entregado: $(this).find("td").eq(5).html(),
-        } //fin de objeto}
-
-        if (i > 0 ) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
-            var indice = Object.keys(Tabla).length; //Cantidad de elementos dentro del objeto
-            $.post("/PostRecepcion", // url
-                {
-                    Tabla
-                }, // data to be submit
-                function (Tabla, status) { // success callback
-                    console.log(Tabla);
-                })
+        
+        console.log(i);
+        if (i > 0) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
+            var  Producto = $(this).find("td").eq(4).html();
+            var Ordenado = 0; //LEER LA TABLA
+            var Entregado = $(this).find("td").eq(5).html();
+            var Tabla = [Producto, Ordenado, Entregado];
+    
+            Arreglo.push(Tabla);
         }
+
         i++;
     }); //each para recorrer tabla
-    alert("Listo!");
-    setTimeout ("redireccionar()", 800);//Tiempo para reedireccionar
+    $.post("/PostRecepcion", // url
+    {
+        Arreglo
+    }, // data to be submit
+    function (Tablas, status) { // success callback
+        console.log(Tablas + status);
+    })
+    alert("Recepción exitosa");
+    setTimeout("redireccionar()", 800); //Tiempo para reedireccionar
 
     /*var elemento = document.getElementById("wrapper");
     document.body.removeChild(elemento);

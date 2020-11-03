@@ -453,6 +453,40 @@ Controller.GuardarRecepcion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
+          // console.log("Tamaño " + Object.values(data).length + " keys " +  Object.keys(data)[0] + " Valores " + Object.values(data)[0] +  " Valores dobles " + Object.values(data)[0][0]  + Object.values(data)[0][1]  + Object.values(data)[0][2]  );
+           var limite = Object.values(data).length;
+           for(var i = 0; i < limite; i ++){
+            let Producto = Object.values(data)[i][0]; //obeter datos de un objeto Folio
+            let Ordenado = Object.values(data)[i][1]; //obeter datos de un objeto Folio
+            let Entregado = Object.values(data)[i][2]; //obeter datos de un objeto Folio
+            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+            let Estatus = "N/A"; //obeter datos de un objeto Folio
+
+            if (err) {
+                console.log("Conexion: " + err);
+            }
+          
+            conn.query('INSERT INTO Recepcion(Producto, Ordenado, Entregado, Usuario, Estatus)values(?,?,?,?,?)', [Producto, Ordenado, Entregado, Usuario, Estatus], (err, ot) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion');
+                }else{
+                    console.log('Recepciono exitosa: ' + Producto);
+                }
+            });
+           }
+ 
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+/*
+Controller.GuardarRecepcion = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
             let Producto = Object.values(data)[0]; //obeter datos de un objeto Folio
             let Ordenado = Object.values(data)[1]; //obeter datos de un objeto Folio
             let Entregado = Object.values(data)[2]; //obeter datos de un objeto Folio
@@ -467,13 +501,15 @@ Controller.GuardarRecepcion = (req, res) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar recepcion');
+                }else{
+                    console.log('Recepciono exitosa: ' + Producto);
                 }
             });
         });
     } else {
         res.render('Admin/Login.html');
     }
-};
+};*/
 
 Controller.ConsultaRecepcion = (req, res) => {
     if (req.session.loggedin) {
