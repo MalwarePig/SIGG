@@ -25,26 +25,24 @@
  
           <div class="form-row">
             <div class="form-group col-md-1">
-              <label for="inputState" class="font-weight-bold">Almacen</label>
-              <select required id="Almacen" name="Sal_Estatus" class="form-control">
-                <option selected>Bravo</option>
-                <option >Morelos</option>
-              </select>
+                <select required id="Almacen" name="Sal_Estatus" class="form-control">
+                  <option selected>Bravo</option>
+                  <option >Morelos</option>
+                </select>
+            </div>
+            
+            <div class="form-group col-md-1 ">
+                <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                    onclick="MostrarReporte()">Buscar</button>
+            </div>
           </div>
-          
-          <div class="form-group col-md-1 p-4">
-              <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
-                  onclick="MostrarReporte()">Buscar</button>
-          </div>
-          </div>
-        
 
         </div>
         <div class="card-body">
 
             <!------------------------------ TABLA-------------------------------------->
             <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-              <table class=" table table-bordered table-hover" id="OTRegistros">
+              <table class="table-bordered" id="Materiales">
                 <thead>
                     <tr>
  
@@ -60,11 +58,11 @@
                         <th>Ubicación</th>
                         <th>Peso</th>
                         <th>Entrada</th>
-                        <th>Salida</th>
+                       <!-- <th>Salida</th>
                         <th>Entregado</th>
                         <th>Status</th>
                         <th>Sobrante</th>
-                        <th>OT usado</th>
+                        <th>OT usado</th>---->
                         <th>Notas</th>
                     </tr>
                 </thead>
@@ -84,11 +82,11 @@
                         <td id="Ubicacion"><%= data[i].Ubicacion %></td>
                         <td id="PESO"><%= data[i].PESO %></td>
                         <td id="Entrada"><%= data[i].Entrada %></td>
-                        <td id="Salida"><%= data[i].Salida %></td>
+                        <!-- <td id="Salida"><%= data[i].Salida %></td>
                         <td id="Entregado"><%= data[i].Entregado %></td>
                         <td id="Status"><%= data[i].Status %></td>
                         <td id="Sobran"><%= data[i].Sobran %></td>
-                        <td id="Usado"><%= data[i].Usado %></td>
+                        <td id="Usado"><%= data[i].Usado %></td>---->
                         <td id="Notas"><%= data[i].Notas %></td>
                     </tr>
                     <% } %>
@@ -154,4 +152,48 @@
         </div>
       </div>
     </div>
+
+
+    
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
+ 
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+      $('#Materiales').DataTable({
+          language: {
+              processing: "Tratamiento en curso...",
+              search: "Buscar&nbsp;:",
+              lengthMenu: "Agrupar de _MENU_ items",
+              info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+              infoEmpty: "No existen datos.",
+              infoFiltered: "(filtrado de _MAX_ elementos en total)",
+              infoPostFix: "",
+              loadingRecords: "Cargando...",
+              zeroRecords: "No se encontraron datos con tu busqueda",
+              emptyTable: "No hay datos disponibles en la tabla.",
+              paginate: {
+                  first: "Primero",
+                  previous: "Anterior",
+                  next: "Siguiente",
+                  last: "Ultimo"
+              },
+              aria: {
+                  sortAscending: ": active para ordenar la columna en orden ascendente",
+                  sortDescending: ": active para ordenar la columna en orden descendente"
+              }
+          },
+          scrollY: 600,
+          lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
+      });
+  });
+</script>
+
 </body>

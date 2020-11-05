@@ -25,7 +25,6 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
             var Notas = $(this).find("td").eq(17).html();
             var Tabla = [OT, NoParte, Proveedor, Colada, OD, ID, LG, QTY, SPEC, Ubicacion, PESO, Entrada, Salida, Entregado, Status, Sobran, Usado, Notas];
 
-
             Arreglo.push(Tabla);
         }
 
