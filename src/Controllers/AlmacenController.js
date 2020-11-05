@@ -15,8 +15,8 @@ Controller.search = (req, res) => {
             } = req.params;
             var Herramienta = Tranformer(Herra);
             const planta = "Almacen " + req.session.planta;
-
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = '"+planta+"'", (err, Herramientas) => {
+            console.log("Salida: " + Herramienta + " Planta: " + planta);
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = '" + planta + "'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -170,42 +170,42 @@ Controller.GuardarNota = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Folio = Object.values(data)[0]; //obeter datos de un objeto Folio
-            let Producto = Object.values(data)[1]; //obeter datos de un objeto Producto
-            let Entregado = Object.values(data)[2]; //obeter datos de un objeto Entregado
-            let Estado = Object.values(data)[3]; //obeter datos de un objeto Estado
-            let OT = Object.values(data)[4]; //obeter datos de un objeto OT
-            let OTEstatus = Object.values(data)[5]; //obeter datos de un objeto OT
-            let Maquina = Object.values(data)[6]; //obeter datos de un objeto Maquina
-            let Empleado = Object.values(data)[7]; //obeter datos de un objeto Empleado
-            let Parcial = Object.values(data)[8]; //obeter datos de un objeto Comentario
-            let Comentario = Object.values(data)[9]; //obeter datos de un objeto Comentario
-            let Turno = req.session.turno;
-            let Movimiento = 'Salida';
-            let Planta = req.session.planta;
-            let Usuario = req.session.username;
-            //console.log(Folio + " - " + Producto + " - " +  Entregado + " - " +  Estado + " - " +  OT + " - " +  OTEstatus + " - " +  Maquina + " - " +  Empleado + " - " +  Turno + " - " +  Comentario + " - " +  Movimiento + " - " +  Planta + " - " +  Usuario)
-            if (err) {
-                console.log("Conexion: " + err)
-            }
-            conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario, Parcial], (err, ot) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error al registrar despacho de herramienta');
-                }
-                conn.query("call RestarAlmacen(" + Entregado + ",'" + Producto + "','" + Estado + "','Almacen " + Planta + "');", true, (err, rows, fields) => {
+
+            var limite = Object.values(data).length;
+            for (var i = 0; i < limite; i++) {
+                let Folio = Object.values(data)[0][i][0]; //obeter datos de un objeto Folio
+                let Producto = Object.values(data)[0][i][1]; //obeter datos de un objeto Producto
+                let Entregado = Object.values(data)[0][i][2]; //obeter datos de un objeto Entregado
+                let Estado = Object.values(data)[0][i][3]; //obeter datos de un objeto Estado
+                let OT = Object.values(data)[0][i][4]; //obeter datos de un objeto OT
+                let OTEstatus = Object.values(data)[0][i][5]; //obeter datos de un objeto OT
+                let Maquina = Object.values(data)[0][i][6]; //obeter datos de un objeto Maquina
+                let Empleado = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
+                let Parcial = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
+                let Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+                let Turno = req.session.turno;
+                let Movimiento = 'Salida';
+                let Planta = req.session.planta;
+                let Usuario = req.session.username;
+ 
+               // console.log("Folio: " +Folio + " -Producto " + Producto + " -Entregado " +  Entregado + " -Estado " +  Estado + " -OT " +  OT + " -OTEstatus " +  OTEstatus + " -Maquina " +  Maquina + " -Empleado " +  Empleado + " -Turno " +  Turno + " -Comentario " +  Comentario + " -Movimiento " +  Movimiento + " -Planta " +  Planta + " -Usuario " +  Usuario)
+                conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario, Parcial], (err, ot) => {
                     if (err) {
-                        res.json(err);
-                        console.log('Error al descontar almacen' + err);
+                        console.log('Error al registrar despacho de herramienta');
                     }
-                    conn.query("call IncrementarFolioAlmacen('" + Folio + "');", true, (err, rows, fields) => {
+                    conn.query("call RestarAlmacen(" + Entregado + ",'" + Producto + "','" + Estado + "','Almacen " + Planta + "');", true, (err, rows, fields) => {
                         if (err) {
-                            res.json(err);
-                            console.log('Error al registrar folios' + err);
+                            console.log('Error al descontar almacen' + err);
                         }
+                        conn.query("call IncrementarFolioAlmacen('" + Folio + "');", true, (err, rows, fields) => {
+                            if (err) {
+                                console.log('Error al registrar folios' + err);
+                            }
+                        });
                     });
                 });
-            });
+
+            }
         });
     } else {
         res.render('Admin/Login.html');
@@ -252,7 +252,7 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado,Stock, Usuario, Planta, FechaReq], (err, ot) => {
+            conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado, Stock, Usuario, Planta, FechaReq], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al registrar auditoria' + err);
@@ -271,11 +271,11 @@ Controller.StockActual = (req, res) => { //Guarda la auditoria diaria de cada al
             const {
                 Herramienta
             } = req.params;
- 
+
             var Producto = Tranformer(Herramienta);
-            let Planta = "Almacen " +req.session.planta;
-            let FechaReq = new Date(); 
- 
+            let Planta = "Almacen " + req.session.planta;
+            let FechaReq = new Date();
+
             conn.query("SELECT * FROM almacen where Producto ='" + Producto + "' AND Almacen = '" + Planta + "'", (err, maquinas) => {
                 if (err) {
                     res.json("Error json: " + err);
@@ -391,15 +391,15 @@ Controller.GuardarNotaRetorno = (req, res) => {
             const data = req.body; //TRAE TODO EL OBJETO
             console.log(Object.values(data));
             var limite = Object.values(data)[0].length;
-            for(var i = 0; i < limite; i ++){
-                let Folio = Object.values(data)[0][i][0];//[No se][indice de fila][indice de columna]
-                let Producto = Object.values(data)[0][i][1];//[No se][indice de fila][indice de columna]
-                let Cantidad = Object.values(data)[0][i][2];//[No se][indice de fila][indice de columna]
-                let Estado = Object.values(data)[0][i][3];//[No se][indice de fila][indice de columna]
-                let Empleado = Object.values(data)[0][i][4];//[No se][indice de fila][indice de columna]
-                let Maquina = Object.values(data)[0][i][5];//[No se][indice de fila][indice de columna]
-                let Comentarios = Object.values(data)[0][i][6];//[No se][indice de fila][indice de columna]
-                let FolioSalida = Object.values(data)[0][i][7];//[No se][indice de fila][indice de columna]
+            for (var i = 0; i < limite; i++) {
+                let Folio = Object.values(data)[0][i][0]; //[No se][indice de fila][indice de columna]
+                let Producto = Object.values(data)[0][i][1]; //[No se][indice de fila][indice de columna]
+                let Cantidad = Object.values(data)[0][i][2]; //[No se][indice de fila][indice de columna]
+                let Estado = Object.values(data)[0][i][3]; //[No se][indice de fila][indice de columna]
+                let Empleado = Object.values(data)[0][i][4]; //[No se][indice de fila][indice de columna]
+                let Maquina = Object.values(data)[0][i][5]; //[No se][indice de fila][indice de columna]
+                let Comentarios = Object.values(data)[0][i][6]; //[No se][indice de fila][indice de columna]
+                let FolioSalida = Object.values(data)[0][i][7]; //[No se][indice de fila][indice de columna]
                 let Turno = req.session.turno; //obeter datos de un objeto Folio
                 let Movimiento = 'Retorno';
                 let Planta = req.session.planta;
@@ -412,14 +412,14 @@ Controller.GuardarNotaRetorno = (req, res) => {
                     }
                     conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','Almacen " + Planta + "')", true, (err, rows, fields) => {
                         if (err) {
-                       
+
                             console.log('Error al descontar almacen' + err);
                         } else {
                             console.log('Se Resto del almacen' + Object.values(rows));
                         }
                         conn.query("call IncrementarFolioRetornoAlmacen('" + Folio + "');", true, (err, rows, fields) => {
                             if (err) {
-                       
+
                                 console.log('Error al registrar folios' + err);
                             } else {
                                 console.log('Se incremento folio');
@@ -428,7 +428,7 @@ Controller.GuardarNotaRetorno = (req, res) => {
                     });
                 });
             }
-  
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -457,29 +457,29 @@ Controller.GuardarRecepcion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-          // console.log("Tamaño " + Object.values(data).length + " keys " +  Object.keys(data)[0] + " Valores " + Object.values(data)[0] +  " Valores dobles " + Object.values(data)[0][0]  + Object.values(data)[0][1]  + Object.values(data)[0][2]  );
-           var limite = Object.values(data).length;
-           for(var i = 0; i < limite; i ++){
-            let Producto = Object.values(data)[i][0]; //obeter datos de un objeto Producto
-            let Ordenado = Object.values(data)[i][1]; //obeter datos de un objeto Ordenado
-            let Entregado = Object.values(data)[i][2]; //obeter datos de un objeto Entregado
-            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
-            let Estatus = "N/A"; //obeter datos de un objeto Folio
+            // console.log("Tamaño " + Object.values(data).length + " keys " +  Object.keys(data)[0] + " Valores " + Object.values(data)[0] +  " Valores dobles " + Object.values(data)[0][0]  + Object.values(data)[0][1]  + Object.values(data)[0][2]  );
+            var limite = Object.values(data).length;
+            for (var i = 0; i < limite; i++) {
+                let Producto = Object.values(data)[i][0]; //obeter datos de un objeto Producto
+                let Ordenado = Object.values(data)[i][1]; //obeter datos de un objeto Ordenado
+                let Entregado = Object.values(data)[i][2]; //obeter datos de un objeto Entregado
+                let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+                let Estatus = "N/A"; //obeter datos de un objeto Folio
 
-            if (err) {
-                console.log("Conexion: " + err);
-            }
-          
-            conn.query('INSERT INTO Recepcion(Producto, Ordenado, Entregado, Usuario, Estatus)values(?,?,?,?,?)', [Producto, Ordenado, Entregado, Usuario, Estatus], (err, ot) => {
                 if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error al registrar recepcion');
-                }else{
-                    console.log('Recepciono exitosa: ' + Producto);
+                    console.log("Conexion: " + err);
                 }
-            });
-           }
- 
+
+                conn.query('INSERT INTO Recepcion(Producto, Ordenado, Entregado, Usuario, Estatus)values(?,?,?,?,?)', [Producto, Ordenado, Entregado, Usuario, Estatus], (err, ot) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error al registrar recepcion');
+                    } else {
+                        console.log('Recepciono exitosa: ' + Producto);
+                    }
+                });
+            }
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -779,15 +779,15 @@ Controller.CrearIntercambio = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
- 
-            conn.query('INSERT INTO IntercambioActivo(Producto, Cantidad, Estado, Empleado, Planta,Comentario,Estatus)values(?,?,?,?,?,?,?)', [Producto, Cantidad, Estado,Empleado, Planta, Comentario,Estatus], (err, ot) => {
+
+            conn.query('INSERT INTO IntercambioActivo(Producto, Cantidad, Estado, Empleado, Planta,Comentario,Estatus)values(?,?,?,?,?,?,?)', [Producto, Cantidad, Estado, Empleado, Planta, Comentario, Estatus], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
-                    console.log('Error al registrar despacho de herramienta'+err);
+                    console.log('Error al registrar despacho de herramienta' + err);
                 }
             });
         });
-    }else{
+    } else {
         res.render('Admin/Login.html');
     }
 };
@@ -798,7 +798,7 @@ Controller.MostrarIntercambio = (req, res) => {
         req.getConnection((err, conn) => {
             const planta = req.session.planta;
 
-            conn.query("SELECT * FROM IntercambioActivo WHERE Planta != '"+planta+"' AND Estatus = 'Pendiente'", (err, Herramientas) => {
+            conn.query("SELECT * FROM IntercambioActivo WHERE Planta != '" + planta + "' AND Estatus = 'Pendiente'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -819,17 +819,17 @@ Controller.GuardarIntercambio = (req, res) => {
             var Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
             var Estado = Object.values(data)[2]; //obeter datos de un objeto Cantidad
             let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
-            console.log( Item + "','" + Cantidad + "','" + Planta );
+            console.log(Item + "','" + Cantidad + "','" + Planta);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("call GuardarIntercambio('" + Item + "'," + Cantidad + ",'" + Planta + "','"+Estado+"')", true, (err, rows, fields) => {
+                conn.query("call GuardarIntercambio('" + Item + "'," + Cantidad + ",'" + Planta + "','" + Estado + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al Recolectar' + err);
                     } else {
                         console.log('Se recolectó herramienta a almacen');
-                        conn.query("UPDATE IntercambioActivo SET Estatus = 'Completado' WHERE Producto = '"+Item+"' AND Planta != '"+req.session.planta+"'", (err, Herramientas) => {
+                        conn.query("UPDATE IntercambioActivo SET Estatus = 'Completado' WHERE Producto = '" + Item + "' AND Planta != '" + req.session.planta + "'", (err, Herramientas) => {
                             if (err) {
                                 res.json("Error json: " + err);
                                 console.log('Error de lectura');
@@ -851,7 +851,7 @@ Controller.MostrarCancelacion = (req, res) => {
         req.getConnection((err, conn) => {
             const planta = req.session.planta;
 
-            conn.query("SELECT * FROM IntercambioActivo WHERE Planta = '"+planta+"' AND Estatus = 'Pendiente'", (err, Herramientas) => {
+            conn.query("SELECT * FROM IntercambioActivo WHERE Planta = '" + planta + "' AND Estatus = 'Pendiente'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -869,9 +869,11 @@ Controller.CancelarIntercambio = (req, res) => {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             const planta = req.session.planta;
-            var { Producto } = req.params;
+            var {
+                Producto
+            } = req.params;
             Producto = Tranformer(Producto);
-            conn.query("DELETE FROM intercambioactivo WHERE Producto = '"+ Producto +"' AND Planta = '"+ planta +"' AND Estatus = 'Pendiente'", (err, Herramientas) => {
+            conn.query("DELETE FROM intercambioactivo WHERE Producto = '" + Producto + "' AND Planta = '" + planta + "' AND Estatus = 'Pendiente'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error al eliminar');
@@ -885,11 +887,3 @@ Controller.CancelarIntercambio = (req, res) => {
 };
 
 module.exports = Controller;
-
-
-
-
-
-
-
-
