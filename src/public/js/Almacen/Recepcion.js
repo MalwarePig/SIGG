@@ -2,8 +2,6 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
     var i = 0; //Contador para brincar la cabaezera y suar la referencia de indice
     var Arreglo = [];
     $('#wrapper tr').each(function () { //leer una tabla html    
-        
-        console.log(i);
         if (i > 0) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
             var  Producto = $(this).find("td").eq(4).html();
             var Ordenado = 0; //LEER LA TABLA

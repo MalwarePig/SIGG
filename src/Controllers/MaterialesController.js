@@ -1,0 +1,85 @@
+const Controller = {};
+
+Controller.CargaMaterial = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+          //console.log("Tamaño " + Object.values(data).length + " keys " +  Object.values(data)[0][0][1]  );
+           var limite = Object.values(data)[0].length;
+           for(var i = 0; i < limite; i ++){
+            var OT = Object.values(data)[0][i][0];//[No se][indice de fila][indice de columna]
+            var NoParte = Object.values(data)[0][i][1];
+            var Proveedor = Object.values(data)[0][i][2];
+            var Colada = Object.values(data)[0][i][3];
+            var OD = Object.values(data)[0][i][4];
+            var InD = Object.values(data)[0][i][5];
+            var LG = Object.values(data)[0][i][6];
+            var QTY = Object.values(data)[0][i][7];
+            var SPEC = Object.values(data)[0][i][8];
+            var Ubicacion = Object.values(data)[0][i][9];
+            var PESO = Object.values(data)[0][i][10];
+            var Entrada =  Object.values(data)[0][i][11];
+            var Salida =  Object.values(data)[0][i][12];
+            var Entregado =  Object.values(data)[0][i][13];
+            var Status =  Object.values(data)[0][i][14];
+            var Sobran =  Object.values(data)[0][i][15];
+            var Usado =  Object.values(data)[0][i][16];
+            var Notas =  Object.values(data)[0][i][17];
+ 
+            conn.query("INSERT INTO StockMateriales(OT, NoParte, Proveedor, Colada, OD, InD, LG, QTY, SPEC, Ubicacion, PESO, Entrada, Salida, Entregado, Status, Sobran, Usado, Notas)values('"+OT +"','"+ NoParte+"','"+ Proveedor+"','"+ Colada+"','"+ OD+"','"+ InD+"','"+ LG+"','"+ QTY+"','"+ SPEC+"','"+ Ubicacion+"','"+ PESO+"','"+ Entrada+"','"+ Salida+"','"+ Entregado+"','"+ Status+"','"+ Sobran+"','"+ Usado+"','"+ Notas+"')", [], (err, ot) => {
+                if (err) {
+                     
+                    console.log('Error al registrar recepcion'+err);
+                }else{
+                    console.log('Recepcion exitosa: '+i);
+                }
+            });
+           }//For
+           
+        });
+    } else {
+        //res.render('Admin/Login.html');
+    }
+};
+
+Controller.listaMateriales = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            if (err) {
+                console.log("Conexion: " + err)
+            }else{
+                conn.query("SELECT * FROM stockmateriales", (err, Materiales) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.render('Materiales/ListadoMaterial.html', {
+                        data: Materiales,
+                    });
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+module.exports = Controller;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

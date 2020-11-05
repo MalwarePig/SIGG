@@ -192,27 +192,33 @@ function GuardarNota() {
     var tabla = document.getElementById("Almacen");
     var total = tabla.rows.length //Total de filas
 
+    var Arreglo = [];
+
     for (var j = 1; j <= total - 1; j++) { //filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
 
-        var ObjetoTabla = {
-            Folio: tabla.rows[j].cells[0].childNodes[0].nodeValue,
-            Producto: tabla.rows[j].cells[1].childNodes[0].nodeValue,
-            Cantidad: tabla.rows[j].cells[2].childNodes[0].nodeValue,
-            Estado: tabla.rows[j].cells[3].childNodes[0].nodeValue,
-            Empleado: tabla.rows[j].cells[4].childNodes[0].nodeValue,
-            Maquina: tabla.rows[j].cells[5].childNodes[0].nodeValue,
-            Comentario: tabla.rows[j].cells[6].childNodes[0].nodeValue,
-            FolioSalida: tabla.rows[j].cells[7].childNodes[0].nodeValue,
-        }
-        $.post("/GuardarNotaRetorno", // url
+    
+            var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+            var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+            var Cantidad = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+            var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+            var Empleado = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+            var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+            var Comentario = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+            var FolioSalida = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+            var Tabla = [Folio,Producto,Cantidad,Estado,Empleado,Maquina,Comentario,FolioSalida]
+    
+            Arreglo.push(Tabla);
+        
+    } //fin filas
+
+    $.post("/GuardarNotaRetorno", // url
             {
-                ObjetoTabla
+                Arreglo
             }, // data to be submit
             function (objeto, estatus) { // success callback
                 //console.log("objeto: " + objeto + "Estatus: " + estatus);
             });
-    } //fin filas
 
     //Limpiar tabla 
     var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];

@@ -12,6 +12,7 @@ const PruebasController = require('../Controllers/PruebasController');
 const CRMController = require('../Controllers/CRM_Controller');
 const ProcesosController = require('../Controllers/ProcesosController');
 const ComprasController = require('../Controllers/ComprasController');
+const MaterialesController = require('../Controllers/MaterialesController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -170,7 +171,7 @@ router.post('/CheckAuditoria', AlmacenController.SavePreAudit);
 router.post('/EstatusAudi', AlmacenController.UpdatePreAudit);
 router.post('/AudiCiclica', AlmacenController.AudiCiclica);
 router.get('/StockActual/:Herramienta', AlmacenController.StockActual);
-//====== Salidas ========
+//====== Retorno ========
 router.get('/wh_Retorno', AlmacenController.listRetorno);
 router.get('/BuscarHerrRetorno/:Maquina', AlmacenController.searchRetorno);
 router.get('/FolioRetorno', AlmacenController.FolioRetorno);
@@ -306,6 +307,11 @@ router.get('/CargaMateriales', (req, res) => {
 	res.end();
 });
 
+//====== Guardar Materiales ========
+router.post('/CargaMaterial', MaterialesController.CargaMaterial);
+//====== Carga Lista Materiales ========
+router.get('/listaMateriales', MaterialesController.listaMateriales);
+ 
 /////////////////////////////////////////////////////////////////////////// Proceso //////////////////////////////////////////////////////////////////////////////
 //====== Cargar Reporte Inventario ========
 router.get('/VerInventario', (req, res) => {

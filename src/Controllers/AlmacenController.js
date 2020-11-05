@@ -385,46 +385,50 @@ Controller.FolioRetorno = (req, res) => {
 Controller.GuardarNotaRetorno = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
-            const data = req.body; //TRAE TODO EL OBJETO
-            let Folio = Object.values(data)[0]; //obeter datos de un objeto Folio
-            let Producto = Object.values(data)[1]; //obeter datos de un objeto Folio
-            let Cantidad = Object.values(data)[2]; //obeter datos de un objeto Folio
-            let Estado = Object.values(data)[3]; //obeter datos de un objeto Folio
-            let Empleado = Object.values(data)[4]; //obeter datos de un objeto Folio
-            let Maquina = Object.values(data)[5]; //obeter datos de un objeto Folio
-            let Comentarios = Object.values(data)[6]; //obeter datos de un objeto Folio
-            let FolioSalida = Object.values(data)[7]; //obeter datos de un objeto Folio
-            let Turno = req.session.turno; //obeter datos de un objeto Folio
-            let Movimiento = 'Retorno';
-            let Planta = req.session.planta;
-            let Usuario = req.session.username;
             if (err) {
                 console.log("Conexion: " + err)
             }
-            console.log("Cantidad a retornorar: " + Cantidad);
-            //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
-            conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error al registrar despacho de herramienta');
-                }
-                conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','Almacen " + Planta + "')", true, (err, rows, fields) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data));
+            var limite = Object.values(data)[0].length;
+            for(var i = 0; i < limite; i ++){
+                let Folio = Object.values(data)[0][i][0];//[No se][indice de fila][indice de columna]
+                let Producto = Object.values(data)[0][i][1];//[No se][indice de fila][indice de columna]
+                let Cantidad = Object.values(data)[0][i][2];//[No se][indice de fila][indice de columna]
+                let Estado = Object.values(data)[0][i][3];//[No se][indice de fila][indice de columna]
+                let Empleado = Object.values(data)[0][i][4];//[No se][indice de fila][indice de columna]
+                let Maquina = Object.values(data)[0][i][5];//[No se][indice de fila][indice de columna]
+                let Comentarios = Object.values(data)[0][i][6];//[No se][indice de fila][indice de columna]
+                let FolioSalida = Object.values(data)[0][i][7];//[No se][indice de fila][indice de columna]
+                let Turno = req.session.turno; //obeter datos de un objeto Folio
+                let Movimiento = 'Retorno';
+                let Planta = req.session.planta;
+                let Usuario = req.session.username;
+                console.log("Producto : " + Producto + " Cantidad a retornar: " + Cantidad);
+                //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
+                conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
                     if (err) {
-                        res.json(err);
-                        console.log('Error al descontar almacen' + err);
-                    } else {
-                        console.log('Se Resto del almacen' + Object.values(rows));
+                        console.log('Error al registrar despacho de herramienta');
                     }
-                    conn.query("call IncrementarFolioRetornoAlmacen('" + Folio + "');", true, (err, rows, fields) => {
+                    conn.query("call RetornarAlmacen(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','Almacen " + Planta + "')", true, (err, rows, fields) => {
                         if (err) {
-                            res.json(err);
-                            console.log('Error al registrar folios' + err);
+                       
+                            console.log('Error al descontar almacen' + err);
                         } else {
-                            console.log('Se incremento folio');
+                            console.log('Se Resto del almacen' + Object.values(rows));
                         }
+                        conn.query("call IncrementarFolioRetornoAlmacen('" + Folio + "');", true, (err, rows, fields) => {
+                            if (err) {
+                       
+                                console.log('Error al registrar folios' + err);
+                            } else {
+                                console.log('Se incremento folio');
+                            }
+                        });
                     });
                 });
-            });
+            }
+  
         });
     } else {
         res.render('Admin/Login.html');
