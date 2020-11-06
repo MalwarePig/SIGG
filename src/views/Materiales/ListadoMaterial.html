@@ -24,7 +24,7 @@
         <div class="card-header">
  
           <div class="form-row">
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
                 <select required id="Almacen" name="Sal_Estatus" class="form-control">
                   <option selected>Bravo</option>
                   <option >Morelos</option>
@@ -35,7 +35,17 @@
                 <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
                     onclick="MostrarReporte()">Buscar</button>
             </div>
+            
+
+            <div class="form-group col-md-5 ">
+              <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                 data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
           </div>
+          </div>
+
+         
+
+          
 
         </div>
         <div class="card-body">
@@ -45,7 +55,6 @@
               <table class="table-bordered" id="Materiales">
                 <thead>
                     <tr>
- 
                         <th>OT</th>
                         <th>No. Parte</th>
                         <th>Proveedor</th>
@@ -98,48 +107,43 @@
         <!--Card-->
     </div>
 
-
-    <!--ModalApartado-->
-    <div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div id="list-OT" class="list-group">
-               <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
-              </div>
-          </div>
-        </div>
-      </div>
-
-    <!--ModalNota-->
-    <div class="modal fade bd-example-modal-lg" id="ModalNota" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div id="Nota" class="list-group">
-            <!------------------------------ TABLA-------------------------------------->
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-                <table class=" table table-bordered table-hover" id="TablaRequisicion">
-                    <thead>
-                        <tr>
-                            <th>Folio</th>
-                            <th>Clave</th>
-                            <th>Producto</th>
-                            <th>Solicitado</th>
-                            <th>OT</th>
-                            <th>Comentario</th>
-                        </tr>
-                    </thead>
-                    <tbody id="CuerpoNota">
  
-                    </tbody>
-                    </table>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="GuardarNota()">Solicitar requisición</button>
-                </div>
-               <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
+    <div class="modal fade bd-example-modal-lg" id="AgregarNuevo" tabindex="-1" role="dialog" aria-labelledby="AgregarNuevo" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Completar registro</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-row">
+                  <div class="form-group col-md-5">
+                      <input type="text" id="OT" class="form-control" placeholder="OT..."
+                          name="OT" autocomplete="off" required>
+                  </div>
+
+                  <div class="form-group col-md-5">
+                      <input type="text" id="Cantidad" class="form-control" placeholder="Cantidad..."
+                          name="Cantidad" autocomplete="off" required>
+                  </div>
+
+                  <div class="form-group col-md-10">
+                      <input type="text" id="Comentario" class="form-control" placeholder="Comentarios..."
+                          name="Comentario" autocomplete="off" >
+                  </div>
               </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiar()">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Guardar()">Guardar</button>
           </div>
         </div>
       </div>
+    </div>
 
+    
 
     <!-- Modal Listo-->
     <div class="modal fade" id="Listo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -162,7 +166,7 @@
 <!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
-<!-- BOOTSTRAP 
+<!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
@@ -194,6 +198,6 @@
           lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
       });
   });
-</script>-->
+</script>
 
 </body>

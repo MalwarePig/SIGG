@@ -3,7 +3,7 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
     var Arreglo = [];
     $('#wrapper tr').each(function () { //leer una tabla html    
         if (i > 0) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
-            var  Producto = $(this).find("td").eq(4).html();
+            var Producto = $(this).find("td").eq(4).html();
             var Ordenado = 0; //LEER LA TABLA
             var Entregado = $(this).find("td").eq(5).html();
             var Tabla = [Producto, Ordenado, Entregado];
@@ -13,6 +13,7 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
 
         i++;
     }); //each para recorrer tabla
+     
     $.post("/PostRecepcion", // url
     {
         Arreglo
