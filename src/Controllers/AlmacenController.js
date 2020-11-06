@@ -53,6 +53,7 @@ Controller.list = (req, res) => {
                             var FechaFinal = new Date();
                             var FechaInicial = new Date();
                             FechaInicial.setDate(FechaInicial.getDate() - 2);
+                            console.log(typeof(FechaInicial) + " Y " + typeof(FechaFinal.toISOString().slice(0, 10)));
                             conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '" + FechaInicial + "' AND  '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                                 if (err) {
                                     res.json("Error json: " + err);
@@ -66,10 +67,11 @@ Controller.list = (req, res) => {
                         } else { //Si no es lunes
                             var FechaFinal = new Date();
                             var FechaInicial = new Date();
+                            console.log("Actual: " + FechaInicial);
                             FechaInicial.setDate(FechaInicial.getDate() - 1);
-                            conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
+                            console.log(typeof(FechaInicial) + " Y " + typeof(FechaFinal.toISOString().slice(0, 10)));
+                            conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaInicial.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                                 if (err) {
-                                    res.json("Error json: " + err);
                                     console.log('Error de lectura');
                                 }
                                 //console.log(Herramientas);
@@ -80,9 +82,12 @@ Controller.list = (req, res) => {
                         }
                     } else { //Si no es de dia
                         var FechaFinal = new Date();
-                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
+                        var FechaInicial = new Date();
+                        console.log("Actual: " + FechaInicial);
+                        FechaInicial.setDate(FechaInicial.getDate() - 1);
+                        console.log(typeof(FechaInicial) + " Y " + typeof(FechaFinal.toISOString().slice(0, 10)));
+                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaInicial.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                             if (err) {
-                                res.json("Error json: " + err);
                                 console.log('Error de lectura');
                             }
                             //console.log(Herramientas);
@@ -91,7 +96,6 @@ Controller.list = (req, res) => {
                             });
                         });
                     }
-
                 } else {
                     res.render('Almacen/wh_Salidas.html');
                 }
@@ -155,7 +159,6 @@ Controller.Maquinas = (req, res) => {
             }
             conn.query("SELECT * from maquinas where Familia ='" + familia + "' AND Planta = '" + planta + "'", (err, maquinas) => {
                 if (err) {
-                    res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
                 res.json(maquinas);
@@ -217,22 +220,23 @@ Controller.SavePreAudit = (req, res) => { //Guarda la auditoria diaria de cada a
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Producto = Object.values(data)[0]; //obeter datos de un objeto Producto
-            let Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
-            let Nota = Object.values(data)[2]; //obeter datos de un objeto Nota
-
-            let Planta = req.session.planta;
-            let Usuario = req.session.nombre;
-            let FechaReq = new Date();
-            if (err) {
-                console.log("Conexion: " + err)
+            var limite = Object.values(data)[0].length || 0;
+            for(var i = 0; i < limite; i ++){
+                var Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
+                var Cantidad = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
+                var Nota = Object.values(data)[0][i][2]; //obeter datos de un objeto Nota
+    
+                var Planta = req.session.planta;
+                var Usuario = req.session.nombre;
+ 
+                console.log("Producto "+Producto+ " Cantidad: " + Cantidad+ " Usuario: " + Usuario+ " Planta: "+ Planta+   " Nota: " +Nota);
+                conn.query("INSERT INTO RegistrosFaltantes(Producto, Cantidad, Auditor,Almacen, Notas) values ('"+Producto+"',"+ Cantidad+",'"+ Usuario+"','"+ Planta+"','"+ Nota+"')", [], (err, ot) => {
+                    if (err) {
+                        console.log('Error al registrar auditoriass' + err);
+                    }
+                });
             }
-            conn.query('INSERT INTO RegistrosFaltantes(id,Producto, Cantidad, Auditor,Almacen,FechaReq, Notas)values(?,?,?,?,?,?,?)', [0, Producto, Cantidad, Usuario, Planta, FechaReq, Nota], (err, ot) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error al registrar auditoria' + err);
-                }
-            });
+           
         });
     } else {
         res.render('Admin/Login.html');
@@ -243,19 +247,22 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Producto = Object.values(data)[0]; //obeter datos de un objeto Producto
-            let Contado = Object.values(data)[1]; //obeter datos de un objeto Cantidad
-            let Stock = Object.values(data)[2]; //obeter datos de un objeto Cantidad
+            let Producto = Object.values(data)[0][0]; //obeter datos de un objeto Producto
+            let Contado = Object.values(data)[0][1]; //obeter datos de un objeto Cantidad
+            let Stock = Object.values(data)[0][2]; //obeter datos de un objeto Cantidad
             let Planta = req.session.planta;
             let Usuario = req.session.nombre;
             let FechaReq = new Date();
+
+            console.log("Producto: " + Producto+ " Contado: " + Contado + " Stock:" + Stock);
+
             if (err) {
                 console.log("Conexion: " + err)
             }
             conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado, Stock, Usuario, Planta, FechaReq], (err, ot) => {
                 if (err) {
                     res.json("Error json: " + err);
-                    console.log('Error al registrar auditoria' + err);
+                    console.log('Error al registrar auditoria ciclica' + err);
                 }
             });
         });

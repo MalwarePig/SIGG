@@ -12,40 +12,29 @@ function Aplicar() {
         var Arreglo = [];
         var ObjetoTabla = {};
         for (var j = 1; j <= total - 1; j++) { //Recorer filas
-            var Check = document.getElementById("F"+(j - 1)); //Obtener filas seleccionadas
+            var Check = document.getElementById("F" + (j - 1)); //Obtener filas seleccionadas
             if (Check.checked == true) {
-                ObjetoTabla = {
-                    Producto: tabla.rows[j].cells[2].childNodes[0].nodeValue,
-                    Cantidad: tabla.rows[j].cells[3].childNodes[0].nodeValue,
-                    Nota: '-'
-                }
+                var Producto = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+                var Cantidad = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+                var Nota = '-';
+                var ObjetoTabla = [Producto, Cantidad, Nota]
                 Arreglo.push(ObjetoTabla);
             }
         }
         var Nota = document.getElementById("Nota").value;
         if (Nota) {
-            ObjetoTabla = {
-                Producto: '-',
-                Cantidad: 0,
-                Nota: Nota
-            }
-            Arreglo.push(ObjetoTabla);
+            var ObjetoTablaNota = ['-', 0, Nota];
+            Arreglo.push(ObjetoTablaNota);
         }
 
-        for (var i = 0; i < Arreglo.length; i++) { //Envia los datos checkeados
-            var Datos = {
-                Producto: Arreglo[i].Producto,
-                Cantidad: Arreglo[i].Cantidad,
-                Nota: Arreglo[i].Nota
-            }
-            $.post("/CheckAuditoria", // url
-                {
-                    Datos
-                }, // data to be submit
-                function (objeto, estatus) { // success callback
+        $.post("/CheckAuditoria", // url
+            {
+                Arreglo
+            }, // data to be submit
+            function (objeto, estatus) { // success callback
 
-                });
-        }
+            });
+
         /////////////////////////////////// = CREAR SEGUNDO MODAL = /////////////////////////////////////////////////////
         //Limpiar tabla 
         var TablaAlmacen = document.getElementById('Auditoria').getElementsByTagName('tbody')[0];
@@ -55,7 +44,8 @@ function Aplicar() {
         }
 
         //Toma los registros de la tabla y se guardan en un arreglo
-        Registro = document.getElementById("Registros").getElementsByTagName('tbody')[0];
+        var Registro = document.getElementById("Registros").getElementsByTagName('tbody')[0];
+     
         var limitesRegistros = Registro.rows.length;
         var ListaTabla = [];
         for (var j = 0; j < limitesRegistros; j++) {
@@ -67,14 +57,22 @@ function Aplicar() {
             //Funcion random aleatorios del 1-5 sin repetirse
             var ListaAuditoria = [];
             var myArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            myArray.length = ListaTabla.length;
-            var i, j, k;
+            myArray.forEach( function(){
+                if(myArray.length == ListaTabla.length)
+                myArray.pop;
+              });
+ 
+            var i, j;
+            var k = 0;
+ 
             for (i = myArray.length; i; i--) {
                 j = Math.floor(Math.random() * i);
                 k = myArray[i - 1];
+ 
                 myArray[i - 1] = myArray[j];
                 myArray[j] = k;
-                ListaAuditoria.push(ListaTabla[k]);
+ 
+                ListaAuditoria.push(ListaTabla[j]);
             }
             ListaAuditoria.length = 5;
         } else {
@@ -88,6 +86,7 @@ function Aplicar() {
                 k = myArray[i - 1];
                 myArray[i - 1] = myArray[j];
                 myArray[j] = k;
+
                 ListaAuditoria.push(ListaTabla[k]);
             }
         }
@@ -113,7 +112,7 @@ function Aplicar() {
         } //For Filas
         $("#ModalAuditoriaDos").modal();
 
-        
+
     } else { //no acepto confirmar informacion
         alert("Debes confirmar la auditoria");
     }
@@ -140,22 +139,20 @@ function SaveAuditoriaCiclica() {
     var limiteRegistros = Registro.rows.length;
     for (var j = 1; j < limiteRegistros; j++) {
         var Producto = Tranformer(Registro.rows[(j)].cells[0].childNodes[0].nodeValue);
-        RegistroCiclico(Producto,j);
+        RegistroCiclico(Producto, j);
     }
-    setTimeout ("redireccionar()", 1000);//Tiempo para reedireccionar
-
+    setTimeout("redireccionar()", 1000); //Tiempo para reedireccionar
 }
 
-function RegistroCiclico(Producto,j){
+function RegistroCiclico(Producto, j) {
     var Producto = Tranformer(Registro.rows[(j)].cells[0].childNodes[0].nodeValue);
     $.ajax({
         url: '/StockActual/' + Producto,
         success: function (Consulta) {
-            var ObjetoTabla = {
-                Producto:  Consulta[0].Producto,
-                Supuesto: document.getElementById("Producto" + j).value,
-                Actual: Consulta[0].Stock
-            }
+            var Producto = Consulta[0].Producto;
+            var Supuesto = document.getElementById("Producto" + j).value || 0;
+            var Actual = Consulta[0].Stock;
+            var ObjetoTabla = [Producto,Supuesto,Actual];
 
             $.post("/AudiCiclica", // url
                 {
