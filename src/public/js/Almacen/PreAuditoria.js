@@ -138,31 +138,39 @@ function SaveAuditoriaCiclica() {
     Registro = document.getElementById("Auditoria");
     var limiteRegistros = Registro.rows.length;
     for (var j = 1; j < limiteRegistros; j++) {
-        var Producto = Tranformer(Registro.rows[(j)].cells[0].childNodes[0].nodeValue);
-        RegistroCiclico(Producto, j);
+      var Producto = Tranformer(Registro.rows[(j)].cells[0].childNodes[0].nodeValue);
+      var Arreglo = [];
+      var Actual = 0;
+      var i = 1;
+      var Supuesto = 0;
+        $.ajax({
+            url: '/StockActual/' + Producto,
+            success: function (Consulta) {
+                Supuesto = document.getElementById("Producto"+i).value;
+                var Producto = Consulta[0].Producto;
+                var Actual = Consulta[0].Stock;
+                i++;
+                var ObjetoTabla = [Producto,Supuesto,Actual];
+                Arreglo.push(ObjetoTabla);
+            } //Funcion success
+        }); //Ajax
+
     }
-    setTimeout("redireccionar()", 1000); //Tiempo para reedireccionar
+    setTimeout(function(){
+        PostAuditoriaCiclica(Arreglo);
+    },1000)
+  
 }
 
-function RegistroCiclico(Producto, j) {
-    var Producto = Tranformer(Registro.rows[(j)].cells[0].childNodes[0].nodeValue);
-    $.ajax({
-        url: '/StockActual/' + Producto,
-        success: function (Consulta) {
-            var Producto = Consulta[0].Producto;
-            var Supuesto = document.getElementById("Producto" + j).value || 0;
-            var Actual = Consulta[0].Stock;
-            var ObjetoTabla = [Producto,Supuesto,Actual];
-
-            $.post("/AudiCiclica", // url
-                {
-                    ObjetoTabla
-                }, // data to be submit
-                function (objeto, estatus) { // success callback
-                    //console.log("objeto: " + objeto + "Estatus: " + estatus);
-                });
-        } //Funcion success
-    }); //Ajax
+function PostAuditoriaCiclica(Arreglo){
+    $.post("/AudiCiclica", // url
+    {
+        Arreglo
+    }, // data to be submit
+    function (objeto, estatus) { // success callback
+        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+    });
+    setTimeout("redireccionar()", 1000); //Tiempo para reedireccionar
 }
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url

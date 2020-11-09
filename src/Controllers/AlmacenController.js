@@ -247,24 +247,23 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Producto = Object.values(data)[0][0]; //obeter datos de un objeto Producto
-            let Contado = Object.values(data)[0][1]; //obeter datos de un objeto Cantidad
-            let Stock = Object.values(data)[0][2]; //obeter datos de un objeto Cantidad
             let Planta = req.session.planta;
             let Usuario = req.session.nombre;
             let FechaReq = new Date();
-
-            console.log("Producto: " + Producto+ " Contado: " + Contado + " Stock:" + Stock);
-
-            if (err) {
-                console.log("Conexion: " + err)
+            console.table(data);
+            var limite = Object.values(data)[0].length || 0;
+            for(var i = 0; i < limite; i ++){
+                var Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
+                var Contado = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
+                var Stock = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+                //console.log("Producto: " + Producto+ " Contado: " + Contado + " Stock:" + Stock);
+                conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado, Stock, Usuario, Planta, FechaReq], (err, ot) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error al registrar auditoria ciclica' + err);
+                    }       
+                });
             }
-            conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado, Stock, Usuario, Planta, FechaReq], (err, ot) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error al registrar auditoria ciclica' + err);
-                }
-            });
         });
     } else {
         res.render('Admin/Login.html');
@@ -314,9 +313,9 @@ Controller.UpdatePreAudit = (req, res) => { //Guarda la auditoria diaria de cada
             if (err) {
                 console.log("Conexion: " + err)
             }
+            console.log("Entre en Estado auditoria");
             conn.query("call CambiarEstadoAuditoria('" + Turno + "','" + planta + "');", true, (err, rows, fields) => {
                 if (err) {
-                    res.json(err);
                     console.log('Error al registrar folios' + err);
                 } else {
                     console.log('Se cambio de estado');

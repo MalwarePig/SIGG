@@ -213,6 +213,7 @@ router.get('/AjusteInventario', (req, res) => {
 	}
 	res.render('Admin/Login.html');
 });
+
 //====== Requisicion ========
 //Abre pagina principal para requerir
 router.get('/wh_Requisicion', (req, res) => {
@@ -349,6 +350,18 @@ router.get('/ComprasPronosticos', ComprasController.list);
 router.get('/RPronosticos/:Herr', ComprasController.Resumen);
 //====== Guardar Nota de Compras ========
 router.post('/GuardarNotaCompras', ComprasController.NotaCompras);
+
+//====== Mostrar Pronostico ========
+router.get('/Logistica', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Compras/Logistica.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+}); 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 
