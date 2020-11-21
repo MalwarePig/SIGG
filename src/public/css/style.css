@@ -121,63 +121,7 @@ h2 {
   background-color: #4CAF50;
   color: white;
 }
-
-/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-
-#src_sec {
-background-image : url("../img/slide_img.jpg");
-background-position : center center;
-background-size : cover;
-min-height : 500px;
-}
-#abt_sec {
-padding : 70px 0;
-}
-
-.happy_use {
-float : right;
-font-family : open sans;
-line-height : 6px;
-text-align : center;
-margin-top : 10px;
-}
-.happy_use > h2 {
-color : #2c3e50;
-font-size : 17px;
-font-weight : 600;
-margin : 0;
-}
-.happy_use > p {
-font-size : 16px;
-margin : 0;
-}
-.lft_hd img {
-float : left;
-margin-right : 15px;
-margin-top : 19px;
-width : 76px;
-}
-#pricing_sec {
-padding : 70px 0;
-}
-.title_sec {
-margin : 0 auto;
-padding : 0 0 25px 0;
-text-align : center;
-}
-.title_sec h2 {
-color : #606060;
-font-size : 12px;
-text-transform : uppercase;
-letter-spacing : 1px;
-}
-.abt {
-margin : 0 auto;
-text-align : center;
-}
-#skill_sec {
-padding-top : 30px;
-}
+ 
 
 /************************************** GRUPO DE DIVS EN HORARIO DRAG & DROP ********************************************************/
 .list-group-item{

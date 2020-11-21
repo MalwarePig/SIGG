@@ -66,6 +66,28 @@ Controller.login = (req,res) => {
     })
 }
 
+/////////////////////////////////////////////////////////////////////--------------- SignUp ----------------------/////////////////////////////////////////////////////////////////////
+Controller.SignUp = (req,res) => {
+    req.getConnection((err,conn) => {
+        if (req.session.loggedin) {
+            conn.query('SELECT * FROM usuarios',[], (error, results, fields) =>{
+                if(error){
+                    console.log(error);
+                    res.redirect('/');
+                    console.log('error en query');
+                }
+                else if (Object.keys(results).length > 0)//si contiene almenso 1 resultado entra
+                {
+                    res.render('Admin/Signup.html', {
+                        data: results
+                    });
+                }
+            });
+       } else {
+        res.redirect('/');
+       }      
+    })
+}
 
 
 

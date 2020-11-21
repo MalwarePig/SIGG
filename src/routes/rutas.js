@@ -13,6 +13,7 @@ const CRMController = require('../Controllers/CRM_Controller');
 const ProcesosController = require('../Controllers/ProcesosController');
 const ComprasController = require('../Controllers/ComprasController');
 const MaterialesController = require('../Controllers/MaterialesController');
+const LogisiticaController = require('../Controllers/LogisticaController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -24,17 +25,11 @@ var reinicio = router.get('/', (req, res) => {
 router.post('/Login', UserController.login);
  
 //Acceder formulario Registrar usuario
-router.get('/Signup', (req, res) => {
-	if (req.session.loggedin) {
-		res.render('Admin/Signup.html', {
-			title: 'Gemak'
-		});
-	} else {
-		res.render('Admin/Login.html');
-	}
-	//res.end();
-});
 
+//Iniciar logueo
+router.get('/Signup',  UserController.SignUp);
+ 
+ 
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
 
@@ -241,8 +236,22 @@ router.get('/wh_Reporte', (req, res) => {
 	}
 });
 
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
+router.get('/wh_ReporteArticulo', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_ReporteArticulo.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);
+router.get('/TipoReporteHerramienta/:Herramienta', AlmacenController.MostrarReporteHerramienta);
 //====== Intercambios ========
 //Abre pagina principal para recepcion
 router.get('/wh_Intercambio', AlmacenController.Intercambio);
@@ -351,7 +360,7 @@ router.get('/RPronosticos/:Herr', ComprasController.Resumen);
 //====== Guardar Nota de Compras ========
 router.post('/GuardarNotaCompras', ComprasController.NotaCompras);
 
-//====== Mostrar Pronostico ========
+//====== Mostrar Logistica ========
 router.get('/Logistica', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Compras/Logistica.html', {
@@ -362,6 +371,26 @@ router.get('/Logistica', (req, res) => {
 	}
 	res.end();
 }); 
+
+//====== Guardar Lista Logistica ========
+router.post('/NuevaImportacion', LogisiticaController.NuevaImportacion);
+router.get('/BuscarPedimento/:Variable', LogisiticaController.BuscarPedimento);
+
+//====== Mostrar Kits ========
+router.get('/Kits', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Compras/Kits.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+//====== Mostrar Kits ========
+router.get('/BuscarKits/', LogisiticaController.Kits);
+router.get('/BuscarComponentes/:Variable', LogisiticaController.Componentes);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 

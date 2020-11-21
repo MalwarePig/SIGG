@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="shortcut icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <link rel="icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/86322b1947.js" crossorigin="anonymous"></script>
+  <!-- Barra -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="js/Compras/Logistica.js"></script>
+  <!------ JQUERY PARA USAR AJAX ----->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- css -->
+  <link rel="stylesheet" href="css/StyleLogistica.css">
+
+</head>
+<body>
+  <%- include ('../partials/navegacion.html') %>
+
+
+  <!------ Colapso ----->
+  <div id="accordion">
+
+
+
+    <!------ Componente 2 ----->
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+            aria-controls="collapseTwo">
+            Ensamble - No. Parte - 645856
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+        <div class="card-body">
+ 
+          <!------ SubComponente 1 ----->
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0 p-3 mb-2 bg-light text-dark">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+                  aria-expanded="false" aria-controls="collapseThree">
+                  Componente - NMY33-RC-C7-EST-001-REV1
+                </button>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+              <div class="card-body">
+                <table class="table table-bordered table-hover" id="OTRegistros">
+                  <thead>
+                    <tr>
+                      <th>N°</th>
+                      <th>OT</th>
+                      <th>N° Parte</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td id="indice">1</td>
+                      <td id="Rot">No se que es eso</td>
+                      <td id="numPart">156416135</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+  <!------ Colapso ----->
+
+
+
+  
+
+
+</body>
+
+</html>

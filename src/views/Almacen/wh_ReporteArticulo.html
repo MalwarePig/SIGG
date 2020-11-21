@@ -12,7 +12,9 @@
     <%- include ('../partials/head.html') %>
     <!------incluir cabezera navegacion----->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
     <script type="text/javascript" src="js/Almacen/Reporte.js"></script>
 </head>
 
@@ -23,38 +25,24 @@
     <div class="card text-center">
         <div class="card-header">
             <!------------------------------ BUSCAR -------------------------------------->
-
             <div class="form-row">
-                <div class="form-group col-md-1">
-                    <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
-                    <input required type="date" id="inicio" class="form-control" name="Inicio" autocomplete="off">
-                </div>
 
-                <div class="form-group col-md-1">
-                    <label for="inputAddress2" class="font-weight-bold" >Fecha Vencimiento</label>
-                    <input required type="date" id="fin" class="form-control" name="vencimiento" autocomplete="off">
+                <div class="form-group col-md-2">
+                    <label for="inputAddress2" class="font-weight-bold">Herramienta</label>
+                    <input required type="text" id="BHerramienta" class="form-control"
+                            name="BHerramienta" autocomplete="off">
                 </div>
-                
-                <div class="form-group col-md-1">
-                    <label for="inputState" class="font-weight-bold">Almacen</label>
-                    <select required id="Almacen" name="Sal_Estatus" class="form-control">
-                      <option selected>Bravo</option>
-                      <option >Morelos</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-1">
-                    <label for="inputState" class="font-weight-bold">Categoria</label>
-                    <select required id="Categoria" name="Categoria" class="form-control">
-                      <option value="itemprestado" selected>Despachos</option>
-                      <option value="itemretorno">Retornos</option>
-                    </select>
-                </div>
-
+ 
                 <div class="form-group col-md-1 p-4">
                     <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
-                        onclick="MostrarReporte()">Buscar</button>
+                        onclick="MostrarReporteHerramienta()">Buscar</button>
                 </div>
+
+                <div class="form-group col-md-5 p-4">
+                    <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+                        onclick="ExcelArticulo()">Excel</button>
+                </div>
+
             </div>
         </div>
 
@@ -71,6 +59,7 @@
                         <th>Cantidad</th>
                         <th>Estado</th>
                         <th>OT</th>
+                        <th>Maquina</th>
                         <th>Empleado</th>
                         <th>Almacen</th>
                         <th>Fecha</th>

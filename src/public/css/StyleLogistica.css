@@ -1,0 +1,56 @@
+body {
+    font-family : 'Lato', sans-serif;
+    background :    #f0f0f0;
+    }
+    body p {
+    color : #666666;
+    font-family : "Lato", sans-serif;
+    font-size : 14px;
+    letter-spacing : 1px;
+    }
+    body h1, h2, h3, h4, h5, h6 {
+    color : #141414;
+    font-family : "Lato", sans-serif;
+    font-size : 18px;
+    text-transform : capitalize;
+    font-weight : 800;
+    text-transform : uppercase;
+    }
+
+
+    
+
+/*////////////////////  tabla ///////////////////////////*/
+
+.nav-link {
+    background-color: #f0f0f0;
+  }/* change the brand and text color */
+  .navbar-custom .navbar-brand,
+  .nav-link {
+    color: rgba(56, 56, 56, 0.8);
+  }/* change the link color */
+  .nav-link:hover{
+    color: rgba(0, 0, 0, 0.8);
+  }/* change the link color */
+  
+
+#wrapper {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#wrapper td, #wrapper th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#wrapper tr:nth-child(even){background-color: #f2f2f2;}
+#wrapper tr:hover {background-color: #ddd;}
+#wrapper th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+ 
