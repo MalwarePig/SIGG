@@ -547,14 +547,14 @@ Controller.Asignar = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            var id = Object.values(data)[0]; //obeter datos de un objeto id
-            var Item = Object.values(data)[1]; //obeter datos de un objeto Item
-            var Cantidad = Object.values(data)[2]; //obeter datos de un objeto Cantidad
-            var Planta = Object.values(data)[3]; //obeter datos de un objeto Planta
-            //console.log( id + "','"+Item +"','"+Cantidad+"','"+Planta);
-            if (err) {
-                console.log("Conexion: " + err)
-            } else {
+            var limite = Object.values(data)[0].length;
+            for(var i = 0; i < limite; i++){
+                var id = Object.values(data)[0][i][0]; //obeter datos de un objeto id
+                var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
+                var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+                var Planta = Object.values(data)[0][i][3]; //obeter datos de un objeto Planta
+                console.log( id + "','"+Item +"','"+Cantidad+"','"+Planta);
+ 
                 conn.query("call Asignar('" + id + "','" + Item + "','" + Cantidad + "','" + Planta + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);

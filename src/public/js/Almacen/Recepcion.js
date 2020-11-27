@@ -144,27 +144,28 @@ function EliminarFila(index) {
 function GuardarNota() {
     var tabla = document.getElementById("TablaAsignacion");
     var total = tabla.rows.length //Total de filas
-
+    var Arreglo = [];
     for (var j = 1; j <= total - 1; j++) { //filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
 
-        var ObjetoTabla = {
-            id: tabla.rows[j].cells[0].childNodes[0].nodeValue,
-            Item: tabla.rows[j].cells[1].childNodes[0].nodeValue,
-            Cantidad: tabla.rows[j].cells[2].childNodes[0].nodeValue,
-            Planta: tabla.rows[j].cells[3].childNodes[0].nodeValue
-        }
-        console.table({
-            ObjetoTabla
-        });
-        $.post("/Asignar", // url
-            {
-                ObjetoTabla
-            }, // data to be submit
-            function (objeto, estatus) { // success callback
-                //console.log("objeto: " + objeto + "Estatus: " + estatus);
-            });
+            var id = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+            var Item = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+            var Cantidad = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+            var Planta = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+            var Tabla = [id,Item,Cantidad,Planta,Tabla];
+            Arreglo.push(Tabla);
     } //fin filas
+
+    console.table({
+        Arreglo
+    });
+    $.post("/Asignar", // url
+        {
+            Arreglo
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
 
     //Limpiar tabla 
     var TablaAlmacen = document.getElementById('TablaAsignacion').getElementsByTagName('tbody')[0];

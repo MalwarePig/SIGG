@@ -180,7 +180,6 @@ function GuardarNota() {
 
     for (var j = 1; j <= total - 1; j++) {//filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-
        
             var Folio =  tabla.rows[j].cells[0].childNodes[0].nodeValue;
             var Producto =  tabla.rows[j].cells[1].childNodes[0].nodeValue;
