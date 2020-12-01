@@ -174,7 +174,8 @@ Controller.GuardarNota = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
 
-            var limite = Object.values(data).length;
+            var limite = Object.values(data)[0].length;
+            console.log("Limite: " + limite);
             for (var i = 0; i < limite; i++) {
                 let Folio = Object.values(data)[0][i][0]; //obeter datos de un objeto Folio
                 let Producto = Object.values(data)[0][i][1]; //obeter datos de un objeto Producto
@@ -191,7 +192,7 @@ Controller.GuardarNota = (req, res) => {
                 let Planta = req.session.planta;
                 let Usuario = req.session.username;
  
-               // console.log("Folio: " +Folio + " -Producto " + Producto + " -Entregado " +  Entregado + " -Estado " +  Estado + " -OT " +  OT + " -OTEstatus " +  OTEstatus + " -Maquina " +  Maquina + " -Empleado " +  Empleado + " -Turno " +  Turno + " -Comentario " +  Comentario + " -Movimiento " +  Movimiento + " -Planta " +  Planta + " -Usuario " +  Usuario)
+                console.log("Indice: " + i+" Folio: " +Folio + " Producto " + Producto + " -Entregado " +  Entregado + " -Estado " +  Estado + " -OT " +  OT + " -OTEstatus " +  OTEstatus + " -Maquina " +  Maquina + " -Empleado " +  Empleado + " -Turno " +  Turno + " -Comentario " +  Comentario + " -Movimiento " +  Movimiento + " -Planta " +  Planta + " -Usuario " +  Usuario)
                 conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario, Parcial], (err, ot) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta');
@@ -207,7 +208,7 @@ Controller.GuardarNota = (req, res) => {
                         });
                     });
                 });
-
+                console.log("Sali " + i);
             }
         });
     } else {

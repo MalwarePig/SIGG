@@ -196,6 +196,7 @@ function GuardarNota() {
 
     } //fin filas
 
+    console.table(Arreglo);
     $.post("/GuardarNota", // url
         {
             Arreglo
