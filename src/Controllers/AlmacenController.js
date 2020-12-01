@@ -557,13 +557,12 @@ Controller.Asignar = (req, res) => {
  
                 conn.query("call Asignar('" + id + "','" + Item + "','" + Cantidad + "','" + Planta + "')", true, (err, rows, fields) => {
                     if (err) {
-                        res.json(err);
                         console.log('Error al asignar' + err);
                     } else {
                         console.log('Se asigno herramienta a almacen');
                     }
                 });
-            }
+            }//For
         });
     } else {
         res.render('Admin/Login.html');
@@ -580,7 +579,6 @@ Controller.ConsultaFlotante = (req, res) => {
 
             conn.query("SELECT * FROM ProductoFlotante", (err, Herramientas) => {
                 if (err) {
-                    res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
                 res.json(Herramientas)
@@ -616,15 +614,15 @@ Controller.GuardarRecoleccion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            var id = Object.values(data)[0]; //obeter datos de un objeto id
-            var Item = Object.values(data)[1]; //obeter datos de un objeto Item
-            var Cantidad = Object.values(data)[2]; //obeter datos de un objeto Cantidad
             let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
             let Usuario = req.session.nombre; //obeter datos de un objeto nombre
-            console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
-            if (err) {
-                console.log("Conexion: " + err)
-            } else {
+            var limite = Object.values(data)[0].length;
+            for(var i = 0; i < limite; i++){
+                var id = Object.values(data)[0][i][0]; //obeter datos de un objeto id
+                var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
+                var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+                console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
+ 
                 conn.query("call Recolectar(" + id + ",'" + Item + "'," + Cantidad + ",'" + Planta + "','" + Usuario + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);

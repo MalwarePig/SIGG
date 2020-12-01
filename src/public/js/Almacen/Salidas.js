@@ -1,47 +1,47 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
     var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
-        $.ajax({
-            url: '/BuscarHerramientas/'+Herramientas,
-            success: function (Herramientas) {
-                var Arreglo = [];
-                //Limpiar tabla 
+    $.ajax({
+        url: '/BuscarHerramientas/' + Herramientas,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            if (Herramientas.length == 0) {
+                $("#Vacio").modal();
+            }
+            for (var i = 0; i < Herramientas.length; i++) {
+                var Clave = Herramientas[i].Clave;
+                var Producto = Herramientas[i].Producto;
+                var Stock = Herramientas[i].Stock;
+                var StockUsado = Herramientas[i].StockUsado;
+                var Ubicacion = Herramientas[i].Ubicacion;
+                //Eliminar variable dentro del For
+                Arreglo = [Clave, Producto, Stock, StockUsado, Ubicacion]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
-                var limite = TablaAlmacen.rows.length;
-                for (var i = 0; i < limite; i++) {
-                    $("#Rows").remove();//elimina los elementos con id Rows
-                }
-                if(Herramientas.length == 0){
-                    $("#Vacio").modal();
-                }
-                for (var i = 0; i < Herramientas.length; i++) {
-                    var Clave = Herramientas[i].Clave;
-                    var Producto = Herramientas[i].Producto;
-                    var Stock = Herramientas[i].Stock;
-                    var StockUsado = Herramientas[i].StockUsado;
-                    var Ubicacion = Herramientas[i].Ubicacion;
-                    //Eliminar variable dentro del For
-                    Arreglo = [Clave, Producto, Stock, StockUsado, Ubicacion]
-                    var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
-                    // inserta una fila al final de la tabla
-                    var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-                    for (var x = 0; x < Arreglo.length; x++) {
-                        // inserta una celda en el indice 0
-                        var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows");//se asigna id al incrementar cada fila +1 para contar el encabezado
-                        // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
 
-                        if (x == 4) {//Si termina de registrar datos crear el boton
-                            var newCell = newRow.insertCell(5); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
-                        }
-                    }//fin de for de columnas
-                }//fin de for de filas
-            }//Funcion success
-        });//Ajax
-}//Evento clic
+                    if (x == 4) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
+                    }
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax
+} //Evento clic
 
 
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
@@ -52,7 +52,7 @@ $(function () {
             return false;
         }
     });
-});//Funcion JQuery
+}); //Funcion JQuery
 
 //=========================================== EVENTO CLIC SOBRE LA TABLA DE BUSQUEDA PARA SELECCIONAR HERRAMIENTA =================================================//
 function Seleccion(variable) {
@@ -81,21 +81,21 @@ function CrearNota() {
     var Maquina = document.getElementById("Maquina").value; //Obtiene el valor de Clave
     var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
     var Parcial = document.getElementById("Parcial").value; //Obtiene el valor de Clave
-    var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial,Comentario];
- 
-    var Condicion = true;//para campos vacios
-    for (var a in Arreglo) {//recorrer arreglo en busca de campos vacios
+    var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario];
+
+    var Condicion = true; //para campos vacios
+    for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
         if (Arreglo[a].length == 0) {
-            Condicion = false;//si algun campo esta vacio cambia a falso
+            Condicion = false; //si algun campo esta vacio cambia a falso
         }
     }
-    
-    if (Condicion == true) {//si todos los campos estan llenos avanza
+
+    if (Condicion == true) { //si todos los campos estan llenos avanza
         var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
         // inserta una fila al final de la tabla
         var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
         let indice = (TablaAlmacen.rows.length + 1);
-        newRow.setAttribute("id", "fila" + indice);//se asigna id al incrementar cada fila +1 para contar el encabezado
+        newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
         for (var x = 0; x < Arreglo.length; x++) {
 
             // inserta una celda en el indice 0
@@ -103,7 +103,7 @@ function CrearNota() {
             // adjuntar el texto al nodo
             var newText = document.createTextNode(Arreglo[x]);
             newCell.appendChild(newText);
-            if (x == 7) {//Si termina de registrar datos crear el boton
+            if (x == 7) { //Si termina de registrar datos crear el boton
                 var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
                 newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
             }
@@ -121,10 +121,10 @@ function Folios() {
         url: '/Folio',
         success: function (Folio) {
             var id = Folio[0].Total;
-            var zerofilled = ('000000' + (id+1)).slice(-5);//incrementa la cantidad de folio +1 y se ajusto con ceros a la izquierda
+            var zerofilled = ('000000' + (id + 1)).slice(-5); //incrementa la cantidad de folio +1 y se ajusto con ceros a la izquierda
             document.getElementById("Folio").value = "GemS-" + zerofilled;
-        }//Funcion success
-    });//Ajax 
+        } //Funcion success
+    }); //Ajax 
     TablaRecoleccion();
 }
 
@@ -145,8 +145,8 @@ function Nombres(e) {
                         document.getElementById("Nombre").value = empleados[i].Nombre;
                     }
                 }
-            }//Funcion success
-        });//Ajax 
+            } //Funcion success
+        }); //Ajax 
         return false;
     }
 }
@@ -167,48 +167,50 @@ function Maquinas() {
                 option.text = maquinas[i].Nombre;
                 listMaquina.add(option);
             }
-        }//Funcion success
-    });//Ajax
+        } //Funcion success
+    }); //Ajax
 }
 
 //=========================================== Guardar elementos de la nota =================================================//
 function GuardarNota() {
     var tabla = document.getElementById("Almacen");
-    var total = tabla.rows.length//Total de filas
+    var total = tabla.rows.length //Total de filas
 
     var Arreglo = [];
 
-    for (var j = 1; j <= total - 1; j++) {//filas
+    for (var j = 1; j <= total - 1; j++) { //filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-       
-            var Folio =  tabla.rows[j].cells[0].childNodes[0].nodeValue;
-            var Producto =  tabla.rows[j].cells[1].childNodes[0].nodeValue;
-            var Entregado =  tabla.rows[j].cells[2].childNodes[0].nodeValue;
-            var Estado =  tabla.rows[j].cells[3].childNodes[0].nodeValue;
-            var OT =  tabla.rows[j].cells[4].childNodes[0].nodeValue;
-            var Estatus =  tabla.rows[j].cells[5].childNodes[0].nodeValue;
-            var Maquina =  tabla.rows[j].cells[6].childNodes[0].nodeValue;
-            var Empleado =  tabla.rows[j].cells[7].childNodes[0].nodeValue;
-            var Parcial =  tabla.rows[j].cells[8].childNodes[0].nodeValue;
-            var Comentario = tabla.rows[j].cells[9].childNodes[0].nodeValue ;
-        var Tabla = [Folio,Producto,Entregado,Estado,OT,Estatus,Maquina,Empleado,Parcial,Comentario]
+
+        var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Entregado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var Estatus = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+        var Maquina = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+        var Empleado = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+        var Parcial = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+        var Comentario = tabla.rows[j].cells[9].childNodes[0].nodeValue;
+        var Tabla = [Folio, Producto, Entregado, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario]
         Arreglo.push(Tabla);
-           
-    }//fin filas
+
+    } //fin filas
 
     $.post("/GuardarNota", // url
-    { Arreglo }, // data to be submit
-    function (objeto, estatus) {// success callback
-        //console.log("objeto: " + objeto + "Estatus: " + estatus);
-    });
+        {
+            Arreglo
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
 
     //Limpiar tabla 
     var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
     var limite = TablaAlmacen.rows.length;
     for (var i = 0; i <= limite; i++) {
-        $("#fila" + (i + 1)).remove();//elimina los elementos con id Rows
+        $("#fila" + (i + 1)).remove(); //elimina los elementos con id Rows
     }
- 
+
     document.getElementById("RegistroSalida").reset();
 }
 
@@ -228,20 +230,20 @@ function PreAuditoria() {
                 option.text = maquinas[i].Nombre;
                 listMaquina.add(option);
             }
-        }//Funcion success
-    });//Ajax
+        } //Funcion success
+    }); //Ajax
 }
- 
+
 //=========================================== Contador =================================================//
 
 function animateValue(id, start, end, duration) {
     if (start === end) return;
     var range = end - start;
     var current = start;
-    var increment = end > start? 1 : +1;
+    var increment = end > start ? 1 : +1;
     var stepTime = Math.abs(Math.floor(duration / range));
     var obj = document.getElementById(id);
-    var timer = setInterval(function() {
+    var timer = setInterval(function () {
         current += increment;
         obj.innerHTML = current;
         if (current == end) {
@@ -260,68 +262,72 @@ function TablaRecoleccion() {
             //Limpiar tabla 
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             var limite = Tabla.rows.length;
-            if(Herramientas.length>0){ //Si existen elementos llamar a contador para incremento.
+            if (Herramientas.length > 0) { //Si existen elementos llamar a contador para incremento.
                 animateValue("value", 0, Herramientas.length, 3000);
             }
- 
+
             for (var i = 0; i < Herramientas.length; i++) {
                 var ID = Herramientas[i].id;
                 var Producto = Herramientas[i].Producto;
                 var Cantidad = Herramientas[i].Cantidad;
                 var Planta = Herramientas[i].Planta;
                 //Eliminar variable dentro del For
-                Arreglo = [ID,Producto, Cantidad, Planta];
+                Arreglo = [ID, Producto, Cantidad, Planta];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "Rows"+(i+1));//se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("id", "Rows" + (i + 1)); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 3) {//Si termina de registrar datos crear el boton
+                    if (x == 3) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
-                        newCell.innerHTML = '<input  type="checkbox"  id="Check'+(i+1)+'">';
+                        newCell.innerHTML = '<input  type="checkbox"  id="Check' + (i + 1) + '">';
                     }
-                }//fin de for de columnas
-            }//fin de for de filas
-        }//Funcion success
-    });//Ajax
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax
 }
 
 
 //=========================================== Guardar producto a recolectar =================================================//
 function Recolectar() {
     var tabla = document.getElementById("TablaRecoleccion");
-    var total = tabla.rows.length//Total de filas
+    var total = tabla.rows.length //Total de filas
     var EliminarFila = [];
-    for(var i = 1; i < total; i++){
-        var FilaCheck = document.getElementById("Check"+i);
- 
-        if(FilaCheck.checked == true){
-            var ObjetoTabla = {
-                id: tabla.rows[i].cells[0].childNodes[0].nodeValue,
-                Producto: tabla.rows[i].cells[1].childNodes[0].nodeValue,
-                Cantidad: tabla.rows[i].cells[2].childNodes[0].nodeValue  
-            }
-            EliminarFila.push(i);
+    var Tabla = [];
+    for (var i = 1; i < total; i++) {
+        var FilaCheck = document.getElementById("Check" + i);
 
-            $.post("/GuardarRecoleccion", // url
-            { ObjetoTabla }, // data to be submit
-            function (objeto, estatus) {// success callback
-                //console.log("objeto: " + objeto + "Estatus: " + estatus);
-            });
+        if (FilaCheck.checked == true) {
+
+            var id = tabla.rows[i].cells[0].childNodes[0].nodeValue;
+            var Producto = tabla.rows[i].cells[1].childNodes[0].nodeValue;
+            var Cantidad = tabla.rows[i].cells[2].childNodes[0].nodeValue;
+            var Fila = [id, Producto, Cantidad];
+            Tabla.push(Fila);
+            EliminarFila.push(i);
         }
     }
 
-    for(var j=0; j < EliminarFila.length; j++){
-        $("#Rows"+EliminarFila[j]).remove();//elimina los elementos con id Rows
+    $.post("/GuardarRecoleccion", // url
+        {
+            Tabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
+
+    for (var j = 0; j < EliminarFila.length; j++) {
+        $("#Rows" + EliminarFila[j]).remove(); //elimina los elementos con id Rows
     }
-    setTimeout ("redireccionar()", 2000);//Tiempo para reedireccionar
+    setTimeout("redireccionar()", 2000); //Tiempo para reedireccionar
 }
- 
+
 function runScript(e) {
     if (e.keyCode == 13) {
         GETPRODUCTS();
@@ -332,9 +338,9 @@ function runScript(e) {
 
 function Fecha() {
     var tabla = document.getElementById('Registros').getElementsByTagName('tbody')[0];
-    var total = tabla.rows.length//Total de filasa
-    for (var j = 0; j < total; j++) {//filas
-        let Fecha =  new Date(tabla.rows[j].cells[5].childNodes[0].nodeValue);
+    var total = tabla.rows.length //Total de filasa
+    for (var j = 0; j < total; j++) { //filas
+        let Fecha = new Date(tabla.rows[j].cells[5].childNodes[0].nodeValue);
         console.log('Fecha tabla ' + Fecha);
         var dd = Fecha.getDate();
         var mm = Fecha.getMonth() + 1;
@@ -350,20 +356,20 @@ function Fecha() {
         }
         var today = dd + '/' + mm + '/' + yyyy;
         document.getElementById("Fecha" + j).innerHTML = today;
- 
-    }//fin filas
+
+    } //fin filas
 }
 
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url
-function Tranformer (variable){
+function Tranformer(variable) {
     var Herramienta = "";
-    for(var q = 0; q< variable.length;q++){
-       if(variable.charAt(q) == '/'){
-           Herramienta += '|';
-       }else{
-        Herramienta += variable.charAt(q);
-       }
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '/') {
+            Herramienta += '|';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
     }
     return Herramienta;
 }
@@ -373,8 +379,3 @@ function redireccionar() {
     var pagina = "/wh_Salidas";
     location.href = pagina;
 }
-
-
-
-
-

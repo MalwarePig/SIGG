@@ -16,8 +16,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 	<link rel="stylesheet" href="css/style.css">
-	<script type="text/javascript" src="js/Recursos/xlsxfullmin.js"></script>
+	 <!-- GENERAR EXCEL -->
+	 <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+	<!-- CARGAR EXCEL -->
+ 	<script type="text/javascript" src="js/Recursos/xlsxfullmin.js"></script>
 	<script type="text/javascript" src="js/Recursos/FileSaver.js"></script>
+	
 	<script type="text/javascript" src="js/Almacen/Recepcion.js"></script>
 </head>
 
@@ -37,7 +42,7 @@
 			<div class="card text-center">
 				<div class="card-header">
 					RECEPCIÓN ALMACEN
-				</div>
+					<button type="button" class="btn btn-secondary btn-sm" onclick="FormatoExcel()">Formato</button>				</div>
 				<div class="card-body">
 					<p class="card-text">Selecciona archivo de excel</p>
 					<!-- <a href="#" class="btn btn-primary">Go somewhere</a>-->

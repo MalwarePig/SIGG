@@ -7,20 +7,20 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
             var Ordenado = 0; //LEER LA TABLA
             var Entregado = $(this).find("td").eq(5).html();
             var Tabla = [Producto, Ordenado, Entregado];
-    
+
             Arreglo.push(Tabla);
         }
 
         i++;
     }); //each para recorrer tabla
-     
+
     $.post("/PostRecepcion", // url
-    {
-        Arreglo
-    }, // data to be submit
-    function (Tablas, status) { // success callback
-        console.log(Tablas + status);
-    })
+        {
+            Arreglo
+        }, // data to be submit
+        function (Tablas, status) { // success callback
+            console.log(Tablas + status);
+        })
     alert("Recepción exitosa");
     setTimeout("redireccionar()", 800); //Tiempo para reedireccionar
 
@@ -148,12 +148,12 @@ function GuardarNota() {
     for (var j = 1; j <= total - 1; j++) { //filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
 
-            var id = tabla.rows[j].cells[0].childNodes[0].nodeValue;
-            var Item = tabla.rows[j].cells[1].childNodes[0].nodeValue;
-            var Cantidad = tabla.rows[j].cells[2].childNodes[0].nodeValue;
-            var Planta = tabla.rows[j].cells[3].childNodes[0].nodeValue;
-            var Tabla = [id,Item,Cantidad,Planta,Tabla];
-            Arreglo.push(Tabla);
+        var id = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Item = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Cantidad = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Planta = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var Tabla = [id, Item, Cantidad, Planta, Tabla];
+        Arreglo.push(Tabla);
     } //fin filas
 
     console.table({
@@ -173,9 +173,15 @@ function GuardarNota() {
     for (var i = 0; i <= limite; i++) {
         $("#fila" + (i + 1)).remove(); //elimina los elementos con id Rows
     }
+
     document.getElementById("RegistroSalida").reset();
+    setTimeout("redireccionar()", 1000); //Tiempo para reedireccionar
 }
 
+//Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
+function redireccionar() {
+    location.reload();
+}
 
 //=========================================== CONSULTAR HERRAMIENTAS Flotante =================================================//
 function ConsultaFlotante() {
@@ -190,10 +196,10 @@ function ConsultaFlotante() {
             var limiteMorelos = PlantaMorelos.rows.length;
             var limiteBravo = PlantaBravo.rows.length;
             for (var i = 0; i < limiteMorelos; i++) {
-                $("#RowsM"+i).remove(); //elimina los elementos con id Rows
+                $("#RowsM" + i).remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < limiteBravo; i++) {
-                $("#RowsB"+i).remove(); //elimina los elementos con id Rows
+                $("#RowsB" + i).remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < Herramientas.length; i++) {
                 var Producto = Herramientas[i].Producto;
@@ -207,7 +213,7 @@ function ConsultaFlotante() {
                     for (var x = 0; x < Arreglo.length; x++) {
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "RowsB"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        newRow.setAttribute("id", "RowsB" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
@@ -218,7 +224,7 @@ function ConsultaFlotante() {
                     for (var x = 0; x < Arreglo.length; x++) {
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "RowsM"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        newRow.setAttribute("id", "RowsM" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
@@ -234,4 +240,25 @@ function ConsultaFlotante() {
 //Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
 function redireccionar() {
     location.reload();
+}
+
+
+function FormatoExcel() {
+ 
+    var Proveedor = "Proveedor";
+    var OT = "OT";
+    var Orden = "Orden";
+    var Lin = "Lin";
+    var Producto = "Producto";
+    var Cantidad = "Cantidad";
+    var Mon = "Mon";
+    var Factura = "Factura";
+    var Planta = "Planta";
+    var sheet_1_data = [{Proveedor:'efipack',OT:'1083463',Orden:'GM44185',Lin:'1',Producto:'Producto_ Prueba',Cantidad:'20',Mon:'M.N',Factura:'8337',Planta:'Morelos'}];
+
+    var opts = [{
+        sheetid: 'Hoja1',
+        header: true
+    }];
+    var result = alasql('SELECT * INTO XLSX("Formato_Carga.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }
