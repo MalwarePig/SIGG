@@ -33,13 +33,13 @@ function CrearNotas() {
                 newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
             }
         }
+
         //document.getElementById("RegistroSalida").reset();
         document.getElementById("Producto").value = "";
         document.getElementById("cantidad").value = "";
         document.getElementById("Comentario").value = "N/A";
     }
 }
-
 //=========================================== CONSULTAR HERRAMIENTAS -- BOTON BUSCAR  =================================================//
 function GETPRODUCTS() {
     var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
@@ -142,24 +142,24 @@ function GuardarNota() {
     var tabla = document.getElementById("Almacen");
     var total = tabla.rows.length //Total de filas
 
+    var Arreglo = [];
     for (var j = 1; j <= total - 1; j++) { //filas
-        var ObjetoTabla = {
-            Producto: tabla.rows[j].cells[0].childNodes[0].nodeValue,
-            Cantidad: tabla.rows[j].cells[1].childNodes[0].nodeValue,
-            Estado: tabla.rows[j].cells[2].childNodes[0].nodeValue,
-            Empleado: tabla.rows[j].cells[3].childNodes[0].nodeValue,
-            Comentario: tabla.rows[j].cells[4].childNodes[0].nodeValue
-        }
 
-        console.table(ObjetoTabla);
-        $.post("/CrearIntercambio", // url
-            {
-                ObjetoTabla
-            }, // data to be submit
-            function (objeto, estatus) { // success callback
-                //console.log("objeto: " + objeto + "Estatus: " + estatus);
-            });
+        var Producto = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Cantidad = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Estado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Empleado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var Comentario = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var ObjetoTabla = [Producto, Cantidad, Estado, Empleado, Comentario];
+        Arreglo.push(ObjetoTabla);
     } //fin filas
+    $.post("/CrearIntercambio", // url
+        {
+            Arreglo
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
     PDF();
     //Limpiar tabla 
     var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
@@ -167,7 +167,6 @@ function GuardarNota() {
     for (var i = 0; i <= limite; i++) {
         $("#fila" + (i + 1)).remove(); //elimina los elementos con id Rows
     }
-
     document.getElementById("RegistroSalida").reset();
 }
 
@@ -226,27 +225,28 @@ function Recolectar() {
     var tabla = document.getElementById("Herr_Pendiente");
     var total = tabla.rows.length //Total de filas
     var EliminarFila = [];
+    var Arreglo = [];
     for (var i = 1; i < total; i++) {
         var FilaCheck = document.getElementById("Check" + i);
 
         if (FilaCheck.checked == true) {
-            var ObjetoTabla = {
-                Producto: tabla.rows[i].cells[0].childNodes[0].nodeValue,
-                Cantidad: tabla.rows[i].cells[1].childNodes[0].nodeValue,
-                Estado: tabla.rows[i].cells[2].childNodes[0].nodeValue
-            }
 
+            var Producto = tabla.rows[i].cells[0].childNodes[0].nodeValue;
+            var Cantidad = tabla.rows[i].cells[1].childNodes[0].nodeValue;
+            var Estado = tabla.rows[i].cells[2].childNodes[0].nodeValue;
+            var ObjetoTabla = [Producto,Cantidad,Estado];
+            Arreglo.push(ObjetoTabla);
             EliminarFila.push(i);
-
-            $.post("/GuardarIntercambio", // url
-                {
-                    ObjetoTabla
-                }, // data to be submit
-                function (objeto, estatus) { // success callback
-                    //console.log("objeto: " + objeto + "Estatus: " + estatus);
-                });
         }
     }
+    
+    $.post("/GuardarIntercambio", // url
+    {
+        Arreglo
+    }, // data to be submit
+    function (objeto, estatus) { // success callback
+        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+    });
     console.log("Me sali del for");
 
     setTimeout(() => {
@@ -389,7 +389,7 @@ function PDF() {
             fillColor: [158, 184, 193], //Columnas
             fontSize: number = 8
         },
-        columnStyles: {//Filas
+        columnStyles: { //Filas
             0: {
                 halign: 'center',
                 fillColor: [255, 255, 255],

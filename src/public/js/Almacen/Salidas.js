@@ -191,7 +191,7 @@ function GuardarNota() {
         var Empleado = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Parcial = tabla.rows[j].cells[8].childNodes[0].nodeValue;
         var Comentario = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var Tabla = [Folio, Producto, Entregado, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario]
+        var Tabla = [Folio, Producto, Entregado, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario];
         Arreglo.push(Tabla);
 
     } //fin filas

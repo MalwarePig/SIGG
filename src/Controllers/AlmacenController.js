@@ -53,7 +53,7 @@ Controller.list = (req, res) => {
                             var FechaFinal = new Date();
                             var FechaInicial = new Date();
                             FechaInicial.setDate(FechaInicial.getDate() - 2);
-                            console.log(typeof(FechaInicial) + " Y " + typeof(FechaFinal.toISOString().slice(0, 10)));
+                            console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
                             conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '" + FechaInicial + "' AND  '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                                 if (err) {
                                     res.json("Error json: " + err);
@@ -69,7 +69,7 @@ Controller.list = (req, res) => {
                             var FechaInicial = new Date();
                             console.log("Actual: " + FechaInicial);
                             FechaInicial.setDate(FechaInicial.getDate() - 1);
-                            console.log(typeof(FechaInicial) + " Y " + typeof(FechaFinal.toISOString().slice(0, 10)));
+                            console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
                             conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaInicial.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                                 if (err) {
                                     console.log('Error de lectura');
@@ -85,7 +85,7 @@ Controller.list = (req, res) => {
                         var FechaInicial = new Date();
                         console.log("Actual: " + FechaInicial);
                         FechaInicial.setDate(FechaInicial.getDate() - 1);
-                        console.log(typeof(FechaInicial) + " Y " + typeof(FechaFinal.toISOString().slice(0, 10)));
+                        console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
                         conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaInicial.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
                             if (err) {
                                 console.log('Error de lectura');
@@ -191,8 +191,8 @@ Controller.GuardarNota = (req, res) => {
                 let Movimiento = 'Salida';
                 let Planta = req.session.planta;
                 let Usuario = req.session.username;
- 
-                console.log("Indice: " + i+" Folio: " +Folio + " Producto " + Producto + " -Entregado " +  Entregado + " -Estado " +  Estado + " -OT " +  OT + " -OTEstatus " +  OTEstatus + " -Maquina " +  Maquina + " -Empleado " +  Empleado + " -Turno " +  Turno + " -Comentario " +  Comentario + " -Movimiento " +  Movimiento + " -Planta " +  Planta + " -Usuario " +  Usuario)
+
+                console.log("Indice: " + i + " Folio: " + Folio + " Producto " + Producto + " -Entregado " + Entregado + " -Estado " + Estado + " -OT " + OT + " -OTEstatus " + OTEstatus + " -Maquina " + Maquina + " -Empleado " + Empleado + " -Turno " + Turno + " -Comentario " + Comentario + " -Movimiento " + Movimiento + " -Planta " + Planta + " -Usuario " + Usuario)
                 conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario, Parcial], (err, ot) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta');
@@ -222,22 +222,22 @@ Controller.SavePreAudit = (req, res) => { //Guarda la auditoria diaria de cada a
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
             var limite = Object.values(data)[0].length || 0;
-            for(var i = 0; i < limite; i ++){
+            for (var i = 0; i < limite; i++) {
                 var Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
                 var Cantidad = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
                 var Nota = Object.values(data)[0][i][2]; //obeter datos de un objeto Nota
-    
+
                 var Planta = req.session.planta;
                 var Usuario = req.session.nombre;
- 
-                console.log("Producto "+Producto+ " Cantidad: " + Cantidad+ " Usuario: " + Usuario+ " Planta: "+ Planta+   " Nota: " +Nota);
-                conn.query("INSERT INTO RegistrosFaltantes(Producto, Cantidad, Auditor,Almacen, Notas) values ('"+Producto+"',"+ Cantidad+",'"+ Usuario+"','"+ Planta+"','"+ Nota+"')", [], (err, ot) => {
+
+                console.log("Producto " + Producto + " Cantidad: " + Cantidad + " Usuario: " + Usuario + " Planta: " + Planta + " Nota: " + Nota);
+                conn.query("INSERT INTO RegistrosFaltantes(Producto, Cantidad, Auditor,Almacen, Notas) values ('" + Producto + "'," + Cantidad + ",'" + Usuario + "','" + Planta + "','" + Nota + "')", [], (err, ot) => {
                     if (err) {
                         console.log('Error al registrar auditoriass' + err);
                     }
                 });
             }
-           
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -253,7 +253,7 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
             let FechaReq = new Date();
             console.table(data);
             var limite = Object.values(data)[0].length || 0;
-            for(var i = 0; i < limite; i ++){
+            for (var i = 0; i < limite; i++) {
                 var Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
                 var Contado = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
                 var Stock = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
@@ -262,7 +262,7 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error al registrar auditoria ciclica' + err);
-                    }       
+                    }
                 });
             }
         });
@@ -472,7 +472,7 @@ Controller.GuardarRecepcion = (req, res) => {
                 let Entregado = Object.values(data)[0][i][2]; //obeter datos de un objeto Entregado
                 let Usuario = req.session.nombre; //obeter datos de un objeto nombre
                 let Estatus = "N/A"; //obeter datos de un objeto Folio
-                console.log("Producto: " +Producto+" Ordenado: " +Ordenado + " Entregado: "+Entregado);
+                console.log("Producto: " + Producto + " Ordenado: " + Ordenado + " Entregado: " + Entregado);
 
                 if (err) {
                     console.log("Conexion: " + err);
@@ -549,13 +549,13 @@ Controller.Asignar = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
             var limite = Object.values(data)[0].length;
-            for(var i = 0; i < limite; i++){
+            for (var i = 0; i < limite; i++) {
                 var id = Object.values(data)[0][i][0]; //obeter datos de un objeto id
                 var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
                 var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
                 var Planta = Object.values(data)[0][i][3]; //obeter datos de un objeto Planta
-                console.log( id + "','"+Item +"','"+Cantidad+"','"+Planta);
- 
+                console.log(id + "','" + Item + "','" + Cantidad + "','" + Planta);
+
                 conn.query("call Asignar('" + id + "','" + Item + "','" + Cantidad + "','" + Planta + "')", true, (err, rows, fields) => {
                     if (err) {
                         console.log('Error al asignar' + err);
@@ -563,7 +563,7 @@ Controller.Asignar = (req, res) => {
                         console.log('Se asigno herramienta a almacen');
                     }
                 });
-            }//For
+            } //For
         });
     } else {
         res.render('Admin/Login.html');
@@ -618,12 +618,12 @@ Controller.GuardarRecoleccion = (req, res) => {
             let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
             let Usuario = req.session.nombre; //obeter datos de un objeto nombre
             var limite = Object.values(data)[0].length;
-            for(var i = 0; i < limite; i++){
+            for (var i = 0; i < limite; i++) {
                 var id = Object.values(data)[0][i][0]; //obeter datos de un objeto id
                 var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
                 var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
                 console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
- 
+
                 conn.query("call Recolectar(" + id + ",'" + Item + "'," + Cantidad + ",'" + Planta + "','" + Usuario + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
@@ -742,9 +742,11 @@ Controller.MostrarReporte = (req, res) => {
 Controller.MostrarReporteHerramienta = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
-            const {Herramienta} = req.params;
+            const {
+                Herramienta
+            } = req.params;
             var Articulo = Tranformer(Herramienta);
-            conn.query("SELECT * FROM itemprestado WHERE Producto = '"+Articulo+"' ORDER BY Salida Desc", (err, Herramientas) => {
+            conn.query("SELECT * FROM itemprestado WHERE Producto = '" + Articulo + "' ORDER BY Salida Desc", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -788,30 +790,28 @@ function Tranformer(variable) {
     return Herramienta;
 }
 
-
-
 Controller.CrearIntercambio = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Producto = Object.values(data)[0]; //obeter datos de un objeto Producto
-            let Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
-            let Estado = Object.values(data)[2]; //obeter datos de un objeto OT
-            let Empleado = Object.values(data)[3]; //obeter datos de un objeto OT
-            let Comentario = Object.values(data)[4]; //obeter datos de un objeto OT
             let Estatus = 'Pendiente';
             let Planta = req.session.planta;
+            var limite = Object.values(data)[0].length;
+            for (var i = 0; i < limite; i++) {
 
-            if (err) {
-                console.log("Conexion: " + err)
+                let Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
+                let Cantidad = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
+                let Estado = Object.values(data)[0][i][2]; //obeter datos de un objeto OT
+                let Empleado = Object.values(data)[0][i][3]; //obeter datos de un objeto OT
+                let Comentario = Object.values(data)[0][i][4]; //obeter datos de un objeto OT
+
+                conn.query('INSERT INTO IntercambioActivo(Producto, Cantidad, Estado, Empleado, Planta,Comentario,Estatus)values(?,?,?,?,?,?,?)', [Producto, Cantidad, Estado, Empleado, Planta, Comentario, Estatus], (err, ot) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error al registrar despacho de herramienta' + err);
+                    }
+                });
             }
-
-            conn.query('INSERT INTO IntercambioActivo(Producto, Cantidad, Estado, Empleado, Planta,Comentario,Estatus)values(?,?,?,?,?,?,?)', [Producto, Cantidad, Estado, Empleado, Planta, Comentario, Estatus], (err, ot) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error al registrar despacho de herramienta' + err);
-                }
-            });
         });
     } else {
         res.render('Admin/Login.html');
@@ -841,14 +841,14 @@ Controller.GuardarIntercambio = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            var Item = Object.values(data)[0]; //obeter datos de un objeto Item
-            var Cantidad = Object.values(data)[1]; //obeter datos de un objeto Cantidad
-            var Estado = Object.values(data)[2]; //obeter datos de un objeto Cantidad
-            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
-            console.log(Item + "','" + Cantidad + "','" + Planta);
-            if (err) {
-                console.log("Conexion: " + err)
-            } else {
+            var limite = Object.values(data)[0].length;
+            for (var i = 0; i < limite; i++) {
+                var Item = Object.values(data)[0][i][0]; //obeter datos de un objeto Item
+                var Cantidad = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
+                var Estado = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+                let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+                console.log("Item: " + Item + "', Cantidad: '" + Cantidad + "', Planta: '" + Planta);
+
                 conn.query("call GuardarIntercambio('" + Item + "'," + Cantidad + ",'" + Planta + "','" + Estado + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);

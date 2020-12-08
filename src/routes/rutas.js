@@ -181,6 +181,19 @@ router.post('/Asignar', AlmacenController.Asignar);
 router.get('/ConsultaFlotante', AlmacenController.ConsultaFlotante);
 router.get('/MostrarRecoleccion', AlmacenController.MostrarRecoleccion);
 router.post('/GuardarRecoleccion', AlmacenController.GuardarRecoleccion);
+//====== Crear Herramienta ========
+//Abre pagina principal para editar
+router.get('/wh_ProdNuevo', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_ProdNuevo.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.render('Admin/Login.html');
+	//res.end();
+});
 //====== Editar Herramienta ========
 //Abre pagina principal para editar
 router.get('/wh_Editar', (req, res) => {
