@@ -1,8 +1,6 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
     var variable = Tranformer(document.getElementById("BHerramienta").value);//Cambia el simbolo '/'
-    
- alert(variable);
     $.ajax({
         url: '/BuscarHerramientas/'+variable,
         success: function (Herramientas) {
@@ -65,7 +63,6 @@ function runScript(e) {
     }
 }
 //=========================================== Actualizar Seleccion =================================================//
-
 function Seleccion(variable) {
     var indice = variable - 1;
     Registro = document.getElementById("Herr_Encontradas");

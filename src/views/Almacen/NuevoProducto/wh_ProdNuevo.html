@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
   <!------incluir cabezera navegacion----->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-  <script type="text/javascript" src="js/Compras/Logistica.js"></script>
+  <script type="text/javascript" src="js/Almacen/ProdNuevo.js"></script>
   <!------ JQUERY PARA USAR AJAX ----->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@
 </head>
 
 <body>
-  <%- include ('../partials/navegacion.html') %>
+  <%- include ('../../partials/navegacion.html') %>
 
   <div class="card text-center">
     <div class="card-header">
@@ -46,13 +46,13 @@
       <div class="form-row">
 
         <div class="form-group col-md-1   ">
-          <input required type="text" id="Pedimento" class="form-control" placeholder="Pedimento..."
-            name="Pedimento" autocomplete="off" required>
+          <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+            name="Herramienta" autocomplete="off" onkeypress="runScript(event)" required>
         </div>
 
         <div class="form-group col-md-1">
           <button type="button" id="getProducts" name="getProducts" class="btn btn-dark btn-sm"
-            onclick="Buscar()">Buscar</button>
+          onclick="GETPRODUCTS()">Buscar</button>
         </div>
         <div class="form-group col-md-7">
           <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
@@ -67,20 +67,19 @@
     <!------------------------------ TABLA -------------------------------------->
     <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
         style="width:96%; height:650px; overflow: scroll;">
-        <table class="table table-condensed table-hover " id="TablaReporte">
-            <thead>
-                <tr>
-                    <th>Clave</th>
-                    <th>Articulo</th>
-                    <th>Cantidad</th>
-                    <th>Usados</th>
-                    <th>Ubicacion</th>
-                    <th >Agregar</th>
-                  </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
+        <table class="table table-condensed table-hover" id="Herr_Encontradas">
+          <thead>
+            <tr>
+              <th>Clave</th>
+              <th>Articulo</th>
+              <th>Cantidad</th>
+              <th>Usados</th>
+              <th>Ubicacion</th>
+            </tr>
+          </thead>
+          <tbody>
+         
+          </tbody>
         </table>
     </div>
 </div>
@@ -129,7 +128,7 @@
 
 
 
-  <%- include ('../Compras/ModalLogistica.html') %>
+  <%- include ('../NuevoProducto/ModalNuevoPro.html') %>
 
 
 

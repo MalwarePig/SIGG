@@ -641,6 +641,41 @@ Controller.GuardarRecoleccion = (req, res) => {
 
 
 //============================================================================================================================================================================================================================================
+///////// == Nuevo Producto == ////////////////////////////// == Nuevo Producto == ////////////////////////////// == Nuevo Producto == ////////////////////////// == Nuevo Producto == //////////////////// == Nuevo Producto
+//============================================================================================================================================================================================================================================
+
+Controller.NuevoProducto = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+ 
+            var Clave = Object.values(data)[0][0]; //obeter datos de un objeto Item
+            var Producto = Object.values(data)[0][1]; //obeter datos de un objeto Item
+            var Almacen = Object.values(data)[0][2]; //obeter datos de un objeto Item
+            var Stock = Object.values(data)[0][3]; //obeter datos de un objeto Item
+            var StockMin = Object.values(data)[0][4]; //obeter datos de un objeto Item
+            var StockMax = Object.values(data)[0][5]; //obeter datos de un objeto Item
+            var StockUsado = Object.values(data)[0][6]; //obeter datos de un objeto Item
+            var Ubicacion = Object.values(data)[0][7]; //obeter datos de un objeto Item
+ 
+            conn.query("INSERT INTO almacen(Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion)VALUES('"+Clave+"','"+Producto+"','"+Almacen+"',"+Stock+","+StockMin+","+StockMax+","+StockUsado+",'"+Ubicacion+"')", (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura'+err);
+                }
+                res.json(Herramientas)
+            });
+           // var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+           //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+//============================================================================================================================================================================================================================================
 ///////// == Actualizar Herramienta == ////////////////////////////// == Actualizar Herramienta == ////////////////////////////// == Actualizar Herramienta == ////////////////////////// == Actualizar Herramienta == //////////////////// == 
 //============================================================================================================================================================================================================================================
 

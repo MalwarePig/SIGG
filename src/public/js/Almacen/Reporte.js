@@ -115,6 +115,38 @@ function ExcelArticulo() {
     var result = alasql('SELECT * INTO XLSX("ReporteArticulo.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }
 
+
+function ExcelReporte() {
+    var tabla = document.getElementById("TablaReporte");
+    var total = tabla.rows.length //Total de filas
+
+ 
+    var sheet_1_data = [];
+    for (var j = 0; j <= total - 1; j++) { //filas
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+
+
+        var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Entregado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var Empleado = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+        var Almacen = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+        var Fecha = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+        var Fila = [Folio, Producto, Entregado, Estado, OT, Empleado, Almacen, Fecha]
+        sheet_1_data.push(Fila);
+    } //fin filas
+ 
+ 
+    var opts = [{
+        sheetid: 'Hoja1',
+        header: true
+    }];
+    var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+}
+
+
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url
 function Transformer(variable) {
     var Herramienta = "";

@@ -50,7 +50,16 @@ Controller.login = (req,res) => {
                             res.redirect('/');
                             console.log('error al actualizar nombres');
                         }
-                        res.redirect('/home');
+                        conn.query("SELECT * FROM usuarios WHERE usuario = '"+username+"'", (err, user) => {
+                            if (err) {
+                 
+                                console.log('Error de lectura');
+                            }
+                            console.log(user);
+                            res.render('index.html', {
+                                data: user
+                            });
+                        });
                     }); 
                     //res.send('works');
                 }else{//si las contraseñas no coinciden

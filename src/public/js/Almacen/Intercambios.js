@@ -184,8 +184,8 @@ function MostrarIntercambio() {
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('Herr_Pendiente').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
-            for (var i = 0; i < limite; i++) {
-                $("#Rows").remove(); //elimina los elementos con id Rows
+            for (var i = 0; i <= limite; i++) {
+                $("#Rows"+i).remove(); //elimina los elementos con id Rows
             }
             if (Herramientas.length == 0) {
                 $("#Vacio").modal();
@@ -281,8 +281,8 @@ function MostrarCancelacion() {
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('Herr_Cancelar').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
-            for (var i = 0; i < limite; i++) {
-                $("#Rows" + (i + 1)).remove(); //elimina los elementos con id Rows
+            for (var i = 0; i <= limite; i++) {
+                $("#RowsC"+i).remove(); //elimina los elementos con id Rows
             }
             if (Herramientas.length == 0) {
                 $("#Vacio").modal();
@@ -302,7 +302,7 @@ function MostrarCancelacion() {
                 for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "Rows" + (i + 1)); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("id", "RowsC" + (i + 1)); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);

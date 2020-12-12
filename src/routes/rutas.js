@@ -185,15 +185,13 @@ router.post('/GuardarRecoleccion', AlmacenController.GuardarRecoleccion);
 //Abre pagina principal para editar
 router.get('/wh_ProdNuevo', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Almacen/wh_ProdNuevo.html', {
-			title: 'Gemak'
-		});
+		res.render('Almacen/NuevoProducto/wh_ProdNuevo.html');
 	} else {
 		res.render('Admin/Login.html');
 	}
-	res.render('Admin/Login.html');
-	//res.end();
 });
+
+router.post('/addNuevoProducto', AlmacenController.NuevoProducto);
 //====== Editar Herramienta ========
 //Abre pagina principal para editar
 router.get('/wh_Editar', (req, res) => {
