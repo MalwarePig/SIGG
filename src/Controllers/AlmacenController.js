@@ -33,6 +33,8 @@ Controller.list = (req, res) => {
     if (req.session.loggedin) {
         const planta = req.session.planta;
         const Turno = req.session.turno;
+        let Usuario = req.session.username;
+
         var FechaActual = new Date();
 
         //.log(FechaFinal.getDay());
@@ -47,24 +49,43 @@ Controller.list = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                if (Estado[0].Estado == "0") { //Si no se ha realizado la auditoria debe entrar
-                    if (Turno == "Dia") {
-                        if (FechaActual.getDay() == 1) { //Si es lunes
-                            var FechaFinal = new Date();
-                            var FechaInicial = new Date();
-                            FechaInicial.setDate(FechaInicial.getDate() - 2);
-                            console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
-                            conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '" + FechaInicial + "' AND  '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
-                                if (err) {
-                                    res.json("Error json: " + err);
-                                    console.log('Error de lectura');
-                                }
-                                //console.log(Herramientas);
-                                res.render('Almacen/PreAuditoria.html', {
-                                    data: Herramientas
+                if(Usuario == 'admin'){
+                    res.render('Almacen/wh_Salidas.html');
+                }else{
+                    if (Estado[0].Estado == "0") { //Si no se ha realizado la auditoria debe entrar
+                        if (Turno == "Dia") {
+                            if (FechaActual.getDay() == 1) { //Si es lunes
+                                var FechaFinal = new Date();
+                                var FechaInicial = new Date();
+                                FechaInicial.setDate(FechaInicial.getDate() - 2);
+                                console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
+                                conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  BETWEEN  '" + FechaInicial + "' AND  '" + FechaFinal.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
+                                    if (err) {
+                                        res.json("Error json: " + err);
+                                        console.log('Error de lectura');
+                                    }
+                                    //console.log(Herramientas);
+                                    res.render('Almacen/PreAuditoria.html', {
+                                        data: Herramientas
+                                    });
                                 });
-                            });
-                        } else { //Si no es lunes
+                            } else { //Si no es lunes
+                                var FechaFinal = new Date();
+                                var FechaInicial = new Date();
+                                console.log("Actual: " + FechaInicial);
+                                FechaInicial.setDate(FechaInicial.getDate() - 1);
+                                console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
+                                conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaInicial.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
+                                    if (err) {
+                                        console.log('Error de lectura');
+                                    }
+                                    //console.log(Herramientas);
+                                    res.render('Almacen/PreAuditoria.html', {
+                                        data: Herramientas
+                                    });
+                                });
+                            }
+                        } else { //Si no es de dia
                             var FechaFinal = new Date();
                             var FechaInicial = new Date();
                             console.log("Actual: " + FechaInicial);
@@ -80,25 +101,11 @@ Controller.list = (req, res) => {
                                 });
                             });
                         }
-                    } else { //Si no es de dia
-                        var FechaFinal = new Date();
-                        var FechaInicial = new Date();
-                        console.log("Actual: " + FechaInicial);
-                        FechaInicial.setDate(FechaInicial.getDate() - 1);
-                        console.log(typeof (FechaInicial) + " Y " + typeof (FechaFinal.toISOString().slice(0, 10)));
-                        conn.query("SELECT * FROM itemprestado where Almacen = '" + planta + "' AND Turno != '" + Turno + "' AND Salida  >= '" + FechaInicial.toISOString().slice(0, 10) + "'", (err, Herramientas) => {
-                            if (err) {
-                                console.log('Error de lectura');
-                            }
-                            //console.log(Herramientas);
-                            res.render('Almacen/PreAuditoria.html', {
-                                data: Herramientas
-                            });
-                        });
+                    } else {
+                        res.render('Almacen/wh_Salidas.html');
                     }
-                } else {
-                    res.render('Almacen/wh_Salidas.html');
                 }
+                
             });
         });
     } else {
@@ -260,7 +267,6 @@ Controller.AudiCiclica = (req, res) => { //Guarda la auditoria diaria de cada al
                 //console.log("Producto: " + Producto+ " Contado: " + Contado + " Stock:" + Stock);
                 conn.query('INSERT INTO AudiCiclico(id,Producto, Contado,Stock, Auditor,Almacen,Fecha)values(?,?,?,?,?,?,?)', [0, Producto, Contado, Stock, Usuario, Planta, FechaReq], (err, ot) => {
                     if (err) {
-                        res.json("Error json: " + err);
                         console.log('Error al registrar auditoria ciclica' + err);
                     }
                 });
@@ -285,8 +291,7 @@ Controller.StockActual = (req, res) => { //Guarda la auditoria diaria de cada al
 
             conn.query("SELECT * FROM almacen where Producto ='" + Producto + "' AND Almacen = '" + Planta + "'", (err, maquinas) => {
                 if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error de lectura');
+                    console.log('Error de lectura' + err);
                 }
                 res.json(maquinas);
             });
@@ -358,8 +363,7 @@ Controller.searchRetorno = (req, res) => {
 
             conn.query("select * from itemprestado WHERE Maquina = '" + Maquina + "' AND Devuelto < Entregado", (err, Herramientas) => {
                 if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error de lectura');
+                    console.log('Error de lectura' + err);
                 }
                 res.json(Herramientas)
             });
@@ -378,8 +382,7 @@ Controller.FolioRetorno = (req, res) => {
             }
             conn.query("SELECT Count(distinct(Folio)) as Total FROM folioalmacenRetorno", (err, Folio) => {
                 if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error de lectura');
+                    console.log('Error de lectura' + err);
                 }
                 res.json(Folio);
             });
@@ -426,7 +429,6 @@ Controller.GuardarNotaRetorno = (req, res) => {
                         }
                         conn.query("call IncrementarFolioRetornoAlmacen('" + Folio + "');", true, (err, rows, fields) => {
                             if (err) {
-
                                 console.log('Error al registrar folios' + err);
                             } else {
                                 console.log('Se incremento folio');
@@ -469,7 +471,7 @@ Controller.GuardarRecepcion = (req, res) => {
             for (var i = 0; i < limite; i++) {
                 let Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
                 let Ordenado = Object.values(data)[0][i][1]; //obeter datos de un objeto Ordenado
-                let Entregado = Object.values(data)[0][i][2]; //obeter datos de un objeto Entregado
+                let Entregado = parseInt(Object.values(data)[0][i][2]) ; //obeter datos de un objeto Entregado
                 let Usuario = req.session.nombre; //obeter datos de un objeto nombre
                 let Estatus = "N/A"; //obeter datos de un objeto Folio
                 console.log("Producto: " + Producto + " Ordenado: " + Ordenado + " Entregado: " + Entregado);
@@ -480,14 +482,13 @@ Controller.GuardarRecepcion = (req, res) => {
 
                 conn.query('INSERT INTO Recepcion(Producto, Ordenado, Entregado, Usuario, Estatus)values(?,?,?,?,?)', [Producto, Ordenado, Entregado, Usuario, Estatus], (err, ot) => {
                     if (err) {
-                        res.json("Error json: " + err);
-                        console.log('Error al registrar recepcion');
+                        //res.json("Error json: " + err);
+                        console.log('Error al registrar recepcion ' + err);
                     } else {
                         console.log('Recepciono exitosa: ' + Producto);
                     }
                 });
             }
-
         });
     } else {
         res.render('Admin/Login.html');
@@ -533,7 +534,6 @@ Controller.ConsultaRecepcion = (req, res) => {
 
             conn.query("SELECT * FROM Recepcion WHERE Estatus = 'N/A' ORDER BY Entrada", (err, Herramientas) => {
                 if (err) {
-                    res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
                 res.json(Herramientas);
@@ -600,7 +600,6 @@ Controller.MostrarRecoleccion = (req, res) => {
             let Planta = req.session.planta;
             conn.query("SELECT * FROM ProductoFlotante where Planta = 'Almacen " + Planta + "'", (err, Herramientas) => {
                 if (err) {
-                    res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
                 res.json(Herramientas)
@@ -624,15 +623,50 @@ Controller.GuardarRecoleccion = (req, res) => {
                 var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
                 console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
 
-                conn.query("call Recolectar(" + id + ",'" + Item + "'," + Cantidad + ",'" + Planta + "','" + Usuario + "')", true, (err, rows, fields) => {
+                conn.query("SELECT * FROM ProductoFlotante where Planta = 'Almacen " + Planta + "'", (err, Herramientas) => {
                     if (err) {
-                        res.json(err);
-                        console.log('Error al Recolectar' + err);
-                    } else {
-                        console.log('Se recolectó herramienta a almacen');
+                        console.log('Error de lectura');
                     }
+                    res.json(Herramientas)
                 });
             }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.CancelarFlotante = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                id
+            } = req.params;
+            conn.query("call CancelarAsignacion(" + id + ")", true, (err, rows, fields) => {
+                if (err) {
+                    console.log('Error al asignar' + err);
+                } else {
+                    console.log('Se cancelo correctamente');
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+Controller.EliminarRecepcion = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                id
+            } = req.params;
+            conn.query("DELETE FROM recepcion WHERE id = "+id+"", (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
         });
     } else {
         res.render('Admin/Login.html');
@@ -643,7 +677,6 @@ Controller.GuardarRecoleccion = (req, res) => {
 //============================================================================================================================================================================================================================================
 ///////// == Nuevo Producto == ////////////////////////////// == Nuevo Producto == ////////////////////////////// == Nuevo Producto == ////////////////////////// == Nuevo Producto == //////////////////// == Nuevo Producto
 //============================================================================================================================================================================================================================================
-
 Controller.NuevoProducto = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -668,7 +701,6 @@ Controller.NuevoProducto = (req, res) => {
             });
            // var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
            //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
-
         });
     } else {
         res.render('Admin/Login.html');

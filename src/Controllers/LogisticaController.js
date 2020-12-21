@@ -66,7 +66,8 @@ Controller.Kits = (req, res) => {
     if (req.session.loggedin) {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
-            conn.query("SELECT * FROM Kits", (err, Kits) => {
+            const {Variable} = req.params;
+            conn.query("SELECT * FROM Kits WHERE Parte = '"+Variable+"'", (err, Kits) => {
                 if (err) {
                     console.log('Error de lectura');
                 }
@@ -86,6 +87,24 @@ Controller.Componentes = (req, res) => {
         req.getConnection((err, conn) => {
             const {Variable} = req.params;
             conn.query("SELECT * FROM Componentes WHERE PO = '"+Variable+"'", (err, Componentes) => {
+                if (err) {
+                    console.log('Error de lectura');
+                }
+                console.table(Componentes);
+                res.json(Componentes);
+            });
+        });
+    } else {
+        res.render('Login.html');
+    }
+};
+
+///////// == SubComponentes == ////////////////////////////// == SubComponentes == ////////////////////////////// == SubComponentes == ////////////////////////// == SubComponentes == //////////////////// == SubComponentes == ///////////////////// == SubComponentes == ////////////////
+Controller.SubComponentes = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {Variable} = req.params;
+            conn.query("SELECT * FROM SubComponentes WHERE Parte = '"+Variable+"'", (err, Componentes) => {
                 if (err) {
                     console.log('Error de lectura');
                 }

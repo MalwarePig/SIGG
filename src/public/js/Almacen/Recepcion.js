@@ -54,7 +54,7 @@ function ConsultaRecepcion() {
                 for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("id", "Rows"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
@@ -62,6 +62,8 @@ function ConsultaRecepcion() {
                     if (x == 3) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(4); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
+                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                        newCell.innerHTML = '<button id="Eliminar' + i + '" class="btn btn-dark" name="btn" onclick= Eliminar(' + Arreglo[0] +","+i+ ')>  </button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -117,6 +119,7 @@ function CrearNota() {
                     newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
                 }
             }
+
             //document.getElementById("RegistroSalida").reset();
             document.getElementById("Herramienta").value = "";
             document.getElementById("id").value = "";
@@ -139,7 +142,6 @@ $(function () {
 function EliminarFila(index) {
     $("#fila" + index).remove();
 }
-
 //=========================================== Guardar elementos asignados =================================================//
 function GuardarNota() {
     var tabla = document.getElementById("TablaAsignacion");
@@ -202,11 +204,12 @@ function ConsultaFlotante() {
                 $("#RowsB" + i).remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < Herramientas.length; i++) {
+                var Id = Herramientas[i].id;
                 var Producto = Herramientas[i].Producto;
                 var Cantidad = Herramientas[i].Cantidad;
                 var Planta = Herramientas[i].Planta;
                 //Eliminar variable dentro del For
-                Arreglo = [Producto, Cantidad, Planta];
+                Arreglo = [Id,Producto, Cantidad, Planta];
                 if (Planta == 'Almacen Bravo') { //Si es planta Bravo
                     // inserta una fila al final de la tabla
                     var newRow = PlantaBravo.insertRow(PlantaBravo.rows.length);
@@ -217,6 +220,10 @@ function ConsultaFlotante() {
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
+                        if (x == 3) { //Si termina de registrar datos crear el boton
+                            var newCell = newRow.insertCell(4); //CREAR CELDA
+                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Cancelar(' + Arreglo[0] +","+"RowsB" + i +')></button>';
+                        }
                     } //fin de for de columnas
                 } else { //Si es Morelos
                     // inserta una fila al final de la tabla
@@ -228,23 +235,23 @@ function ConsultaFlotante() {
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
+                        if (x == 3) { //Si termina de registrar datos crear el boton
+                            var newCell = newRow.insertCell(4); //CREAR CELDA
+                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Cancelar(' + Arreglo[0] +","+"RowsM" + i+')></button>';
+                        }
                     } //fin de for de columnas
                 }
-
             } //fin de for de filas
         } //Funcion success
     }); //Ajax
 }
-
 
 //Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
 function redireccionar() {
     location.reload();
 }
 
-
 function FormatoExcel() {
- 
     var Proveedor = "Proveedor";
     var OT = "OT";
     var Orden = "Orden";
@@ -262,3 +269,33 @@ function FormatoExcel() {
     }];
     var result = alasql('SELECT * INTO XLSX("Formato_Carga.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }
+
+//Cancelar asignación
+function Cancelar(id,fila){
+    $.ajax({
+        url: '/CancelarFlotante/'+id,
+        success: function (Resultado) {
+            $(fila).remove();
+        } //Funcion success
+    }); //Ajax
+}
+
+//Eliminar de recepción asignación
+function Eliminar(id,fila){
+    alert(id);
+    $.ajax({
+        url: '/EliminarRecepcion/'+id,
+        success: function (Resultado) {
+            $("#Rows" + fila).remove();
+        } //Funcion success
+    }); //Ajax
+}
+
+
+
+
+
+
+
+
+

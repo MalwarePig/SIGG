@@ -43,7 +43,6 @@ function GETPRODUCTS() {
     }); //Ajax
 } //Evento clic
 
-
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
 $(function () {
     $(".solo-numero").keydown(function (event) {

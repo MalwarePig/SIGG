@@ -37,13 +37,25 @@
 </head>
 
 <body>
-
   <%- include ('../partials/navegacion.html') %>
   <div class="card text-center">
     <div class="card-header">
       <!------------------------------ BUSCAR -------------------------------------->
       <div class="form-row">
+        <div class="form-group col-md-2 p-2">
+          <input required type="text" id="NameKit" class="form-control" placeholder="Número de parte..."
+            name="NameKit" autocomplete="off" onkeypress="runScript(event)" value="648544">
+        </div>
+        <div class="form-group col-md-1 p-0">
+          <button type="button" id="GetKits" name="getProducts" class="btn btn-secondary" onclick="BuscarKits()">Buscar</button>
+        </div>
 
+        <div class="form-group col-md-5 p-0">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+              onclick="ExcelReporte()">Excel</button>
+      </div>
+
+ <!---
         <div class="form-group col-md-1">
           <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
             onclick="MostrarKits()">Mostrar Kits</button>
@@ -57,7 +69,7 @@
           <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
             onclick="MostrarSub()">MostrarSub</button>
         </div>
-
+--->
       </div>
     </div>
   </div>
@@ -158,7 +170,7 @@
               <input type="text" id="S_Rev" class="form-control text-dark" name="Rev" readonly value="">
             </div>
 
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-1">
               <label for="inputAddress" class="font-weight-bold">PO</label>
               <input type="text" id="S_PO" class="form-control text-dark" name="PO" readonly>
             </div>
@@ -168,7 +180,7 @@
               <input type="text" id="S_Ens" class="form-control text-dark" name="Ens" readonly>
             </div>
 
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-2">
               <label for="inputAddress" class="font-weight-bold">Parte</label>
               <input type="text" id="S_Parte" class="form-control text-dark" name="Parte" readonly
                 value="NMY33-RC-C7-EST-001-REV1">
@@ -184,7 +196,7 @@
               <input type="text" id="S_Pendiente" class="form-control text-dark" name="Pendiente" readonly>
             </div>
 
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3">
               <label for="inputAddress" class="font-weight-bold">Descripcion del Producto</label>
               <input type="text" id="S_Descripcion" class="form-control text-dark" name="Descripcion" readonly
                 value="PIEZA PLACA INFERIOR DE ESTRUC">
@@ -196,11 +208,11 @@
           <div class="card-body">
             <!------ SubComponente 1 ----->
             <table class="table table-bordered table-hover" id="OTRegistros">
-              <thead>
+              <thead class="thead-dark">
                 <tr>
-                  <th>N°</th>
-                  <th>OT</th>
-                  <th>N° Parte</th>
+                  <th>Reqs</th>
+                  <th>Cantidad</th>
+                  <th>Staus Material - CONSOP</th>
                 </tr>
               </thead>
               <tbody>

@@ -181,6 +181,8 @@ router.post('/Asignar', AlmacenController.Asignar);
 router.get('/ConsultaFlotante', AlmacenController.ConsultaFlotante);
 router.get('/MostrarRecoleccion', AlmacenController.MostrarRecoleccion);
 router.post('/GuardarRecoleccion', AlmacenController.GuardarRecoleccion);
+router.get('/CancelarFlotante/:id', AlmacenController.CancelarFlotante);
+router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
 //====== Crear Herramienta ========
 //Abre pagina principal para editar
 router.get('/wh_ProdNuevo', (req, res) => {
@@ -357,6 +359,7 @@ router.get('/Pronosticos', (req, res) => {
 	}
 	res.end();
 }); 
+
 //====== Buscar Herramientas ========
 router.get('/VerAlmacen/:Herramienta', ProcesosController.searchPlanta);
 //====== Guardar Pronostico ========
@@ -400,8 +403,22 @@ router.get('/Kits', (req, res) => {
 });
 
 //====== Mostrar Kits ========
-router.get('/BuscarKits/', LogisiticaController.Kits);
+router.get('/BuscarKits/:Variable', LogisiticaController.Kits);
 router.get('/BuscarComponentes/:Variable', LogisiticaController.Componentes);
+router.get('/BuscarSubComponentes/:Variable', LogisiticaController.SubComponentes);
+/////////////////////////////////////////////////////////////// Herramientas //////////////////////////////////////////////////////////////////////////////////
+//Acceder formulario de etiquetas embarque
+router.get('/Etiquetas', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Herramientas/Etiquetas.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
 
