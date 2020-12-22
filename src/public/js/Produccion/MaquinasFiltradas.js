@@ -4,42 +4,45 @@
 var Data;
 var Data_Maquinas;
 
-google.charts.load("current", {packages:["timeline"]});
+google.charts.load("current", {
+  packages: ["timeline"]
+});
 google.charts.setOnLoadCallback(drawChart);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// CAPTURAR TABLA ORIGINAL /////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getTabla(){
+function getTabla() {
   //Obtener la tabla 
   Data = document.getElementById("OTRegistros");
   Data_Maquinas = document.getElementById("MaquinasTabla");
   drawChart();
 }
+ 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////// CARGAR LISTA DE MAQUINAS ////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Cargar_list_Maquina(){
+function Cargar_list_Maquina() {
   //Obtener datos de tabla
-  var total_Maquinas = Data_Maquinas.rows.length//Total de filas
+  var total_Maquinas = Data_Maquinas.rows.length //Total de filas
   var arrayMachin = new Array();
   var Obj_Maquinas = new Object();
   select = document.getElementById("maquina");
   select.options.length = 0;
   //OBTENER FILTRO DE FAMILIA
-  var listaMaquina = document.getElementById("familia"); 
+  var listaMaquina = document.getElementById("familia");
   var indiceMaquina = listaMaquina.selectedIndex;
   var opcionMaquina = listaMaquina.options[indiceMaquina];
-  var valorMaquina = opcionMaquina.value; 
+  var valorMaquina = opcionMaquina.value;
 
   //CREAR ARRAY CON DATOS DE TABLA
-  for(var i = 1; i < total_Maquinas; i++){
-    for(var j = 0; j<2;j++){
+  for (var i = 1; i < total_Maquinas; i++) {
+    for (var j = 0; j < 2; j++) {
       Obj_Maquinas.Familia = Data_Maquinas.rows[i].cells[0].childNodes[0].nodeValue; //Obtiene el valor de familia
       Obj_Maquinas.Nombre = Data_Maquinas.rows[i].cells[1].childNodes[0].nodeValue; //Obtiene el valor de nombre
     }
     arrayMachin[i] = Obj_Maquinas;
-    if((valorMaquina == arrayMachin[i].Familia) || (valorMaquina == 'Todo')){ 
+    if ((valorMaquina == arrayMachin[i].Familia) || (valorMaquina == 'Todo')) {
       option = document.createElement("option");
       option.value = arrayMachin[i].Nombre;
       option.text = arrayMachin[i].Nombre;
@@ -48,10 +51,10 @@ function Cargar_list_Maquina(){
   }
 }
 
- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- ///////////////////////////////////////////////// CREAR TABLA FILTRADA //////////////////////////////////////////////
- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function CrearTablaMaquinas(){
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// CREAR TABLA FILTRADA //////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function CrearTablaMaquinas() {
   //ListBox
   var listaMaquina = document.getElementById("maquina");
   // Obtener el índice de la opción que se ha seleccionado
@@ -61,7 +64,7 @@ function CrearTablaMaquinas(){
   // Obtener el valor y el texto de la opción seleccionada
   var valorMaquina = opcionMaquina.value;
   //Obtener datos de tabla
-  var total = Data.rows.length//Total de filas
+  var total = Data.rows.length //Total de filas
   ////////////////////////////// CREAR NUEVA TABLA //////////////////////////////////////////////////////
   // Obtenemos la referencia del elemento body
   var body = document.getElementsByTagName("body")[0];
@@ -69,11 +72,11 @@ function CrearTablaMaquinas(){
   tabla = document.createElement("table");
   var tblBody = document.createElement("tbody");
   // Creamos las celdas
-  for (var i = 0; i < total; i++){
+  for (var i = 0; i < total; i++) {
     // Creamos las hileras de la tabla
     var fila = document.createElement("tr");
     for (var j = 0; j < 9; j++) {
-      if((i == 0) || (valorMaquina == 'Todo') ){//FORZAR LA TOMA DE VALOR DE LA CABEZERA DE LA TABLA
+      if ((i == 0) || (valorMaquina == 'Todo')) { //FORZAR LA TOMA DE VALOR DE LA CABEZERA DE LA TABLA
         // Crea un elemento <td> y un nodo de texto, hace que el nodo de
         // texto sea el contenido de <td>, ubica el elemento <td> al final
         // de la hilera de la tabla
@@ -81,142 +84,155 @@ function CrearTablaMaquinas(){
         var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue);
         celda.appendChild(textoCelda);
         fila.appendChild(celda);
-        if(i> 0 && j == 8){
+        if (i > 0 && j == 8) {
           newlink = document.createElement('a');
           newlink.setAttribute('class', 'btn btn-info');
-          newlink.setAttribute('href', '/update/'+ Data.rows[i].cells[0].childNodes[0].nodeValue);
+          newlink.setAttribute('href', '/update/' + Data.rows[i].cells[0].childNodes[0].nodeValue);
           celda.appendChild(newlink);
-          fila.appendChild(celda);//Se agrega la informacion de la fila
+          fila.appendChild(celda); //Se agrega la informacion de la fila
         }
       }
-      if((Data.rows[i].cells[5].childNodes[0].nodeValue == valorMaquina)){//OBTENER LOS DATOS CUANDO SE SELECCIONE LA MAQUINA
-          // Crea un elemento <td> y un nodo de texto, hace que el nodo de
-          // texto sea el contenido de <td>, ubica el elemento <td> al final
-          // de la hilera de la tabla
-          var celda = document.createElement("td");
-          var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue);//obtiene el valor
-          celda.appendChild(textoCelda);
-          fila.appendChild(celda);//Se agrega la informacion de la fila
-        if(j == 8){
+      if ((Data.rows[i].cells[5].childNodes[0].nodeValue == valorMaquina)) { //OBTENER LOS DATOS CUANDO SE SELECCIONE LA MAQUINA
+        // Crea un elemento <td> y un nodo de texto, hace que el nodo de
+        // texto sea el contenido de <td>, ubica el elemento <td> al final
+        // de la hilera de la tabla
+        var celda = document.createElement("td");
+        var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue); //obtiene el valor
+        celda.appendChild(textoCelda);
+        fila.appendChild(celda); //Se agrega la informacion de la fila
+        if (j == 8) {
           newlink = document.createElement('a');
           newlink.setAttribute('class', 'btn btn-info');
-          newlink.setAttribute('href', '/update/'+ Data.rows[i].cells[0].childNodes[0].nodeValue);
+          newlink.setAttribute('href', '/update/' + Data.rows[i].cells[0].childNodes[0].nodeValue);
           celda.appendChild(newlink);
-          fila.appendChild(celda);//Se agrega la informacion de la fila
+          fila.appendChild(celda); //Se agrega la informacion de la fila
         }
       }
     }
-  // agregamos la hilera al final de la tabla (al final del elemento tblbody)
-  tblBody.appendChild(fila);
+    // agregamos la hilera al final de la tabla (al final del elemento tblbody)
+    tblBody.appendChild(fila);
   }
-    // modifica el atributo "border" de la tabla y lo fija a "2";
-    tabla.setAttribute("border", 2);
-    tabla.setAttribute("id", "OTRegistros");
-    tabla.setAttribute("class", "table table-bordered table-hover");
-      
-    // posicionamos el <tbody> debajo del elemento <table>
-    tabla.appendChild(tblBody);
-    // appends <table> into <body>
-    body.appendChild(tabla);
+  // modifica el atributo "border" de la tabla y lo fija a "2";
+  tabla.setAttribute("border", 2);
+  tabla.setAttribute("id", "OTRegistros");
+  tabla.setAttribute("class", "table table-bordered table-hover");
+
+  // posicionamos el <tbody> debajo del elemento <table>
+  tabla.appendChild(tblBody);
+  // appends <table> into <body>
+  body.appendChild(tabla);
 
   //SE REMUEVE LA TABLA ORIGINAL
   var node = document.getElementById("OTRegistros");
   node.parentNode.removeChild(node);
-  
+
   var result = document.getElementById("divTabla");
   result.appendChild(tabla);
   drawChart('');
-  }
+}
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////// TIMELINE /////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  function drawChart(filtro) {
-  try{
-    
-  //////////////////// CREAR DATA TABLE ////////////////////////
-  var dataTable = null;
-  dataTable = new google.visualization.DataTable();
-  
-  ////////////////// AGREGAR COLUMNAS ///////////////////////
-  dataTable.addColumn({ type: 'string', id: 'Maquina' });
-  dataTable.addColumn({ type: 'string', id: 'OT' });
-  dataTable.addColumn({ type: 'date', id: 'Start' });
-  dataTable.addColumn({ type: 'date', id: 'End' });
-///////////////////// RECORRER TABLAS ////////////////////////
-  var TablaActual = document.getElementById("OTRegistros");
-  var tabla = Data;//Carga la tabla de OT
-  var TamañoDiv = 75;//Tamaño de pixeles para el div por cada maquina
-  var total = tabla.rows.length;//Total de filas
-  var CantidadMaquinas = 0;//Contador para multiplicar los pixeles del div de la grafica
-  var NombreMaquina = "";//variable de comparacion para contar la cantidad de maquinas
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////// TIMELINE /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function drawChart(filtro) {
+  try {
 
-  //ListBox
-  var listaMaquina = document.getElementById("maquina");
-  // Obtener el índice de la opción que se ha seleccionado
-  var indiceMaquina = listaMaquina.selectedIndex;
-  // Con el índice y el array "options", obtener la opción seleccionada
-  var opcionMaquina = listaMaquina.options[indiceMaquina];
-  // Obtener el valor y el texto de la opción seleccionada
-  var valorMaquina = opcionMaquina.value;
-  for(j=1;j<=total-1;j++){//filas
-    //Obtener la cantidad de maquinas para multiplicar los piexeles por cantidad de maquinas
-    NombreMaquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;//se obtiene maquina actual
-    if(NombreMaquina != tabla.rows[j-1].cells[5].childNodes[0].nodeValue){//se compara maquina con el nombre de la maquina del siguiente registro
-      CantidadMaquinas++;
-    }
+    //////////////////// CREAR DATA TABLE ////////////////////////
+    var dataTable = null;
+    dataTable = new google.visualization.DataTable();
 
-    if(filtro == 'vencidas'){
-      for(t=1;t<= document.getElementById('OTRegistros').rows.length -1;t++){
-        if(tabla.rows[j].cells[0].childNodes[0].nodeValue == TablaActual.rows[t].cells[0].childNodes[0].nodeValue){
+    ////////////////// AGREGAR COLUMNAS ///////////////////////
+    dataTable.addColumn({
+      type: 'string',
+      id: 'Maquina'
+    });
+    dataTable.addColumn({
+      type: 'string',
+      id: 'OT'
+    });
+    dataTable.addColumn({
+      type: 'date',
+      id: 'Start'
+    });
+    dataTable.addColumn({
+      type: 'date',
+      id: 'End'
+    });
+    ///////////////////// RECORRER TABLAS ////////////////////////
+    var TablaActual = document.getElementById("OTRegistros");
+    var tabla = Data; //Carga la tabla de OT
+    var TamañoDiv = 75; //Tamaño de pixeles para el div por cada maquina
+    var total = tabla.rows.length; //Total de filas
+    var CantidadMaquinas = 0; //Contador para multiplicar los pixeles del div de la grafica
+    var NombreMaquina = ""; //variable de comparacion para contar la cantidad de maquinas
+
+    //ListBox
+    var listaMaquina = document.getElementById("maquina");
+    // Obtener el índice de la opción que se ha seleccionado
+    var indiceMaquina = listaMaquina.selectedIndex;
+    // Con el índice y el array "options", obtener la opción seleccionada
+    var opcionMaquina = listaMaquina.options[indiceMaquina];
+    // Obtener el valor y el texto de la opción seleccionada
+    var valorMaquina = opcionMaquina.value;
+    for (j = 1; j <= total - 1; j++) { //filas
+      //Obtener la cantidad de maquinas para multiplicar los piexeles por cantidad de maquinas
+      NombreMaquina = tabla.rows[j].cells[5].childNodes[0].nodeValue; //se obtiene maquina actual
+      if (NombreMaquina != tabla.rows[j - 1].cells[5].childNodes[0].nodeValue) { //se compara maquina con el nombre de la maquina del siguiente registro
+        CantidadMaquinas++;
+      }
+
+      if (filtro == 'vencidas') {
+        for (t = 1; t <= document.getElementById('OTRegistros').rows.length - 1; t++) {
+          if (tabla.rows[j].cells[0].childNodes[0].nodeValue == TablaActual.rows[t].cells[0].childNodes[0].nodeValue) {
+            //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+            var OT = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+            var nPart = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+            var Cantidad = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+            var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+            var Inicio = new Date(FormtatoFechas(tabla.rows[j].cells[6].childNodes[0].nodeValue));
+            var Fin = new Date(FormtatoFechas(tabla.rows[j].cells[7].childNodes[0].nodeValue));
+            ///////////////////////// INSERTAR DATOS ///////////////////////var date_format = new Date(date_input).toDateString("yyyy-MM-dd");
+            //TECNO FON NPRONMEOL
+            dataTable.addRows([
+              [Maquina, OT, Inicio, Fin]
+            ]);
+
+          }
+        }
+      } else {
+        if ((valorMaquina == tabla.rows[j].cells[5].childNodes[0].nodeValue) || (valorMaquina == 'Todo')) {
           //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
           var OT = tabla.rows[j].cells[1].childNodes[0].nodeValue;
           var nPart = tabla.rows[j].cells[2].childNodes[0].nodeValue;
           var Cantidad = tabla.rows[j].cells[4].childNodes[0].nodeValue;
           var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
-          var Inicio = new Date( FormtatoFechas(tabla.rows[j].cells[6].childNodes[0].nodeValue));
-          var Fin = new Date( FormtatoFechas(tabla.rows[j].cells[7].childNodes[0].nodeValue));
+          var Inicio = new Date(FormtatoFechas(tabla.rows[j].cells[6].childNodes[0].nodeValue));
+          var Fin = new Date(FormtatoFechas(tabla.rows[j].cells[7].childNodes[0].nodeValue));
           ///////////////////////// INSERTAR DATOS ///////////////////////var date_format = new Date(date_input).toDateString("yyyy-MM-dd");
           //TECNO FON NPRONMEOL
           dataTable.addRows([
-          [ Maquina, OT, Inicio, Fin]
+            [Maquina, OT, Inicio, Fin]
           ]);
-          
         }
       }
-    }
-    else{
-      if((valorMaquina == tabla.rows[j].cells[5].childNodes[0].nodeValue) || (valorMaquina == 'Todo'))
-      {
-          //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-          var OT = tabla.rows[j].cells[1].childNodes[0].nodeValue;
-          var nPart = tabla.rows[j].cells[2].childNodes[0].nodeValue;
-          var Cantidad = tabla.rows[j].cells[4].childNodes[0].nodeValue;
-          var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
-          var Inicio = new Date( FormtatoFechas(tabla.rows[j].cells[6].childNodes[0].nodeValue) );
-          var Fin = new Date( FormtatoFechas(tabla.rows[j].cells[7].childNodes[0].nodeValue) );
-          ///////////////////////// INSERTAR DATOS ///////////////////////var date_format = new Date(date_input).toDateString("yyyy-MM-dd");
-          //TECNO FON NPRONMEOL
-          dataTable.addRows([
-          [ Maquina, OT, Inicio, Fin]
-          ]);        
-      }
-    }
 
- }//fin FOR filas
-///////////////////////////////////////////////// API TIMELINE //////////////////////////////////////////////////////////////////////////////////
-  var container = document.getElementById('MaquinasLap');
-  var chart = new google.visualization.Timeline(container);
-  TamañoDiv = TamañoDiv * CantidadMaquinas;
-  var options = {
-    height: TamañoDiv,
-    timeline: { showRowLabels: true,colorByRowLabel: true },//Muestra encabezado, un solo color por fila
-    avoidOverlappingGridLines: true, 
-    //colors:['red','#00cc00']
-  };
+    } //fin FOR filas
+    ///////////////////////////////////////////////// API TIMELINE //////////////////////////////////////////////////////////////////////////////////
+    var container = document.getElementById('MaquinasLap');
+    var chart = new google.visualization.Timeline(container);
+    TamañoDiv = TamañoDiv * CantidadMaquinas;
+    var options = {
+      height: TamañoDiv,
+      timeline: {
+        showRowLabels: true,
+        colorByRowLabel: true
+      }, //Muestra encabezado, un solo color por fila
+      avoidOverlappingGridLines: true,
+      //colors:['red','#00cc00']
+    };
 
-  chart.draw(dataTable, options);
-  }catch(e){
+    chart.draw(dataTable, options);
+  } catch (e) {
     console.log(e);
   }
   dataTable = null;
@@ -232,109 +248,107 @@ function daysToMilliseconds(days) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////// FORMATO FECHAS ///////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function FormtatoFechas(fecha){
-  var today = new Date(fecha); 
-  var dd = today.getDate(); 
-  var mm = today.getMonth() + 1; 
-  var yyyy = today.getFullYear(); 
-  if (dd < 10) { 
-      dd = '0' + dd; 
-  } 
-  if (mm < 10) { 
-      mm = '0' + mm; 
-  } 
-  var today =  yyyy+ '/' + mm + '/' + dd; 
+function FormtatoFechas(fecha) {
+  var today = new Date(fecha);
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+  var today = yyyy + '/' + mm + '/' + dd;
   return today;
 }
 
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- ///////////////////////////////////////////////// CREAR TABLA Rezagadas //////////////////////////////////////////////
- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- function CrearTablaRezagada(){
-  try{
-  //ListBox
-  var listaMaquina = document.getElementById("maquina");
-  // Obtener el índice de la opción que se ha seleccionado
-  var indiceMaquina = listaMaquina.selectedIndex;
-  // Con el índice y el array "options", obtener la opción seleccionada
-  var opcionMaquina = listaMaquina.options[indiceMaquina];
-  // Obtener el valor y el texto de la opción seleccionada
-  var valorMaquina = opcionMaquina.value;
-  
-  //Obtener datos de tabla
-  var total = Data.rows.length//Total de filas
-  ////////////////////////////// CREAR NUEVA TABLA //////////////////////////////////////////////////////
-  // Obtenemos la referencia del elemento body
-  var body = document.getElementsByTagName("body")[0];
-  // Creamos un elemento <table> y un elemento <tbody>
-  tabla = document.createElement("table");
-  var tblBody = document.createElement("tbody");
-  // Creamos las celdas
-  for (var i = 0; i < total; i++){
-    // Creamos las hileras de la tabla
-    var fila = document.createElement("tr");
-    for (var j = 0; j < 9; j++) {
-      if(i == 0){//FORZAR LA TOMA DE VALOR DE LA CABEZERA DE LA TABLA
-        // Crea un elemento <td> y un nodo de texto, hace que el nodo de
-        // texto sea el contenido de <td>, ubica el elemento <td> al final
-        // de la hilera de la tabla
-        var celda = document.createElement("td");
-        var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue);
-        celda.appendChild(textoCelda);
-        fila.appendChild(celda);
-      }
-      
-      else if(i > 0){
-        var FechaProd = new Date (FormtatoFechas(Data.rows[i].cells[6].childNodes[0].nodeValue));
-        var FechaVenc = new Date (FormtatoFechas(Data.rows[i].cells[7].childNodes[0].nodeValue));
-        if(FechaProd > FechaVenc){//OBTENER LOS DATOS CUANDO SE SELECCIONE LA MAQUINA
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// CREAR TABLA Rezagadas //////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function CrearTablaRezagada() {
+  try {
+    //ListBox
+    var listaMaquina = document.getElementById("maquina");
+    // Obtener el índice de la opción que se ha seleccionado
+    var indiceMaquina = listaMaquina.selectedIndex;
+    // Con el índice y el array "options", obtener la opción seleccionada
+    var opcionMaquina = listaMaquina.options[indiceMaquina];
+    // Obtener el valor y el texto de la opción seleccionada
+    var valorMaquina = opcionMaquina.value;
+
+    //Obtener datos de tabla
+    var total = Data.rows.length //Total de filas
+    ////////////////////////////// CREAR NUEVA TABLA //////////////////////////////////////////////////////
+    // Obtenemos la referencia del elemento body
+    var body = document.getElementsByTagName("body")[0];
+    // Creamos un elemento <table> y un elemento <tbody>
+    tabla = document.createElement("table");
+    var tblBody = document.createElement("tbody");
+    // Creamos las celdas
+    for (var i = 0; i < total; i++) {
+      // Creamos las hileras de la tabla
+      var fila = document.createElement("tr");
+      for (var j = 0; j < 9; j++) {
+        if (i == 0) { //FORZAR LA TOMA DE VALOR DE LA CABEZERA DE LA TABLA
           // Crea un elemento <td> y un nodo de texto, hace que el nodo de
           // texto sea el contenido de <td>, ubica el elemento <td> al final
           // de la hilera de la tabla
           var celda = document.createElement("td");
-          var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue);//obtiene el valor
+          var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue);
           celda.appendChild(textoCelda);
-          fila.appendChild(celda);//Se agrega la informacion de la fila
-          if(j == 8){//Para agregar boton de editar
-            newlink = document.createElement('a');
-            newlink.setAttribute('class', 'btn btn-info');
-            newlink.setAttribute('href', '/update/'+ Data.rows[i].cells[0].childNodes[0].nodeValue);
-            celda.appendChild(newlink);
-            fila.appendChild(celda);//Se agrega la informacion de la fila
+          fila.appendChild(celda);
+        } else if (i > 0) {
+          var FechaProd = new Date(FormtatoFechas(Data.rows[i].cells[6].childNodes[0].nodeValue));
+          var FechaVenc = new Date(FormtatoFechas(Data.rows[i].cells[7].childNodes[0].nodeValue));
+          if (FechaProd > FechaVenc) { //OBTENER LOS DATOS CUANDO SE SELECCIONE LA MAQUINA
+            // Crea un elemento <td> y un nodo de texto, hace que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+            var textoCelda = document.createTextNode(Data.rows[i].cells[j].childNodes[0].nodeValue); //obtiene el valor
+            celda.appendChild(textoCelda);
+            fila.appendChild(celda); //Se agrega la informacion de la fila
+            if (j == 8) { //Para agregar boton de editar
+              newlink = document.createElement('a');
+              newlink.setAttribute('class', 'btn btn-info');
+              newlink.setAttribute('href', '/update/' + Data.rows[i].cells[0].childNodes[0].nodeValue);
+              celda.appendChild(newlink);
+              fila.appendChild(celda); //Se agrega la informacion de la fila
+            }
           }
-        }
-      }// if i > 0
-    }//For Columnas J
-    // agregamos la hilera al final de la tabla (al final del elemento tblbody)
-    tblBody.appendChild(fila);
-  }
+        } // if i > 0
+      } //For Columnas J
+      // agregamos la hilera al final de la tabla (al final del elemento tblbody)
+      tblBody.appendChild(fila);
+    }
     // modifica el atributo "border" de la tabla y lo fija a "2";
     tabla.setAttribute("border", 2);
     tabla.setAttribute("id", "OTRegistros");
     tabla.setAttribute("class", "table table-bordered table-hover");
-      
+
     // posicionamos el <tbody> debajo del elemento <table>
     tabla.appendChild(tblBody);
     // appends <table> into <body>
     body.appendChild(tabla);
 
-  //SE REMUEVE LA TABLA ORIGINAL
-  var node = document.getElementById("OTRegistros");
-  node.parentNode.removeChild(node);
-  
-  var result = document.getElementById("divTabla");
-  result.appendChild(tabla);
-  drawChart('vencidas');
-   }catch(e){
+    //SE REMUEVE LA TABLA ORIGINAL
+    var node = document.getElementById("OTRegistros");
+    node.parentNode.removeChild(node);
+
+    var result = document.getElementById("divTabla");
+    result.appendChild(tabla);
+    drawChart('vencidas');
+  } catch (e) {
     console.log(e);
-   }
+  }
 }
 
 
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- ///////////////////////////////////////////////// VENTANA EDIAR PUPOP //////////////////////////////////////////////
- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- /*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// VENTANA EDIAR PUPOP //////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
 function AbrirPupop(){
       try{
       console.log('clic');
@@ -358,8 +372,8 @@ function AbrirPupop(){
         console.log(err);
       }
 }*/
- 
- /*function AbrirPupop(){
+
+/*function AbrirPupop(){
    try{
 console.log('clic');
     var btnAbrirPopup = document.getElementById('btn-abrir-popup'),
@@ -383,7 +397,7 @@ console.log('clic');
    
  }*/
 
- //
+//
 
 
 

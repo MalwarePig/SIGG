@@ -31,10 +31,11 @@ Controller.save = async (req,res) => {
     const Maquina = req.body.maquina;
     const Estatus =req.body.Estatus;
     const FechaVenc =  req.body.vencimiento;
+    let Planta = req.session.planta;
     var inicio = new Date(req.body.Inicio);
     inicio.setMinutes(inicio.getMinutes() + inicio.getTimezoneOffset());//SE AJUSTA FECHA Y HORA
-    //console.log("Fecha Final: " + OP.Funciones.CalcularFechaFin(NumPart,inicio,Horas,Cantidad,Maquina));
-    await OP.Funciones.CalcularFechaFin(NumPart,inicio,Horas,Cantidad,Maquina,Estatus,FechaVenc,OT);
+    console.log(NumPart,inicio,Horas,Cantidad,Maquina,Planta);
+    await OP.Funciones.CalcularFechaFin(NumPart,inicio,Horas,Cantidad,Maquina,Estatus,FechaVenc,OT,Planta);
     /*===========================   SE RETRASA 2 SEGUNDOS ANTES DE LANZAR LA PAGINA   ================================*/
     var myVar = setInterval(myTimer, 2000);
     function myTimer() {

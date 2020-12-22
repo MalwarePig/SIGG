@@ -63,7 +63,7 @@ function ConsultaRecepcion() {
                         var newCell = newRow.insertCell(4); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                         var newCell = newRow.insertCell(5); //CREAR CELDA
-                        newCell.innerHTML = '<button id="Eliminar' + i + '" class="btn btn-dark" name="btn" onclick= Eliminar(' + Arreglo[0] +","+i+ ')>  </button>';
+                        newCell.innerHTML = '<button id="Eliminar' + i + '" class="btn btn-danger" name="btn" onclick= Eliminar(' + Arreglo[0] +","+i+ ')>  </button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -222,7 +222,7 @@ function ConsultaFlotante() {
                         newCell.appendChild(newText);
                         if (x == 3) { //Si termina de registrar datos crear el boton
                             var newCell = newRow.insertCell(4); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Cancelar(' + Arreglo[0] +","+"RowsB" + i +')></button>';
+                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=Cancelar(' + Arreglo[0] +","+"RowsB" + i +')></button>';
                         }
                     } //fin de for de columnas
                 } else { //Si es Morelos
@@ -237,7 +237,7 @@ function ConsultaFlotante() {
                         newCell.appendChild(newText);
                         if (x == 3) { //Si termina de registrar datos crear el boton
                             var newCell = newRow.insertCell(4); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Cancelar(' + Arreglo[0] +","+"RowsM" + i+')></button>';
+                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=Cancelar(' + Arreglo[0] +","+"RowsM" + i+')></button>';
                         }
                     } //fin de for de columnas
                 }

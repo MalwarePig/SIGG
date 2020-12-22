@@ -14,6 +14,7 @@ const ProcesosController = require('../Controllers/ProcesosController');
 const ComprasController = require('../Controllers/ComprasController');
 const MaterialesController = require('../Controllers/MaterialesController');
 const LogisiticaController = require('../Controllers/LogisticaController');
+const FlujoController = require('../Controllers/FlujoController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -95,6 +96,18 @@ router.get('/Alta_Maquina', (req, res) => {
 
 //Registrar Maquinas en db
 router.post('/AddMaquina', MaquinariaController.save);
+/////////////////////////////////////////////////////////////////////////// FLUJO ///////////////////////////////////////////////////////////////////////////////
+router.get('/Flujo', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Producción/Flujo.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+router.get('/ConsultaFlujo', FlujoController.list);
 
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin

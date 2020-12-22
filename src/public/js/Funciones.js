@@ -5,7 +5,7 @@ function ValorX(){
 
 
 //RECREA EL CALCULO PARA LA FECHA FIN DE UNA ORDEN
-var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina,Estatus,FechaVenc,OT){
+var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina,Estatus,FechaVenc,OT,Planta){
    /*=========================================================  VARIABLES  =======================================================================================*/
     var Termino = new Date();
     var Horas_Original = horas;
@@ -32,7 +32,7 @@ var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina
                HorasLaborales = consulta[0].Tiempo;//variable para horas predeterminadas para una maquina
                console.log("Si hay historial Horas laboroales: " + HorasLaborales + "  Horas de trabajo: " + HorasTrabajo + " con fecha de inciio: " + inicio);
                var FechaFin =  CalcularFecha(HorasLaborales,HorasTrabajo,inicio);
-               console.log("Fecha REtornada: " + FechaFin);
+               console.log("Fecha Retornada: " + FechaFin);
            }
            console.log("Horas para historial 1: " + Consul_horas);
            var horas = Consul_horas;
@@ -45,9 +45,10 @@ var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina
                FechaInicio : inicio,
                FechaVenc :FechaVenc,
                FechaProd : FechaFin,
-               Horas : horas
+               Horas : horas,
+               Planta: Planta
            };
-      
+      console.table(tabla)
            cnSQL.cnn.query('INSERT INTO ControlPlaner set ? ',[tabla],  (err, ot) =>{
                if(err){
                    console.log(err);
@@ -76,6 +77,7 @@ var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina
         
         var horas = Horas_Original;
         HorasTrabajo = Horas_Original * Cantidad_Original;
+        console.log("HRS: Laborales: " +HorasLaborales +" HorasTrabajo: " +HorasTrabajo+" inicio: " + inicio);
         var FechaFin =  CalcularFecha(HorasLaborales,HorasTrabajo,inicio);
         var tabla = {
             Maquina : Maquina,
@@ -86,9 +88,10 @@ var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina
             FechaInicio : inicio,
             FechaVenc :FechaVenc,
             FechaProd : FechaFin,
-            Horas : horas
+            Horas : horas,
+            Planta : Planta
         };
-   
+        console.table(tabla)
         cnSQL.cnn.query('INSERT INTO ControlPlaner set ? ',[tabla],  (err, ot) =>{
             if(err){
                 console.log(err);

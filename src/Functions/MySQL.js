@@ -2,11 +2,11 @@ const mysql = require('mysql');
 const myConnection = require('express-myconnection');
 
 var connection = mysql.createConnection({
-     host:'localhost',
-     user: 'root',
+     host:'192.168.2.8',
+     user: 'Soporte',
      password: 'Soporte1702861',
      port: 3306,
-     database: 'controlgemakdb'
+     database: 'sigg'
 });
 
 module.exports.cnn = connection;

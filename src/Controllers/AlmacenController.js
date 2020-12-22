@@ -49,9 +49,9 @@ Controller.list = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
                 }
-                if(Usuario == 'admin'){
+                if (Usuario == 'admin') {
                     res.render('Almacen/wh_Salidas.html');
-                }else{
+                } else {
                     if (Estado[0].Estado == "0") { //Si no se ha realizado la auditoria debe entrar
                         if (Turno == "Dia") {
                             if (FechaActual.getDay() == 1) { //Si es lunes
@@ -105,7 +105,7 @@ Controller.list = (req, res) => {
                         res.render('Almacen/wh_Salidas.html');
                     }
                 }
-                
+
             });
         });
     } else {
@@ -471,7 +471,7 @@ Controller.GuardarRecepcion = (req, res) => {
             for (var i = 0; i < limite; i++) {
                 let Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
                 let Ordenado = Object.values(data)[0][i][1]; //obeter datos de un objeto Ordenado
-                let Entregado = parseInt(Object.values(data)[0][i][2]) ; //obeter datos de un objeto Entregado
+                let Entregado = parseInt(Object.values(data)[0][i][2]); //obeter datos de un objeto Entregado
                 let Usuario = req.session.nombre; //obeter datos de un objeto nombre
                 let Estatus = "N/A"; //obeter datos de un objeto Folio
                 console.log("Producto: " + Producto + " Ordenado: " + Ordenado + " Entregado: " + Entregado);
@@ -622,13 +622,7 @@ Controller.GuardarRecoleccion = (req, res) => {
                 var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
                 var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
                 console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
-
-                conn.query("SELECT * FROM ProductoFlotante where Planta = 'Almacen " + Planta + "'", (err, Herramientas) => {
-                    if (err) {
-                        console.log('Error de lectura');
-                    }
-                    res.json(Herramientas)
-                });
+                conn.query("call Recolectar(" + id + ",'" + Item + "'," + Cantidad + ",'" + Planta + "','" + Usuario + "')", true, (err, rows, fields) => {});
             }
         });
     } else {
@@ -661,7 +655,7 @@ Controller.EliminarRecepcion = (req, res) => {
             const {
                 id
             } = req.params;
-            conn.query("DELETE FROM recepcion WHERE id = "+id+"", (err, Herramientas) => {
+            conn.query("DELETE FROM recepcion WHERE id = " + id + "", (err, Herramientas) => {
                 if (err) {
                     console.log('Error de lectura');
                 }
@@ -683,7 +677,7 @@ Controller.NuevoProducto = (req, res) => {
             const data = req.body; //TRAE TODO EL OBJETO
             let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
             let Usuario = req.session.nombre; //obeter datos de un objeto nombre
- 
+
             var Clave = Object.values(data)[0][0]; //obeter datos de un objeto Item
             var Producto = Object.values(data)[0][1]; //obeter datos de un objeto Item
             var Almacen = Object.values(data)[0][2]; //obeter datos de un objeto Item
@@ -692,15 +686,15 @@ Controller.NuevoProducto = (req, res) => {
             var StockMax = Object.values(data)[0][5]; //obeter datos de un objeto Item
             var StockUsado = Object.values(data)[0][6]; //obeter datos de un objeto Item
             var Ubicacion = Object.values(data)[0][7]; //obeter datos de un objeto Item
- 
-            conn.query("INSERT INTO almacen(Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion)VALUES('"+Clave+"','"+Producto+"','"+Almacen+"',"+Stock+","+StockMin+","+StockMax+","+StockUsado+",'"+Ubicacion+"')", (err, Herramientas) => {
+
+            conn.query("INSERT INTO almacen(Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion)VALUES('" + Clave + "','" + Producto + "','" + Almacen + "'," + Stock + "," + StockMin + "," + StockMax + "," + StockUsado + ",'" + Ubicacion + "')", (err, Herramientas) => {
                 if (err) {
-                    console.log('Error de lectura'+err);
+                    console.log('Error de lectura' + err);
                 }
                 res.json(Herramientas)
             });
-           // var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
-           //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
+            // var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+            //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
         });
     } else {
         res.render('Admin/Login.html');

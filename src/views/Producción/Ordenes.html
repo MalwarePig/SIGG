@@ -78,17 +78,29 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="inputState">Familia</label>
-              <select id="familia" class="form-control" onchange="Cargar_list_Maquina()">
+            <div class="form-group col-md-2">
+              <label for="inputState">Planta</label>
+              <select id="Planta" class="form-control" onchange="Cargar_list_Familias()">
                 <option selected>Seleccionar...</option>
-                <option >TORNOS</option>
-                <option>CM GRANDES</option>
-                <option>CM MEDIANOS</option>
-                <option>CM CHICOS</option>
+                <option >Bravo</option>
+                <option >Morelos</option>
               </select>
             </div>
-            <div class="form-group col-md-6">
+
+            <div class="form-group col-md-4">
+              <label for="inputState">Familia</label>
+              <select id="familia" class="form-control" onchange="Cargar_list_Maquina()">
+                <option value="a" selected disabled>seleccione la familia</option>
+                <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
+                <option value="TORNOS CNC" selected>TORNOS CNC</option>
+                <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
+                <option value="ACABADO" selected>ACABADO</option>
+                <option value="CALIDAD" selected>CALIDAD</option>
+                <option value="OTROS" selected>OTROS</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
               <label for="inputState">Máquinas</label>
               <select required id="maquina"  name="maquina" class="form-control">
                 <option selected>Todo</option>
@@ -140,7 +152,7 @@
                     <td id="inicio"><%= new Date(data[i].FechaInicio).toDateString() %></td>
                     <td id="Rfin"><%= new Date(data[i].FechaProd).toDateString() %></td>
                     <td id="Rfin"><%= new Date(data[i].FechaVenc).toDateString() %></td>
-                    <td>
+                    <td> 
                       <a href="/update/<%= data[i].id %>" class="btn btn-info">Editar</a>
                       <a href="/delete/<%= data[i].id %>" class="btn btn-danger">Eliminar</a>
                     </td>
