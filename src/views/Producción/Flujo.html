@@ -10,11 +10,15 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%- include ('../partials/head.html') %>
-<!-----------------------------------------------     incluir cabezera navegacion     ---------------------------------------------------------------->
+    <!-----------------------------------------------     incluir cabezera navegacion     ---------------------------------------------------------------->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-    <script type="text/javascript" src="js/Almacen/Salidas.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" src="js/Produccion/Flujo.js"></script>
+    
 </head>
 
 <body>
@@ -28,8 +32,8 @@
 
                         <div class="form-group col-md-4">
                             <select required id="Planta" name="Planta" class="form-control">
-                                <option  value="Nuevo" selected>Bravo</option>
-                                <option  value="Nuevo">Morelos</option>
+                                <option value="Bravo" selected>Bravo</option>
+                                <option value="Morelos">Morelos</option>
                             </select>
                         </div>
 
@@ -47,7 +51,7 @@
                             <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
                                 onclick="Carga()">Buscar</button>
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -58,18 +62,18 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-row">
- 
+
                         <div class="form-group col-md-1.5">
-                            <label  class="font-weight-bold">Activas</label>
+                            <label class="font-weight-bold">Activas</label>
                         </div>
 
                         <div class="form-group col-md-2">
                             <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
                                 name="Sal_Ubicación" autocomplete="off" readonly>
                         </div>
- 
+
                         <div class="form-group col-md-1.5 ">
-                            <label  class="font-weight-bold">Vencidas</label>
+                            <label class="font-weight-bold">Vencidas</label>
                         </div>
 
                         <div class="form-group col-md-2">
@@ -101,13 +105,13 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-3">
- 
+
                             <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
                                 name="Sal_Ubicación" autocomplete="off" readonly required>
                         </div>
 
                         <div class="form-group col-md-3">
- 
+
                             <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
                                 name="Sal_Ubicación" autocomplete="off" readonly required>
                         </div>
@@ -117,33 +121,71 @@
             </div>
         </div>
     </div>
- 
+
     <div class="card text-center">
         <div class="card-body">
             <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-                <table class="table table-condensed table-hover" id="Almacen">
-                    <thead> 
+                <table class="table table-condensed table-hover" id="Tabla">
+                    <thead>
                         <tr>
-                          <th>N°</th>
-                          <th>OT</th>
-                          <th>N° Parte</th>
-                          <th>Estatus</th>
-                          <th>Cantidad</th>
-                          <th>Maquina</th>
-                          <th>Fecha inicio</th>
-                          <th>Fecha fin</th>
-                          <th>Fecha vencimiento</th>
+                            <th>N°</th>
+                            <th>OT</th>
+                            <th>N° Parte</th>
+                            <th>Cantidad</th>
+                            <th>Planta</th>
+                            <th>Area</th>
+                            <th>Fecha inicio</th>
+                            <th>Fecha vencimiento</th>
                         </tr>
-                      </thead>
-                  <tbody>
-        
-                  </tbody>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
                 </table>
-              </div>
+            </div>
         </div>
     </div>
 
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['gantt']});
+        google.charts.setOnLoadCallback(drawChart);
     
-
-
+        function toMilliseconds(minutes) {
+          return minutes * 60 * 1000;
+        }
+    
+        function drawChart() {
+    
+          var otherData = new google.visualization.DataTable();
+          otherData.addColumn('string', 'Task ID');
+          otherData.addColumn('string', 'Task Name');
+          otherData.addColumn('string', 'Resource');
+          otherData.addColumn('date', 'Start');
+          otherData.addColumn('date', 'End');
+          otherData.addColumn('number', 'Duration');
+          otherData.addColumn('number', 'Percent Complete');
+          otherData.addColumn('string', 'Dependencies');
+ 
+          otherData.addRows([
+            ['toTrain', 'Walk to train stop', 'walk', null, null, toMilliseconds(5), 100, null],
+            ['music', 'Listen to music', 'music', null, null, toMilliseconds(70), 100, null],
+            ['wait', 'Wait for train', 'wait', null, null, toMilliseconds(10), 100, 'toTrain'],
+            ['train', 'Train ride', 'train', null, null, toMilliseconds(45), 75, 'wait'],
+            ['toWork', 'Walk to work', 'walk', null, null, toMilliseconds(10), 0, 'train'],
+            ['work', 'Sit down at desk', null, null, null, toMilliseconds(2), 0, 'toWork'],
+          ]);
+          var options = {
+            height: 275,
+            gantt: {
+              defaultStartDateMillis: new Date(2015, 3, 28)
+            }
+          };
+    
+          var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+    
+          chart.draw(otherData, options);
+        }
+      </script>
+ 
+      <div id="chart_div"></div>
 </body>

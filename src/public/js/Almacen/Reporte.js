@@ -88,7 +88,7 @@ function ExcelArticulo() {
     var tabla = document.getElementById("TablaReporte");
     var total = tabla.rows.length //Total de filas
 
- 
+
     var sheet_1_data = [];
     for (var j = 0; j <= total - 1; j++) { //filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
@@ -103,11 +103,11 @@ function ExcelArticulo() {
         var Empleado = tabla.rows[j].cells[6].childNodes[0].nodeValue;
         var Almacen = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
-        var Fila = [Folio, Producto, Entregado, Estado, OT,Maquina, Empleado, Almacen, Fecha]
+        var Fila = [Folio, Producto, Entregado, Estado, OT, Maquina, Empleado, Almacen, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
- 
- 
+
+
     var opts = [{
         sheetid: 'Sheet One',
         header: true
@@ -120,11 +120,10 @@ function ExcelReporte() {
     var tabla = document.getElementById("TablaReporte");
     var total = tabla.rows.length //Total de filas
 
- 
+
     var sheet_1_data = [];
     for (var j = 0; j <= total - 1; j++) { //filas
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-
 
         var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
@@ -137,8 +136,7 @@ function ExcelReporte() {
         var Fila = [Folio, Producto, Entregado, Estado, OT, Empleado, Almacen, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
- 
- 
+
     var opts = [{
         sheetid: 'Hoja1',
         header: true
@@ -158,4 +156,39 @@ function Transformer(variable) {
         }
     }
     return Herramienta;
+}
+
+
+
+
+//Clave,Producto,almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion
+function ExistenciasAlmacen() {
+    $.ajax({
+        url: '/ExistenciasAlmacen/',
+        success: function (Herramientas) {
+            var TotalHerramientas = Herramientas.length;
+
+            var sheet_1_data = [['Clave','Producto','almacen','Stock','StockMin','StockMax','StockUsado','Ubicacion']];
+ 
+            for (var i = 0; i < TotalHerramientas; i++) {
+                var Clave = Herramientas[i].Clave;
+                var Producto = Herramientas[i].Producto;
+                var almacen = Herramientas[i].almacen;
+                var Stock = Herramientas[i].Stock;
+                var StockMin = Herramientas[i].StockMin;
+                var StockMax = Herramientas[i].StockMax;
+                var StockUsado = Herramientas[i].StockUsado;
+                var Ubicacion = Herramientas[i].Ubicacion;
+                var Fila = [Clave, Producto, almacen, Stock, StockMin, StockMax, StockUsado, Ubicacion];
+ 
+                sheet_1_data.push(Fila);
+            } //fin de for de filas
+          
+            var opts = [{
+                sheetid: 'Hoja1',
+                header: false
+            }];
+            var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+        } //Funcion success
+    }); //Ajax
 }

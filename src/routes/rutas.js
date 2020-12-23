@@ -107,7 +107,8 @@ router.get('/Flujo', (req, res) => {
 	}
 	res.end();
 });
-router.get('/ConsultaFlujo', FlujoController.list);
+
+router.get('/ConsultaFlujo/:parametros', FlujoController.list);
 
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
@@ -278,6 +279,7 @@ router.get('/wh_ReporteArticulo', (req, res) => {
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);
 router.get('/TipoReporteHerramienta/:Herramienta', AlmacenController.MostrarReporteHerramienta);
+router.get('/ExistenciasAlmacen/', AlmacenController.ExistenciasAlmacen);
 //====== Intercambios ========
 //Abre pagina principal para recepcion
 router.get('/wh_Intercambio', AlmacenController.Intercambio);
