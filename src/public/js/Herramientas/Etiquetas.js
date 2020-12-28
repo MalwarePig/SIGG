@@ -45,21 +45,27 @@ function PDF() {
     doc.setFontType("bold");
     doc.text("Descripción: ", 10, 175);
     var loremipsum = document.getElementById("Descripcion").value;
-    doc.setFontType("normal");
-    // This line works. Try generating PDF.
-    lines = doc.splitTextToSize(loremipsum, 420); //420 el ancho de la fila para el texto
-    doc.text(10, 200, lines);
-
+    if(loremipsum.length > 42 ){
+        doc.setFontType("normal");
+        doc.setFontSize(40);
+        lines = doc.splitTextToSize(loremipsum, 400); //420 el ancho de la fila para el texto
+    }else{
+        doc.setFontType("normal");
+        // This line works. Try generating PDF.
+        lines = doc.splitTextToSize(loremipsum, 415); //420 el ancho de la fila para el texto
+    }
+        doc.text(10, 200, lines);
     //doc.line(10, 205, 390, 205); // horizontal line (Eje X, Punto Y,Eje X,Punto Y)
-    doc.setFontType("bold");
-    doc.text("Usuario: ", 10, 250);
+    //doc.setFontType("bold");
+   // doc.text("Usuario: ", 180, 65);
+   doc.setFontSize(35);
     doc.setFontType("normal");
-    doc.text(document.getElementById("Usuario").value, 90, 250);
+    doc.text(document.getElementById("Usuario").value.toUpperCase(), 175, 65);
 
-    doc.setFontType("bold");
-    doc.text("Planta: ", 10, 275);
+    //doc.setFontType("bold");
+    //doc.text("Planta: ", 220, 65);
     doc.setFontType("normal");
-    doc.text(document.getElementById("Planta").value, 90, 275);
+    doc.text(document.getElementById("Planta").value.toUpperCase() , 350, 65);
 
 
     doc.save('documento.pdf');
