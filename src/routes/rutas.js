@@ -41,17 +41,7 @@ router.get('/Desarrollo', (req, res) => {
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
-router.get('/home', function (request, response) {
-	if (request.session.loggedin) {
-		response.render('index.html', {
-			title: 'Gemak'
-		});
-		//response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		response.render('Admin/Login.html');
-	}
-	response.end();
-});
+router.get('/home', UserController.HOME);
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A cPlaner /////////////////////////////////////////////////////////////////////////////
 router.get('/cPlaner', function (request, response) {
@@ -425,10 +415,18 @@ router.get('/BuscarSubComponentes/:Variable', LogisiticaController.SubComponente
 //Acceder formulario de etiquetas embarque
 router.get('/Etiquetas', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Herramientas/Etiquetas.html', {
-			title: 'Gemak'
-		});
+		let area = req.session.area;
+		console.log(area);
+		if(area == 'Embarques'){
+			res.render('Herramientas/Etiquetas.html', {
+				title: 'Gemak'
+			});
+		}else{
+			console.log("No area");
+			res.redirect('/home');
+		}
 	} else {
+		console.log("No area 2");
 		res.render('Admin/Login.html');
 	}
 	res.end();

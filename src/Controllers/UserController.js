@@ -98,6 +98,26 @@ Controller.SignUp = (req,res) => {
     })
 }
 
+/////////////////////////////////////////////////////////////////////--------------- HOME ----------------------/////////////////////////////////////////////////////////////////////
+Controller.HOME = (req,res) => {
+    req.getConnection((err,conn) => {
+        if (req.session.loggedin) {
+            console.log("EN home");
+                conn.query("SELECT * FROM usuarios WHERE usuario = '"+ req.session.username+"'", (err, user) => {
+                    if (err) {
+                        console.log('Error de lectura');
+                    }
+                    console.log(user);
+                    res.render('index.html', {
+                        data: user
+                    });
+                });
+       } else {
+        res.redirect('/');
+       }      
+    })
+}
+
 
 
 

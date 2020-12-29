@@ -18,7 +18,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script type="text/javascript" src="js/Produccion/Flujo.js"></script>
-    
+
 </head>
 
 <body>
@@ -105,13 +105,11 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-3">
-
                             <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
                                 name="Sal_Ubicación" autocomplete="off" readonly required>
                         </div>
 
                         <div class="form-group col-md-3">
-
                             <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
                                 name="Sal_Ubicación" autocomplete="off" readonly required>
                         </div>
@@ -146,104 +144,144 @@
         </div>
     </div>
 
-<style>
-/*
+    <style>
+        /*
 Full screen Modal 
 */
-.fullscreen-modal .modal-dialog {
-  margin: 0;
-  margin-right: auto;
-  margin-left: auto;
-  width: 100%;
-}
-@media (min-width: 768px) {
-  .fullscreen-modal .modal-dialog {
-    width: 750px;
-  }
-}
-@media (min-width: 992px) {
-  .fullscreen-modal .modal-dialog {
-    width: 970px;
-  }
-}
-@media (min-width: 1200px) {
-  .fullscreen-modal .modal-dialog {
-     width: 1170px;
-  }
-}
+        .modal-dialog-full-width {
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: none !important;
 
-</style>
-<!-- Modal -->
-<div class="modal fullscreen-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        }
+
+        .modal-content-full-width {
+            height: auto !important;
+            min-height: 100% !important;
+            border-radius: 0 !important;
+            background-color: #ffffff !important
+        }
+
+        .modal-header-full-width {
+            border-bottom: 1px solid #ffffff !important;
+        }
+
+        .modal-footer-full-width {
+            border-top: 1px solid #ffffff !important;
+        }
+    </style>
+
+    <script>
+        function modal() {
+            $("#exampleModalPreview").modal();
+        }
+    </script>
+
+    <!-- Para tabla editable pure -->
+
+    <script>
+
+    </script>
+
+    <div class="container my-4">
+        <!-- Modal -->
+        <div class="modal fade right" id="exampleModalPreview" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+            <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+                <div class="modal-content-full-width modal-content ">
+                    <div class=" modal-header-full-width   modal-header text-center">
+                        <h5 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
+                        </h5>
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                            <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- card -->
+                        <div class="col-sm-4 p-1 shadow-lg">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <input required type="text" id="Cantidad" class="form-control"
+                                                placeholder="Cantidad..." name="Cantidad" autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <select required id="Area" name="Area" class="form-control">
+                                                <option value="Produccion" selected>Producción</option>
+                                                <option value="Acabados">Acabados</option>
+                                                <option value="Trat. Externos">Trat. Externos</option>
+                                                <option value="Calidad">Calidad</option>
+                                                <option value="Embarques">Embarques</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-2 ">
+                                            <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                                                onclick="Transferir()">Transferir</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <br>
+                        <br>
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                                    <table class="table table-condensed table-hover" id="TablaEdit">
+                                        <thead>
+                                            <tr>
+                                                <th>N°</th>
+                                                <th>OT</th>
+                                                <th>N° Parte</th>
+                                                <th>Cantidad</th>
+                                                <th>Planta</th>
+                                                <th>Area</th>
+                                                <th>Fecha inicio</th>
+                                                <th>Fecha vencimiento</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td id="indice"><input required readonly type="text" id="R_id" class="form-control"></input></td>
+                                                <td id="indice"><input required readonly type="text" id="R_OT" class="form-control"></input></td>
+                                                <td id="indice"><input required readonly type="text" id="R_Parte" class="form-control"></input></td>
+                                                <td id="indice"><input required type="text" id="R_Cantidad" class="form-control"></input></td>
+                                                <td id="indice"><select required id="R_Planta" name="Planta" class="form-control">
+                                                        <option value="Bravo" selected>Bravo</option>
+                                                        <option value="Morelos">Morelos</option>
+                                                    </select></td>
+
+                                                <td id="indice"> <select required id="R_Area" name="Area" class="form-control">
+                                                    <option value="Produccion" selected>Produccion</option>
+                                                    <option value="Acabados">Acabados</option>
+                                                    <option value="Trat. Externos">Trat. Externos</option>
+                                                    <option value="Calidad">Calidad</option>
+                                                    <option value="Embarques">Embarques</option>
+                                                </select></td>
+                                                <td id="indice"><input required type="date" id="R_Inicio" class="form-control" name="R_Inicio" autocomplete="off"></td>
+                                                <td id="indice"><input required type="date" id="R_Fin" class="form-control" name="R_Fin" autocomplete="off"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer-full-width  modal-footer">
+                        <button type="button" class="btn btn-danger btn-md btn-rounded"
+                            data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-md btn-rounded">Save changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+    <div id="chart_div"> </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <script type="text/javascript">
-        google.charts.load('current', {'packages':['gantt']});
-        google.charts.setOnLoadCallback(drawChart);
-    
-        function daysToMilliseconds(days) {
-          return days * 24 * 60 * 60 * 1000;
-        }
-    
-        function drawChart() {
-    
-          var data = new google.visualization.DataTable();
-          data.addColumn('string', 'Task ID');
-          data.addColumn('string', 'Task Name');
-          data.addColumn('date', 'Start Date');
-          data.addColumn('date', 'End Date');
-          data.addColumn('number', 'Duration');
-          data.addColumn('number', 'Percent Complete');
-          data.addColumn('string', 'Dependencies');
-    
-          data.addRows([
-            ['Research', 'Find sources',new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
-            ['Write', 'Write paper',null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-            ['Cite', 'Create bibliography', null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
-            ['Complete', 'Hand in paper', null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
-            ['Outline', 'Outline paper', null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research']
-          ]);
-    
-          var options = {
-            height: 275
-          };
-    
-          var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
-    
-          chart.draw(data, options);
-        }
-      </script>
-    
- 
-      <div id="chart_div"></div>
 </body>

@@ -710,16 +710,20 @@ Controller.ActualizarProducto = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            var id = Object.values(data)[0]; //obeter datos de un objeto id
-            var Clave = Object.values(data)[1]; //obeter datos de un objeto Clave
-            var Producto = Object.values(data)[2]; //obeter datos de un objeto Producto
-            var Ubicacion = Object.values(data)[3]; //obeter datos de un objeto Ubicacion
+            console.log(Object.values(data)[0] );
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Clave
+            var Producto = Object.values(data)[0].Producto; //obeter datos de un objeto Producto
+            var StockNuevo = Object.values(data)[0].StockNuevo; //obeter datos de un objeto Ubicacion
+            var StockUsado = Object.values(data)[0].StockUsado; //obeter datos de un objeto Ubicacion
+            var StockMinimo = Object.values(data)[0].StockMinimo; //obeter datos de un objeto Ubicacion
+            var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
 
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion);
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" +StockUsado+ "','" +StockMinimo+ "','" +StockMaximo);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + Ubicacion + "')", true, (err, rows, fields) => {
+                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo +  "','" + StockUsado +  "','" + StockMinimo + "','"+StockMaximo+"')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al actualizar' + err);

@@ -79,18 +79,26 @@ function Seleccion(variable) {
     var id = document.getElementById("id"+indice).value; //Obtiene el valor de id
     var Clave = document.getElementById("Clave"+indice).value; //Obtiene el valor de Clave
     var Producto = document.getElementById("Producto"+indice).value; //Obtiene el valor de Producto
-    var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
+    var StockNuevo = document.getElementById("StockNuevo"+indice).value; //Obtiene el valor de Producto
+    var StockUsado = document.getElementById("StockUsado"+indice).value; //Obtiene el valor de Producto
+    var StockMinimo = document.getElementById("StockMinimo"+indice).value; //Obtiene el valor de Producto
+    var StockMaximo = document.getElementById("StockMaximo"+indice).value; //Obtiene el valor de Producto
+    //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
  
     var ObjetoTabla = {
         id: id,
         Clave: Clave,
         Producto: Producto,
-        Ubicacion: Ubicacion,   
+        StockNuevo : StockNuevo,
+        StockUsado : StockUsado,
+        StockMinimo : StockMinimo,
+        StockMaximo : StockMaximo
     }
- 
+ console.table(ObjetoTabla);
         $.post("/ActualizarProducto", // url
         { ObjetoTabla }, // data to be submit
         function (objeto, estatus) {// success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
+        alert("Listo");
 }
