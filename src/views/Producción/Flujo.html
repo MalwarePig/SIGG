@@ -181,9 +181,6 @@ Full screen Modal
 
     <!-- Para tabla editable pure -->
 
-    <script>
-
-    </script>
 
     <div class="container my-4">
         <!-- Modal -->
@@ -192,41 +189,73 @@ Full screen Modal
             <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
                 <div class="modal-content-full-width modal-content ">
                     <div class=" modal-header-full-width   modal-header text-center">
-                        <h5 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
-                        </h5>
-                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
+                        </h1>
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close" onclick="Eliminar()">
                             <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- card -->
-                        <div class="col-sm-4 p-1 shadow-lg">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-3">
-                                            <input required type="text" id="Cantidad" class="form-control"
-                                                placeholder="Cantidad..." name="Cantidad" autocomplete="off" required>
-                                        </div>
-                                        <div class="form-group col-md-5">
-                                            <select required id="Area" name="Area" class="form-control">
-                                                <option value="Produccion" selected>Producción</option>
-                                                <option value="Acabados">Acabados</option>
-                                                <option value="Trat. Externos">Trat. Externos</option>
-                                                <option value="Calidad">Calidad</option>
-                                                <option value="Embarques">Embarques</option>
-                                            </select>
-                                        </div>
+                        <div class="row">
+                            <!-- card -->
+                            <div class="col-sm-4 p-1 shadow-lg">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <input required type="text" id="Cantidad" class="form-control"
+                                                    placeholder="Cantidad..." name="Cantidad" autocomplete="off"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <select required id="Area" name="Area" class="form-control">
+                                                    <option value="Produccion" selected>Producción</option>
+                                                    <option value="Acabados">Acabados</option>
+                                                    <option value="Trat. Externos">Trat. Externos</option>
+                                                    <option value="Calidad">Calidad</option>
+                                                    <option value="Embarques">Embarques</option>
+                                                </select>
+                                            </div>
 
-                                        <div class="form-group col-md-2 ">
-                                            <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
-                                                onclick="Transferir()">Transferir</button>
+                                            <div class="form-group col-md-2 ">
+                                                <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                                                    onclick="Transferir()">Transferir</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- card -->
+                            <div class="col-sm-4 p-1 shadow-lg">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <input required type="text" id="Cantidad" class="form-control"
+                                                    placeholder="Cantidad..." name="Cantidad" autocomplete="off"
+                                                    required>
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <select required id="Area" name="Area" class="form-control">
+                                                    <option value="Produccion" selected>Producción</option>
+                                                    <option value="Acabados">Acabados</option>
+                                                    <option value="Trat. Externos">Trat. Externos</option>
+                                                    <option value="Calidad">Calidad</option>
+                                                    <option value="Embarques">Embarques</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-2 ">
+                                                <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                                                    onclick="Transferir()">Transferir</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- card -->
                         </div>
-                        <!-- card -->
+                        
                         <br>
                         <br>
                         <div class="card text-center">
@@ -247,41 +276,53 @@ Full screen Modal
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td id="indice"><input required readonly type="text" id="R_id" class="form-control"></input></td>
-                                                <td id="indice"><input required readonly type="text" id="R_OT" class="form-control"></input></td>
-                                                <td id="indice"><input required readonly type="text" id="R_Parte" class="form-control"></input></td>
-                                                <td id="indice"><input required type="text" id="R_Cantidad" class="form-control"></input></td>
-                                                <td id="indice"><select required id="R_Planta" name="Planta" class="form-control">
+                                                <td id="indice"><input required readonly type="text" id="R_id"
+                                                        class="form-control"></input></td>
+                                                <td id="indice"><input required readonly type="text" id="R_OT"
+                                                        class="form-control"></input></td>
+                                                <td id="indice"><input required readonly type="text" id="R_Parte"
+                                                        class="form-control"></input></td>
+                                                <td id="indice"><input required type="text" id="R_Cantidad"
+                                                        class="form-control"></input></td>
+                                                <td id="indice"><select required id="R_Planta" name="Planta"
+                                                        class="form-control">
                                                         <option value="Bravo" selected>Bravo</option>
                                                         <option value="Morelos">Morelos</option>
                                                     </select></td>
 
-                                                <td id="indice"> <select required id="R_Area" name="Area" class="form-control">
-                                                    <option value="Produccion" selected>Produccion</option>
-                                                    <option value="Acabados">Acabados</option>
-                                                    <option value="Trat. Externos">Trat. Externos</option>
-                                                    <option value="Calidad">Calidad</option>
-                                                    <option value="Embarques">Embarques</option>
-                                                </select></td>
-                                                <td id="indice"><input required type="date" id="R_Inicio" class="form-control" name="R_Inicio" autocomplete="off"></td>
-                                                <td id="indice"><input required type="date" id="R_Fin" class="form-control" name="R_Fin" autocomplete="off"></td>
+                                                <td id="indice"> <select required id="R_Area" name="Area"
+                                                        class="form-control">
+                                                        <option value="Produccion" selected>Produccion</option>
+                                                        <option value="Acabados">Acabados</option>
+                                                        <option value="Trat. Externos">Trat. Externos</option>
+                                                        <option value="Calidad">Calidad</option>
+                                                        <option value="Embarques">Embarques</option>
+                                                    </select></td>
+                                                <td id="indice"><input required type="date" id="R_Inicio"
+                                                        class="form-control" name="R_Inicio" autocomplete="off"></td>
+                                                <td id="indice"><input required type="date" id="R_Fin"
+                                                        class="form-control" name="R_Fin" autocomplete="off"></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <div id="GraficaGant" class="Diag shadow-lg">
+
+                                </div>
+
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer-full-width  modal-footer">
                         <button type="button" class="btn btn-danger btn-md btn-rounded"
-                            data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-md btn-rounded">Save changes</button>
+                            data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-md btn-rounded">Guardar cambios</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="chart_div"> </div>
+
 
 </body>
