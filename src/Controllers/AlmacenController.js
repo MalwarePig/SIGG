@@ -641,6 +641,7 @@ Controller.CancelarFlotante = (req, res) => {
                     console.log('Error al asignar' + err);
                 } else {
                     console.log('Se cancelo correctamente');
+                    res.json(true)
                 }
             });
         });

@@ -275,6 +275,7 @@ function Cancelar(id,fila){
     $.ajax({
         url: '/CancelarFlotante/'+id,
         success: function (Resultado) {
+            console.log(Resultado, fila);
             $(fila).remove();
         } //Funcion success
     }); //Ajax
@@ -291,7 +292,7 @@ function Eliminar(id,fila){
     }); //Ajax
 }
 
-
+ 
 
 
 
