@@ -99,6 +99,8 @@ router.get('/Flujo', (req, res) => {
 });
 
 router.get('/ConsultaFlujo/:parametros', FlujoController.list);
+router.get('/FechasFlujo/:OT', FlujoController.FechasFlujo);
+router.get('/ExcelInterno', FlujoController.ExcelInterno);
 
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
@@ -419,6 +421,26 @@ router.get('/Etiquetas', (req, res) => {
 		console.log(area);
 		if(area == 'Embarques'){
 			res.render('Herramientas/Etiquetas.html', {
+				title: 'Gemak'
+			});
+		}else{
+			console.log("No area");
+			res.redirect('/home');
+		}
+	} else {
+		console.log("No area 2");
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+//Acceder formulario de etiquetas embarque
+router.get('/Cotizador', (req, res) => {
+	if (req.session.loggedin) {
+		let area = req.session.area;
+		console.log(area);
+		if(area == 'Admin'){
+			res.render('Herramientas/Cotizador.html', {
 				title: 'Gemak'
 			});
 		}else{

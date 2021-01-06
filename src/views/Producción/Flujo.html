@@ -68,8 +68,8 @@
                         </div>
 
                         <div class="form-group col-md-2">
-                            <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
-                                name="Sal_Ubicación" autocomplete="off" readonly>
+                            <input required type="text" id="Activas" class="form-control" placeholder="0" name="Activas"
+                                autocomplete="off" readonly>
                         </div>
 
                         <div class="form-group col-md-1.5 ">
@@ -77,8 +77,8 @@
                         </div>
 
                         <div class="form-group col-md-2">
-                            <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
-                                name="Sal_Ubicación" autocomplete="off" readonly>
+                            <input required type="text" id="Vencidas" class="form-control" placeholder="0"
+                                name="Vencidas" autocomplete="off" readonly>
                         </div>
 
                         <div class="form-group col-md-1  text-dark  p-1">
@@ -103,17 +103,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-row">
+                        <div class="form-group col-md-2 ">
+                            <button type="button" id="Excel" name="Excel" class="btn btn-lg btn-success"
+                            onclick="Transferir()">Excel</button></div>
 
-                        <div class="form-group col-md-3">
-                            <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
-                                name="Sal_Ubicación" autocomplete="off" readonly required>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2"
-                                name="Sal_Ubicación" autocomplete="off" readonly required>
-                        </div>
-
+                        <div class="form-group col-md-2 "><button type="button" id="PDF" name="PDF" class="btn btn-lg btn-danger"
+                            onclick="Transferir()">PDF</button></div>
                     </div>
                 </div>
             </div>
@@ -178,9 +173,7 @@ Full screen Modal
             $("#exampleModalPreview").modal();
         }
     </script>
-
-    <!-- Para tabla editable pure -->
-
+ 
 
     <div class="container my-4">
         <!-- Modal -->
@@ -191,7 +184,8 @@ Full screen Modal
                     <div class=" modal-header-full-width   modal-header text-center">
                         <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
                         </h1>
-                        <button type="button" class="close " data-dismiss="modal" aria-label="Close" onclick="Eliminar()">
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close"
+                            onclick="Eliminar()">
                             <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -226,36 +220,100 @@ Full screen Modal
                                 </div>
                             </div>
                             <!-- card -->
-                            <div class="col-sm-4 p-1 shadow-lg">
+                            <div class="col-sm-6 p-1 shadow-lg">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <div class="form-group col-md-3">
-                                                <input required type="text" id="Cantidad" class="form-control"
-                                                    placeholder="Cantidad..." name="Cantidad" autocomplete="off"
-                                                    required>
+                                            <div class="form-group col-md-2">
+                                                <input required type="text" id="CantidadTrat" class="form-control"
+                                                    placeholder="Cantidad..." name="CantidadTrat" autocomplete="off">
                                             </div>
-                                            <div class="form-group col-md-5">
-                                                <select required id="Area" name="Area" class="form-control">
-                                                    <option value="Produccion" selected>Producción</option>
-                                                    <option value="Acabados">Acabados</option>
-                                                    <option value="Trat. Externos">Trat. Externos</option>
-                                                    <option value="Calidad">Calidad</option>
-                                                    <option value="Embarques">Embarques</option>
+
+                                            <div class="form-group col-md-3">
+                                                <select required id="Servicios" name="Servicios" class="form-control">
+                                                    <option value="ANODIZADO" selected>ANODIZADO</option>
+                                                    <option value="CADMINIZAD">CADMINIZAD</option>
+                                                    <option value="CEMENTADO">CEMENTADO</option>
+                                                    <option value="COBRE">COBRE</option>
+                                                    <option value="CROMO">CROMO</option>
+                                                    <option value="FOSFATIZAD">FOSFATIZAD</option>
+                                                    <option value="HONE">HONE</option>
+                                                    <option value="HULE">HULE</option>
+                                                    <option value="Manzur">Manzur</option>
+                                                    <option value="NIKEL E">NIKEL E</option>
+                                                    <option value="NITRURADO">NITRURADO</option>
+                                                    <option value="ORO">ORO</option>
+                                                    <option value="PAVON">PAVON</option>
+                                                    <option value="PINTURA">PINTURA</option>
+                                                    <option value="PREMIUM">PREMIUM</option>
+                                                    <option value="PRUEBAS">PRUEBAS</option>
+                                                    <option value="QPQ">QPQ</option>
+                                                    <option value="RECTIFICAD">RECTIFICAD</option>
+                                                    <option value="RELEVADO">RELEVADO</option>
+                                                    <option value="REVENIDO">REVENIDO</option>
+                                                    <option value="SHOTPEEN">SHOTPEEN</option>
+                                                    <option value="SOLDADURA">SOLDADURA</option>
+                                                    <option value="TEMPLE">TEMPLE</option>
+                                                    <option value="TESTIGO">TESTIGO</option>
+                                                    <option value="TROPICALIZ">TROPICALIZ</option>
+                                                    <option value="TUNGSTEN">TUNGSTEN</option>
+                                                    <option value="VULCANIZAD">VULCANIZAD</option>
+                                                    <option value="XYLAN">XYLAN</option>
+                                                    <option value="ZINC">ZINC</option>
                                                 </select>
+                                            </div>
+
+                                            <div class="form-group col-md-3">
+                                                <select required id="Proveedores" name="Proveedores"
+                                                    class="form-control">
+                                                    <option value="Chapa" selected>Chapa</option>
+                                                    <option value="Cromadora del Norte">Cromadora del Norte</option>
+                                                    <option value="Cromo Industrial">Cromo Industrial</option>
+                                                    <option value="Deproinsa">Deproinsa</option>
+                                                    <option value="Generados">Generados</option>
+                                                    <option value="Indux">Indux</option>
+                                                    <option value="Iscsa">Iscsa</option>
+                                                    <option value="Manzur">Manzur</option>
+                                                    <option value="Maquinados Progreso">Maquinados Progreso</option>
+                                                    <option value="Nicolas">Nicolas</option>
+                                                    <option value="Omega">Omega</option>
+                                                    <option value="Proquimica">Proquimica</option>
+                                                    <option value="Tecnotrat">Tecnotrat</option>
+                                                    <option value="Testecno">Testecno</option>
+                                                    <option value="Tratamientos Victoria">Tratamientos Victoria</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label><input type="checkbox" id="cbox6" value="first_checkbox">
+                                                    Retrabajo</label><br>
+                                                <label><input type="checkbox" id="cbox6" value="first_checkbox"> Fin
+                                                    Serv. Ext.</label><br>
                                             </div>
 
                                             <div class="form-group col-md-2 ">
                                                 <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
                                                     onclick="Transferir()">Transferir</button>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- card -->
+                            <div class="col-sm-2 p-1 shadow-lg">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <button type="button" id="Carga" name="Carga" class="btn btn-lg btn-danger  btn-block"
+                                            onclick="Transferir()">Eliminar registro</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                                                                                                                                 
+                            <!-- card -->
                         </div>
-                        
+
                         <br>
                         <br>
                         <div class="card text-center">
@@ -269,7 +327,7 @@ Full screen Modal
                                                 <th>N° Parte</th>
                                                 <th>Cantidad</th>
                                                 <th>Planta</th>
-                                                <th>Area</th>
+                                                <!-- <th>Area</th>-->
                                                 <th>Fecha inicio</th>
                                                 <th>Fecha vencimiento</th>
                                             </tr>
@@ -290,14 +348,14 @@ Full screen Modal
                                                         <option value="Morelos">Morelos</option>
                                                     </select></td>
 
-                                                <td id="indice"> <select required id="R_Area" name="Area"
+                                                <!-- <td id="indice"> <select required id="R_Area" name="Area"
                                                         class="form-control">
                                                         <option value="Produccion" selected>Produccion</option>
                                                         <option value="Acabados">Acabados</option>
                                                         <option value="Trat. Externos">Trat. Externos</option>
                                                         <option value="Calidad">Calidad</option>
                                                         <option value="Embarques">Embarques</option>
-                                                    </select></td>
+                                                    </select></td>-->
                                                 <td id="indice"><input required type="date" id="R_Inicio"
                                                         class="form-control" name="R_Inicio" autocomplete="off"></td>
                                                 <td id="indice"><input required type="date" id="R_Fin"
@@ -307,7 +365,6 @@ Full screen Modal
                                     </table>
                                 </div>
                                 <div id="GraficaGant" class="Diag shadow-lg">
-
                                 </div>
 
                             </div>
@@ -323,6 +380,13 @@ Full screen Modal
             </div>
         </div>
     </div>
+
+
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
 
 </body>

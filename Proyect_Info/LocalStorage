@@ -1,0 +1,7 @@
+localStorage.setItem('miGato', 'Juan');
+var cat = localStorage.getItem('miGato');
+
+localStorage.removeItem('miGato');
+
+// Elimina todos los elementos
+localStorage.clear();
