@@ -11,8 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dark-mode-switch": "^1.0.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
     "express-myconnection": "^1.0.4",
     "express-session": "^1.17.0",
     "morgan": "^1.9.1",

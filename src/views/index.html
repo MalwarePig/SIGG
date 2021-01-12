@@ -56,13 +56,15 @@
         <p class="font-weight ">usuario:    <span id="Sp_Usuario"> <%= data[0].usuario %></span> planta:     <span><%= data[0].Planta %></span> turno:   <span><%= data[0].Turno %></span></p>
     </div>
     <br>
- 
 </div>
    
 <script>
 localStorage.clear();
     // Guardar datos al almacenamiento local actual
 localStorage.setItem("usuario", document.getElementById("Sp_Usuario").innerHTML);
+
+
+
 </script>
 
     <!-- ----------------------------------------------------------------------------- MAQUINAS -------------------------------------------------------------------------------->

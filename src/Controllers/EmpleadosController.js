@@ -1,5 +1,6 @@
 const Controller = {};
 const express = require('express');//guardar express en una variable de servidor
+const fileupload = require('express-fileupload');
 
 Controller.list = (req,res)=> {
     if(req.session.loggedin){
@@ -45,6 +46,40 @@ Controller.delete = (req,res) => {
         });
     })
 };
+
+
+
+
+
+Controller.Subir = (req,res) => {
+ 
+        const archivo = req.files.archivo;
+        const fileName = archivo.name;
+        const path = __dirname + '/../uploads/' + fileName;
+    
+        try {
+          archivo.mv(path, (error) => {
+            if (error) {
+              console.error(error);
+              res.writeHead(500, {
+                'Content-Type': 'application/json'
+              });
+              res.end(JSON.stringify({ status: 'error', message: error }));
+                return;
+              }
+              return res.status(200).send({ status: 'success', path:'/uploads/' + fileName });
+           });
+         } catch (e) {
+           res.status(500).json({
+             error: true,
+             message: e.toString()
+           });
+         }
+ 
+};
+
+
+
 
 
 

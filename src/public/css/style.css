@@ -132,18 +132,7 @@ h2 {
   vertical-align:middle;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 .nav-link {
   background-color: #f0f0f0;
@@ -155,3 +144,25 @@ h2 {
 .nav-link:hover{
   color: rgba(0, 0, 0, 0.8);
 }/* change the link color */
+
+
+/*//////////////////////////////////////////////////// DARK MODE ////////////////////////////////////////////////////////////////////////*/
+[data-theme="dark"] {
+  background-color: #111 !important;
+  color: #eee;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #333 !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #000 !important;
+}
+
+[data-theme="dark"] .bg-black {
+  background-color: #eee !important;
+}
+
+
+

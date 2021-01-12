@@ -5,6 +5,7 @@ const path = require('path');//Traba con directorios identificando el SO // \\
 const mysql = require('mysql');
 const myConnection = require('express-myconnection');
 const session = require('express-session');
+const fileupload = require('express-fileupload');
 
 
 //Configuracion Servidor
@@ -60,6 +61,7 @@ app.listen(app.get('port'),() => {
 
 //file statics
 app.use(express.static(path.join(__dirname, 'public')));//para archivos como imagenes,css,javascript
+app.use(fileupload());
 
 //ERROR 404
 app.use('*', function(req, res, next) {

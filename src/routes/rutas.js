@@ -98,10 +98,18 @@ router.get('/Flujo', (req, res) => {
 	res.end();
 });
 
+//Consulta un area en el flujo
 router.get('/ConsultaFlujo/:parametros', FlujoController.list);
+//Trae todas las fechas de los departamentes en el flujo
 router.get('/FechasFlujo/:OT', FlujoController.FechasFlujo);
-router.get('/ExcelInterno', FlujoController.ExcelInterno);
-
+//Verifica excel para alimentar controlplaner
+router.get('/AlimentarFlujo', FlujoController.AlimentarFlujo);
+//Consulta la lista de pendientes de produccion
+router.get('/Pen_FlujoProd', FlujoController.Pen_FlujoProd);
+//inicia la lista de ot en el flujo de produccion
+router.post('/IniciarProdFlujo', FlujoController.IniciarProdFlujo);
+//Transferir linea de un area a la siguiente
+router.post('/TransFlujo', FlujoController.TransFlujo);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {
@@ -139,7 +147,7 @@ router.post('/postHorarios', HorariosController.save);
 router.get('/Empleados', EmpleadosController.list);
 router.post('/addEmpleados', EmpleadosController.save);
 router.get('/deleteEmpleado/:id', EmpleadosController.delete);
-
+router.post('/Subir', EmpleadosController.Subir);
 /////////////////////////////////////////////////////////////////////////// ALMACEN //////////////////////////////////////////////////////////////////////////////
 //====== Administración ========
 router.get('/wh_Admin', (req, res) => {

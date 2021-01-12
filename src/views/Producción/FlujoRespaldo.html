@@ -30,6 +30,11 @@
                 <div class="card-body">
                     <div class="form-row">
 
+                        <div class="form-group col-md-0">
+                            <a href="#" class="badge badge-info" data-target="#ModalRecoleccion"
+                                data-toggle="modal"><span id="value">0</span></a>
+                        </div>
+
                         <div class="form-group col-md-4">
                             <select required id="Planta" name="Planta" class="form-control">
                                 <option value="Bravo" selected>Bravo</option>
@@ -63,27 +68,17 @@
                 <div class="card-body">
                     <div class="form-row">
 
-                        <div class="form-group col-md-1.5">
-                            <label class="font-weight-bold">Activas</label>
-                        </div>
-
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <input required type="text" id="Activas" class="form-control" placeholder="0" name="Activas"
                                 autocomplete="off" readonly>
                         </div>
 
-                        <div class="form-group col-md-1.5 ">
-                            <label class="font-weight-bold">Vencidas</label>
-                        </div>
-
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <input required type="text" id="Vencidas" class="form-control" placeholder="0"
                                 name="Vencidas" autocomplete="off" readonly>
                         </div>
 
-                        <div class="form-group col-md-1  text-dark  p-1">
-                            <label for="inputAddress" class="font-weight-bold"> </label>
-                        </div>
+
                         <div class="form-group col-md-1.5 bg-danger text-dark  p-1">
                             <label for="inputAddress" class="font-weight-bold">-3 Días</label>
                         </div>
@@ -103,12 +98,17 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-row">
-                        <div class="form-group col-md-2 ">
-                            <button type="button" id="Excel" name="Excel" class="btn btn-lg btn-success"
-                            onclick="Transferir()">Excel</button></div>
-                            
-                        <div class="form-group col-md-2 "><button type="button" id="PDF" name="PDF" class="btn btn-lg btn-danger"
-                            onclick="Transferir()">PDF</button></div>
+
+                        <div>
+                            <button type="button" id="Excel" name="Excel" class="btn btn-success"
+                                onclick="Excel()">Excel</button>
+                        </div>
+
+                        <div class="form-group col-md-1 ">
+                            <button type="button" id="PDF" name="PDF" class="btn btn-danger"
+                                onclick="PDF()">PDF</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -122,11 +122,14 @@
                     <thead>
                         <tr>
                             <th>N°</th>
+                            <th>Entrada</th>
                             <th>OT</th>
+                            <th>Cliente</th>
                             <th>N° Parte</th>
                             <th>Cantidad</th>
+                            <th>Servicio In</th>
                             <th>Planta</th>
-                            <th>Area</th>
+                            <th>Origen</th>
                             <th>Fecha inicio</th>
                             <th>Fecha vencimiento</th>
                         </tr>
@@ -173,8 +176,6 @@ Full screen Modal
             $("#exampleModalPreview").modal();
         }
     </script>
-
-    <!-- Para tabla editable pure -->
 
 
     <div class="container my-4">
@@ -290,7 +291,7 @@ Full screen Modal
                                                 <label><input type="checkbox" id="cbox6" value="first_checkbox">
                                                     Retrabajo</label><br>
                                                 <label><input type="checkbox" id="cbox6" value="first_checkbox"> Fin
-                                                    Serv. Ext.</label><br>
+                                                    Serv.</label><br>
                                             </div>
 
                                             <div class="form-group col-md-2 ">
@@ -307,12 +308,13 @@ Full screen Modal
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <button type="button" id="Carga" name="Carga" class="btn btn-lg btn-danger  btn-block"
-                                            onclick="Transferir()">Eliminar registro</button>
+                                            <button type="button" id="Carga" name="Carga"
+                                                class="btn btn-lg btn-danger  btn-block" onclick="Transferir()">Eliminar
+                                                registro</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                                                                                                                                                 
+                            </div>
                             <!-- card -->
                         </div>
 
@@ -358,6 +360,7 @@ Full screen Modal
                                                         <option value="Calidad">Calidad</option>
                                                         <option value="Embarques">Embarques</option>
                                                     </select></td>-->
+
                                                 <td id="indice"><input required type="date" id="R_Inicio"
                                                         class="form-control" name="R_Inicio" autocomplete="off"></td>
                                                 <td id="indice"><input required type="date" id="R_Fin"
@@ -383,5 +386,10 @@ Full screen Modal
         </div>
     </div>
 
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
 </body>
