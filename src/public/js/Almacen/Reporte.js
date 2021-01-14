@@ -21,11 +21,12 @@ function MostrarReporte() {
                 var Cantidad = Herramientas[i].Entregado || Herramientas[i].Cantidad;
                 var Estado = Herramientas[i].Estado;
                 var OT = Herramientas[i].OT || "-";
+                var Maquina = Herramientas[i].Maquina;
                 var Empleado = Herramientas[i].Empleado;
                 var Almacen = Herramientas[i].Almacen;
                 var Fecha = Herramientas[i].Salida;
                 //Eliminar variable dentro del For
-                Arreglo = [Folio, Producto, Cantidad, Estado, OT, Empleado, Almacen, Fecha];
+                Arreglo = [Folio, Producto, Cantidad, Estado, OT,Maquina, Empleado, Almacen, Fecha];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -130,10 +131,11 @@ function ExcelReporte() {
         var Entregado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
         var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
         var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
-        var Empleado = tabla.rows[j].cells[5].childNodes[0].nodeValue;
-        var Almacen = tabla.rows[j].cells[6].childNodes[0].nodeValue;
-        var Fecha = tabla.rows[j].cells[7].childNodes[0].nodeValue;
-        var Fila = [Folio, Producto, Entregado, Estado, OT, Empleado, Almacen, Fecha]
+        var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+        var Empleado = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+        var Almacen = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+        var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+        var Fila = [Folio, Producto, Entregado, Estado, OT,Maquina, Empleado, Almacen, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
 

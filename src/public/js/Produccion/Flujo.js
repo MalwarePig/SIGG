@@ -17,6 +17,7 @@ function Carga() {
         default: Area = "";
         break;
     }*/
+
     $.ajax({
         url: '/ConsultaFlujo/' + Planta + " " + Area,
         success: function (Lineas) {
@@ -40,7 +41,7 @@ function Carga() {
                 var Planta = Lineas[i].Planta;
                 var Origen = Lineas[i].Origen || 'N/A';
                 var CantOt = Lineas[i].CantOt;
-                var Terminadas = Lineas[i].Terminadas;
+                var Terminadas = parseInt( Lineas[i].CantOt) - parseInt( Lineas[i].Enviadas);
                 var Enviadas = Lineas[i].Enviadas;
                 var Stock = Lineas[i].Stock;
                 var Vencimiento = Lineas[i].FechaVenc;
@@ -143,7 +144,7 @@ function Mostrar(indice) {
     document.getElementById("R_id").value = tabla.rows[(indice + 1)].cells[0].childNodes[0].nodeValue;
     document.getElementById("R_OT").value = tabla.rows[(indice + 1)].cells[2].childNodes[0].nodeValue;
     document.getElementById("R_Parte").value = tabla.rows[(indice + 1)].cells[4].childNodes[0].nodeValue;
-    document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[8].childNodes[0].nodeValue;
+    document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[9].childNodes[0].nodeValue;
     //document.getElementById("R_Planta").value = tabla.rows[(indice+1)].cells[4].childNodes[0].nodeValue;
     //document.getElementById("R_Area").value = tabla.rows[(indice+1)].cells[5].childNodes[0].nodeValue;
     var fecha = moment(tabla.rows[(indice + 1)].cells[1].childNodes[0].nodeValue).format('YYYY-MM-DD');
@@ -241,6 +242,7 @@ function FormatoTabla() {
 //=========================================== Alimenta el excel al sistema =================================================//
 
 function Alimentar() {
+    modalesspiner();
     $.ajax({
         url: '/AlimentarFlujo',
         success: function (Lineas) {
@@ -251,7 +253,6 @@ function Alimentar() {
 //=========================================== Consulta OT Pendientes de inicar =================================================//
 
 function Pendientes() {
-
     $.ajax({
         url: '/Pen_FlujoProd',
         success: function (Lineas) {
@@ -354,13 +355,14 @@ function redireccionar() {
 //=========================================== Transferir a otra area =================================================//
 
 function Transferir() {
-    var cantidadDestino = document.getElementById("CantidadDestino").value;
-    var cantidadActual = document.getElementById("R_Cantidad").value;
+    var cantidadDestino = parseInt(document.getElementById("CantidadDestino").value);
+    var cantidadActual = parseInt(document.getElementById("R_Cantidad").value);
     var caso = "";
     if (cantidadDestino > cantidadActual) {
-        alert("Cantidad mayor a la actual");
+        alert(typeof(cantidadDestino) + " " + typeof(cantidadActual))
+        alert("Cantidad mayor a la actual, cantidadDestino: "+ cantidadDestino + " cantidadActual: "+cantidadActual );
     } else if (cantidadDestino <= 0) {
-        alert("Cantidad no valida");
+        alert("Cantidad no valida, cantidadDestino: "+ cantidadDestino + " cantidadActual: "+cantidadActual );
     } else if (cantidadDestino < cantidadActual) {
         caso = "Parcial";
     }else{
@@ -377,8 +379,13 @@ function Transferir() {
         Inicio: document.getElementById("R_Inicio").value,
         Fin: document.getElementById("R_Fin").value,
         AreaDestino: document.getElementById("AreaDestino").value,
-        Caso = caso
+        Caso : caso
     }
+    
+    document.getElementById("CantidadDestino").value = "0";
+    $("#ModalTransferenciaLista").modal();
+    setTimeout(function(){ $('#ModalTransferenciaLista').modal('toggle'); }, 2000);
+
     $.post("/TransFlujo", // inicia la lista de ot en el flujo de produccion
         {
             Linea
@@ -386,4 +393,15 @@ function Transferir() {
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
+
+        
+}
+ 
+function modalesspiner(){
+    $("#ModalPantallaCarga").modal();
+
+    setTimeout(function(){ $('#ModalPantallaCarga').modal('toggle');
+    setTimeout(function(){ Pendientes(); }, 7000);
+}, 15000);
+   
 }

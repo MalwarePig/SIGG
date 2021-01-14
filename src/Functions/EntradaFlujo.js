@@ -28,7 +28,8 @@ var Impresion = function (Excel) {
                     var Parte = Excel[index][3];
                     var Cantidad = Excel[index][4];
                     var FechaVencimiento = Excel[index][5];
-                    var x = [Maquina, Estatus, OT, Parte, Cantidad, FechaVencimiento];
+                    var Planta = Excel[index][14];
+                    var x = [Maquina, Estatus, OT, Parte, Cantidad, FechaVencimiento,Planta];
                     Arreglo.push(x);
                 }
             } //For Excel
@@ -43,20 +44,18 @@ var Impresion = function (Excel) {
                 var m = new Date(Arreglo[index][5]);
 
                 var FechaVenc = FormatoFechas(m);
+                var Planta = Arreglo[index][6];
              
-                console.log("Fecha retornada: " + FechaVenc);
+
                 //console.log(Maquina + " " + Estatus + " " + OT + " " + Parte + " " + CantOt + " " + FechaVenc);
-                cnSQL.cnn.query("INSERT INTO controlplaner(Maquina,Estatus,OT,Parte,CantOt,FechaVenc) VALUES ('" + Maquina + "','" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "')", [], (err, dato) => {
+                cnSQL.cnn.query("INSERT INTO controlplaner(Maquina,Estatus,OT,Parte,CantOt,FechaVenc,Planta) VALUES ('" + Maquina + "','" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','"+Planta+"')", [], (err, dato) => {
                     if (err) {
                         console.log('error: ' + err);
-                    } else {
-                        console.log('sin errores: ' + dato);
-                    }
+                    }  
                 });
             }
         }
     });
-
 
 }
 

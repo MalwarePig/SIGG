@@ -6,7 +6,7 @@ git config --global user.name "xxxx"
 git init  >> Inicializar proyecto para git
 git status >> Muestra el estado de los archivos
 git add >> Agrega archivos para ser gestionados (add index.html o  add .)
-git commit -m "Mensaje" >> Crea un primer punto de control del codigo 
+>> Crea un primer punto de control del codigo 
 git remote add origin https://github.com/MalwarePig/SIGG
 git push origin master (envia el proyecto al servidor)
 

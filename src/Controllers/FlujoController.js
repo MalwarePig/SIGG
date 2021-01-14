@@ -13,7 +13,7 @@ Controller.list = (req, res) => {
             var Planta = parametros.split(' ')[0]; // categoria o tipo de reporte
             var Area = parametros.split(' ')[1]; // categoria o tipo de reporte
             console.log(Planta + " - " + Area);
-            conn.query("SELECT * FROM " + Area + " WHERE Planta = '" + Planta + "' AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
+            conn.query("SELECT * FROM " + Area + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
                 if (err) {
                     console.log('Error al registrar despacho de herramienta' + err);
                 }
@@ -49,7 +49,8 @@ Controller.AlimentarFlujo = (req, res) => {
         req.getConnection((err, conn) => {
             var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Data.xlsx'
             xlsxFile(ruta).then((rows) => {
-                Obj_Flujo.Impresion(rows);
+               var respuesta =  Obj_Flujo.Impresion(rows);
+               console.log(respuesta);
             })
         });
     } else {
@@ -65,22 +66,28 @@ Controller.Pen_FlujoProd = (req, res) => {
             } = req.params;
             var AreaOrigen = req.session.area;
             console.log(AreaOrigen);
-            switch(AreaOrigen){
-                case "Producción": AreaOrigen =  "controlplaner";
-                break;
-                case "Acabados": AreaOrigen = "areaacabados";
-                break;
-                case "Tratamientos": AreaOrigen = "areatratamientos";
-                break;
-                case "Calidad": AreaOrigen = "areacalidad";
-                break;
-                case "Embarques": AreaOrigen = "areaembarques";
-                break;
-                default: AreaOrigen = "";
-                break;
+            switch (AreaOrigen) {
+                case "Producción":
+                    AreaOrigen = "controlplaner";
+                    break;
+                case "Acabados":
+                    AreaOrigen = "areaacabados";
+                    break;
+                case "Tratamientos":
+                    AreaOrigen = "areatratamientos";
+                    break;
+                case "Calidad":
+                    AreaOrigen = "areacalidad";
+                    break;
+                case "Embarques":
+                    AreaOrigen = "areaembarques";
+                    break;
+                default:
+                    AreaOrigen = "";
+                    break;
             }
 
-            conn.query("SELECT * FROM "+AreaOrigen+" WHERE FechaInicio is null", true, (err, rows) => {
+            conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio is null", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
@@ -105,30 +112,36 @@ Controller.IniciarProdFlujo = (req, res) => {
 
             var AreaOrigen = req.session.area;
             console.log(AreaOrigen);
-            switch(AreaOrigen){
-                case "Producción": AreaOrigen =  "controlplaner";
-                break;
-                case "Acabados": AreaOrigen = "areaacabados";
-                break;
-                case "Tratamientos": AreaOrigen = "areatratamientos";
-                break;
-                case "Calidad": AreaOrigen = "areacalidad";
-                break;
-                case "Embarques": AreaOrigen = "areaembarques";
-                break;
-                default: AreaOrigen = "";
-                break;
+            switch (AreaOrigen) {
+                case "Producción":
+                    AreaOrigen = "controlplaner";
+                    break;
+                case "Acabados":
+                    AreaOrigen = "areaacabados";
+                    break;
+                case "Tratamientos":
+                    AreaOrigen = "areatratamientos";
+                    break;
+                case "Calidad":
+                    AreaOrigen = "areacalidad";
+                    break;
+                case "Embarques":
+                    AreaOrigen = "areaembarques";
+                    break;
+                default:
+                    AreaOrigen = "";
+                    break;
             }
 
             console.log("Limite: " + limite);
             for (var i = 0; i < limite; i++) {
                 console.log("id: " + Object.values(data)[0][i][0]);
-            conn.query("UPDATE "+AreaOrigen +" SET FechaInicio = CURDATE() WHERE id = "+Object.values(data)[0][i][0], true, (err, rows) => {
-                if (err) {
-                    console.log('Error al asignar' + err);
-                } 
-            });
-        }
+                conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = CURDATE() WHERE id = " + Object.values(data)[0][i][0], true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    }
+                });
+            }
         });
     } else {
         res.render('Admin/Login.html');
@@ -150,23 +163,80 @@ Controller.TransFlujo = (req, res) => {
             var Inicio = Object.values(data)[0].Inicio;
             var Fin = Object.values(data)[0].Fin;
             var AreaDestino = Object.values(data)[0].AreaDestino;
-            var caso = Object.values(data)[0].caso;
+            var Caso = Object.values(data)[0].Caso;
+
             var AreaOrigen = req.session.area;
+            console.log(AreaOrigen);
+            switch (AreaOrigen) {
+                case "Producción":
+                    AreaOrigen = "controlplaner";
+                    break;
+                case "Acabados":
+                    AreaOrigen = "areaacabados";
+                    break;
+                case "Tratamientos":
+                    AreaOrigen = "areatratamientos";
+                    break;
+                case "Calidad":
+                    AreaOrigen = "areacalidad";
+                    break;
+                case "Embarques":
+                    AreaOrigen = "areaembarques";
+                    break;
+                default:
+                    AreaOrigen = "";
+                    break;
+            }
 
-            conn.query("call TransFlujo('"+OT+"','"+Parte+ "',"+cantidadDestino+","+cantidadActual+",'"+FechaVenc+"','"+Planta+"',"+id+",'"+caso+"','"+AreaOrigen+"','"+AreaDestino+"')", true, (err, rows, fields) => {
-                if (err) {
-                    console.log('Error al asignar' + err);
-                } else {
-                    res.json(rows[0][0])
-                }
-            });
+            console.log("Caso: " + Caso);
+            if (Caso == 'Parcial') {
+                console.log('Parcial************************');
+                var TotalActual = cantidadActual - cantidadDestino;
+                //Insert la linea en la nueva area
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log("Tranferencia realizada");
+                    }
+                });
+                conn.query("SELECT Enviadas FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + " WHERE id = " + id, true, (err, rows) => {
+                            if (err) {
+                                console.log('Error al asignar' + err);
+                            } else {
+                                console.log("linea actualizada ");
+                            }
+                        });
+                    }
+                });
 
- /*conn.query("INSERT INTO "+AreaDestino+"(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','"+OT+"','"+Parte+"','"+cantidadDestino+"','"+Fin+"','"+Planta+"','"+AreaOrigen+"')", true, (err, rows) => {
-                if (err) {
-                    console.log('Error al asignar' + err);
-                } 
-            });*/
-
+            } else if (Caso == 'Cerrado') {
+                //Insert la linea en la nueva area
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log("Tranferencia realizada");
+                    }
+                });
+                conn.query("SELECT Enviadas FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Cerrada' WHERE id = " + id, true, (err, rows) => {
+                            if (err) {
+                                console.log('Error al asignar' + err);
+                            } else {
+                                console.log("linea actualizada ");
+                            }
+                        });
+                    }
+                });
+            }//if Caso cerrado
         });
     } else {
         res.render('Admin/Login.html');
