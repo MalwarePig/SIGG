@@ -158,11 +158,12 @@ Controller.TransFlujo = (req, res) => {
             var Parte = Object.values(data)[0].Parte;
             var cantidadDestino = Object.values(data)[0].cantidadDestino;
             var cantidadActual = Object.values(data)[0].cantidadActual;
-            var Planta = Object.values(data)[0].Planta;
+            var Planta = req.session.planta;
             var Inicio = Object.values(data)[0].Inicio;
             var Fin = Object.values(data)[0].Fin;
             var AreaDestino = Object.values(data)[0].AreaDestino;
             var Caso = Object.values(data)[0].Caso;
+            var Planta = req.session.planta;
 
             var AreaOrigen = req.session.area;
             console.log(AreaOrigen);

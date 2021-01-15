@@ -90,7 +90,7 @@ function Grafica(Ancho) {
             }
 
             function drawChart() {
-                alert("si entro en dibujo")
+                //alert("si entro en dibujo")
                 var otherData = new google.visualization.DataTable();
                 otherData.addColumn('string', 'Task ID');
                 otherData.addColumn('string', 'Task Name');
@@ -353,8 +353,7 @@ function Transferir() {
     var cantidadActual = parseInt(document.getElementById("R_Cantidad").value);
     var caso = "";
     if (cantidadDestino > cantidadActual) {
-        alert(typeof (cantidadDestino) + " " + typeof (cantidadActual))
-        alert("Cantidad mayor a la actual, cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual);
+        caso = "Extra";
     } else if (cantidadDestino <= 0) {
         alert("Cantidad no valida, cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual);
     } else if (cantidadDestino < cantidadActual) {
@@ -369,12 +368,12 @@ function Transferir() {
         Parte: document.getElementById("R_Parte").value,
         cantidadDestino: cantidadDestino,
         cantidadActual: cantidadActual,
-        Planta: document.getElementById("R_Planta").value,
         Inicio: document.getElementById("R_Inicio").value,
         Fin: document.getElementById("R_Fin").value,
         AreaDestino: document.getElementById("AreaDestino").value,
         Caso: caso
     }
+    
 
     document.getElementById("CantidadDestino").value = "0";
     $("#ModalTransferenciaLista").modal();
