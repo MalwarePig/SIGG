@@ -1,3 +1,5 @@
+//=========================================== VARIABLES GLABALES =================================================//
+var ArrayPendintes = []; //Lista de OT leidas del excel y cargadas en pendientes para que supervisor les de entrada
 //=========================================== Consulta lineas por area =================================================//
 
 function Carga() {
@@ -35,18 +37,19 @@ function Carga() {
                 var id = Lineas[i].id;
                 var Inicio = Lineas[i].FechaInicio;
                 var OT = Lineas[i].OT;
+                var Maquina = Lineas[i].Maquina;
                 var Cliente = Lineas[i].Cliente || 'N/A';
                 var Parte = Lineas[i].Parte;
                 var Servicio = Lineas[i].Servicio || 'N/A';
                 var Planta = Lineas[i].Planta;
                 var Origen = Lineas[i].Origen || 'N/A';
                 var CantOt = Lineas[i].CantOt;
-                var Terminadas = parseInt( Lineas[i].CantOt) - parseInt( Lineas[i].Enviadas);
+                var Terminadas = parseInt(Lineas[i].CantOt) - parseInt(Lineas[i].Enviadas);
                 var Enviadas = Lineas[i].Enviadas;
                 var Stock = Lineas[i].Stock;
                 var Vencimiento = Lineas[i].FechaVenc;
                 //Eliminar variable dentro del For
-                Arreglo = [id, Inicio, OT, Cliente, Parte, Servicio, Planta, Origen, CantOt, Terminadas, Enviadas, Stock, Vencimiento];
+                Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt, Terminadas, Enviadas, Stock, Vencimiento];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -55,7 +58,7 @@ function Carga() {
                     newRow.setAttribute("id", "Rows" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     newRow.setAttribute("onclick", "Mostrar(" + i + ")"); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
-                    if (x != 1 && x != 12) { //Omite el campo de fechas
+                    if (x != 1 && x != 13) { //Omite el campo de fechas
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
                     } else {
@@ -139,17 +142,17 @@ function Grafica(Ancho) {
 
 function Mostrar(indice) {
     var tabla = document.getElementById("Tabla");
-    document.ready = document.getElementById("R_Planta").value = tabla.rows[(indice + 1)].cells[6].childNodes[0].nodeValue;
+    //document.ready = document.getElementById("R_Planta").value = tabla.rows[(indice + 1)].cells[6].childNodes[0].nodeValue;
     //document.ready = document.getElementById("R_Area").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
     document.getElementById("R_id").value = tabla.rows[(indice + 1)].cells[0].childNodes[0].nodeValue;
     document.getElementById("R_OT").value = tabla.rows[(indice + 1)].cells[2].childNodes[0].nodeValue;
-    document.getElementById("R_Parte").value = tabla.rows[(indice + 1)].cells[4].childNodes[0].nodeValue;
-    document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[9].childNodes[0].nodeValue;
-    //document.getElementById("R_Planta").value = tabla.rows[(indice+1)].cells[4].childNodes[0].nodeValue;
+    document.getElementById("R_Parte").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
+    document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[10].childNodes[0].nodeValue;
+    document.getElementById("R_Maquina").value = tabla.rows[(indice+1)].cells[3].childNodes[0].nodeValue;
     //document.getElementById("R_Area").value = tabla.rows[(indice+1)].cells[5].childNodes[0].nodeValue;
     var fecha = moment(tabla.rows[(indice + 1)].cells[1].childNodes[0].nodeValue).format('YYYY-MM-DD');
     document.getElementById("R_Inicio").value = fecha;
-    var fecha = moment(tabla.rows[(indice + 1)].cells[12].childNodes[0].nodeValue).format('YYYY-MM-DD');
+    var fecha = moment(tabla.rows[(indice + 1)].cells[13].childNodes[0].nodeValue).format('YYYY-MM-DD');
     document.getElementById("R_Fin").value = fecha;
 
     $("#exampleModalPreview").modal();
@@ -192,11 +195,11 @@ function Contadores(Lineas) {
 
         if (Hoy > FechaVencimiento) {
             Vencidas++;
-            document.getElementById("Rows" + index).style.backgroundColor = " #fc9b87 "; //Rojo
+            document.getElementById("Rows" + index).style.backgroundColor = " #ffd2d2 "; //Rojo
         } else if (diferencia == 4) {
-            document.getElementById("Rows" + index).style.backgroundColor = " #faff76 "; //Amarillo
+            document.getElementById("Rows" + index).style.backgroundColor = " #feffd5 "; //Amarillo
         } else {
-            document.getElementById("Rows" + index).style.backgroundColor = " #c2fdcb "; //Verde
+            document.getElementById("Rows" + index).style.backgroundColor = " #e2fce9 "; //Verde
         }
     }
 
@@ -266,26 +269,17 @@ function Pendientes() {
             for (var i = 0; i < Lineas.length; i++) {
                 var ID = Lineas[i].id;
                 var OT = Lineas[i].OT;
+                var Maquina = Lineas[i].Maquina;
                 var Parte = Lineas[i].Parte;
                 var CantOt = Lineas[i].CantOt;
                 //Eliminar variable dentro del For
-                Arreglo = [ID, OT, Parte, CantOt];
-                // inserta una fila al final de la tabla
-                var newRow = Tabla.insertRow(Tabla.rows.length);
+                Arreglo = [ID, OT, Maquina, Parte, CantOt];
+                ArrayPendintes.push(Arreglo);
 
-                for (var x = 0; x < Arreglo.length; x++) {
-                    // inserta una celda en el indice 0
-                    var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "RowsF" + (i + 1)); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    // adjuntar el texto al nodo
-                    var newText = document.createTextNode(Arreglo[x]);
-                    newCell.appendChild(newText);
 
-                    if (x == 3) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
-                        newCell.innerHTML = '<input  type="checkbox"  id="Check' + (i + 1) + '">';
-                    }
-                } //fin de for de columnas
+
+
+
             } //fin de for de filas
         } //Funcion success
     }); //Ajax
@@ -316,7 +310,7 @@ function Recolectar() {
     var EliminarFila = [];
     var Tabla = [];
     for (var i = 1; i < total; i++) {
-        var FilaCheck = document.getElementById("Check" + i);
+        var FilaCheck = document.getElementById("CheckPendiente");
 
         if (FilaCheck.checked == true) {
 
@@ -359,13 +353,13 @@ function Transferir() {
     var cantidadActual = parseInt(document.getElementById("R_Cantidad").value);
     var caso = "";
     if (cantidadDestino > cantidadActual) {
-        alert(typeof(cantidadDestino) + " " + typeof(cantidadActual))
-        alert("Cantidad mayor a la actual, cantidadDestino: "+ cantidadDestino + " cantidadActual: "+cantidadActual );
+        alert(typeof (cantidadDestino) + " " + typeof (cantidadActual))
+        alert("Cantidad mayor a la actual, cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual);
     } else if (cantidadDestino <= 0) {
-        alert("Cantidad no valida, cantidadDestino: "+ cantidadDestino + " cantidadActual: "+cantidadActual );
+        alert("Cantidad no valida, cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual);
     } else if (cantidadDestino < cantidadActual) {
         caso = "Parcial";
-    }else{
+    } else {
         caso = "Cerrado";
     }
 
@@ -379,12 +373,14 @@ function Transferir() {
         Inicio: document.getElementById("R_Inicio").value,
         Fin: document.getElementById("R_Fin").value,
         AreaDestino: document.getElementById("AreaDestino").value,
-        Caso : caso
+        Caso: caso
     }
-    
+
     document.getElementById("CantidadDestino").value = "0";
     $("#ModalTransferenciaLista").modal();
-    setTimeout(function(){ $('#ModalTransferenciaLista').modal('toggle'); }, 2000);
+    setTimeout(function () {
+        $('#ModalTransferenciaLista').modal('toggle');
+    }, 2000);
 
     $.post("/TransFlujo", // inicia la lista de ot en el flujo de produccion
         {
@@ -394,14 +390,54 @@ function Transferir() {
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
 
-        
+
 }
- 
-function modalesspiner(){
+
+function modalesspiner() {
     $("#ModalPantallaCarga").modal();
 
-    setTimeout(function(){ $('#ModalPantallaCarga').modal('toggle');
-    setTimeout(function(){ Pendientes(); }, 7000);
-}, 15000);
-   
+    setTimeout(function () {
+        $('#ModalPantallaCarga').modal('toggle');
+        setTimeout(function () {
+            Pendientes();
+        }, 7000);
+    }, 15000);
+
+}
+
+function ServicioExterno() {
+    var Proceso = document.getElementById("Servicios").value;
+    var Proveedor = document.getElementById("Proveedores").value;
+
+    let PreguntaDos = $('input[name="Retrabajo"]:checked').val();
+
+    alert(Proceso + " " + Proveedor + " " + PreguntaDos);
+}
+
+
+function CargaOTPendiente() {
+    var OTBuscar = document.getElementById("OTBuscar").value;
+    var LimiteFilas = ArrayPendintes.length;
+    var LimiteColumnas = ArrayPendintes[0].length;
+    for (let index = 0; index < LimiteFilas; index++) {
+ 
+        if (OTBuscar == ArrayPendintes[index][1]) {
+            var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
+            // inserta una fila al final de la tabla
+            var newRow = Tabla.insertRow(Tabla.rows.length);
+            for (var x = 0; x < LimiteColumnas; x++) {
+                // inserta una celda en el indice 0
+                var newCell = newRow.insertCell(x);
+                newRow.setAttribute("id", "RowsF" + (index + 1)); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                // adjuntar el texto al nodo
+                var newText = document.createTextNode(ArrayPendintes[index][x]);
+                newCell.appendChild(newText);
+                if (x == 4) { //Si termina de registrar datos crear el boton
+                    var newCell = newRow.insertCell(5); //CREAR CELDA onclick="CrearNota()"
+                    newCell.innerHTML = '<input  type="checkbox"  id="CheckPendiente">';
+                }
+            } //fin de for de columnas
+
+        } //ig
+    } //fot
 }

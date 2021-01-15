@@ -49,8 +49,7 @@ Controller.AlimentarFlujo = (req, res) => {
         req.getConnection((err, conn) => {
             var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Data.xlsx'
             xlsxFile(ruta).then((rows) => {
-               var respuesta =  Obj_Flujo.Impresion(rows);
-               console.log(respuesta);
+               Obj_Flujo.Impresion(rows);
             })
         });
     } else {
@@ -111,7 +110,7 @@ Controller.IniciarProdFlujo = (req, res) => {
             var limite = Object.values(data)[0].length;
 
             var AreaOrigen = req.session.area;
-            console.log(AreaOrigen);
+            console.log("IniciarProdFlujo:" + AreaOrigen);
             switch (AreaOrigen) {
                 case "Producción":
                     AreaOrigen = "controlplaner";

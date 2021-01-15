@@ -54,6 +54,10 @@ Full screen Modal
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-row">
+                                        <div class="form-group col-md-3" style="display: none">
+                                        <input required readonly type="text" id="R_id"
+                                        class="form-control"></input>
+                                        </div>
                                         <div class="form-group col-md-3">
                                             <input required type="text" id="CantidadDestino" class="form-control"
                                                 placeholder="Cantidad..." name="Cantidad" autocomplete="off" required>
@@ -141,15 +145,13 @@ Full screen Modal
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label><input type="checkbox" id="cbox6" value="first_checkbox">
-                                                Retrabajo</label><br>
-                                            <label><input type="checkbox" id="cbox6" value="first_checkbox"> Fin
-                                                Serv.</label><br>
+                                            <label><input type="checkbox" id="Retrabajo" name="Retrabajo" value="true">
+                                                Retrabajo</label> 
                                         </div>
 
                                         <div class="form-group col-md-2 ">
                                             <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
-                                                onclick="Transferir()">Transferir</button>
+                                                onclick="ServicioExterno()">Transferir</button>
                                         </div>
 
                                     </div>
@@ -179,11 +181,10 @@ Full screen Modal
                                 <table class="table table-condensed table-hover" id="TablaEdit">
                                     <thead>
                                         <tr>
-                                            <th>N°</th>
                                             <th>OT</th>
                                             <th>N° Parte</th>
                                             <th>Cantidad</th>
-                                            <th>Planta</th>
+                                            <th>Maquina</th>
                                             <!-- <th>Area</th>-->
                                             <th>Fecha inicio</th>
                                             <th>Fecha vencimiento</th>
@@ -191,19 +192,14 @@ Full screen Modal
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td id="indice"><input required readonly type="text" id="R_id"
-                                                    class="form-control"></input></td>
                                             <td id="indice"><input required readonly type="text" id="R_OT"
                                                     class="form-control"></input></td>
                                             <td id="indice"><input required readonly type="text" id="R_Parte"
                                                     class="form-control"></input></td>
                                             <td id="indice"><input required type="text" id="R_Cantidad"
-                                                    class="form-control"></input></td>
-                                            <td id="indice"><select required id="R_Planta" name="Planta"
-                                                    class="form-control">
-                                                    <option value="Bravo" selected>Bravo</option>
-                                                    <option value="Morelos">Morelos</option>
-                                                </select></td>
+                                                    class="form-control" readonly></input></td>
+                                            <td id="indice"><input required type="text" id="R_Maquina"
+                                                class="form-control" readonly></input> </td>
 
                                             <!-- <td id="indice"> <select required id="R_Area" name="Area"
                                                         class="form-control">
@@ -215,9 +211,9 @@ Full screen Modal
                                                     </select></td>-->
 
                                             <td id="indice"><input required type="date" id="R_Inicio"
-                                                    class="form-control" name="R_Inicio" autocomplete="off"></td>
+                                                    class="form-control" name="R_Inicio" autocomplete="off" readonly></td>
                                             <td id="indice"><input required type="date" id="R_Fin" class="form-control"
-                                                    name="R_Fin" autocomplete="off"></td>
+                                                    name="R_Fin" autocomplete="off" readonly></td>
                                         </tr>
                                     </tbody>
                                 </table>
