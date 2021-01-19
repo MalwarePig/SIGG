@@ -706,7 +706,6 @@ Controller.NuevoProducto = (req, res) => {
 ///////// == Actualizar Herramienta == ////////////////////////////// == Actualizar Herramienta == ////////////////////////////// == Actualizar Herramienta == ////////////////////////// == Actualizar Herramienta == //////////////////// == 
 //============================================================================================================================================================================================================================================
 
-
 Controller.ActualizarProducto = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -739,7 +738,33 @@ Controller.ActualizarProducto = (req, res) => {
     }
 };
 
-
+//Editar Producto
+Controller.EditarProducto = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0] );
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Clave
+            var Producto = Object.values(data)[0].Producto; //obeter datos de un objeto Producto
+            var Ubicacion = Object.values(data)[0].Ubicacion; //obeter datos de un objeto Producto
+ 
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion );
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("UPDATE almacen SET Clave = '"+Clave+"', Producto = '"+Producto+"', Ubicacion = '"+Ubicacion+"' WHERE id = "+id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Herramientas)
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 //============================================================================================================================================================================================================================================
 ///////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////// == RETORNO == //////////////////// == RETORNO == ///////////////////// == RETORNO == ////////////
 //============================================================================================================================================================================================================================================
@@ -998,4 +1023,169 @@ Controller.CancelarIntercambio = (req, res) => {
     }
 };
 
+
+
+/*============================================================================== GABETA =================================================================================================*/
+
+//Transfiere de gaveta a almacenes
+Controller.DescontarGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            var limite = Object.values(data)[0].length;
+            for (var i = 0; i < limite; i++) {
+                var Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
+                var Entregado = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
+                var Estado = Object.values(data)[0][i][2]; //obeter datos de un objeto Estado
+                var Planta = "Almacen " + Object.values(data)[0][i][3]; //obeter datos de un objeto Planta
+                var Comentario = Object.values(data)[0][i][4]; //obeter datos de un objeto Comentario
+                var campoEstado = "";
+               // console.log(Producto + "','" + Entregado + "','" + Estado + "','" + PlPlantaanta + "','" +Comentario);
+                if(Estado == "Nuevo"){
+                    campoEstado = "Stock";
+                }else{
+                    campoEstado = "StockUsado";
+                }
+                conn.query("INSERT INTO productoflotante(Producto, Cantidad, Estatus, Planta, Estado, Comentario)VALUES('"+Producto + "','" + Entregado+ "','N/A','" + Planta+ "','" + Estado+ "','" + Comentario+"')", [], (err, ot) => {
+                    if (err) {
+                        console.log('Error al registrar despacho de herramienta' + err);
+                    }else{
+                        console.log("Transferencia correcta");
+                        
+                        conn.query("SELECT "+campoEstado+" FROM almacen WHERE Producto = '"+Producto+"' AND Almacen = 'Gaveta'", [], (err, Actual) => {
+                            if (err) {
+                                console.log('Error al leer actual' + err);
+                            }else{
+                             //Object.values(Actual[0])[0]
+                               // console.log("Campo: " + campoEstado + " Actual: " + Object.values(Actual) +" Entregado: " + Entregado + " Resta: "+(Actual-Entregado) + " Producto: "+Producto);
+                                conn.query("UPDATE almacen SET "+campoEstado+" = "+(Object.values(Actual[0])[0]-Entregado)+ " WHERE Producto = '"+Producto+"' AND Almacen = 'Gaveta'", [], (err, ot) => {
+                                    if (err) {
+                                        console.log('Error al restar gaveta' + err);
+                                    }else{
+                                        console.log("gaveta restada")
+                                    }
+                                });
+                            }
+                        });
+
+
+
+                        
+                    }
+                });
+            } //For
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+///////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////// == SALIDA == //////////////////// == SALIDA == ///////////////////// == SALIDA == ///////////////////////////////////////////////////////////////
+Controller.BuscarHerramientasGav = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Herra
+            } = req.params;
+            var Herramienta = Tranformer(Herra);
+            const planta = "Almacen " + req.session.planta;
+            console.log("Salida: " + Herramienta + " Planta: " + planta);
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = 'Gaveta'", (err, Herramientas) => {
+                if (err) {
+ 
+                    console.log('Error de lectura ' + err);
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+///////// == GAVETA == ////////////////////////////// == GAVETA == ////////////////////////////// == GAVETA == ////////////////////////// == GAVETA == //////////////////// == GAVETA == ///////////////////// == GAVETA == ///////////////////////////////////////////////////////////////
+
+Controller.MostrarRecoleccionGav = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Maquina
+            } = req.params;
+            let Planta = req.session.planta;
+            conn.query("SELECT * FROM ProductoFlotante where Planta = 'Gaveta'", (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura' + err);
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.GuardarRecoleccionGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+            var limite = Object.values(data)[0].length;
+            for (var i = 0; i < limite; i++) {
+                var id = Object.values(data)[0][i][0]; //obeter datos de un objeto id
+                var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
+                var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
+                //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
+                conn.query("UPDATE almacen SET Stock = "+Cantidad+" WHERE Producto = '"+Item+"' AND Almacen = 'Gaveta'", (err, actualizado) => {
+                    if (err) {
+                        console.log('Error al actualizar: ' + err);
+                    }
+                    conn.query("DELETE FROM ProductoFlotante WHERE id = "+id, (err, Eliminados) => {
+                        if (err) {
+                            console.log('Error al eliminar: ' + err);
+                        }
+                        else{
+                            console.log("Flotante eliminado: " + id)
+                        }
+                    });
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+///////// == AJUSTE == ////////////////////////////// == AJUSTE == ////////////////////////////// == AJUSTE == ////////////////////////// == AJUSTE == //////////////////// == AJUSTE == ///////////////////// == AJUSTE == ///////////////////////////////////////////////////////////////
+Controller.searchAjuste = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Herra
+            } = req.params;
+            var Herramienta = Tranformer(Herra);
+            const planta = "Almacen " + req.session.planta;
+            console.log("Salida: " + Herramienta + " Planta: " + planta);
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 module.exports = Controller;

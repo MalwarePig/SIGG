@@ -49,7 +49,7 @@ Controller.AlimentarFlujo = (req, res) => {
         req.getConnection((err, conn) => {
             var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Data.xlsx'
             xlsxFile(ruta).then((rows) => {
-               Obj_Flujo.Impresion(rows);
+                Obj_Flujo.Impresion(rows);
             })
         });
     } else {
@@ -236,12 +236,83 @@ Controller.TransFlujo = (req, res) => {
                         });
                     }
                 });
-            }//if Caso cerrado
+            } else if (Caso == 'Extra') { //if Caso cerrado
+                //Insert la linea en la nueva area
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log("Tranferencia realizada");
+                    }
+                });
+            }
         });
     } else {
         res.render('Admin/Login.html');
     }
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Tranfiere la linea de un area a otra
+Controller.TransFlujo = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body;
+
+            var id = Object.values(data)[0].id;
+            var OT = Object.values(data)[0].OT;
+            var Parte = Object.values(data)[0].Parte;
+            var cantidadDestino = Object.values(data)[0].cantidadDestino;
+            var cantidadActual = Object.values(data)[0].cantidadActual;
+            var Planta = req.session.planta;
+            var Inicio = Object.values(data)[0].Inicio;
+            var Fin = Object.values(data)[0].Fin;
+            var AreaDestino = Object.values(data)[0].AreaDestino;
+            var Caso = Object.values(data)[0].Caso;
+            
+            var Planta = req.session.planta;
+
+            var AreaOrigen = req.session.area;
+            console.log(AreaOrigen);
+            switch (AreaOrigen) {
+                case "Producción":
+                    AreaOrigen = "controlplaner";
+                    break;
+                case "Acabados":
+                    AreaOrigen = "areaacabados";
+                    break;
+                case "Tratamientos":
+                    AreaOrigen = "areatratamientos";
+                    break;
+                case "Calidad":
+                    AreaOrigen = "areacalidad";
+                    break;
+                case "Embarques":
+                    AreaOrigen = "areaembarques";
+                    break;
+                default:
+                    AreaOrigen = "";
+                    break;
+            }
+
+            console.log("Caso: " + Caso);
+            if (Caso == 'Parcial') {
+                console.log('Parcial************************');
+                var TotalActual = cantidadActual - cantidadDestino;
+                //Insert la linea en la nueva area
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log("Tranferencia realizada");
+                    }
+                });
+            } 
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 module.exports = Controller;

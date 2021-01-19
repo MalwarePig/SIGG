@@ -8,7 +8,6 @@ function modal() {
     $("#AsignadoExito").modal();
 }
 
-
 function PDF() {
     var doc = new jsPDF('l', 'mm', [432, 279.5]);
     /*

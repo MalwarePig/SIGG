@@ -1,8 +1,8 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
-    var variable = Tranformer(document.getElementById("BHerramienta").value);//Cambia el simbolo '/'
+    var variable = Tranformer(document.getElementById("BHerramienta").value); //Cambia el simbolo '/'
     $.ajax({
-        url: '/BuscarHerramientas/'+variable,
+        url: '/BuscarHerramientasAjuste/' + variable,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -20,7 +20,7 @@ function GETPRODUCTS() {
                 var Producto = Herramientas[i].Producto;
                 var Ubicacion = Herramientas[i].Ubicacion;
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto, Ubicacion]
+                Arreglo = [id, Clave, Producto,Herramientas[i].Almacen, Ubicacion]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -30,24 +30,27 @@ function GETPRODUCTS() {
                     newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado 
                     switch (x) {
                         case 0:
-                            newCell.innerHTML = '<input required type="text" id="id'+i+'" class="form-control" value="'+ Arreglo[x] +'" readonly></input>';
+                            newCell.innerHTML = '<input required type="text" id="id' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
                             break;
                         case 1:
-                            newCell.innerHTML = '<input required type="text" id="Clave'+i+'" class="form-control"  value="'+ Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input required type="text" id="Clave' + i + '" class="form-control"  value="' + Arreglo[x] + '"></input>';
                             break;
                         case 2:
-                            newCell.innerHTML = '<input type="text" id="Producto'+i+'" class="form-control" value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input type="text" id="Producto' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                             break;
                         case 3:
-                            newCell.innerHTML = '<input required type="text" id="Ubicacion'+i+'" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input type="text" id="Almacen' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+                            break;
+                        case 4:
+                            newCell.innerHTML = '<input required type="text" id="Ubicacion' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '"></input>';
                             break;
                         default:
                             break;
                             // code block
                     }
 
-                    if (x == 3) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(4); //CREAR CELDA
+                    if (x == 4) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(5); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Actualizar </button>';
                     }
                 } //fin de for de columnas
@@ -78,7 +81,7 @@ function Seleccion(variable) {
         Ubicacion: Ubicacion,
     }
 
-    $.post("/ActualizarProducto", // url
+    $.post("/EditarProducto", // url
         {
             ObjetoTabla
         }, // data to be submit
@@ -88,14 +91,14 @@ function Seleccion(variable) {
 }
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url
-function Tranformer (variable){
+function Tranformer(variable) {
     var Herramienta = "";
-    for(var q = 0; q< variable.length;q++){
-       if(variable.charAt(q) == '/'){
-           Herramienta += '|';
-       }else{
-        Herramienta += variable.charAt(q);
-       }
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '/') {
+            Herramienta += '|';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
     }
     return Herramienta;
 }

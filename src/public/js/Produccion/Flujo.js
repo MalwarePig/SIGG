@@ -148,7 +148,7 @@ function Mostrar(indice) {
     document.getElementById("R_OT").value = tabla.rows[(indice + 1)].cells[2].childNodes[0].nodeValue;
     document.getElementById("R_Parte").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
     document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[10].childNodes[0].nodeValue;
-    document.getElementById("R_Maquina").value = tabla.rows[(indice+1)].cells[3].childNodes[0].nodeValue;
+    document.getElementById("R_Maquina").value = tabla.rows[(indice + 1)].cells[3].childNodes[0].nodeValue;
     //document.getElementById("R_Area").value = tabla.rows[(indice+1)].cells[5].childNodes[0].nodeValue;
     var fecha = moment(tabla.rows[(indice + 1)].cells[1].childNodes[0].nodeValue).format('YYYY-MM-DD');
     document.getElementById("R_Inicio").value = fecha;
@@ -373,7 +373,7 @@ function Transferir() {
         AreaDestino: document.getElementById("AreaDestino").value,
         Caso: caso
     }
-    
+
 
     document.getElementById("CantidadDestino").value = "0";
     $("#ModalTransferenciaLista").modal();
@@ -405,12 +405,38 @@ function modalesspiner() {
 }
 
 function ServicioExterno() {
+    var cantidadActual = parseInt(document.getElementById("R_Cantidad").value);
+    var CantidadTrat = document.getElementById("CantidadTrat").value;
     var Proceso = document.getElementById("Servicios").value;
     var Proveedor = document.getElementById("Proveedores").value;
+    let Retrabajo = $('input[name="Retrabajo"]:checked').val();
 
-    let PreguntaDos = $('input[name="Retrabajo"]:checked').val();
+    if (Retrabajo != 'true') {
+        Retrabajo = "false";
+    }
 
-    alert(Proceso + " " + Proveedor + " " + PreguntaDos);
+    //id - OT - Parte - cantidadDestino - cantidadActual - Inicio - Fin - Proceso - Proveedor - Retrabajo                           
+//Pendiente...hacer la transferencia a post al area de tratamientos BD lista
+    var Linea = {
+        id: document.getElementById("R_id").value,
+        OT: document.getElementById("R_OT").value,
+        Parte: document.getElementById("R_Parte").value,
+        cantidadDestino: CantidadTrat,
+        cantidadActual: cantidadActual,
+        Inicio: document.getElementById("R_Inicio").value,
+        Fin: document.getElementById("R_Fin").value,
+        AreaDestino: Proceso,
+        Proveedor: Proveedor,
+        Retrabajo: Retrabajo
+    }
+
+    $.post("/MandarTrat", // inicia la lista de ot en el flujo de produccion
+    {
+        Linea
+    }, // data to be submit
+    function (objeto, estatus) { // success callback
+        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+    });
 }
 
 
@@ -419,7 +445,7 @@ function CargaOTPendiente() {
     var LimiteFilas = ArrayPendintes.length;
     var LimiteColumnas = ArrayPendintes[0].length;
     for (let index = 0; index < LimiteFilas; index++) {
- 
+
         if (OTBuscar == ArrayPendintes[index][1]) {
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             // inserta una fila al final de la tabla

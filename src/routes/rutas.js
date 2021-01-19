@@ -33,11 +33,7 @@ router.get('/Signup',  UserController.SignUp);
  
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
-
-router.get('/Desarrollo', (req, res) => {
-	//res.send('holoo');
-	res.render('Almacen/ML.html');
-});
+ 
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
@@ -110,6 +106,8 @@ router.get('/Pen_FlujoProd', FlujoController.Pen_FlujoProd);
 router.post('/IniciarProdFlujo', FlujoController.IniciarProdFlujo);
 //Transferir linea de un area a la siguiente
 router.post('/TransFlujo', FlujoController.TransFlujo);
+//Transferir linea a servicio externo
+//router.post('/MandarTrat', FlujoController.MandarTrat);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {
@@ -121,9 +119,7 @@ router.get('/Admin', (req, res) => {
 				title: 'Gemak'
 			});
 		} else {
-			res.render('index.html', {
-				title: 'Gemak'
-			});
+			res.render('Admin/Login.html');
 		}
 	} else {
 		res.render('Admin/Login.html');
@@ -157,16 +153,12 @@ router.get('/wh_Admin', (req, res) => {
 				title: 'Gemak'
 			});
 		} else {
-			res.render('index.html', {
-				title: 'Gemak'
-			});
+			res.render('Admin/Login.html');
 		}
 	} else {
-		res.render('index.html', {
-			title: 'Gemak'
-		});
+		res.render('Admin/Login.html');
 	}
-	res.render('Admin/Login.html');
+	 
 });
 
 //====== Salidas ========
@@ -197,6 +189,40 @@ router.get('/MostrarRecoleccion', AlmacenController.MostrarRecoleccion);
 router.post('/GuardarRecoleccion', AlmacenController.GuardarRecoleccion);
 router.get('/CancelarFlotante/:id', AlmacenController.CancelarFlotante);
 router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
+
+//============================== Almacen Aajuste ==============================//
+router.get('/BuscarHerramientasAjuste/:Herra', AlmacenController.searchAjuste);
+
+//============================== Almacen Gaveta (Oficina) ==============================//
+//Abre pagina principal para editar
+router.get('/Desarrollo', (req, res) => {
+	if (req.session.loggedin) {
+		//res.render('Almacen/wh_Gaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//============================== Almacen Gaveta (Oficina) ==============================//
+//Abre pagina principal para editar
+router.get('/Gaveta', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_Gaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Transfiere de gaveta almacen
+router.post('/DescontarGaveta', AlmacenController.DescontarGaveta);
+//Busca Herramientas en Gaveta
+router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientasGav);
+//Busca Pendientes de recolectar en gaveta
+router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
+//Guarda la recoleccion en gaveta
+router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
+
+
 //====== Crear Herramienta ========
 //Abre pagina principal para editar
 router.get('/wh_ProdNuevo', (req, res) => {
@@ -218,11 +244,12 @@ router.get('/wh_Editar', (req, res) => {
 	} else {
 		res.render('Admin/Login.html');
 	}
-	res.render('Admin/Login.html');
-	//res.end();
 });
 
+//Actualiza ajuste
 router.post('/ActualizarProducto', AlmacenController.ActualizarProducto);
+//Actualiza ajuste
+router.post('/EditarProducto', AlmacenController.EditarProducto);
 //====== Ajuste Inventario ========
 //Abre pagina principal para editar
 router.get('/AjusteInventario', (req, res) => {
@@ -233,7 +260,6 @@ router.get('/AjusteInventario', (req, res) => {
 	} else {
 		res.render('Admin/Login.html');
 	}
-	res.render('Admin/Login.html');
 });
 
 //====== Requisicion ========
