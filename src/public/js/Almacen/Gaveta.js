@@ -259,7 +259,6 @@ function Recolectar() {
             EliminarFila.push(i);
         }
     }
-    PDF();
     $.post("/GuardarRecoleccionGaveta", // url
         {
             Tabla
@@ -347,4 +346,10 @@ function FuncionFecha(variable) {
     }
     var today = dd + '/' + mm + '/' + yyyy;
     return today;
+}
+
+//Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
+function redireccionar() {
+    var pagina = "/Gaveta";
+    location.href = pagina;
 }

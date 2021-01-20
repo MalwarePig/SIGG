@@ -248,8 +248,10 @@ router.get('/wh_Editar', (req, res) => {
 
 //Actualiza ajuste
 router.post('/ActualizarProducto', AlmacenController.ActualizarProducto);
-//Actualiza ajuste
+//Actualiza informacion de producto
 router.post('/EditarProducto', AlmacenController.EditarProducto);
+//Actualiza informacion de producto
+router.post('/EliminarProducto', AlmacenController.EliminarProducto);
 //====== Ajuste Inventario ========
 //Abre pagina principal para editar
 router.get('/AjusteInventario', (req, res) => {

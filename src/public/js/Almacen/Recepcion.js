@@ -10,7 +10,6 @@ function GuardarRecepcion() { //Ejecutar codigo al dar click en boton
 
             Arreglo.push(Tabla);
         }
-
         i++;
     }); //each para recorrer tabla
 
@@ -77,12 +76,11 @@ function Seleccion(variable) {
 
     var id = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave
     var Herramienta = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
-
+    document.getElementById("Rows"+(variable-1)).style.backgroundColor = " #e2fce9 "; //Verde
 
     document.RegistroSalida.id.value = id;
     document.RegistroSalida.Herramienta.value = Herramienta;
 }
-
 
 //=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//
 function CrearNota() {

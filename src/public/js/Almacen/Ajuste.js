@@ -8,7 +8,7 @@ function GETPRODUCTS() {
             var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
             for (var i = 0; i < limite; i++) {
-                $("#Rows").remove(); //elimina los elementos con id Rows
+                $("#Rows"+i).remove(); //elimina los elementos con id Rows
             }
             if (Herramientas.length == 0) {
                 $("#Vacio").modal();
@@ -32,7 +32,7 @@ function GETPRODUCTS() {
 
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("id", "Rows"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado
 
                     switch (x) {
                         case 0:
@@ -48,9 +48,9 @@ function GETPRODUCTS() {
                             var Almacen = "";
                             if (Arreglo[x] == "Almacen Morelos") {
                                 Almacen = "Morelos";
-                            }else if(Arreglo[x] == "Almacen Bravo"){
+                            } else if (Arreglo[x] == "Almacen Bravo") {
                                 Almacen = "Bravo";
-                            }else{
+                            } else {
                                 Almacen = "Gaveta";
                             }
                             newCell.innerHTML = '<input  type="text" id="Almacen' + i + '" class="form-control" value="' + Almacen + '" readonly></input>';
@@ -71,7 +71,7 @@ function GETPRODUCTS() {
 
                     if (x == 4) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(5); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=Seleccion(' + (i + 1) + ')> - </button>';
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=Eliminar(' + (i + 1) + ')> - </button>';
 
                         var newCell = newRow.insertCell(6); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-info" name="btn" onclick=Seleccion(' + (i + 1) + ')> * </button>';
@@ -90,7 +90,6 @@ function runScript(e) {
 }
 
 //=========================================== Actualizar Seleccion =================================================//
-
 function Seleccion(variable) {
     var indice = variable - 1;
     Registro = document.getElementById("Herr_Encontradas");
@@ -122,4 +121,40 @@ function Seleccion(variable) {
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
     alert("Listo");
+}
+
+//=========================================== Modal de confirmacion =================================================//
+function Eliminar(variable) {
+    //Se guarda fila para 
+    localStorage.setItem('fila', (variable - 1));
+    var fila = localStorage.getItem('fila');
+    //id de producto a eliminar
+    localStorage.setItem('idEliminar', document.getElementById("id" + fila).value);
+
+    var Producto = document.getElementById("Producto" + fila).value; //Obtiene el valor de Producto
+    //Se obtiene el nodo
+    var Nodo = document.getElementById("ProductoSpan");
+    //se crea texto para el nodo
+    var newText = document.createTextNode(Producto);
+    //se inserta el valor al nodo
+    Nodo.appendChild(newText);
+    $("#ConfirmarEliminar").modal();
+}
+
+//=========================================== Eliminar Selección =================================================//
+function ConfirmarEliminacion() {
+    var ObjetoTabla = {
+        id: localStorage.getItem('idEliminar')
+    }
+    console.table(ObjetoTabla);
+    $.post("/EliminarProducto", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
+    var fila = localStorage.getItem('fila');
+    $("#Rows" + fila).remove();
+    localStorage.clear();
 }

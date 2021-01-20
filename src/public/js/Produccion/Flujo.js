@@ -416,7 +416,7 @@ function ServicioExterno() {
     }
 
     //id - OT - Parte - cantidadDestino - cantidadActual - Inicio - Fin - Proceso - Proveedor - Retrabajo                           
-//Pendiente...hacer la transferencia a post al area de tratamientos BD lista
+    //Pendiente...hacer la transferencia a post al area de tratamientos BD lista
     var Linea = {
         id: document.getElementById("R_id").value,
         OT: document.getElementById("R_OT").value,
@@ -431,14 +431,13 @@ function ServicioExterno() {
     }
 
     $.post("/MandarTrat", // inicia la lista de ot en el flujo de produccion
-    {
-        Linea
-    }, // data to be submit
-    function (objeto, estatus) { // success callback
-        //console.log("objeto: " + objeto + "Estatus: " + estatus);
-    });
+        {
+            Linea
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
 }
-
 
 function CargaOTPendiente() {
     var OTBuscar = document.getElementById("OTBuscar").value;
@@ -462,7 +461,23 @@ function CargaOTPendiente() {
                     newCell.innerHTML = '<input  type="checkbox"  id="CheckPendiente">';
                 }
             } //fin de for de columnas
-
-        } //ig
-    } //fot
+        } //if
+    } //for
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

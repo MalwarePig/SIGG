@@ -710,7 +710,7 @@ Controller.ActualizarProducto = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            console.log(Object.values(data)[0] );
+            console.log(Object.values(data)[0]);
             var id = Object.values(data)[0].id; //obeter datos de un objeto id
             var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Clave
             var Producto = Object.values(data)[0].Producto; //obeter datos de un objeto Producto
@@ -719,11 +719,11 @@ Controller.ActualizarProducto = (req, res) => {
             var StockMinimo = Object.values(data)[0].StockMinimo; //obeter datos de un objeto Ubicacion
             var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
 
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" +StockUsado+ "','" +StockMinimo+ "','" +StockMaximo);
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo +  "','" + StockUsado +  "','" + StockMinimo + "','"+StockMaximo+"')", true, (err, rows, fields) => {
+                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al actualizar' + err);
@@ -743,17 +743,43 @@ Controller.EditarProducto = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            console.log(Object.values(data)[0] );
+            console.log(Object.values(data)[0]);
             var id = Object.values(data)[0].id; //obeter datos de un objeto id
             var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Clave
             var Producto = Object.values(data)[0].Producto; //obeter datos de un objeto Producto
             var Ubicacion = Object.values(data)[0].Ubicacion; //obeter datos de un objeto Producto
- 
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion );
+
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET Clave = '"+Clave+"', Producto = '"+Producto+"', Ubicacion = '"+Ubicacion+"' WHERE id = "+id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "' WHERE id = " + id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Herramientas)
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//Eliminar Producto
+Controller.EliminarProducto = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+
+            console.log("id " + id);
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("DELETE FROM almacen WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
@@ -856,7 +882,7 @@ Controller.MostrarReporteHerramienta = (req, res) => {
 Controller.ExistenciasAlmacen = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
- 
+
             conn.query("SELECT Clave,Producto,almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion FROM almacen order by Almacen", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
@@ -1040,28 +1066,28 @@ Controller.DescontarGaveta = (req, res) => {
                 var Planta = "Almacen " + Object.values(data)[0][i][3]; //obeter datos de un objeto Planta
                 var Comentario = Object.values(data)[0][i][4]; //obeter datos de un objeto Comentario
                 var campoEstado = "";
-               // console.log(Producto + "','" + Entregado + "','" + Estado + "','" + PlPlantaanta + "','" +Comentario);
-                if(Estado == "Nuevo"){
+                // console.log(Producto + "','" + Entregado + "','" + Estado + "','" + PlPlantaanta + "','" +Comentario);
+                if (Estado == "Nuevo") {
                     campoEstado = "Stock";
-                }else{
+                } else {
                     campoEstado = "StockUsado";
                 }
-                conn.query("INSERT INTO productoflotante(Producto, Cantidad, Estatus, Planta, Estado, Comentario)VALUES('"+Producto + "','" + Entregado+ "','N/A','" + Planta+ "','" + Estado+ "','" + Comentario+"')", [], (err, ot) => {
+                conn.query("INSERT INTO productoflotante(Producto, Cantidad, Estatus, Planta, Estado, Comentario)VALUES('" + Producto + "','" + Entregado + "','N/A','" + Planta + "','" + Estado + "','" + Comentario + "')", [], (err, ot) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta' + err);
-                    }else{
+                    } else {
                         console.log("Transferencia correcta");
-                        
-                        conn.query("SELECT "+campoEstado+" FROM almacen WHERE Producto = '"+Producto+"' AND Almacen = 'Gaveta'", [], (err, Actual) => {
+
+                        conn.query("SELECT " + campoEstado + " FROM almacen WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'", [], (err, Actual) => {
                             if (err) {
                                 console.log('Error al leer actual' + err);
-                            }else{
-                             //Object.values(Actual[0])[0]
-                               // console.log("Campo: " + campoEstado + " Actual: " + Object.values(Actual) +" Entregado: " + Entregado + " Resta: "+(Actual-Entregado) + " Producto: "+Producto);
-                                conn.query("UPDATE almacen SET "+campoEstado+" = "+(Object.values(Actual[0])[0]-Entregado)+ " WHERE Producto = '"+Producto+"' AND Almacen = 'Gaveta'", [], (err, ot) => {
+                            } else {
+                                //Object.values(Actual[0])[0]
+                                // console.log("Campo: " + campoEstado + " Actual: " + Object.values(Actual) +" Entregado: " + Entregado + " Resta: "+(Actual-Entregado) + " Producto: "+Producto);
+                                conn.query("UPDATE almacen SET " + campoEstado + " = " + (Object.values(Actual[0])[0] - Entregado) + " WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'", [], (err, ot) => {
                                     if (err) {
                                         console.log('Error al restar gaveta' + err);
-                                    }else{
+                                    } else {
                                         console.log("gaveta restada")
                                     }
                                 });
@@ -1070,7 +1096,7 @@ Controller.DescontarGaveta = (req, res) => {
 
 
 
-                        
+
                     }
                 });
             } //For
@@ -1095,7 +1121,7 @@ Controller.BuscarHerramientasGav = (req, res) => {
             console.log("Salida: " + Herramienta + " Planta: " + planta);
             conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = 'Gaveta'", (err, Herramientas) => {
                 if (err) {
- 
+
                     console.log('Error de lectura ' + err);
                 }
                 res.json(Herramientas);
@@ -1134,7 +1160,7 @@ Controller.GuardarRecoleccionGaveta = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+            let Planta = "Gaveta"; //obeter datos de un objeto Planta
             let Usuario = req.session.nombre; //obeter datos de un objeto nombre
             var limite = Object.values(data)[0].length;
             for (var i = 0; i < limite; i++) {
@@ -1142,26 +1168,16 @@ Controller.GuardarRecoleccionGaveta = (req, res) => {
                 var Item = Object.values(data)[0][i][1]; //obeter datos de un objeto Item
                 var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
                 //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
-                conn.query("UPDATE almacen SET Stock = "+Cantidad+" WHERE Producto = '"+Item+"' AND Almacen = 'Gaveta'", (err, actualizado) => {
-                    if (err) {
-                        console.log('Error al actualizar: ' + err);
-                    }
-                    conn.query("DELETE FROM ProductoFlotante WHERE id = "+id, (err, Eliminados) => {
-                        if (err) {
-                            console.log('Error al eliminar: ' + err);
-                        }
-                        else{
-                            console.log("Flotante eliminado: " + id)
-                        }
-                    });
-                });
+
+                console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
+                conn.query("call Recolectar(" + id + ",'" + Item + "'," + Cantidad + ",'" + Planta + "','" + Usuario + "')", true, (err, rows, fields) => {});
+
             }
         });
     } else {
         res.render('Admin/Login.html');
     }
 };
-
 
 
 
