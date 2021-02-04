@@ -62,8 +62,9 @@ function GETPRODUCTS() {
                 var Stock = Herramientas[i].Stock;
                 var StockUsado = Herramientas[i].StockUsado;
                 var Ubicacion = Herramientas[i].Ubicacion;
+                var Almacen = Herramientas[i].Almacen;
                 //Eliminar variable dentro del For
-                Arreglo = [Clave, Producto, Stock, StockUsado, Ubicacion]
+                Arreglo = [Clave, Producto, Stock, StockUsado, Ubicacion,Almacen]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -75,8 +76,8 @@ function GETPRODUCTS() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 4) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                    if (x == 5) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(6); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                     }
                 } //fin de for de columnas

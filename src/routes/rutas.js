@@ -66,7 +66,6 @@ router.get('/delete/:id', OTController.delete);
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A Vencidas //////////////////////////////////////////////////////////////////////////////
 router.get('/Vencidas', VencidasController.listVencidas);
-
 /////////////////////////////////////////////////////////////////////////// REGISTRO DE MAQUINARIA CNC /////////////////////////////////////////////////////////////////////
 //Acceder formulario Registrar Maquina
 router.get('/Alta_Maquina', (req, res) => {
@@ -96,6 +95,8 @@ router.get('/Flujo', (req, res) => {
 
 //Consulta un area en el flujo
 router.get('/ConsultaFlujo/:parametros', FlujoController.list);
+//Consulta un area en el flujo con ordenes sin embarcar
+router.get('/ConsultaFlujoEspera/:parametros', FlujoController.listEspera);
 //Trae todas las fechas de los departamentes en el flujo
 router.get('/FechasFlujo/:OT', FlujoController.FechasFlujo);
 //Verifica excel para alimentar controlplaner
@@ -106,6 +107,8 @@ router.get('/Pen_FlujoProd', FlujoController.Pen_FlujoProd);
 router.post('/IniciarProdFlujo', FlujoController.IniciarProdFlujo);
 //Transferir linea de un area a la siguiente
 router.post('/TransFlujo', FlujoController.TransFlujo);
+//Guarda los cambios en las cantidades del flujo
+router.post('/SaveCantFlujo', FlujoController.SaveCantFlujo);
 //Transferir linea a servicio externo
 //router.post('/MandarTrat', FlujoController.MandarTrat);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
@@ -221,7 +224,6 @@ router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientas
 router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
 //Guarda la recoleccion en gaveta
 router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
-
 
 //====== Crear Herramienta ========
 //Abre pagina principal para editar

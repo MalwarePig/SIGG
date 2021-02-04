@@ -55,8 +55,7 @@ Full screen Modal
                                 <div class="card-body">
                                     <div class="form-row">
                                         <div class="form-group col-md-3" style="display: none">
-                                        <input required readonly type="text" id="R_id"
-                                        class="form-control"></input>
+                                            <input required readonly type="text" id="R_id" class="form-control"></input>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <input required type="text" id="CantidadDestino" class="form-control"
@@ -71,7 +70,6 @@ Full screen Modal
                                                 <option value="areaembarques">Embarques</option>
                                             </select>
                                         </div>
-
                                         <div class="form-group col-md-2 ">
                                             <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
                                                 onclick="Transferir()">Transferir</button>
@@ -146,7 +144,7 @@ Full screen Modal
 
                                         <div class="col-md-2">
                                             <label><input type="checkbox" id="Retrabajo" name="Retrabajo" value="true">
-                                                Retrabajo</label> 
+                                                Retrabajo</label>
                                         </div>
 
                                         <div class="form-group col-md-2 ">
@@ -183,11 +181,14 @@ Full screen Modal
                                         <tr>
                                             <th>OT</th>
                                             <th>N° Parte</th>
-                                            <th>Cantidad</th>
+                                            <th>Cant.OT</th>
+                                            <th>Cant. Restante</th>
                                             <th>Maquina</th>
                                             <!-- <th>Area</th>-->
                                             <th>Fecha inicio</th>
                                             <th>Fecha vencimiento</th>
+                                            <th>Cant. Recibida</th>
+                                            <th>Cant. Extra</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -198,8 +199,10 @@ Full screen Modal
                                                     class="form-control"></input></td>
                                             <td id="indice"><input required type="text" id="R_Cantidad"
                                                     class="form-control" readonly></input></td>
+                                            <td id="indice"><input required type="text" id="R_CantidadTotal"
+                                                    class="form-control" readonly></input></td>
                                             <td id="indice"><input required type="text" id="R_Maquina"
-                                                class="form-control" readonly></input> </td>
+                                                    class="form-control" readonly></input></td>
 
                                             <!-- <td id="indice"> <select required id="R_Area" name="Area"
                                                         class="form-control">
@@ -211,9 +214,14 @@ Full screen Modal
                                                     </select></td>-->
 
                                             <td id="indice"><input required type="date" id="R_Inicio"
-                                                    class="form-control" name="R_Inicio" autocomplete="off" readonly></td>
+                                                    class="form-control" name="R_Inicio" autocomplete="off" readonly>
+                                            </td>
                                             <td id="indice"><input required type="date" id="R_Fin" class="form-control"
                                                     name="R_Fin" autocomplete="off" readonly></td>
+                                            <td id="indice"><input required type="text" id="R_Recibido"
+                                                    class="form-control" ></input></td>
+                                            <td id="indice"><input required type="text" id="R_Extra"
+                                                    class="form-control" ></input></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -228,9 +236,32 @@ Full screen Modal
                 <div class="modal-footer-full-width  modal-footer">
                     <button type="button" class="btn btn-danger btn-md btn-rounded"
                         data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-md btn-rounded">Guardar cambios</button>
+                    <button type="button" class="btn btn-primary btn-md btn-rounded" onclick="GuardarCambios()">Guardar cambios</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+	<!-- Modal Sin elementos -->
+    <div class="modal fade" id="ModalCambiosAplicados" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <button class="btn btn-light text-nowrap" type="button">
+                    <span class="spinner-grow mr-2"></span>
+                    Cambios Aplicados.
+                  </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+

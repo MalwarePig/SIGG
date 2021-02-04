@@ -1,12 +1,10 @@
 localStorage.setItem('miGato', 'Juan');
 var cat = localStorage.getItem('miGato');
 
-localStorage.removeItem('miGato');
-
-// Elimina todos los elementos
-localStorage.clear();
+localStorage.removeItem('miGato');  // Elimina el elemento de memoria 
 
 
+localStorage.clear();   // Elimina todos los elementos
 
 ************ Variables locales *******************
 req.session.loggedin = true;
@@ -17,3 +15,7 @@ req.session.nivel = nivel;
 req.session.area = Area;
 req.session.nombre = nombre;
 req.session.turno = Turno;
+
+************ CSS *******************
+style="display: none"    //Oculta un div
+style="width: 11%"       //Ancho de una fila

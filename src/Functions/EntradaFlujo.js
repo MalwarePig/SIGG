@@ -42,13 +42,11 @@ var Impresion = function (Excel) {
                 var Parte = Arreglo[index][3];
                 var CantOt = Arreglo[index][4];
                 var m = new Date(Arreglo[index][5]);
-
                 var FechaVenc = FormatoFechas(m);
                 var Planta = Arreglo[index][6];
-             
 
                 //console.log(Maquina + " " + Estatus + " " + OT + " " + Parte + " " + CantOt + " " + FechaVenc);
-                cnSQL.cnn.query("INSERT INTO controlplaner(Maquina,Estatus,OT,Parte,CantOt,FechaVenc,Planta) VALUES ('" + Maquina + "','" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','"+Planta+"')", [], (err, dato) => {
+                cnSQL.cnn.query("INSERT INTO controlplaner(Maquina,Estatus,OT,Parte,CantOt,FechaVenc,Planta,Recibido) VALUES ('" + Maquina + "','" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','"+Planta+"',"+CantOt+")", [], (err, dato) => {
                     if (err) {
                         console.log('error: ' + err);
                     }  
@@ -56,7 +54,6 @@ var Impresion = function (Excel) {
             }
         }
     });
-
 }
 
 

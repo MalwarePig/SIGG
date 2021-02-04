@@ -37,8 +37,7 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-0">
-                            <a href="#" class="badge badge-info" data-target="#ModalRecoleccion"
-                                data-toggle="modal"><span id="value">0</span></a>
+                            <a href="#" class="badge badge-info" onclick="ModalesPendiente()"><span id="value">0</span></a>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -141,6 +140,8 @@
                             <th>Planta</th>
                             <th>Origen</th>
                             <th>Cantidad OT</th>
+                            <th>Recibido</th>
+                            <th>Extras</th>
                             <th>Restante</th>
                             <th>Enviados</th>
                             <th>Stock</th>
@@ -155,6 +156,37 @@
         </div>
     </div>
 
+    <div class="card text-center">
+        <div class="card-body">
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                <table class="table table-condensed table-hover" id="TablaEspera">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Entrada</th>
+                            <th>OT</th>
+                            <th>Maquina</th>
+                            <th>Cliente</th>
+                            <th>N° Parte</th>
+                            <th>Servicio In</th>
+                            <th>Planta</th>
+                            <th>Origen</th>
+                            <th>Cantidad OT</th>
+                            <th>Recibido</th>
+                            <th>Extras</th>
+                            <th>Restante</th>
+                            <th>Enviados</th>
+                            <th>Stock</th>
+                            <th>Fecha vencimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <%- include ('../Producción/ModalEditarFlujo.html') %>
 

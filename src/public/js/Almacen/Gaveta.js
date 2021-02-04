@@ -158,7 +158,7 @@ function Transferir() {
         var Tabla = [Producto, Entregado, Estado, Planta, Comentario];
         Arreglo.push(Tabla);
     }
-
+    PDF()
     console.table(Arreglo);
     $.post("/DescontarGaveta", // url
         {

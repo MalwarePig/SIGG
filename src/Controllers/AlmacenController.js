@@ -15,14 +15,26 @@ Controller.search = (req, res) => {
             } = req.params;
             var Herramienta = Tranformer(Herra);
             const planta = "Almacen " + req.session.planta;
-            console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = '" + planta + "'", (err, Herramientas) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error de lectura');
-                }
-                res.json(Herramientas);
-            });
+            const area = req.session.area;
+            console.log("Salida: " + Herramienta + " Planta: " + planta+ " area: " + area);
+            if(area == 'Admin'){
+                console.log("Entre como admin")
+                conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas);
+                });
+            }else{
+                conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = '" + planta + "'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas);
+                });
+            }
         });
     } else {
         res.render('Admin/Login.html');
@@ -160,16 +172,27 @@ Controller.Maquinas = (req, res) => {
             familia
         } = req.params;
         const planta = req.session.planta;
+        const area = req.session.area
+        console.log("Soy del area: " + area)
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Conexion: " + err)
             }
-            conn.query("SELECT * from maquinas where Familia ='" + familia + "' AND Planta = '" + planta + "'", (err, maquinas) => {
-                if (err) {
-                    console.log('Error de lectura');
-                }
-                res.json(maquinas);
-            });
+            if (area == 'Admin') {
+                conn.query("SELECT * from maquinas where Familia ='" + familia + "'", (err, maquinas) => {
+                    if (err) {
+                        console.log('Error de lectura');
+                    }
+                    res.json(maquinas);
+                });
+            } else {
+                conn.query("SELECT * from maquinas where Familia ='" + familia + "' AND Planta = '" + planta + "'", (err, maquinas) => {
+                    if (err) {
+                        console.log('Error de lectura');
+                    }
+                    res.json(maquinas);
+                });
+            }
         });
     } else {
         res.render('Admin/Login.html');
@@ -1059,6 +1082,7 @@ Controller.DescontarGaveta = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
             var limite = Object.values(data)[0].length;
+            console.log("Total de objetos: " + limite);
             for (var i = 0; i < limite; i++) {
                 var Producto = Object.values(data)[0][i][0]; //obeter datos de un objeto Producto
                 var Entregado = Object.values(data)[0][i][1]; //obeter datos de un objeto Cantidad
@@ -1072,33 +1096,28 @@ Controller.DescontarGaveta = (req, res) => {
                 } else {
                     campoEstado = "StockUsado";
                 }
+                console.log("insertando: " + Producto);
                 conn.query("INSERT INTO productoflotante(Producto, Cantidad, Estatus, Planta, Estado, Comentario)VALUES('" + Producto + "','" + Entregado + "','N/A','" + Planta + "','" + Estado + "','" + Comentario + "')", [], (err, ot) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta' + err);
-                    } else {
-                        console.log("Transferencia correcta");
-
-                        conn.query("SELECT " + campoEstado + " FROM almacen WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'", [], (err, Actual) => {
-                            if (err) {
-                                console.log('Error al leer actual' + err);
-                            } else {
-                                //Object.values(Actual[0])[0]
-                                // console.log("Campo: " + campoEstado + " Actual: " + Object.values(Actual) +" Entregado: " + Entregado + " Resta: "+(Actual-Entregado) + " Producto: "+Producto);
-                                conn.query("UPDATE almacen SET " + campoEstado + " = " + (Object.values(Actual[0])[0] - Entregado) + " WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'", [], (err, ot) => {
-                                    if (err) {
-                                        console.log('Error al restar gaveta' + err);
-                                    } else {
-                                        console.log("gaveta restada")
-                                    }
-                                });
-                            }
-                        });
-
-
-
-
                     }
-                });
+
+                    console.log("indice: " + i + "SELECT " + campoEstado + " FROM almacen WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'");
+                    conn.query("SELECT " + campoEstado + " FROM almacen WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'", [], (err, Actual) => {
+                        if (err) {
+                            console.log('Error al leer actual' + err);
+                        } else {
+                            conn.query("UPDATE almacen SET " + campoEstado + " = " + (Object.values(Actual[0])[0] - Entregado) + " WHERE Producto = '" + Producto + "' AND Almacen = 'Gaveta'", [], (err, ot) => {
+                                if (err) {
+                                    console.log('Error al restar gaveta' + err);
+                                } else {
+                                    console.log("indice: " + i + "Campo: " + campoEstado + " Actual: " + Object.values(Actual[0])[0] + " Entregado: " + Entregado + " Resta: " + (Object.values(Actual[0])[0] - Entregado) + " Producto: " + Producto);
+                                    console.log("gaveta restada")
+                                }
+                            }); //Update de cantidades
+                        }
+                    }); //Select de cantidades
+                }); //Insert a producto flotante
             } //For
         });
     } else {
