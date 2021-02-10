@@ -9,7 +9,7 @@
     </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%- include ('../partials/head.html') %>
+    <%- include ('../../partials/head.html') %>
     <!-----------------------------------------------     incluir cabezera navegacion     ---------------------------------------------------------------->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
     <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
@@ -23,7 +23,7 @@
 </head>
 
 <body onload="Pendientes()">
-    <%- include ('../partials/navegacion.html') %>
+    <%- include ('../../partials/navegacion.html') %>
     <!---  <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="darkSwitch" />
         <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
@@ -37,7 +37,8 @@
                     <div class="form-row">
 
                         <div class="form-group col-md-0">
-                            <a href="#" class="badge badge-info" onclick="ModalesPendiente()"><span id="value">0</span></a>
+                            <a href="#" class="badge badge-info" onclick="ModalesPendiente()"><span
+                                    id="value">0</span></a>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -48,7 +49,7 @@
                         </div>
 
                         <div class="form-group col-md-5">
-                            <select required id="Area" name="Area" class="form-control">
+                            <select required id="ListArea" name="Area" class="form-control">
                                 <option value="controlplaner" selected>Producción</option>
                                 <option value="areaacabados">Acabados</option>
                                 <option value="areatratamientos">Trat. Externos</option>
@@ -103,21 +104,32 @@
                 <div class="card-body">
                     <div class="form-row">
 
-                        <div>
-                            <button type="button" id="Excel" name="Excel" class="btn btn-success"
-                                onclick="Excel()">Excel</button>
-                        </div>
-
-                        <div class="form-group col-md-1.5">
-                            <button type="button" id="PDF" name="PDF" class="btn btn-danger"
-                                onclick="PDF()">PDF</button>
+                        <div class="form-group col-md-1">
+                            <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
+                                onclick="Excel()" data-toggle="tooltip" data-placement="top" title="Excel"><i
+                                    class="fas fa-file-csv"></i></button>
                         </div>
 
                         <div class="form-group col-md-1">
-                            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="Alimentar()"
-                                data-target="#RecoleccionExito" data-toggle="modal">Alimentar</button>
+                            <button type="button" id="PDF" name="PDF" class="btn btn-danger btn-lg" onclick="PDF()"
+                                data-toggle="tooltip" data-placement="top" title="PDF"><i
+                                    class="fas fa-file-pdf"></i></button>
                         </div>
-                        
+
+                        <div class="form-group col-md-3">
+                            <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" onclick="Alimentar()"
+                                data-target="#RecoleccionExito" data-toggle="modal" data-toggle="tooltip"
+                                data-placement="top" title="Alimentar Base de datos"><i
+                                    class="fas fa-file-import"></i></button>
+                        </div>
+
+                        <div class="form-group col-md-1">
+                            <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" onclick="TrataExternos()"
+                                data-target="#RecoleccionExito" data-toggle="modal" data-toggle="tooltip"
+                                data-placement="top" title="Tratamientos externos"><i
+                                    class="fab fa-hotjar"></i></button>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -188,10 +200,11 @@
         </div>
     </div>
 
-    <%- include ('../Producción/ModalEditarFlujo.html') %>
+    <%- include ('../../Producción/Flujo/ModalEditarFlujo.html') %>
 
-    <%- include ('../Producción/ModalPendienteFlujo.html') %>
+    <%- include ('../../Producción/Flujo/ModalPendienteFlujo.html') %>
 
+    <%- include ('../../Producción/Flujo/ModalTratamientosEx.html') %>
     <!-- DATATABLES -->
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 

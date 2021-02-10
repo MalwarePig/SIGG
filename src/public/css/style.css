@@ -1,6 +1,6 @@
 body {
 font-family : 'Lato', sans-serif;
-background :    #f0f0f0;
+background :    #ffffff;
 }
 body p {
 color : #666666;
@@ -16,6 +16,8 @@ text-transform : capitalize;
 font-weight : 800;
 text-transform : uppercase;
 }
+ 
+  
 
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 #Formulario{
@@ -77,7 +79,7 @@ h2 {
   }
   .table-header {
     background-color: #95A5A6;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }

@@ -4,24 +4,10 @@ var ArrayPendintes = []; //Lista de OT leidas del excel y cargadas en pendientes
 
 function Carga() {
     var Planta = document.getElementById("Planta").value;
-    var Area = document.getElementById("Area").value;
-    /*switch(Area){
-        case "Produccion": Area =  "controlplaner";
-        break;
-        case "Acabados": Area = "areaacabados";
-        break;
-        case "Tratamientos": Area = "areatratamientos";
-        break;
-        case "Calidad": Area = "areacalidad";
-        break;
-        case "Embarques": Area = "areaembarques";
-        break;
-        default: Area = "";
-        break;
-    }*/
+    var ListArea = document.getElementById("ListArea").value;
 
     $.ajax({
-        url: '/ConsultaFlujo/' + Planta + " " + Area,
+        url: '/ConsultaFlujo/' + Planta + " " + ListArea,
         success: function (Lineas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -51,7 +37,7 @@ function Carga() {
                 var Stock = Lineas[i].Stock;
                 var Vencimiento = Lineas[i].FechaVenc;
                 //Eliminar variable dentro del For
-                Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt,Recibido, Extra, Restante, Enviadas, Stock, Vencimiento];
+                Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt, Recibido, Extra, Restante, Enviadas, Stock, Vencimiento];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -75,7 +61,7 @@ function Carga() {
 
     //Muestra la tabla inferior de lineas en espera
     $.ajax({
-        url: '/ConsultaFlujoEspera/' + Planta + " " + Area,
+        url: '/ConsultaFlujoEspera/' + Planta + " " + ListArea,
         success: function (Lineas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -105,7 +91,7 @@ function Carga() {
                 var Stock = Lineas[i].Stock;
                 var Vencimiento = Lineas[i].FechaVenc;
                 //Eliminar variable dentro del For
-                Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt,Recibido, Extra, Restante, Enviadas, Stock, Vencimiento];
+                Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt, Recibido, Extra, Restante, Enviadas, Stock, Vencimiento];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -138,6 +124,7 @@ function Grafica(Ancho) {
                 'language': 'es'
             });
             google.charts.setOnLoadCallback(drawChart);
+
             function toMilliseconds(dias) {
                 return dias * 24 * 60 * 60 * 1000;
             }
@@ -196,9 +183,9 @@ function Mostrar(indice) {
     var tabla = document.getElementById("Tabla");
     //document.ready = document.getElementById("R_Planta").value = tabla.rows[(indice + 1)].cells[6].childNodes[0].nodeValue;
     //document.ready = document.getElementById("R_Area").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
-    localStorage.removeItem('R_id');  // Elimina el elemento de memoria 
+    localStorage.removeItem('R_id'); // Elimina el elemento de memoria 
     localStorage.setItem('R_id', tabla.rows[(indice + 1)].cells[0].childNodes[0].nodeValue);
- 
+
     document.getElementById("R_OT").value = tabla.rows[(indice + 1)].cells[2].childNodes[0].nodeValue;
     document.getElementById("R_Parte").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
     document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[9].childNodes[0].nodeValue;
@@ -209,21 +196,23 @@ function Mostrar(indice) {
     document.getElementById("R_Inicio").value = fecha;
     var fecha = moment(tabla.rows[(indice + 1)].cells[15].childNodes[0].nodeValue).format('YYYY-MM-DD');
     document.getElementById("R_Fin").value = fecha;
-    document.getElementById("R_Recibido").value =  tabla.rows[(indice + 1)].cells[10].childNodes[0].nodeValue
-    document.getElementById("R_Extra").value =  tabla.rows[(indice + 1)].cells[11].childNodes[0].nodeValue
-    alert
+    document.getElementById("R_Recibido").value = tabla.rows[(indice + 1)].cells[10].childNodes[0].nodeValue
+    document.getElementById("R_Extra").value = tabla.rows[(indice + 1)].cells[11].childNodes[0].nodeValue
+
     $("#exampleModalPreview").modal();
     setTimeout(function () {
         var widthModal = document.getElementById("GraficaGant");
         var Ancho = widthModal.clientWidth;
         Grafica(Ancho);
     }, 500);
- 
-    /*$.ajax({
-        url: '/ConsultaFlujo/'+OT,
-        success: function (Lineas) {
-        } //Funcion success
-    }); //Ajax*/
+    let Area = localStorage.getItem('Area');
+    //Agrear solo lectura cuando no es area de produccion
+    if (Area != 'Producción') {
+        $("#R_Recibido").attr("readonly", "readonly");
+        $("#R_Extra").attr("readonly", "readonly");
+    }
+
+
 }
 
 /*Eliminar nodo seleccionado
@@ -243,19 +232,22 @@ function Contadores(Lineas) {
     var Activas = 0;
     var Vencidas = 0;
 
-    for (let index = 0; index < Total; index++) {
-        var FechaVencimiento = new Date(moment(Lineas[index].FechaVenc).format('YYYY/MM/DD'));
-        var diferencia = Math.floor((Hoy - FechaVencimiento) / (1000 * 60 * 60 * 24));
+    if (Total > 0) {
+        for (let index = 0; index < Total; index++) {
+            var FechaVencimiento = new Date(moment(Lineas[index].FechaVenc).format('YYYY/MM/DD'));
+            var diferencia = Math.floor((Hoy - FechaVencimiento) / (1000 * 60 * 60 * 24));
 
-        if (Hoy > FechaVencimiento) {
-            Vencidas++;
-            document.getElementById("RowsFlujo" + index).style.backgroundColor = " #ffd2d2 "; //Rojo
-        } else if (diferencia == 4) {
-            document.getElementById("RowsFlujo" + index).style.backgroundColor = " #feffd5 "; //Amarillo
-        } else {
-            document.getElementById("RowsFlujo" + index).style.backgroundColor = " #e2fce9 "; //Verde
+            if (Hoy > FechaVencimiento) {
+                Vencidas++;
+                document.getElementById("RowsFlujo" + index).style.backgroundColor = " #ffd2d2 "; //Rojo
+            } else if (diferencia == 4) {
+                document.getElementById("RowsFlujo" + index).style.backgroundColor = " #feffd5 "; //Amarillo
+            } else {
+                document.getElementById("RowsFlujo" + index).style.backgroundColor = " #e2fce9 "; //Verde
+            }
         }
     }
+
     Activas = Total - Vencidas;
     document.getElementById("Activas").value = "Activas: " + Activas;
     document.getElementById("Vencidas").value = "Vencidas: " + Vencidas;
@@ -329,8 +321,9 @@ function Pendientes() {
                     var OT = Lineas[i].OT;
                     var Parte = Lineas[i].Parte;
                     var CantOt = Lineas[i].CantOt;
+                    var Recibido = Lineas[i].Recibido;
                     //Eliminar variable dentro del For
-                    Arreglo = [ID, OT, Parte, CantOt];
+                    Arreglo = [ID, OT, Parte, CantOt, Recibido];
                     ArrayPendintes.push(Arreglo);
 
                     // inserta una fila al final de la tabla
@@ -338,23 +331,25 @@ function Pendientes() {
                     for (var x = 0; x < Arreglo.length; x++) {
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "RowsF" + x); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                        newRow.setAttribute("id", "RowsF" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
                         if (x == 3) { //Si termina de registrar datos crear el boton
                             var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
-                            newCell.innerHTML = '<input  type="checkbox"  id="CheckPendienteAreas">';
+                            newCell.innerHTML = '<input  type="checkbox"  id="CheckPendienteAreas' + i + '">';
                         }
                     } //fin de for de columnas
                 } //fin de for de filas
             } else {
                 for (var i = 0; i < Lineas.length; i++) {
+                    101094
                     var ID = Lineas[i].id;
                     var OT = Lineas[i].OT;
                     var Maquina = Lineas[i].Maquina;
                     var Parte = Lineas[i].Parte;
                     var CantOt = Lineas[i].CantOt;
+
                     //Eliminar variable dentro del For
                     Arreglo = [ID, OT, Maquina, Parte, CantOt];
                     ArrayPendintes.push(Arreglo);
@@ -385,12 +380,12 @@ function animateValue(id, start, end, duration) {
 function Recolectar() {
     var LocalArea = localStorage.getItem('Area');
     if (LocalArea != 'Producción') { //Si el area es diferente de produccion alimentar tabla de pendientes{
-        var tabla = document.getElementById("TablaRecoleccionAreas");
+        var tabla = document.getElementById("TablaRecoleccionAreas").getElementsByTagName('tbody')[0];
         var total = tabla.rows.length //Total de filas
         var EliminarFila = [];
         var Tabla = [];
-        for (var i = 1; i < total; i++) {
-            var FilaCheck = document.getElementById("CheckPendienteAreas");
+        for (var i = 0; i < total; i++) {
+            var FilaCheck = document.getElementById("CheckPendienteAreas" + i);
 
             if (FilaCheck.checked == true) {
                 var id = tabla.rows[i].cells[0].childNodes[0].nodeValue;
@@ -429,7 +424,7 @@ function Recolectar() {
                 var Cantidad = tabla.rows[i].cells[2].childNodes[0].nodeValue;
                 var Inicial = document.getElementById("Inicial").value;
                 var Extra = document.getElementById("Extra").value;
-                var Fila = [id, Producto,Inicial, Extra];
+                var Fila = [id, Producto, Inicial, Extra];
                 Tabla.push(Fila);
                 EliminarFila.push(i);
             }
@@ -458,47 +453,77 @@ function redireccionar() {
 
 //=========================================== Transferir a otra area =================================================//
 function Transferir() {
-    var cantidadDestino = parseInt(document.getElementById("CantidadDestino").value);//Cantidad a transferir a otra area
-    var CantidadTotal = parseInt(document.getElementById("R_CantidadTotal").value);//Cantidad Total de OT + Extras
-    var cantidadOT = parseInt(document.getElementById("R_Cantidad").value);//Cantidad de orden de Trabajo
-    var caso = "";
-    if (cantidadDestino > cantidadOT) {
-        caso = "Extra";
-    } else if (cantidadDestino <= 0) {
-        alert("Cantidad no valida, cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual);
-    } else if (cantidadDestino < cantidadOT) {
-        caso = "Parcial";
+    var cantidadDestino = parseInt(document.getElementById("CantidadDestino").value); //Cantidad a transferir a otra area
+    var CantidadTotal = parseInt(document.getElementById("R_CantidadTotal").value); //Cantidad Total de OT + Extras
+    var cantidadOT = parseInt(document.getElementById("R_Cantidad").value); //Cantidad de orden de Trabajo
+    var AreaDestino = document.getElementById("AreaDestino").value;
+
+    let Area = localStorage.getItem('Area');
+    switch (Area) {
+        case "Producción":
+            Area = "controlplaner";
+            break;
+        case "Acabados":
+            Area = "areaacabados";
+            break;
+        case "Tratamientos":
+            Area = "areatratamientos";
+            break;
+        case "Calidad":
+            Area = "areacalidad";
+            break;
+        case "Embarques":
+            Area = "areaembarques";
+            break;
+        default:
+            Area = "";
+            break;
+    }
+
+    if (Area == AreaDestino) { //Evita transferir en su propia Area
+        alert("Error, elige un area diferente");
     } else {
-        caso = "Cerrado";
+        var caso = "";
+        if (cantidadDestino > cantidadOT) {
+            caso = "Extra";
+        } else if (cantidadDestino <= 0) {
+            alert("Cantidad no valida, cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual);
+        } else if (cantidadDestino < cantidadOT) {
+            caso = "Parcial";
+        } else {
+            caso = "Cerrado";
+        }
+
+        var Linea = {
+            id: localStorage.getItem('R_id'),
+            OT: document.getElementById("R_OT").value,
+            Parte: document.getElementById("R_Parte").value,
+            CantidadOT: cantidadOT,
+            cantidadDestino: cantidadDestino,
+            CantidadTotal: CantidadTotal,
+            Inicio: document.getElementById("R_Inicio").value,
+            Fin: document.getElementById("R_Fin").value,
+            AreaDestino: document.getElementById("AreaDestino").value,
+            Caso: caso
+        }
+
+        document.getElementById("CantidadDestino").value = "0";
+        $("#ModalTransferenciaLista").modal();
+        setTimeout(function () {
+            $('#ModalTransferenciaLista').modal('toggle');
+        }, 2000);
+
+        $.post("/TransFlujo", // inicia la lista de ot en el flujo de produccion
+            {
+                Linea
+            }, // data to be submit
+            function (objeto, estatus) { // success callback
+                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            });
     }
-
-    var Linea = {
-        id: localStorage.getItem('R_id'),
-        OT: document.getElementById("R_OT").value,
-        Parte: document.getElementById("R_Parte").value,
-        CantidadOT: cantidadOT,
-        cantidadDestino: cantidadDestino,
-        CantidadTotal: CantidadTotal,
-        Inicio: document.getElementById("R_Inicio").value,
-        Fin: document.getElementById("R_Fin").value,
-        AreaDestino: document.getElementById("AreaDestino").value,
-        Caso: caso
-    }
-
-    document.getElementById("CantidadDestino").value = "0";
-    $("#ModalTransferenciaLista").modal();
-    setTimeout(function () {
-        $('#ModalTransferenciaLista').modal('toggle');
-    }, 2000);
-
-    $.post("/TransFlujo", // inicia la lista de ot en el flujo de produccion
-    {
-        Linea
-    }, // data to be submit
-    function (objeto, estatus) { // success callback
-        //console.log("objeto: " + objeto + "Estatus: " + estatus);
-    });
 }
+
+//=========================================== Modal con spíner =================================================//
 
 function modalesspiner() {
     $("#ModalPantallaCarga").modal();
@@ -512,8 +537,10 @@ function modalesspiner() {
 }
 
 function ServicioExterno() {
-    var cantidadActual = parseInt(document.getElementById("R_Cantidad").value);
-    var CantidadTrat = document.getElementById("CantidadTrat").value;
+    var cantidadDestino = parseInt(document.getElementById("CantidadTrat").value); //Cantidad a transferir a otra area
+    var CantidadTotal = parseInt(document.getElementById("R_CantidadTotal").value); //Cantidad Total de OT + Extras
+    var cantidadOT = parseInt(document.getElementById("R_Cantidad").value); //Cantidad de orden de Trabajo
+
     var Proceso = document.getElementById("Servicios").value;
     var Proveedor = document.getElementById("Proveedores").value;
     let Retrabajo = $('input[name="Retrabajo"]:checked').val();
@@ -528,14 +555,14 @@ function ServicioExterno() {
         id: localStorage.getItem('R_id'),
         OT: document.getElementById("R_OT").value,
         Parte: document.getElementById("R_Parte").value,
-        cantidadDestino: CantidadTrat,
-        cantidadActual: cantidadActual,
-        Inicio: document.getElementById("R_Inicio").value,
-        Fin: document.getElementById("R_Fin").value,
-        AreaDestino: Proceso,
+        cantidadDestino: cantidadDestino,
+        cantidadActual: CantidadTotal,
+        cantidadOT: cantidadOT,
+        Servicio: Proceso,
         Proveedor: Proveedor,
         Retrabajo: Retrabajo
     }
+    console.table(Linea);
 
     $.post("/MandarTrat", // inicia la lista de ot en el flujo de produccion
         {
@@ -591,15 +618,16 @@ function ModalesPendiente() {
 }
 
 
-function GuardarCambios(){
+function GuardarCambios() {
     var CantRecibida = document.getElementById("R_Recibido").value;
     var CantExtra = document.getElementById("R_Extra").value;
 
     var Tabla = {
         id: localStorage.getItem('R_id'),
-        CantRecibida : CantRecibida,
-        CantExtra : CantExtra
+        CantRecibida: CantRecibida,
+        CantExtra: CantExtra
     }
+
     $("#ModalCambiosAplicados").modal();
     console.log(Tabla);
     $.post("/SaveCantFlujo", // Guarda los cambios en las cantidades del flujo
@@ -612,9 +640,90 @@ function GuardarCambios(){
 }
 
 
+//=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
+$(function () {
+    $(".solo-numero").keydown(function (event) {
+        //alert(event.keyCode);
+        if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !== 190 && event.keyCode !== 110 && event.keyCode !== 8 && event.keyCode !== 9) {
+            return false;
+        }
+    });
+}); //Funcion JQuery
 
+//=========================================== Ventana Tratamientos Externos =================================================//
+function TrataExternos() {
+    $("#ModalTratExternos").modal();
+    $.ajax({
+        url: '/EnTratamientos/',
+        success: function (Lineas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var Tabla = document.getElementById('TablaTratamientos').getElementsByTagName('tbody')[0];
+            var limite = Tabla.rows.length;
+            for (var i = 0; i < limite; i++) {
+                $("#RowsTratamiento" + i).remove(); //elimina los elementos con id Rows
+            }
 
+            for (var i = 0; i < Lineas.length; i++) {
+                var id = Lineas[i].id;
+                var OT = Lineas[i].OT;
+                var Parte = Lineas[i].Parte;
+                var CantOt = Lineas[i].CantOt;
+                var Servicio = Lineas[i].Servicio || 'N/A';
+                var Proveedor = Lineas[i].Proveedor;
+                var Recibidas = Lineas[i].Recibidas;
+                var Terminadas = Lineas[i].Terminadas;
+                var Reetrabajo = Lineas[i].Reetrabajo || 'N/A';
+                var FechaRegistro = Lineas[i].FechaRegistro;
+                //Eliminar variable dentro del For
+                Arreglo = [id, OT, Parte, CantOt, Servicio, Proveedor, Recibidas, Terminadas, Reetrabajo, FechaRegistro];
+                // inserta una fila al final de la tabla
+                var newRow = Tabla.insertRow(Tabla.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "RowsTratamiento" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
 
+                    if (x == 9) {
+                        var newText = document.createTextNode(moment(Arreglo[x]).format('YYYY/MM/DD'));
+                        newCell.appendChild(newText);
+                    }
+                    if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=ModalFinalizarTrat(' + (i + 1) + ')> - </button>';
+                    } else {
+                        // adjuntar el texto al nodo
+                        var newText = document.createTextNode(Arreglo[x]);
+                        newCell.appendChild(newText);
+                    }
+                } //fin de for de columnas
+            } //fin de for de filas0
+        } //Funcion success
+    }); //Ajax
+}
 
+function ModalFinalizarTrat(indice) {
+    $("#CantidadTerminada").modal();
+    localStorage.setItem('idRetorno', indice);
+}
 
+function FinalizarTrat() {
+    let idRetorno = localStorage.getItem('idRetorno');
+    localStorage.removeItem('idRetorno'); // Elimina el elemento de memoria 
+    let CantRetorno = document.getElementById("T_Cantidad").value;
 
+    let Tabla = {
+        id: idRetorno,
+        CantRetorno: CantRetorno
+    }
+
+    $("#ModalCambiosAplicados").modal();
+    console.log(Tabla);
+    $.post("/FinalizarTrat", // Guarda los cambios en las cantidades del flujo
+        {
+            Tabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
+}

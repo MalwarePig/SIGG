@@ -11,15 +11,26 @@ Controller.list = (req, res) => {
             const {
                 parametros
             } = req.params;
-            var Planta = parametros.split(' ')[0]; // categoria o tipo de reporte
-            var Area = parametros.split(' ')[1]; // categoria o tipo de reporte
-            console.log(Planta + " - " + Area);
-            conn.query("SELECT * FROM " + Area + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND Enviadas < (CantOt + Extra) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
-                if (err) {
-                    console.log('Error al registrar despacho de herramienta' + err);
-                }
-                res.json(Lineas)
-            });
+            let Planta = parametros.split(' ')[0]; // categoria o tipo de reporte
+            let ListArea = parametros.split(' ')[1]; // categoria o tipo de reporte
+          
+            console.log(Planta + " - " + ListArea);
+            if (ListArea == 'controlplaner') {
+                conn.query("SELECT * FROM " + ListArea + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND Enviadas < (CantOt + Extra) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
+                    if (err) {
+                        console.log('Error al registrar despacho de herramienta' + err);
+                    }
+                    res.json(Lineas)
+                });
+            } else {
+                conn.query("SELECT * FROM " + ListArea + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND Enviadas < (CantOt) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
+                    if (err) {
+                        console.log('Error al registrar despacho de herramienta' + err);
+                    }
+                    res.json(Lineas)
+                });
+            }
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -232,7 +243,7 @@ Controller.TransFlujo = (req, res) => {
                 console.log('Parcial************************');
 
                 //Insert la linea en la nueva area
-                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen,Recibido)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadOT + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "'," + cantidadDestino + ")", true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
                     } else {
@@ -273,7 +284,7 @@ Controller.TransFlujo = (req, res) => {
             //======================================================================================================================================================================= 
             else if (Caso == 'Cerrado') {
                 //Insert la linea en la nueva area
-                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen,Recibido)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadOT + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "'," + cantidadDestino + ")", true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
                     } else {
@@ -296,7 +307,7 @@ Controller.TransFlujo = (req, res) => {
                 });
             } else if (Caso == 'Extra') { //if Caso cerrado
                 //Insert la linea en la nueva area
-                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadDestino + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "')", true, (err, rows) => {
+                conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOT,FechaVenc,Planta,Origen,Recibido)VALUES('Abierta','" + OT + "','" + Parte + "','" + cantidadOT + "','" + Fin + "','" + Planta + "','" + AreaOrigen + "'," + cantidadDestino + ")", true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
                     } else {
@@ -335,7 +346,7 @@ Controller.SaveCantFlujo = (req, res) => {
             console.log("Actualizar id: " + id + " CantRecibida: " + CantRecibida + " CantExtra: " + CantExtra)
 
             //Insert la linea en la nueva area
-            conn.query("UPDATE controlplaner SET Recibido = "+CantRecibida+", Extra = "+CantExtra, true, (err, rows) => {
+            conn.query("UPDATE controlplaner SET Recibido = " + CantRecibida + ", Extra = " + CantExtra, true, (err, rows) => {
                 if (err) {
                     console.log('Error al asignar' + err);
                 } else {
@@ -348,5 +359,143 @@ Controller.SaveCantFlujo = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Manda linea a Tratamiento externos
+Controller.MandarTrat = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body;
+
+            var id = Object.values(data)[0].id;
+            var OT = Object.values(data)[0].OT;
+            var Parte = Object.values(data)[0].Parte;
+            var cantidadDestino = Object.values(data)[0].cantidadDestino;
+            var cantidadActual = Object.values(data)[0].cantidadActual;
+            var Servicio = Object.values(data)[0].Servicio;
+            var Proveedor = Object.values(data)[0].Proveedor;
+            var Retrabajo = Object.values(data)[0].Retrabajo;
+            var cantidadOT = Object.values(data)[0].cantidadOT;
+            console.log("Servicio: " + Servicio + " Proveedor: " + Proveedor + " Retrabajo: " + Retrabajo + " Actualizar id: " + id + " OT: " + OT + " Parte: " + Parte + " cantidadDestino: " + cantidadDestino + " cantidadActual: " + cantidadActual)
+
+            //Insert la linea en la nueva area
+            conn.query("INSERT INTO TratamientosExterno(Estatus,OT,Parte,CantOt,Servicio,Proveedor,Recibidas,Retrabajo)VALUES('Servicio','" + OT + "','" + Parte + "','" + cantidadOT + "','" + Servicio + "','" + Proveedor + "','" + cantidadDestino + "','" + Retrabajo + "')", true, (err, rows) => {
+                if (err) {
+                    console.log('Error al Transferir' + err);
+                } else {
+                    console.log("Linea transferida");
+                    conn.query("SELECT Enviadas FROM areatratamientos WHERE id = " + id, true, (err, rows) => {
+                        if (err) {
+                            console.log('Error al asignar' + err);
+                        } else {
+                            var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas))
+                            console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
+                            if (EnviadasActual >= cantidadOT) { //Cambia estado de Abierta a Esperando
+                                conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
+                                    if (err) {
+                                        console.log('Error al asignar' + err);
+                                    } else {
+                                        console.log("linea actualizada ");
+                                    }
+                                });
+                            }else{
+                                conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Abierta' WHERE id = " + id, true, (err, rows) => {
+                                    if (err) {
+                                        console.log('Error al asignar' + err);
+                                    } else {
+                                        console.log("linea actualizada ");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                }
+            });
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Muestra las lineas en tratamientos
+Controller.EnTratamientos = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                OT
+            } = req.params;
+            var AreaOrigen = req.session.area;
+       
+            conn.query("SELECT * FROM TratamientosExterno", true, (err, rows) => {
+                if (err) {
+                    console.log('Error al cargar' + err);
+                } else {
+                    res.json(rows);
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Manda linea a Tratamiento externos
+Controller.FinalizarTrat = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body;
+
+            var id = Object.values(data)[0].id;
+            var OT = Object.values(data)[0].OT;
+ 
+            
+            console.log("Servicio: " + Servicio + " Proveedor: " + Proveedor)
+
+            //Insert la linea en la nueva area
+            conn.query("INSERT INTO TratamientosExterno(Estatus,OT,Parte,CantOt,Servicio,Proveedor,Recibidas,Retrabajo)VALUES('Servicio','" + OT + "','" + Parte + "','" + cantidadOT + "','" + Servicio + "','" + Proveedor + "','" + cantidadDestino + "','" + Retrabajo + "')", true, (err, rows) => {
+                if (err) {
+                    console.log('Error al Transferir' + err);
+                } else {
+                    console.log("Linea transferida");
+                    conn.query("SELECT Enviadas FROM areatratamientos WHERE id = " + id, true, (err, rows) => {
+                        if (err) {
+                            console.log('Error al asignar' + err);
+                        } else {
+                            var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas))
+                            console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
+                            if (EnviadasActual >= cantidadOT) { //Cambia estado de Abierta a Esperando
+                                conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
+                                    if (err) {
+                                        console.log('Error al asignar' + err);
+                                    } else {
+                                        console.log("linea actualizada ");
+                                    }
+                                });
+                            }else{
+                                conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Abierta' WHERE id = " + id, true, (err, rows) => {
+                                    if (err) {
+                                        console.log('Error al asignar' + err);
+                                    } else {
+                                        console.log("linea actualizada ");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                }
+            });
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 module.exports = Controller;

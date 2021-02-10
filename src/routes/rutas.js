@@ -84,7 +84,7 @@ router.post('/AddMaquina', MaquinariaController.save);
 /////////////////////////////////////////////////////////////////////////// FLUJO ///////////////////////////////////////////////////////////////////////////////
 router.get('/Flujo', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Producción/Flujo.html', {
+		res.render('Producción/Flujo/Flujo.html', {
 			title: 'Gemak'
 		});
 	} else {
@@ -110,7 +110,12 @@ router.post('/TransFlujo', FlujoController.TransFlujo);
 //Guarda los cambios en las cantidades del flujo
 router.post('/SaveCantFlujo', FlujoController.SaveCantFlujo);
 //Transferir linea a servicio externo
-//router.post('/MandarTrat', FlujoController.MandarTrat);
+router.post('/MandarTrat', FlujoController.MandarTrat);
+
+//Transferir linea a servicio externo
+router.get('/EnTratamientos', FlujoController.EnTratamientos);
+//Retorna lineas de tratamiento
+router.post('/FinalizarTrat', FlujoController.FinalizarTrat);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {
