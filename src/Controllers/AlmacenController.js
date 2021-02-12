@@ -886,10 +886,10 @@ Controller.MostrarReporteHerramienta = (req, res) => {
                 Herramienta
             } = req.params;
             var Articulo = Tranformer(Herramienta);
-            conn.query("SELECT * FROM itemprestado WHERE Producto = '" + Articulo + "' ORDER BY Salida Desc", (err, Herramientas) => {
+            conn.query("SELECT * FROM itemprestado WHERE Producto LIKE '%" + Articulo + "%' ORDER BY Salida Desc", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
-                    console.log('Error de lectura');
+                    console.log('Error de lectura'+err);
                 }
                 res.json(Herramientas)
             });

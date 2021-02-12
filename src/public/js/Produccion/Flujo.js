@@ -687,14 +687,26 @@ function TrataExternos() {
                     if (x == 9) {
                         var newText = document.createTextNode(moment(Arreglo[x]).format('YYYY/MM/DD'));
                         newCell.appendChild(newText);
+
                     }
                     if (x == 9) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(10); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=ModalFinalizarTrat(' + (i + 1) + ')> - </button>';
                     } else {
-                        // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
+                        if (Arreglo[x].toString().length >= 12) {
+                            alert("Texto: " + Arreglo[x] + " Tamaño: " + Arreglo[x].toString().length)
+                            // adjuntar el texto al nodo
+                            var newText = document.createTextNode(Arreglo[x].slice(0,13)+"..");
+                            newCell.appendChild(newText);
+                            //Agregar elementos tooltip
+                            newCell.setAttribute('data-toggle', 'tooltip');
+                            newCell.setAttribute('data-placement', 'top');
+                            newCell.setAttribute('title', Arreglo[x]);
+                        } else {
+                            // adjuntar el texto al nodo
+                            var newText = document.createTextNode(Arreglo[x]);
+                            newCell.appendChild(newText);
+                        }
                     }
                 } //fin de for de columnas
             } //fin de for de filas0
