@@ -28,7 +28,7 @@ Controller.save = async (req,res) => {
     const OT = req.body.OT;
     const Cantidad = req.body.Cantidad;
     const Horas = req.body.Horas;
-    const Maquina = req.body.maquina;
+    const Maquina = req.body.ListMaquina;
     const Estatus =req.body.Estatus;
     const FechaVenc =  req.body.vencimiento;
     let Planta = req.session.planta;
@@ -43,6 +43,36 @@ Controller.save = async (req,res) => {
         clearTimeout(myVar);//se resetea el timer para evitar autoejecucion
     }
 }
+
+Controller.ActualizarOT = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+          console.log(data)
+
+                var OT = Object.values(data)[0][0]; //obeter datos de un objeto id
+                var Parte = Object.values(data)[0][1]; //obeter datos de un objeto Item
+                var Estatus = Object.values(data)[0][2]; //obeter datos de un objeto Cantidad
+                var Cantidad = Object.values(data)[0][3]; //obeter datos de un objeto id
+                var Horas = Object.values(data)[0][4]; //obeter datos de un objeto Item
+                var vencimiento = Object.values(data)[0][5]; //obeter datos de un objeto Cantidad
+                var Planta = Object.values(data)[0][6]; //obeter datos de un objeto id
+                var Maquina = Object.values(data)[0][7]; //obeter datos de un objeto Item
+
+                console.log(OT,Parte,Estatus,Cantidad,Horas,vencimiento,Planta,Maquina);
+                conn.query("UPDATE controlplaner SET Maquina ='"+Maquina+"' WHERE OT = '"+OT+"'",(err, ot) =>{
+                    if(err){
+                        res.json(err);
+                        console.log('Error de lectura'+err);
+                    }
+                    res.json(ot);
+                });
+        });
+    }else{
+        res.render('Admin/Login.html');
+    }
+};
+
 
 /*
 Controller.save = (req,res) => {
@@ -70,20 +100,26 @@ Controller.list = (req,res)=> {
     if(req.session.loggedin){
         //res.send('Metodo Get list');
         req.getConnection((err,conn) => {
+            res.render('Producción/Ordenes.html', {
+                                  
+            });
+        });
+    }else{
+        res.send('Please login to view this page!');
+    }
+};
+
+
+Controller.CargarTodoOT = (req,res)=> {
+    if(req.session.loggedin){
+        //res.send('Metodo Get list');
+        req.getConnection((err,conn) => {
             conn.query('SELECT * FROM controlplaner',(err, ot) =>{
                 if(err){
                     res.json(err);
                     console.log('Error de lectura');
                 }
-                conn.query("SELECT * FROM maquinas", [], (err, rows) => {//consulta OT siguienes a pivote [C]
-                    if(err){
-                    console.log("No funciona sql: " + err);
-                    }
-                    res.render('Producción/Ordenes.html', {
-                        data: ot,
-                        Maquinas: rows                     
-                    });
-                });
+                res.json(ot);
             });
         });
     }else{

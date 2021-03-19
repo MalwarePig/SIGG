@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>
-            GEMAK
+        GEMAK
     </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,6 +34,7 @@
             background-position: center;
             background-attachment: fixed;
         }
+
         body::before {
             content: "";
             width: 100%;
@@ -43,31 +44,34 @@
             left: 0;
             background: linear-gradient(90deg, rgb(3, 1, 94), rgb(255, 0, 0));
             opacity: 0.3;
-           z-index: -1;
+            z-index: -1;
         }
     </style>
 
-<div class="bg-light" style="opacity: .8;">
-    <div class="text-center">
-        <!-- Masthead Avatar Image-->
-        <img src="images/Logo.png" alt="" width="50%"/>
-        <!-- Masthead Heading-->
-        <p class="font-weight ">SIGG - v 1.1.0</p>
-        <p class="font-weight ">usuario:    <span id="Sp_Usuario"> <%= data[0].usuario %></span> planta:     <span><%= data[0].Planta %></span> turno:   <span><%= data[0].Turno %></span> Area: <span id="SP_Area"><%= data[0].Area %></span></p>
+    <div class="bg-light" style="opacity: .8;">
+        <div class="text-center">
+            <!-- Masthead Avatar Image-->
+            <img src="images/Logo.png" alt="" width="50%" />
+            <!-- Masthead Heading-->
+            <p class="font-weight ">SIGG - v 1.1.0</p>
+            <p class="font-weight ">usuario: <span id="Sp_Usuario"> <%= data[0].usuario %></span> planta:
+                <span><%= data[0].Planta %></span> turno: <span><%= data[0].Turno %></span> Area: <span
+                    id="SP_Area"><%= data[0].Area %></span></p>
+        </div>
+        <br>
     </div>
-    <br>
-</div>
-   
-<script>
-localStorage.clear();
-    // Guardar datos al almacenamiento local actual
-localStorage.setItem("usuario", document.getElementById("Sp_Usuario").innerHTML);
-localStorage.setItem("Area", document.getElementById("SP_Area").innerHTML);
 
+    <script>
+        localStorage.clear();
+        // Guardar datos al almacenamiento local actual
+        localStorage.setItem("usuario", document.getElementById("Sp_Usuario").innerHTML);
+        localStorage.setItem("Area", document.getElementById("SP_Area").innerHTML);
 
-
-</script>
-
+ 
+    </script>
+ 
+ 
+  
     <!-- ----------------------------------------------------------------------------- MAQUINAS -------------------------------------------------------------------------------->
     <!--<div id="barra"></div>   --->
     <!-- ---------------------------------------------------------------------- CONTADOR ORDENES ------------------------------------------------------------------------------
@@ -109,7 +113,7 @@ localStorage.setItem("Area", document.getElementById("SP_Area").innerHTML);
         </div>
     </section>
     -->
-    
+
 
 
 </body>

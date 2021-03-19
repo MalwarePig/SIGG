@@ -67,7 +67,7 @@ function PDF() {
     doc.text(document.getElementById("Planta").value.toUpperCase() , 350, 65);
 
 
-    doc.save('documento.pdf');
+    doc.save(document.getElementById("OT").value+'.pdf');
 }
 
 function Limpiar() {

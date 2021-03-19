@@ -115,6 +115,10 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" href="/Etiquetas">Etiquetas</a>
           <a class="dropdown-item" href="/Cotizador">Cotizador</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/Impresoras">Impresoras</a>
+          <a class="dropdown-item" href="/Internet">Internet</a>
+          <a class="dropdown-item" href="#">MiPc</a>
         </div>
       </li>
       <li class="nav-item">
@@ -127,7 +131,7 @@
       <li class="nav-item" visibility: hidden>
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-bug"></i> Pruebas</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" id="Oculto">
         <a class="nav-link " href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-user"></i><span
             id="Area"></span></a>
       </li>
@@ -138,13 +142,11 @@
     </ul>
   </nav>
 
-
-
   <script>
     var usuario = localStorage.getItem('usuario');
-    var Area = localStorage.getItem('Area');
-
-    var Nodo = document.getElementById("Area");
-    var newText = document.createTextNode(usuario+"-"+Area);
-    Nodo.appendChild(newText);
+        var Area = localStorage.getItem('Area');
+        var Nodo = document.getElementById("Area");
+        var newText = document.createTextNode(usuario + "-" + Area);
+        Nodo.appendChild(newText);
   </script>
+ 

@@ -36,7 +36,28 @@ function Carga() {
                 var Enviadas = Lineas[i].Enviadas;
                 var Stock = Lineas[i].Stock;
                 var Vencimiento = Lineas[i].FechaVenc;
-                //Eliminar variable dentro del For
+ 
+                switch (Origen) {
+                    case "controlplaner":
+                        Origen = "Producción";
+                        break;
+                    case "areaacabados":
+                        Origen = "Acabados";
+                        break;
+                    case "areatratamientos":
+                        Origen = "Tratamientos";
+                        break;
+                    case "areacalidad":
+                        Origen = "Calidad";
+                        break;
+                    case "areaembarques":
+                        Origen = "Embarques";
+                        break;
+                    default:
+                        Origen = "N/A";
+                        break;
+                }
+ 
                 Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt, Recibido, Extra, Restante, Enviadas, Stock, Vencimiento];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
@@ -90,7 +111,28 @@ function Carga() {
                 var Enviadas = Lineas[i].Enviadas;
                 var Stock = Lineas[i].Stock;
                 var Vencimiento = Lineas[i].FechaVenc;
-                //Eliminar variable dentro del For
+ 
+                switch (Origen) {
+                    case "controlplaner":
+                        Origen = "Producción";
+                        break;
+                    case "areaacabados":
+                        Origen = "Acabados";
+                        break;
+                    case "areatratamientos":
+                        Origen = "Tratamientos";
+                        break;
+                    case "areacalidad":
+                        Origen = "Calidad";
+                        break;
+                    case "areaembarques":
+                        Origen = "Embarques";
+                        break;
+                    default:
+                        Origen = "";
+                        break;
+                }
+ 
                 Arreglo = [id, Inicio, OT, Maquina, Cliente, Parte, Servicio, Planta, Origen, CantOt, Recibido, Extra, Restante, Enviadas, Stock, Vencimiento];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
@@ -457,8 +499,8 @@ function Transferir() {
     var CantidadTotal = parseInt(document.getElementById("R_CantidadTotal").value); //Cantidad Total de OT + Extras
     var cantidadOT = parseInt(document.getElementById("R_Cantidad").value); //Cantidad de orden de Trabajo
     var AreaDestino = document.getElementById("AreaDestino").value;
-
     let Area = localStorage.getItem('Area');
+
     switch (Area) {
         case "Producción":
             Area = "controlplaner";
@@ -504,7 +546,8 @@ function Transferir() {
             Inicio: document.getElementById("R_Inicio").value,
             Fin: document.getElementById("R_Fin").value,
             AreaDestino: document.getElementById("AreaDestino").value,
-            Caso: caso
+            Caso: caso,
+            Recibido: document.getElementById("R_Recibido").value,
         }
 
         document.getElementById("CantidadDestino").value = "0";
@@ -524,7 +567,6 @@ function Transferir() {
 }
 
 //=========================================== Modal con spíner =================================================//
-
 function modalesspiner() {
     $("#ModalPantallaCarga").modal();
 
@@ -548,9 +590,6 @@ function ServicioExterno() {
     if (Retrabajo != 'true') {
         Retrabajo = "false";
     }
-
-    //id - OT - Parte - cantidadDestino - cantidadActual - Inicio - Fin - Proceso - Proveedor - Retrabajo                           
-    //Pendiente...hacer la transferencia a post al area de tratamientos BD lista
     var Linea = {
         id: localStorage.getItem('R_id'),
         OT: document.getElementById("R_OT").value,
@@ -562,14 +601,20 @@ function ServicioExterno() {
         Proveedor: Proveedor,
         Retrabajo: Retrabajo
     }
+
     console.table(Linea);
+    $("#ModalTransferenciaLista").modal();
+    setTimeout(function () {
+        $('#ModalTransferenciaLista').modal('toggle');
+    }, 2000);
 
     $.post("/MandarTrat", // inicia la lista de ot en el flujo de produccion
         {
             Linea
         }, // data to be submit
         function (objeto, estatus) { // success callback
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+         alert("Si se mandooooo"+estatus);
+         console.log("s kj"+objeto+estatus)
         });
 }
 
@@ -617,7 +662,6 @@ function ModalesPendiente() {
     }
 }
 
-
 function GuardarCambios() {
     var CantRecibida = document.getElementById("R_Recibido").value;
     var CantExtra = document.getElementById("R_Extra").value;
@@ -627,7 +671,6 @@ function GuardarCambios() {
         CantRecibida: CantRecibida,
         CantExtra: CantExtra
     }
-
     $("#ModalCambiosAplicados").modal();
     console.log(Tabla);
     $.post("/SaveCantFlujo", // Guarda los cambios en las cantidades del flujo
@@ -638,7 +681,6 @@ function GuardarCambios() {
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
 }
-
 
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
 $(function () {
@@ -687,49 +729,71 @@ function TrataExternos() {
                     if (x == 9) {
                         var newText = document.createTextNode(moment(Arreglo[x]).format('YYYY/MM/DD'));
                         newCell.appendChild(newText);
-
-                    }
-                    if (x == 9) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(10); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=ModalFinalizarTrat(' + (i + 1) + ')> - </button>';
-                    } else {
-                        if (Arreglo[x].toString().length >= 12) {
-                            alert("Texto: " + Arreglo[x] + " Tamaño: " + Arreglo[x].toString().length)
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=ModalFinalizarTrat(' + i + ')> - </button>';
+                    }else if(x == 2){
+                        if (Arreglo[x].toString().length >= 12) { //Si el texto es mayor a 12 caracteres se debe recortar
                             // adjuntar el texto al nodo
-                            var newText = document.createTextNode(Arreglo[x].slice(0,13)+"..");
+                            var newText = document.createTextNode(Arreglo[x].slice(0, 13) + "..");
                             newCell.appendChild(newText);
                             //Agregar elementos tooltip
                             newCell.setAttribute('data-toggle', 'tooltip');
                             newCell.setAttribute('data-placement', 'top');
                             newCell.setAttribute('title', Arreglo[x]);
+                            newCell.setAttribute('data-parte', Arreglo[x]);//Guardar el numero de parte completo, porque solo se mostrara una parte de el en pantalla
+                            newCell.setAttribute('id', "Celda"+i);
                         } else {
                             // adjuntar el texto al nodo
                             var newText = document.createTextNode(Arreglo[x]);
                             newCell.appendChild(newText);
+                            //Agregar elementos tooltip
+                            newCell.setAttribute('data-toggle', 'tooltip');
+                            newCell.setAttribute('data-placement', 'top');
+                            newCell.setAttribute('title', Arreglo[x]);
+                            newCell.setAttribute('data-parte', Arreglo[x]);//Guardar el numero de parte completo, porque solo se mostrara una parte de el en pantalla
+                            newCell.setAttribute('id', "Celda"+i);
                         }
+                    }else{
+                        // adjuntar el texto al nodo
+                        var newText = document.createTextNode(Arreglo[x]);
+                        newCell.appendChild(newText);
                     }
                 } //fin de for de columnas
-            } //fin de for de filas0
+            } //fin de for de filas
         } //Funcion success
     }); //Ajax
 }
 
 function ModalFinalizarTrat(indice) {
     $("#CantidadTerminada").modal();
+    localStorage.removeItem('idRetorno'); // Elimina el elemento de memoria 
     localStorage.setItem('idRetorno', indice);
 }
 
 function FinalizarTrat() {
-    let idRetorno = localStorage.getItem('idRetorno');
-    localStorage.removeItem('idRetorno'); // Elimina el elemento de memoria 
-    let CantRetorno = document.getElementById("T_Cantidad").value;
+    let id_Retorno = parseInt(localStorage.getItem('idRetorno'));
+ 
+    var tabla = document.getElementById("TablaTratamientos");
+    let OTRetorno = tabla.rows[(id_Retorno+1)].cells[1].childNodes[0].nodeValue;
+    let Recibidas = tabla.rows[(id_Retorno+1)].cells[6].childNodes[0].nodeValue;
+    let TerminadasT = tabla.rows[(id_Retorno+1)].cells[7].childNodes[0].nodeValue;
+    let idBDRegistro = tabla.rows[(id_Retorno+1)].cells[0].childNodes[0].nodeValue;
+    var ParteRetorno = document.getElementById('Celda'+id_Retorno).dataset.parte;//Se obtienen de los metadatos de la celda Parte
+    let CantidadRetornoT = document.getElementById("T_Cantidad").value;
 
+    let AreaDestino = document.getElementById("T_AreaDestino").value;
+ 
     let Tabla = {
-        id: idRetorno,
-        CantRetorno: CantRetorno
+        OTRetorno: OTRetorno,
+        ParteRetorno: ParteRetorno,
+        CantidadRetornoT: CantidadRetornoT,
+        AreaDestino: AreaDestino,
+        id_Retorno : idBDRegistro,
+        TerminadasT : TerminadasT,
+        Recibidas: Recibidas
     }
 
-    $("#ModalCambiosAplicados").modal();
+    //$("#ModalCambiosAplicados").modal();
     console.log(Tabla);
     $.post("/FinalizarTrat", // Guarda los cambios en las cantidades del flujo
         {
@@ -738,4 +802,51 @@ function FinalizarTrat() {
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
+
+        $("#ModalTratExternos").modal('hide');
+        document.getElementById("T_Cantidad").value = '0';
+        $("#ModalTransferenciaLista").modal();
+        setTimeout(function () {
+            $('#ModalTransferenciaLista').modal('toggle');
+        }, 1500);
 }
+
+
+function ModalFinalizar(){
+    $("#CerrarLineas").modal();
+}
+
+function FinalizarLineas(){
+    let Ot = document.getElementById("R_OT").value;
+    let Parte = document.getElementById("R_Parte").value
+    let Cantidad = document.getElementById("Cantidad_Cerrando").value;
+    let id = localStorage.getItem('R_id');
+ 
+    let Tabla = {
+        Ot: Ot,
+        Parte: Parte,
+        Cantidad: Cantidad,
+        id : id
+    }
+
+    console.table(Tabla);
+    $.post("/CerrarLineas", // Guarda los cambios en las cantidades del flujo
+    {
+        Tabla
+    }, // data to be submit
+    function (objeto, estatus) { // success callback
+        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+

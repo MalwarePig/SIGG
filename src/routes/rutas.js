@@ -30,7 +30,6 @@ router.post('/Login', UserController.login);
 //Iniciar logueo
 router.get('/Signup',  UserController.SignUp);
  
- 
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
  
@@ -51,6 +50,29 @@ router.get('/cPlaner', function (request, response) {
 	}
 	response.end();
 });
+/*
+router.get('/Desarrollo', function (request, response) {
+	if (request.session.loggedin) {
+		response.render('Admin/snake.html', {
+			title: 'Gemak'
+		});
+		//response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		reinicio;
+	}
+	response.end();
+});
+
+
+
+*/
+
+
+
+
+
+
+
 
 router.post('/postCplaner', cPlanerController.saveCP);
 /////////////////////////////////////////////////////////////////////////// Maquinas //////////////////////////////////////////////////////////////////////////////////////
@@ -62,8 +84,10 @@ router.post('/update/:id', OTController.update);
 router.get('/Ordenes', OTController.list);
 router.post('/addOrden', OTController.save);
 router.get('/delete/:id', OTController.delete);
+router.get('/CargarTodoOT/', OTController.CargarTodoOT);
+router.post('/ActualizarOT/', OTController.ActualizarOT);
 //router.post('/add', OTController.save);
-
+ 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A Vencidas //////////////////////////////////////////////////////////////////////////////
 router.get('/Vencidas', VencidasController.listVencidas);
 /////////////////////////////////////////////////////////////////////////// REGISTRO DE MAQUINARIA CNC /////////////////////////////////////////////////////////////////////
@@ -101,6 +125,7 @@ router.get('/ConsultaFlujoEspera/:parametros', FlujoController.listEspera);
 router.get('/FechasFlujo/:OT', FlujoController.FechasFlujo);
 //Verifica excel para alimentar controlplaner
 router.get('/AlimentarFlujo', FlujoController.AlimentarFlujo);
+router.get('/AlimentarVistaPlanta', FlujoController.AlimentarVistaPlanta);
 //Consulta la lista de pendientes de produccion
 router.get('/Pen_FlujoProd', FlujoController.Pen_FlujoProd);
 //inicia la lista de ot en el flujo de produccion
@@ -116,6 +141,8 @@ router.post('/MandarTrat', FlujoController.MandarTrat);
 router.get('/EnTratamientos', FlujoController.EnTratamientos);
 //Retorna lineas de tratamiento
 router.post('/FinalizarTrat', FlujoController.FinalizarTrat);
+//Cerrar las lineas en el flujo
+router.post('/CerrarLineas', FlujoController.CerrarLineas);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {
@@ -495,6 +522,28 @@ router.get('/Cotizador', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 	res.end();
+});
+
+/////////////////=============================================== -HERRAMIENTAS- =================================================/////////////////////////////////
+//Reinicia cola de impresion
+router.get('/Impresoras/',function(req,res){
+	res.download('./src/public/RecursosArchivos/Impresoras.bat', 'Impresoras.bat', function(err){
+		if(err){
+			console.log(err);
+		}else{
+			console.log("Descargado");
+		}
+	})
+});
+//Renicializa ip
+router.get('/Internet/',function(req,res){
+	res.download('./src/public/RecursosArchivos/Red.bat', 'Red.bat', function(err){
+		if(err){
+			console.log(err);
+		}else{
+			console.log("Descargado");
+		}
+	})
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

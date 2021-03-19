@@ -1,0 +1,107 @@
+
+  <!------ Modal ----->
+  <div class="container my-4" id="ModalEditar">
+ 
+    <!-- Central Modal Fluid -->
+    <div  id="ModalEditars" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-fluid" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">IMPORTACIONES </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body">
+            <!-- AQUI VA NUESTRO CONTENIDO -->
+
+            <br>
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                        <table class="table table-condensed table-hover" id="TablaEdit">
+                            <thead>
+                                <tr>
+                                    <th>OT</th>
+                                    <th>N° Parte</th>
+                                    <th>Cant.OT</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Fecha Vencimiento</th>
+                                    <th>Familia</th>
+                                    <th>Maquina</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="indice"><input required readonly type="text" id="U_OT"
+                                            class="form-control"></input></td>
+                                    <td id="indice"><input required readonly type="text" id="U_Parte"
+                                            class="form-control"></input></td>
+                                    <td id="indice"><input required type="text" id="U_Cantidad"
+                                            class="form-control" readonly></input></td>
+                                    <td id="indice"><input required type="date" id="U_Inicio"
+                                            class="form-control" name="Inicio" autocomplete="off"></td>
+                                    <td id="indice"><input required type="date" id="U_Fin" class="form-control"
+                                            name="Inicio" autocomplete="off"></td>
+                                    <td id="indice"><input required type="date" id="U_Vencimiento"
+                                            class="form-control" name="Inicio" autocomplete="off"></td>
+
+                                    <td id="indice">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputState">Familia</label>
+                                            <select id="U_Familia" class="form-control">
+                                                <option selected>Seleccionar...</option>
+                                                <option>CENTROS DE MAQUINADO</option>
+                                                <option>TORNOS CNC</option>
+                                                <option>TORNOS GRANDES</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputState">Máquinas</label>
+                                            <select id="U_Maquina" name="maquina" class="form-control">
+                                                <option value="Seleccionar...">Seleccionar...</option>
+                                                <option value="OKUMA L370-62">OKUMA L370-62</option>
+                                                <option value="OKUMA HERITAGE 69">OKUMA HERITAGE 69</option="0">
+                                                <option value="PUMA 700 XL-24">PUMA 700 XL-24</option>
+                                                <option value="HASS VF4-2">HASS VF4-2</option>
+                                                <option value="SL-20">SL-20</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="GraficaGant" class="Diag shadow-lg">
+                    </div>
+
+                </div>
+            </div>
+           
+
+
+
+
+
+          </div>
+          <!--Footer-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="GuardarNota()"  data-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Fluid -->
+  </div>
+  <!------ Modal ----->
+
+ 

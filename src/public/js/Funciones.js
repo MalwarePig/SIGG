@@ -42,7 +42,7 @@ var CalcularFechaFin = async function (NumPart, inicio, horas, Cantidad, Maquina
                OT : OT,
                Parte : NumPart,
                CantOt : Cantidad,       
-               FechaInicio : inicio,
+ 
                FechaVenc :FechaVenc,
                FechaProd : FechaFin,
                Horas : horas,

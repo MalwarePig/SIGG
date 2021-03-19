@@ -92,7 +92,6 @@ function GuardarNota() {
         });
 }
 
-
 function Fecha(parametro) {
     var Fecha = new Date(parametro);
     var dd = Fecha.getDate();

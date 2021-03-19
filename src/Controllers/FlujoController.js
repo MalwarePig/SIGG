@@ -13,24 +13,23 @@ Controller.list = (req, res) => {
             } = req.params;
             let Planta = parametros.split(' ')[0]; // categoria o tipo de reporte
             let ListArea = parametros.split(' ')[1]; // categoria o tipo de reporte
-          
+
             console.log(Planta + " - " + ListArea);
             if (ListArea == 'controlplaner') {
-                conn.query("SELECT * FROM " + ListArea + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND Enviadas < (CantOt + Extra) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
+                conn.query("SELECT * FROM " + ListArea + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND Estatus != 'Espera' AND Enviadas < (CantOt + Extra) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta' + err);
                     }
                     res.json(Lineas)
                 });
             } else {
-                conn.query("SELECT * FROM " + ListArea + " WHERE Planta = '" + Planta + "' AND Estatus != 'Cerrada' AND Enviadas < (CantOt) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
+                conn.query("SELECT * FROM " + ListArea + " WHERE Planta = '" + Planta + "' AND Estatus = 'Abierta' AND Enviadas < (CantOt) AND FechaInicio IS NOT NULL ORDER BY FechaInicio Asc", [], (err, Lineas) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta' + err);
                     }
                     res.json(Lineas)
                 });
             }
-
         });
     } else {
         res.render('Admin/Login.html');
@@ -80,10 +79,26 @@ Controller.FechasFlujo = (req, res) => {
     }
 };
 
+Controller.AlimentarVistaPlanta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/VISTAPLANTA_DAT.xls.xlsx'
+            console.log(ruta);
+            xlsxFile(ruta).then((rows) => {
+                Obj_Flujo.CompararHistorial(rows);
+            })
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 Controller.AlimentarFlujo = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
+       
             var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Data.xlsx'
+            console.log(ruta);
             xlsxFile(ruta).then((rows) => {
                 Obj_Flujo.Impresion(rows);
             })
@@ -122,7 +137,8 @@ Controller.Pen_FlujoProd = (req, res) => {
                     break;
             }
 
-            conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio is null", true, (err, rows) => {
+            //conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio is null", true, (err, rows) => {
+                conn.query("SELECT * FROM " + AreaOrigen + " WHERE Estatus != 'Cerrada' AND Estatus != 'Espera'", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
@@ -205,6 +221,7 @@ Controller.TransFlujo = (req, res) => {
             var cantidadOT = parseInt(Object.values(data)[0].CantidadOT);
             var cantidadDestino = Object.values(data)[0].cantidadDestino;
             var cantidadActual = Object.values(data)[0].cantidadActual;
+            var Recibido = Object.values(data)[0].Recibido;
             var Planta = req.session.planta;
             var Inicio = Object.values(data)[0].Inicio;
             var Fin = Object.values(data)[0].Fin;
@@ -257,7 +274,7 @@ Controller.TransFlujo = (req, res) => {
                     } else {
                         var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas))
                         console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
-                        if (EnviadasActual >= cantidadOT) { //Cambia estado de Abierta a Esperando
+                        if (EnviadasActual >= Recibido) { //Cambia estado de Abierta a Esperando
                             console.log("Ya son todas weee Enviadas previamente: " + parseInt(rows[0].Enviadas) + " Nuevo valor de enviadas: " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)));
                             conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
                                 if (err) {
@@ -276,11 +293,9 @@ Controller.TransFlujo = (req, res) => {
                                 }
                             });
                         }
-
                     }
                 });
             }
-
             //======================================================================================================================================================================= 
             else if (Caso == 'Cerrado') {
                 //Insert la linea en la nueva area
@@ -398,7 +413,7 @@ Controller.MandarTrat = (req, res) => {
                                         console.log("linea actualizada ");
                                     }
                                 });
-                            }else{
+                            } else {
                                 conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Abierta' WHERE id = " + id, true, (err, rows) => {
                                     if (err) {
                                         console.log('Error al asignar' + err);
@@ -429,8 +444,8 @@ Controller.EnTratamientos = (req, res) => {
                 OT
             } = req.params;
             var AreaOrigen = req.session.area;
-       
-            conn.query("SELECT * FROM TratamientosExterno", true, (err, rows) => {
+
+            conn.query("SELECT * FROM TratamientosExterno WHERE Estatus = 'Servicio'", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
@@ -450,52 +465,130 @@ Controller.FinalizarTrat = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body;
 
-            var id = Object.values(data)[0].id;
-            var OT = Object.values(data)[0].OT;
- 
-            
-            console.log("Servicio: " + Servicio + " Proveedor: " + Proveedor)
+            let OTRetorno = Object.values(data)[0].OTRetorno;
+            let ParteRetorno = Object.values(data)[0].ParteRetorno;
+            let CantidadRetornoT = Object.values(data)[0].CantidadRetornoT; //Piezas nuevas terminadas
+            let AreaDestino = Object.values(data)[0].AreaDestino;
+            let id_Retorno = Object.values(data)[0].id_Retorno;
+            let TerminadasT = Object.values(data)[0].TerminadasT; //Piezas anteriormente registradas
+            let Recibidas = Object.values(data)[0].Recibidas; //Piezas Mandadas a tratamiento externo
+            let AreaOrigen = req.session.area;
 
-            //Insert la linea en la nueva area
-            conn.query("INSERT INTO TratamientosExterno(Estatus,OT,Parte,CantOt,Servicio,Proveedor,Recibidas,Retrabajo)VALUES('Servicio','" + OT + "','" + Parte + "','" + cantidadOT + "','" + Servicio + "','" + Proveedor + "','" + cantidadDestino + "','" + Retrabajo + "')", true, (err, rows) => {
+            console.log("Area antes de switch" + AreaOrigen);
+            switch (AreaOrigen) {
+                case "Producción":
+                    AreaOrigen = "controlplaner";
+                    break;
+                case "Acabados":
+                    AreaOrigen = "areaacabados";
+                    break;
+                case "Tratamientos":
+                    AreaOrigen = "areatratamientos";
+                    break;
+                case "Calidad":
+                    AreaOrigen = "areacalidad";
+                    break;
+                case "Embarques":
+                    AreaOrigen = "areaembarques";
+                    break;
+                default:
+                    AreaOrigen = "";
+                    break;
+            }
+            //===============================================================================
+            //==== Insertar en la nueva area al retornar de tratamientos externos ===========
+            //===============================================================================
+            conn.query("SELECT * FROM  controlplaner WHERE OT = '" + OTRetorno + "' AND Parte='" + ParteRetorno + "'", true, (err, rows) => {
                 if (err) {
-                    console.log('Error al Transferir' + err);
+                    console.log('Error al consultar controlplaner' + err);
                 } else {
-                    console.log("Linea transferida");
-                    conn.query("SELECT Enviadas FROM areatratamientos WHERE id = " + id, true, (err, rows) => {
+                    parseInt(rows[0].Enviadas)
+                    let CantOt = rows[0].CantOt;
+                    let FechaVenc = FormatoFechas(rows[0].FechaVenc);
+                    let Planta = rows[0].Planta;
+                    //console.log("OTRetorno: " + OTRetorno + " ParteRetorno: " + ParteRetorno +  " CantOT: " + CantOt+" CantidadRetornoT: " + CantidadRetornoT + " AreaDestino: " + AreaDestino)
+                    //Insert la linea en la nueva area
+                    conn.query("INSERT INTO " + AreaDestino + "(Estatus,OT,Parte,CantOt,FechaVenc,Planta,Origen,Recibido)VALUES('Abierta','" + OTRetorno + "','" + ParteRetorno + "','" + CantOt + "','" + FechaVenc + "','" + Planta + "','" + AreaOrigen + "'," + CantidadRetornoT + ")", true, (err, rows) => {
                         if (err) {
                             console.log('Error al asignar' + err);
                         } else {
-                            var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas))
-                            console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
-                            if (EnviadasActual >= cantidadOT) { //Cambia estado de Abierta a Esperando
-                                conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
-                                    if (err) {
-                                        console.log('Error al asignar' + err);
-                                    } else {
-                                        console.log("linea actualizada ");
-                                    }
-                                });
-                            }else{
-                                conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", Estatus = 'Abierta' WHERE id = " + id, true, (err, rows) => {
-                                    if (err) {
-                                        console.log('Error al asignar' + err);
-                                    } else {
-                                        console.log("linea actualizada ");
-                                    }
-                                });
-                            }
+                            console.log("Tranferencia realizada");
                         }
                     });
-
                 }
             });
 
+            //=================================================================================
+            //====== Actualizar las cantidades retornadas terminadas de Tratamientos Externos =
+            //=================================================================================
+            let TotalTerminadas = (parseInt(TerminadasT) + parseInt(CantidadRetornoT));
+            //Actualizar los datos del area de tratamientos externos
+            if(TotalTerminadas < Recibidas){ //Se actualiza con el estatus abierto
+                conn.query("UPDATE TratamientosExterno SET Terminadas = " + TotalTerminadas + ", Estatus = 'Servicio' WHERE id = " + id_Retorno, true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log("Actualizando linea actualizada " + TotalTerminadas + " Terminadas actualmente" + parseInt(TerminadasT) + " Nuevas retorno" + parseInt(CantidadRetornoT) + " ID: " + id_Retorno);
+                    }
+                });
+            }else{//Se actualiza con el estatus cerrado
+                conn.query("UPDATE TratamientosExterno SET Terminadas = " + TotalTerminadas + ", Estatus = 'Cerrada' WHERE id = " + id_Retorno, true, (err, rows) => {
+                    if (err) {
+                        console.log('Error al asignar' + err);
+                    } else {
+                        console.log("Cerrando linea actualizada " + TotalTerminadas + " Terminadas actualmente" + parseInt(TerminadasT) + " Nuevas retorno" + parseInt(CantidadRetornoT) + " ID: " + id_Retorno);
+                    }
+                });
+            }
         });
     } else {
         res.render('Admin/Login.html');
     }
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Cierra lineas del flujo
+Controller.CerrarLineas = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body;
+
+            let Ot = Object.values(data)[0].Ot;
+            let Parte = Object.values(data)[0].Parte;
+            let Cantidad = Object.values(data)[0].Cantidad; //Piezas nuevas terminadas
+            let id = Object.values(data)[0].id; //Piezas nuevas terminadas
+
+            //=================================================================================
+            //======================= Actualiza la salida de la OT ============================
+            //=================================================================================
+            conn.query("call CerrarLineas('" + Ot + "','" + Parte + "'," + Cantidad + ","+ id+");", true, (err, rows, fields) => {
+                if (err) {
+                    console.log('Error al registrar folios' + err);
+                } else {
+                    console.log('Se cambio de estado');
+                    res.render('Almacen/wh_Salidas.html');
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+function FormatoFechas(fecha) {
+    var today = new Date(fecha);
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var today = yyyy + '-' + mm + '-' + dd;
+    return today
+}
 
 module.exports = Controller;

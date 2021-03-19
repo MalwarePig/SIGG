@@ -1,0 +1,72 @@
+<style>
+    /*
+Full screen Modal 
+*/
+    .modal-dialog-full-width {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+
+    }
+
+    .modal-content-full-width {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important;
+        background-color: #ffffff !important
+    }
+
+    .modal-header-full-width {
+        border-bottom: 1px solid #ffffff !important;
+    }
+
+    .modal-footer-full-width {
+        border-top: 1px solid #ffffff !important;
+    }
+</style>
+
+<script>
+    function modal() {
+        $("#exampleModalPreview").modal();
+    }
+</script>
+
+
+<div class="container my-4">
+    <!-- Modal -->
+    <div class="modal fade right" id="ModalEditar" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+            <div class="modal-content-full-width modal-content ">
+                <div class=" modal-header-full-width   modal-header text-center">
+                    <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
+                    </h1>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close" onclick="Eliminar()">
+                        <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                   
+                </div>
+
+                <div class="card-body">
+                    <div class="form-row">
+                        <button type="button" id="Carga" name="Carga" class="btn btn-lg btn-info  btn-block"
+                            onclick="ModalFinalizar()">Enviar</button>
+                    </div>
+                </div>
+
+                <div class="modal-footer-full-width  modal-footer">
+                    <button type="button" class="btn btn-danger btn-md btn-rounded"
+                        data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-md btn-rounded" onclick="GuardarCambios()">Guardar
+                        cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

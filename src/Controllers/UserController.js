@@ -63,7 +63,7 @@ Controller.login = (req,res) => {
                     }); 
                     //res.send('works');
                 }else{//si las contraseñas no coinciden
-                    console.log('error de contraseña');
+                    res.redirect('/');
                 }
             }else //sin resultados
             {
