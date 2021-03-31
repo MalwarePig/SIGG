@@ -1,0 +1,14 @@
+//CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
+function GETPRODUCTS() {
+    var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
+    $.ajax({
+        url: '/BuscarHerramientas/' + Herramientas,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+         
+        } //Funcion success
+    }); //Ajax
+} //Evento clic

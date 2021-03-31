@@ -25,31 +25,7 @@
 
 <body>
   <%- include ('../partials/navegacion.html')%>
-  <script>
-    const subirImagen = event => {
-      const archivos = event.target.files;
-      const data = new FormData();
-
-      data.append('archivo', archivos[0]);
-
-      fetch('/Subir', {
-          method: 'POST',
-          body: data
-        })
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('resultado').innerHTML = 'El archivo ' + data.path +
-            ' se ha subido correctamente.';
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-
-    document.querySelector('#subir_archivo').addEventListener('change', event => {
-      subirImagen(event);
-    });
-  </script>
+  
 
   <section class="our-webcoderskull padding-lg">
     <div class="container">
@@ -96,7 +72,7 @@
           <div class="cnt-block equal-hight" style="height: 349px;">
             <figure><img src="images/Excel.png" class="img-responsive" alt=""></figure>
             <h3><a href="/Subir">Vs_Planta </a></h3>
-            <p>Cargar vista planta <input type="file" id="subir_archivo" />"</p>
+            <p>Cargar vista planta</p>
             <ul class="follow-us clearfix">
             </ul>
           </div>

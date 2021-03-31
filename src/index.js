@@ -31,7 +31,7 @@ app.use(session({
      rolling: true, //Entre resave y rolling toman el tiempo para expirar la sesion
      saveUninitialized: true, //Inicializa la variable de sesion aun sin guardar datos
      cookie: {
-          expires: 60 * 60 * 10000 //5 minutos de inactividad y se cierra la sesion
+          expires: 60 * 60 * 100000 //5 minutos de inactividad y se cierra la sesion
           }
  }))
 

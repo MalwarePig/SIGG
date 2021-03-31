@@ -11,14 +11,13 @@
         
                                 <div class="form-group col-md-3">
                                     <input required type="text" id="OTBuscar" class="form-control" placeholder="OT" name="OTBuscar"
-                                        autocomplete="off" value="69214">
+                                        autocomplete="off">
                                 </div>
         
                                 <div class="form-group col-md-2">
                                     <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
                                         onclick="CargaOTPendiente()">Buscar</button>
-                                </div>
-        
+                                </div>       
                             </div>
                         </div>
                     </div>
@@ -31,8 +30,7 @@
                     <tr>
                         <th>Id</th>
                         <th>OT</th>
-                        <th>Maquina</th>
-                        <th>Número de parte</th>
+                        <th>No. de parte</th>
                         <th style="width: 15%">Cant. OT</th>
                         <th style="width: 15%">Mat. Inicial</th>
                         <th style="width: 15%">Mat. Extra</th>
@@ -43,8 +41,31 @@
                 </tbody>
                 </table>
                 <br><br>
-                <hr />
-    
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputState" class="font-weight-bold">Familia</label>
+                        <select required id="Familia" name="Sal_Familia" class="form-control" onchange="Maquinas()">
+                          <option value="a" selected disabled>seleccione la familia</option>
+                          <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
+                          <option value="TORNOS CNC" selected>TORNOS CNC</option>
+                          <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
+                          <option value="ACABADO" selected>ACABADO</option>
+                          <option value="CALIDAD" selected>CALIDAD</option>
+                          <option value="OTROS" selected>OTROS</option>
+                        </select>
+                      </div>
+              
+                      <div class="form-group col-md-4">
+                        <label for="inputState">Máquinas</label>
+                        <select required id="ListMaquina" name="ListMaquina" class="form-control">
+                          <option selected>Todo</option>
+                        </select>
+                      </div>
+                    </div>
+                <hr/>
+                
+                </div>
+                
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="Recolectar()" data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
             </div>
           </div>

@@ -8,7 +8,7 @@ function TipoTabla(tipo){
         Sortable.create(lista, {
             animation: 150,
             group: "Empleados",
-            store: {    //GUARDAR ORDE DE LA LISTA
+            store: {    //GUARDAR ORDEN DE LA LISTA
                 /**
                  * Get the order of elements. Called once during initialization.
                  * @param   {Sortable}  sortable
@@ -30,7 +30,6 @@ function TipoTabla(tipo){
             }
         })
     }else{
-
         new Sortable(izquierdo, {
             //group: 'G-Izquierdo', // set both lists to same group
             group: 'G',
@@ -63,7 +62,7 @@ function TipoTabla(tipo){
             
                     ObjetoT = ObjetosTrabajadores[i];  //Obtner el nodo del arreglo
                     ValorTrabajador = ObjetoT.innerHTML;  //Obtener el valor del nodo
-                    //Nota solo falta compara le div para crear debajo el nuevo div vacio
+                    //Nota solo falta compara el div para crear debajo el nuevo div vacio
                     if(i == 0 && ValorTrabajador != '-'){
                      console.log("Trabajador: "+ValorTrabajador);
                          //crear div para trabajador vacio

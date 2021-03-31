@@ -50,6 +50,22 @@ router.get('/cPlaner', function (request, response) {
 	}
 	response.end();
 });
+
+router.get('/Planeacion', function (request, response) {
+	if (request.session.loggedin) {
+		response.render('Producción/Planeacion/Planeacion.html', {
+			title: 'Gemak'
+		});
+		//response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		reinicio;
+	}
+	response.end();
+});
+//Obtener lista de familias
+router.get('/ListaFamilias', OTController.ListaFamilias);
+router.get('/Listado/:parametros', OTController.FiltroMaquinas);
+router.get('/OTMaquinando/:parametros', OTController.OTMaquinando);
 /*
 router.get('/Desarrollo', function (request, response) {
 	if (request.session.loggedin) {
@@ -143,6 +159,10 @@ router.get('/EnTratamientos', FlujoController.EnTratamientos);
 router.post('/FinalizarTrat', FlujoController.FinalizarTrat);
 //Cerrar las lineas en el flujo
 router.post('/CerrarLineas', FlujoController.CerrarLineas);
+//Eliminar lineas en el flujo
+router.post('/EliminarOTFlujo', FlujoController.EliminarOTFlujo);
+//Leer HistorialFlujo
+router.get('/LeerHistorial/:variable', FlujoController.LeerHistorial);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {

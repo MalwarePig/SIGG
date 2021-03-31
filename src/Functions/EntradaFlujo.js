@@ -23,51 +23,52 @@ var CompararHistorial = function (Excel) {
                             //console.log(H + " Comparando historial: " + Historial[H].OT + " Excel: " + Excel[index][1] + " " + coincidencia + typeof(coincidencia));
                         }
                     } //For historial
-                        //console.log('***************************');
-                        if(coincidencia == false ) {
-                            //console.log(H + " Sin historial: " + Excel[index][1] + " " + coincidencia);
-                            var Estatus = Excel[index][0];
-                            var OT = Excel[index][1];
-                            var Parte = Excel[index][5];
-                            var Cantidad = Excel[index][7];
-                            var FechaVencimiento = Excel[index][10];
-                            var Planta;
-                            if (Excel[index][14] != null && Excel[index][14] != '' && Excel[index][14] != 'null') {
-                                Planta = Excel[index][14].trim();
-                            }
-                            switch (Planta) {
-                                case 'CM1MORELOS':
-                                case 'CM3DMORELOS':
-                                case 'CMCHICOSMORELOS':
-                                case 'CMGRANDEMORELOS':
-                                case 'MAQCHMORELOS':
-                                case 'MAQGMORELOS':
-                                case 'MAQMMORELOS':
-                                case 'PLMORELOS':
-                                case 'TORNOCHM':
-                                case 'TORNOCHMOR1':
-                                case 'TORNOMM', 'ZAYER':
-                                    Planta = 'Morelos';
-                                    break;
-                                case 'MAQGBRAVO':
-                                case 'MAQMBRAVO':
-                                case 'TORNOCHB':
-                                case 'TORNOEG':
-                                case 'TORNOGB':
-                                case 'TORNOMB':
-                                    Planta = 'Bravo';
-                                    break;
-                                default:
-                                    Planta = "No Planta";
-                                    break;
-                            }
-                            if (Planta === 'Morelos' || Planta === 'Bravo') {
-                                var x = [Estatus, OT, Parte, Cantidad, FechaVencimiento, Planta];
-                                Arreglo.push(x);
-                            } //if Plantas habiles
-                            coincidencia = false;
+                    //console.log('***************************');
+                    if (coincidencia == false) {
+                        //console.log(H + " Sin historial: " + Excel[index][1] + " " + coincidencia);
+                        var Estatus = Excel[index][0];
+                        var OT = Excel[index][1];
+                        var Parte = Excel[index][5];
+                        var Cantidad = Excel[index][7];
+                        var FechaVencimiento = Excel[index][10];
+                        var Planta;
+                        if (Excel[index][14] != null && Excel[index][14] != '' && Excel[index][14] != 'null') {
+                            Planta = Excel[index][14].trim();
                         }
-                }//For Excel
+                        switch (Planta) {
+                            case 'CM1MORELOS':
+                            case 'CM3DMORELOS':
+                            case 'CMCHICOSMORELOS':
+                            case 'CMGRANDEMORELOS':
+                            case 'MAQCHMORELOS':
+                            case 'MAQGMORELOS':
+                            case 'MAQMMORELOS':
+                            case 'PLMORELOS':
+                            case 'TORNOCHM':
+                            case 'TORNOCHMOR1':
+                            case 'TORNOMM', 'ZAYER':
+                                Planta = 'Morelos';
+                                break;
+                            case 'MAQGBRAVO':
+                            case 'MAQMBRAVO':
+                            case 'TORNOCHB':
+                            case 'TORNOEG':
+                            case 'TORNOGB':
+                            case 'TORNOMB':
+                                Planta = 'Bravo';
+                                break;
+                            default:
+                                Planta = "No Planta";
+                                break;
+                        }
+                        if (Planta === 'Morelos' || Planta === 'Bravo') {
+                            var x = [Estatus, OT, Parte, Cantidad, FechaVencimiento, Planta];
+                            Arreglo.push(x);
+                        } //if Plantas habiles
+                        coincidencia = false;
+                    }
+                } //For Excel
+
 
                 var newLimit = Arreglo.length;
                 //console.log(newLimit);
@@ -83,17 +84,17 @@ var CompararHistorial = function (Excel) {
                     //console.log(Estatus + " " + OT + " " + Parte + " " + CantOt + " " + FechaVenc);
                     cnSQL.cnn.query("INSERT INTO controlplaner(Estatus,OT,Parte,CantOt,FechaVenc,Planta,Recibido) VALUES ('" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','" + Planta + "'," + CantOt + ")", [], (err, dato) => {
                         if (err) {
-                            //console.log('error de insert: ' + err + " " + Planta);
+                            console.log('error de insert: ' + err + " " + Planta);
                         }
-                         //console.log("insertando: " + OT);
+                        //console.log("insertando: " + OT);
                     });
                 }
-                console.log("Fin");
+
+                console.log("Fin de for");
             }
         }
     });
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var Impresion = function (Excel) {

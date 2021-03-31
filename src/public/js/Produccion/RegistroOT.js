@@ -32,6 +32,7 @@ function CargarOT() {
                 var id = Registros[i].id;
                 var Ot = Registros[i].OT;
                 var Parte = Registros[i].Parte;
+                var Planta = Registros[i].Planta;
                 var Estatus = Registros[i].Estatus;
                 var Cantidad = Registros[i].CantOt;
                 var Maquina = Registros[i].Maquina;
@@ -39,7 +40,7 @@ function CargarOT() {
 
                 var FechaVenc = Registros[i].FechaVenc;
                 //Eliminar variable dentro del For
-                Arreglo = [id, Ot, Parte, Estatus, Cantidad, Maquina, FechaInicio, FechaVenc];
+                Arreglo = [id, Ot, Parte,Planta, Estatus, Cantidad, Maquina, FechaInicio, FechaVenc];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -48,14 +49,32 @@ function CargarOT() {
                     newRow.setAttribute("id", "Rows" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     newRow.setAttribute('onclick', 'Foco(' + i + ')');
                     // adjuntar el texto al nodo
-                    var newText = document.createTextNode(Arreglo[x]);
-                    newCell.appendChild(newText);
-
-                    if (x == 7) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(8); //CREAR CELDA onclick="Editar()"
-                        newCell.innerHTML = '<a href="/update/' + id + '>" class="btn btn-info">Editar</a> <a href="/delete/' + id + '>" class="btn btn-danger">Eliminar</a>';
+                    
+                    if(x == 7){
+                        if(Arreglo[x]){
+                            var newText = document.createTextNode(FormatoFechas(Arreglo[x]));
+                            newCell.appendChild(newText);
+                        }else{
+                            var newText = document.createTextNode("Sin fecha");
+                        newCell.appendChild(newText);
+                        }
+                    }
+                    else if (x == 8) { //Si termina de registrar datos crear el boton
+                        if(Arreglo[x]){
+                            var newText = document.createTextNode(FormatoFechas(Arreglo[x]));
+                            newCell.appendChild(newText);
+                        }else{
+                            var newText = document.createTextNode("Sin fecha");
+                        newCell.appendChild(newText);
+                        }
+                        var newCell = newRow.insertCell(9); //CREAR CELDA onclick="Editar()"
+                        newCell.innerHTML = '<a href="/delete/' + id + '>" class="btn btn-danger">Eliminar</a>';
+                        //newCell.innerHTML = '<a href="/update/' + id + '>" class="btn btn-info">Editar</a> <a href="/delete/' + id + '>" class="btn btn-danger">Eliminar</a>';
                         // var newCell = newRow.insertCell(8); //CREAR CELDA onclick="Eliminar()"
                         //newCell.innerHTML = '<a href="/delete/'+id+'>" class="btn btn-danger">Editar</a>';
+                    }else{
+                        var newText = document.createTextNode(Arreglo[x] || "n/a");
+                        newCell.appendChild(newText);
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -97,8 +116,6 @@ function CargarOT() {
 }
 
 function VistaPlanta() {
-    //modalesspiner();
-    console.log("No se ejecuta")
     $.ajax({
         url: '/AlimentarVistaPlanta',
         success: function (Lineas) {
@@ -112,9 +129,10 @@ function Foco(indice) {
     var Registro = document.getElementById("OTRegistros");
     document.getElementById("ot").value = Registro.rows[(indice + 1)].cells[1].childNodes[0].nodeValue;
     document.getElementById("numPart").value = Registro.rows[(indice + 1)].cells[2].childNodes[0].nodeValue
-    document.getElementById("cantidad").value = Registro.rows[(indice + 1)].cells[4].childNodes[0].nodeValue
+    document.getElementById("cantidad").value = Registro.rows[(indice + 1)].cells[5].childNodes[0].nodeValue
+    document.getElementById("Planta").value = Registro.rows[(indice + 1)].cells[3].childNodes[0].nodeValue
     document.getElementById("horas").value = 0;
-    document.getElementById("vencimiento").defaultValue = FormatoFechas(Registro.rows[(indice + 1)].cells[7].childNodes[0].nodeValue);
+    document.getElementById("vencimiento").defaultValue = Registro.rows[(indice + 1)].cells[8].childNodes[0].nodeValue;
     document.getElementById("inicio").defaultValue = FormatoFechas(new Date());
     document.getElementById("ot").focus();
 }
