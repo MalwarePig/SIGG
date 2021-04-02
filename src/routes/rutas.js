@@ -156,12 +156,16 @@ router.post('/MandarTrat', FlujoController.MandarTrat);
 //Transferir linea a servicio externo
 router.get('/EnTratamientos', FlujoController.EnTratamientos);
 //Retorna lineas de tratamiento
+
 router.post('/FinalizarTrat', FlujoController.FinalizarTrat);
 //Cerrar las lineas en el flujo
+
 router.post('/CerrarLineas', FlujoController.CerrarLineas);
 //Eliminar lineas en el flujo
+
 router.post('/EliminarOTFlujo', FlujoController.EliminarOTFlujo);
 //Leer HistorialFlujo
+
 router.get('/LeerHistorial/:variable', FlujoController.LeerHistorial);
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
@@ -176,7 +180,7 @@ router.get('/Admin', (req, res) => {
 		} else {
 			res.render('Admin/Login.html');
 		}
-	} else {
+	} else { 
 		res.render('Admin/Login.html');
 	}
 	res.end();

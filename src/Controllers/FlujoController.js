@@ -79,31 +79,114 @@ Controller.FechasFlujo = (req, res) => {
     }
 };
 
-//Funcuin activa para llenado de flujo
+//Funcion activa para llenado de flujo
 Controller.AlimentarVistaPlanta = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
-            var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/VISTAPLANTA_DAT.xls.xlsx'
-            console.log(ruta);
-           
-            const promesa = new Promise((resolve, reject) =>{
-                setTimeout(()=>{
+            const promesa = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/VISTAPLANTA_DAT.xls.xlsx'
                     xlsxFile(ruta).then((rows) => {
-                        Obj_Flujo.CompararHistorial(rows);
+
+                        conn.query("Select OT from controlplaner WHERE Estatus != 'Cerrada'", [], (err, Historial) => { // UPDATE  A[B]
+                            if (err) {
+                                console.log('sin lectura: ' + err);
+                            } else {
+                                if (Historial.length == 0) {
+                                    console.log("Sin Historial")
+                                } else {
+                                    //console.log(rows);
+                                    var limite = Object.keys(rows).length;
+                                    //console.log("Limite:" + limite)
+                                    var Arreglo = [];
+                                    var coincidencia = false;
+                                    for (var index = 1; index < limite; index++) {
+                                        coincidencia = false;
+                                        for (var H = 0; H < Historial.length; H++) {
+                                            //console.log("Historial: " + H + " Excel: " + index + " coincidencia " + coincidencia);
+                                            if (Historial[H].OT == rows[index][1]) {
+                                                coincidencia = true;
+                                                //console.log(H + " Comparando historial: " + Historial[H].OT + " rows: " + rows[index][1] + " " + coincidencia + typeof(coincidencia));
+                                            }
+                                        } //For historial
+                                        //console.log('***************************');
+                                        if (coincidencia == false) {
+                                            //console.log(H + " Sin historial: " + rows[index][1] + " " + coincidencia);
+                                            var Estatus = rows[index][0];
+                                            var OT = rows[index][1];
+                                            var Parte = rows[index][5];
+                                            var Cantidad = rows[index][7];
+                                            var FechaVencimiento = rows[index][10];
+                                            var Planta;
+                                            if (rows[index][14] != null && rows[index][14] != '' && rows[index][14] != 'null') {
+                                                Planta = rows[index][14].trim();
+                                            }
+                                            switch (Planta) {
+                                                case 'CM1MORELOS':
+                                                case 'CM3DMORELOS':
+                                                case 'CMCHICOSMORELOS':
+                                                case 'CMGRANDEMORELOS':
+                                                case 'MAQCHMORELOS':
+                                                case 'MAQGMORELOS':
+                                                case 'MAQMMORELOS':
+                                                case 'PLMORELOS':
+                                                case 'TORNOCHM':
+                                                case 'TORNOCHMOR1':
+                                                case 'TORNOMM', 'ZAYER':
+                                                    Planta = 'Morelos';
+                                                    break;
+                                                case 'MAQGBRAVO':
+                                                case 'MAQMBRAVO':
+                                                case 'TORNOCHB':
+                                                case 'TORNOEG':
+                                                case 'TORNOGB':
+                                                case 'TORNOMB':
+                                                    Planta = 'Bravo';
+                                                    break;
+                                                default:
+                                                    Planta = "No Planta";
+                                                    break;
+                                            }
+                                            if (Planta === 'Morelos' || Planta === 'Bravo') {
+                                                var x = [Estatus, OT, Parte, Cantidad, FechaVencimiento, Planta];
+                                                Arreglo.push(x);
+                                            } //if Plantas habiles
+                                            coincidencia = false;
+                                        }
+                                    } //For rows
+                                    var newLimit = Arreglo.length;
+                                    //console.log(newLimit);
+                                    for (let index = 0; index < newLimit; index++) {
+                                        var Estatus = Arreglo[index][0];
+                                        var OT = Arreglo[index][1];
+                                        var Parte = Arreglo[index][2];
+                                        var CantOt = Arreglo[index][3];
+                                        var m = new Date(Arreglo[index][4]);
+                                        var FechaVenc = FormatoFechas(m);
+                                        var Planta = Arreglo[index][5];
+ 
+                                        conn.query("INSERT INTO controlplaner(Estatus,OT,Parte,CantOt,FechaVenc,Planta,Recibido) VALUES ('" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','" + Planta + "'," + CantOt + ")", [], (err, dato) => {
+                                            if (err) {
+                                                console.log('error de insert: ' + err + " " + Planta);
+                                            }
+                                            if (index == (newLimit - 1)) {
+                                                resolve(true)
+                                            }
+                                        });
+                                    }//Else sin historial
+                                }//Si encontro un registro pivote
+                            }
+                        });
                     })
-                },2000);
-            })
-            
-            console.log("1 - Proceso iniciado...");
-            
-            promesa.then(res =>{
-                console.log("Fin de todo");
-            }).catch(error =>{
+                }, 1000);
+            }) //Fin de promesa
+
+            promesa.then(resp => {
+                console.log("Fin de promesa");
+                 res.json({"Estatus":"Terminado"});
+            }).catch(error => {
                 console.error(error);
             });
-           
-           
-
 
         });
     } else {
@@ -133,7 +216,7 @@ Controller.AlimentarVistaPlanta = (req, res) => {
 Controller.AlimentarFlujo = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
-       
+
             var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Data.xlsx'
             console.log(ruta);
             xlsxFile(ruta).then((rows) => {
@@ -173,9 +256,9 @@ Controller.Pen_FlujoProd = (req, res) => {
                     AreaOrigen = "";
                     break;
             }
-            
+
             //conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio is null", true, (err, rows) => {
-                conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio IS NULL AND Estatus != 'Cerrada' AND Estatus != 'Espera'", true, (err, rows) => {
+            conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio IS NULL AND Estatus != 'Cerrada' AND Estatus != 'Espera'", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
@@ -224,7 +307,7 @@ Controller.IniciarProdFlujo = (req, res) => {
             console.log("Limite: " + limite);
             if (AreaOrigen == 'controlplaner') {
                 console.log("id: " + Object.values(data)[0][0][0]);
-                conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = now(), Recibido = " + Object.values(data)[0][0][2] + ", Extra = " + Object.values(data)[0][0][3] + ", Maquina = '"+Object.values(data)[0][0][4]+"' WHERE id = " + Object.values(data)[0][0][0], true, (err, rows) => {
+                conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = now(), Recibido = " + Object.values(data)[0][0][2] + ", Extra = " + Object.values(data)[0][0][3] + ", Maquina = '" + Object.values(data)[0][0][4] + "' WHERE id = " + Object.values(data)[0][0][0], true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar: ' + err);
                     }
@@ -559,7 +642,7 @@ Controller.FinalizarTrat = (req, res) => {
             //=================================================================================
             let TotalTerminadas = (parseInt(TerminadasT) + parseInt(CantidadRetornoT));
             //Actualizar los datos del area de tratamientos externos
-            if(TotalTerminadas < Recibidas){ //Se actualiza con el estatus abierto
+            if (TotalTerminadas < Recibidas) { //Se actualiza con el estatus abierto
                 conn.query("UPDATE TratamientosExterno SET Terminadas = " + TotalTerminadas + ", Estatus = 'Servicio' WHERE id = " + id_Retorno, true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
@@ -567,7 +650,7 @@ Controller.FinalizarTrat = (req, res) => {
                         console.log("Actualizando linea actualizada " + TotalTerminadas + " Terminadas actualmente" + parseInt(TerminadasT) + " Nuevas retorno" + parseInt(CantidadRetornoT) + " ID: " + id_Retorno);
                     }
                 });
-            }else{//Se actualiza con el estatus cerrado
+            } else { //Se actualiza con el estatus cerrado
                 conn.query("UPDATE TratamientosExterno SET Terminadas = " + TotalTerminadas + ", Estatus = 'Cerrada' WHERE id = " + id_Retorno, true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
@@ -597,7 +680,7 @@ Controller.CerrarLineas = (req, res) => {
             //=================================================================================
             //======================= Actualiza la salida de la OT ============================
             //=================================================================================
-            conn.query("call CerrarLineas('" + Ot + "','" + Parte + "'," + Cantidad + ","+ id+");", true, (err, rows, fields) => {
+            conn.query("call CerrarLineas('" + Ot + "','" + Parte + "'," + Cantidad + "," + id + ");", true, (err, rows, fields) => {
                 if (err) {
                     console.log('Error al registrar folios' + err);
                 } else {
@@ -619,11 +702,11 @@ Controller.EliminarOTFlujo = (req, res) => {
 
             let Area = Object.values(data)[0][0]
             let id = Object.values(data)[0][1]
-            console.log("Area" +Area)
+            console.log("Area" + Area)
             //=================================================================================
             //======================= Actualiza la salida de la OT ============================
             //=================================================================================
-            conn.query("DELETE FROM "+Area+" WHERE ID = "+ id , true, (err, rows, fields) => {
+            conn.query("DELETE FROM " + Area + " WHERE ID = " + id, true, (err, rows, fields) => {
                 if (err) {
                     console.log('Error al registrar folios' + err);
                 } else {

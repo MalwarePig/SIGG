@@ -288,10 +288,18 @@ function Alimentar() {
 */
 
 function VistaPlanta() {
+    
+    $("#ModalExportVistaPlanta").modal();
+
     $.ajax({
         url: '/AlimentarVistaPlanta',
         success: function (Lineas) {
-            alert("S")
+            if(Lineas.Estatus == 'Terminado'){
+                $('#ModalExportVistaPlanta').modal('toggle');
+            }else{
+               alert("Error indeterminado");
+            }
+            
         } //Funcion success
     }); //Ajax
 }
@@ -805,6 +813,11 @@ function FinalizarLineas() {
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
+
+        $("#ModalTransferenciaLista").modal();
+        setTimeout(function () {
+            $('#ModalTransferenciaLista').modal('toggle');
+        }, 2000);
 }
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
@@ -849,9 +862,7 @@ function EliminarOTFlujo() {
     setTimeout(function () {
         Carga();
     }, 1000);
-
 }
-
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
 function LeerHistorial() {
@@ -1024,7 +1035,6 @@ function Grafica(ArregloGrafica) {
         }
        
         //dataTable.addRows([  ["Area3Actual",'OT2', new Date(2015, 0, 1), new Date(2015, 0, 5)]   ]);
-    
         var options = {
           timeline: { groupByRowLabel: false },
           height: 300
@@ -1034,15 +1044,12 @@ function Grafica(ArregloGrafica) {
       }
 }
 
-
-
 function HistorialMensual() {
     var tabla = document.getElementById("TablaHistorial");
     var total = tabla.rows.length //Total de filas
 
     var sheet_1_data = [];
     for (var j = 0; j < total; j++) { //filas
-        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
 
         var N = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var OT = tabla.rows[j].cells[1].childNodes[0].nodeValue;
@@ -1065,8 +1072,6 @@ function HistorialMensual() {
         sheet_1_data.push(Fila);
     } //fin filas
 
-    
-
     var opts = [{
         sheetid: 'Historial',
         header: false
@@ -1075,6 +1080,9 @@ function HistorialMensual() {
 }
 
 
+function ConfirmarFlujo(){
+    $("#ModaVistaPlanta").modal();
+}
 
 
 
