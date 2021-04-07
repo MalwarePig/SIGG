@@ -1,0 +1,18 @@
+HTML
+
+<div id="mydiv" data-myval="10"></div>
+
+JavaScript:
+
+    Using DOM's getAttribute() property
+
+     var brand = mydiv.getAttribute("data-myval")//returns "10"
+     mydiv.setAttribute("data-myval", "20")      //changes "data-myval" to "20"
+     mydiv.removeAttribute("data-myval")         //removes "data-myval" attribute entirely
+
+    Using JavaScript's dataset property
+
+    var myval = mydiv.dataset.myval     //returns "10"
+    mydiv.dataset.myval = '20'          //changes "data-myval" to "20"
+    mydiv.dataset.myval = null          //removes "data-myval" attribute
+

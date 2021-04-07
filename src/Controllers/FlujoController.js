@@ -113,6 +113,7 @@ Controller.AlimentarVistaPlanta = (req, res) => {
                                         if (coincidencia == false) {
                                             //console.log(H + " Sin historial: " + rows[index][1] + " " + coincidencia);
                                             var Estatus = rows[index][0];
+                                            let Cliente = rows[index][3];
                                             var OT = rows[index][1];
                                             var Parte = rows[index][5];
                                             var Cantidad = rows[index][7];
@@ -148,7 +149,7 @@ Controller.AlimentarVistaPlanta = (req, res) => {
                                                     break;
                                             }
                                             if (Planta === 'Morelos' || Planta === 'Bravo') {
-                                                var x = [Estatus, OT, Parte, Cantidad, FechaVencimiento, Planta];
+                                                var x = [Estatus, OT, Parte, Cantidad, FechaVencimiento, Planta,Cliente];
                                                 Arreglo.push(x);
                                             } //if Plantas habiles
                                             coincidencia = false;
@@ -164,8 +165,9 @@ Controller.AlimentarVistaPlanta = (req, res) => {
                                         var m = new Date(Arreglo[index][4]);
                                         var FechaVenc = FormatoFechas(m);
                                         var Planta = Arreglo[index][5];
+                                        let Cliente = Arreglo[index][6];
  
-                                        conn.query("INSERT INTO controlplaner(Estatus,OT,Parte,CantOt,FechaVenc,Planta,Recibido) VALUES ('" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','" + Planta + "'," + CantOt + ")", [], (err, dato) => {
+                                        conn.query("INSERT INTO controlplaner(Estatus,OT,Parte,CantOt,FechaVenc,Planta,Recibido,Cliente) VALUES ('" + Estatus + "','" + OT + "','" + Parte + "','" + CantOt + "','" + FechaVenc + "','" + Planta + "'," + CantOt + ",'"+Cliente+"')", [], (err, dato) => {
                                             if (err) {
                                                 console.log('error de insert: ' + err + " " + Planta);
                                             }
@@ -228,6 +230,7 @@ Controller.AlimentarFlujo = (req, res) => {
     }
 };
 
+
 Controller.Pen_FlujoProd = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -282,7 +285,7 @@ Controller.IniciarProdFlujo = (req, res) => {
             var limite = Object.values(data)[0].length;
 
             var AreaOrigen = req.session.area;
-            console.log("IniciarProdFlujo:" + AreaOrigen);
+            console.log("IniciarProdFlujo: " + AreaOrigen);
             switch (AreaOrigen) {
                 case "Producción":
                     AreaOrigen = "controlplaner";
@@ -304,7 +307,7 @@ Controller.IniciarProdFlujo = (req, res) => {
                     break;
             }
 
-            console.log("Limite: " + limite);
+            console.log("Actualizar : " + AreaOrigen + " id: " + Object.values(data)[0][0][0]);
             if (AreaOrigen == 'controlplaner') {
                 console.log("id: " + Object.values(data)[0][0][0]);
                 conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = now(), Recibido = " + Object.values(data)[0][0][2] + ", Extra = " + Object.values(data)[0][0][3] + ", Maquina = '" + Object.values(data)[0][0][4] + "' WHERE id = " + Object.values(data)[0][0][0], true, (err, rows) => {
@@ -348,6 +351,7 @@ Controller.TransFlujo = (req, res) => {
             var AreaDestino = Object.values(data)[0].AreaDestino;
             var Caso = Object.values(data)[0].Caso;
             var Extra = Object.values(data)[0].Extra;
+            var PNC = Object.values(data)[0].PNC;
 
 
             var AreaOrigen = req.session.area;
@@ -388,15 +392,17 @@ Controller.TransFlujo = (req, res) => {
                     }
                 });
 
-                conn.query("SELECT Enviadas FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
+                conn.query("SELECT Enviadas,PNC FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
                     } else {
-                        var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas))
+                        var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas));
+                        let TotalPNC = parseInt(rows[0].PNC) +  parseInt(PNC);
+                        console.log("PNC ANTES: " + parseInt(rows[0].PNC) + " Total: "+ TotalPNC + " Llego: " + PNC);
                         console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
                         if (EnviadasActual >= Recibido) { //Cambia estado de Abierta a Esperando
                             console.log("Ya son todas weee Enviadas previamente: " + parseInt(rows[0].Enviadas) + " Nuevo valor de enviadas: " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)));
-                            conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ",FechaProd = now(),  Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
+                            conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", FechaProd = now(),  Estatus = 'Espera', PNC = "+TotalPNC+" WHERE id = " + id, true, (err, rows) => {
                                 if (err) {
                                     console.log('Error al asignar' + err);
                                 } else {
@@ -405,9 +411,9 @@ Controller.TransFlujo = (req, res) => {
                             });
                         } else {
                             console.log("Aun faltan Enviadas previamente: " + parseInt(rows[0].Enviadas) + " Nuevo valor de enviadas: " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)));
-                            conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + "FechaProd = now() WHERE id = " + id, true, (err, rows) => {
+                            conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", FechaProd = now(), PNC = "+ TotalPNC + " WHERE id = " + id, true, (err, rows) => {
                                 if (err) {
-                                    console.log('Error al asignar' + err);
+                                    console.log('Error al transferir' + err);
                                 } else {
                                     console.log("linea actualizada ");
                                 }
@@ -427,11 +433,12 @@ Controller.TransFlujo = (req, res) => {
                     }
                 });
 
-                conn.query("SELECT Enviadas FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
+                conn.query("SELECT Enviadas,PNC FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
                     } else {
-                        conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ",FechaProd = now(), Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
+                        let TotalPNC = parseInt(rows[0].PNC) +  parseInt(PNC);
+                        conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", FechaProd = now(), Estatus = 'Espera', PNC = "+ TotalPNC+" WHERE id = " + id, true, (err, rows) => {
                             if (err) {
                                 console.log('Error al asignar' + err);
                             } else {
@@ -449,10 +456,11 @@ Controller.TransFlujo = (req, res) => {
                         console.log("Tranferencia realizada");
                     }
                 });
-                conn.query("SELECT Enviadas FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
+                conn.query("SELECT Enviadas,PNC FROM " + AreaOrigen + " WHERE id = " + id, true, (err, rows) => {
                     if (err) {
                         console.log('Error al asignar' + err);
                     } else {
+                        let TotalPNC = parseInt(rows[0].PNC) +  parseInt(PNC);
                         conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ",FechaProd = now(), Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
                             if (err) {
                                 console.log('Error al asignar' + err);
@@ -755,5 +763,7 @@ function FormatoFechas(fecha) {
     var today = yyyy + '-' + mm + '-' + dd;
     return today
 }
+
+
 
 module.exports = Controller;

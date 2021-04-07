@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../partials/head.html') %>
+  <!------incluir cabezera navegacion----->
+
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="js/Produccion/RegistroOT.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+
+  <!-------------------------------- plugin y css de paginacion de tablas ------------------------------------------>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js">
+  </script>
+  <!---------------------------------------------------------------------------------------------------------------->
+
+
+  <!---------------------------------------------------------------------------------------------------------------->
+
+</head>
+
+<body onload="CargarOT()">
+  <%- include ('../partials/navegacion.html')%>
+
+  <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+  <div class="SpaceWork" >
+    <form >
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label for="inputAddress" id="Prueb">OT</label>
+          <input required type="text" id="ot" class="form-control" placeholder="#Orden de trabajo..." name="OT"
+            autocomplete="off">
+        </div>
+ 
+      </div>
+
+      <button type="button" class="btn btn-secondary" onclick="ActualizarOT()">Registrar</button>
+
+
+    </form>
+    <button type="button" class="btn btn-primary" onclick="VistaPlanta()">Cargar Vista Planta</button>
+  </div>
+  <!------------------------------ TABLA-------------------------------------->
+  <div class="SpaceWork">
+    <table class="table table-bordered table-hover" id="OTRegistros">
+      <thead>
+        <tr>
+          <th id="indice">N°</th>
+          <th id="Rot">OT</th>
+          <th id="numPart">N° Parte</th>
+          <th id="Planta">Planta</th>
+          <th id="Estatus">Estatus</th>
+          <th id="cantidad">Cantidad</th>
+          <th id="maquina">Maquina</th>
+          <th id="inicio">Fecha inicio</th>
+          <th id="Rfin">Fecha vencimiento</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"> </script>
+
+  <!-- DATATABLES -->
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  <!-- BOOTSTRAP -->
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+</body>
+
+</html>

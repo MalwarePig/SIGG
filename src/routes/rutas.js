@@ -15,6 +15,7 @@ const ComprasController = require('../Controllers/ComprasController');
 const MaterialesController = require('../Controllers/MaterialesController');
 const LogisiticaController = require('../Controllers/LogisticaController');
 const FlujoController = require('../Controllers/FlujoController');
+const PNCController = require('../Controllers/PNCController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -569,6 +570,10 @@ router.get('/Internet/',function(req,res){
 		}
 	})
 });
+
+
+/////////////////=============================================== -PNC- =================================================/////////////////////////////////
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;

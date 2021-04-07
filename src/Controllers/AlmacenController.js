@@ -173,7 +173,6 @@ Controller.Maquinas = (req, res) => {
         } = req.params;
         const planta = req.session.planta;
         const area = req.session.area
-        console.log("Soy del area: " + area)
         req.getConnection((err, conn) => {
             if (err) {
                 console.log("Conexion: " + err)
