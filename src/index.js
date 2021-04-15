@@ -6,7 +6,7 @@ const mysql = require('mysql');
 const myConnection = require('express-myconnection');
 const session = require('express-session');
 const fileupload = require('express-fileupload');
-
+const OS = require("os");
 
 //Configuracion Servidor
 app.set('port',process.env.PORT || 3000)//asignar puerto, si lo da el So que lo tome, sino el 3000
@@ -57,6 +57,8 @@ app.use(require('./routes/rutas.js'));//usar las rutas
 //Escuchando el servidor
 app.listen(app.get('port'),() => {
      console.log('servidor escuchando en puerto: ',app.get('port'));
+     console.log('ip: ' +Object.values(OS.networkInterfaces())[0][0].address);
+     console.log('Maquina: ' +OS.hostname());
 });
 
 //file statics

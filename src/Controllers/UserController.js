@@ -1,5 +1,5 @@
 const Controller = {};
-
+const OS = require("os");
 /////////////////////////////////////////////////////////////////////--------------- REGISTRO ----------------------/////////////////////////////////////////////////////////////////////
 Controller.save = (req,res) => {
     const data = req.body;
@@ -19,7 +19,6 @@ Controller.login = (req,res) => {
     req.session.Usuario = req.body.username;
     const username = req.body.username;
     const password = req.body.pass;
-    const nombre = req.body.nombre;
     req.getConnection((err,conn) => {
         conn.query('SELECT * FROM usuarios WHERE usuario = ? AND pass = ?',[username, password], (error, results, fields) =>{
             if(error){
@@ -42,9 +41,9 @@ Controller.login = (req,res) => {
                     req.session.planta = planta;
                     req.session.nivel = nivel;
                     req.session.area = Area;
-                    req.session.nombre = nombre;
+                    req.session.nombre = OS.hostname();
                     req.session.turno = Turno;
-                    conn.query("UPDATE usuarios SET Nombre = '"+nombre+"' WHERE id = "+id+"",[], (error, results, fields) =>{
+                    conn.query("UPDATE usuarios SET Nombre = '"+OS.hostname()+"' WHERE id = "+id+"",[], (error, results, fields) =>{
                         if(error){
                             console.log(error);
                             res.redirect('/');

@@ -353,7 +353,6 @@ Controller.TransFlujo = (req, res) => {
             var Extra = Object.values(data)[0].Extra;
             var PNC = Object.values(data)[0].PNC;
 
-
             var AreaOrigen = req.session.area;
             console.log("Area antes de switch" + AreaOrigen);
             switch (AreaOrigen) {
@@ -376,6 +375,7 @@ Controller.TransFlujo = (req, res) => {
                     AreaOrigen = "";
                     break;
             }
+            
             console.log("Area despues de switch" + AreaOrigen);
             //=========================================================================== BLOQUE PARCIAL ======================================================================================= 
             console.clear();
