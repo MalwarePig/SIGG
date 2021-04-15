@@ -24,7 +24,7 @@ Controller.login = (req,res) => {
             if(error){
                 console.log(error);
                 res.redirect('/');
-                console.log('error en query');
+                console.log('error en query' + error);
             }
             else if (Object.keys(results).length > 0)//si contiene almenso 1 resultado entra
             {
@@ -67,7 +67,7 @@ Controller.login = (req,res) => {
             }else //sin resultados
             {
                 res.redirect('/');
-                console.log('Error usaurio o contraseña');
+                console.log('Error usaurio o contraseña' +error);
 			}			
 			//response.end();
         });        
