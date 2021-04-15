@@ -125,6 +125,7 @@ function Folios() {
         } //Funcion success
     }); //Ajax 
     TablaRecoleccion();
+    Familias();
 }
 
 //=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
@@ -149,6 +150,27 @@ function Nombres(e) {
         return false;
     }
 }
+
+//=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
+function Familias() {
+    var listMaquina = document.getElementById("Familia");
+    $.ajax({
+        url: '/ListaFamilias/',
+        success: function (maquinas) {
+            console.log(maquinas)
+            for (let i = listMaquina.options.length; i >= 1; i--) { //Borrar elementos option de select
+                listMaquina.remove(i);
+            }
+            for (var i = 0; i < maquinas.length; i++) { //Agregar nuevos options del select
+
+                var option = document.createElement("option");
+                option.text = maquinas[i].Familia;
+                listMaquina.add(option);
+            }
+        } //Funcion success
+    }); //Ajax
+}
+
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
 function Maquinas() {

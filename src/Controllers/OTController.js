@@ -116,12 +116,23 @@ Controller.ListaFamilias = (req, res) => {
     if (req.session.loggedin) {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
-            conn.query("SELECT DISTINCT Familia, Planta FROM maquinas WHERE Familia != 'OTROS' AND Familia != 'ACABADO' AND Familia != 'CALIDAD' AND Familia != 'EROSIONADO'", (err, Data) => {
-                if (err) {
-                    console.log('Error de lectura' + err);
-                }
-                res.json(Data);
-            });
+
+            console.log( req.session.nivel)
+            if(req.session.nivel == 'Admin'){
+                conn.query("SELECT DISTINCT Familia, Planta FROM maquinas", (err, Data) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Data);
+                });
+            }else{
+                conn.query("SELECT DISTINCT Familia FROM maquinas WHERE Planta= '"+req.session.planta+"'", (err, Data) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Data);
+                });
+            }            
         });
     } else {
         res.redirect('/');
