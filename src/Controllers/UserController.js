@@ -52,7 +52,7 @@ Controller.login = (req,res) => {
                         conn.query("SELECT * FROM usuarios WHERE usuario = '"+username+"'", (err, user) => {
                             if (err) {
                  
-                                console.log('Error de lectura');
+                                console.log('Error de lectura ' +err);
                             }
                             console.log(user);
                             res.render('index.html', {

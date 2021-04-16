@@ -33,7 +33,6 @@ router.get('/Signup',  UserController.SignUp);
  
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
- 
 
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
@@ -133,6 +132,9 @@ router.get('/Flujo', (req, res) => {
 	}
 	res.end();
 });
+
+
+router.get('/ResetFlujo/', FlujoController.ResetFlujo);
 
 //Consulta un area en el flujo
 router.get('/ConsultaFlujo/:parametros', FlujoController.list);

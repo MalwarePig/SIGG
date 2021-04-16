@@ -749,6 +749,29 @@ Controller.LeerHistorial = (req, res) => {
     }
 };
 
+
+Controller.ResetFlujo = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                variable
+            } = req.params;
+            conn.query("call LimpiarAreaFlujos()", true, (err, rows, fields) => {
+                if (err) {
+                    console.log('Error al limpiar' + err);
+                } else {
+                    let data = {
+                        Estado: true
+                    }
+                    res.json(data)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 function FormatoFechas(fecha) {
     var today = new Date(fecha);
     var dd = today.getDate();

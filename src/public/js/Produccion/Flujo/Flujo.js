@@ -1168,3 +1168,20 @@ function NuevoProceso() {
         Carga();
     }, 1000);
 }
+
+
+
+
+//=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
+function ModalResetFlujo(){
+$("#ModalResetFlujo").modal();
+}
+
+function Reset() {
+    $.ajax({
+        url: '/ResetFlujo/',
+        success: function (data) {
+             console.log(data.Estado)
+        } //Funcion success
+    }); //Ajax
+}
