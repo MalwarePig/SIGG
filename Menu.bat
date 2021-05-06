@@ -20,7 +20,7 @@ if %opcion%==1 goto ejecutar else goto detener
 :detener
 echo.
 echo Deteniendo servicios!!
-cd "C:\Users\Soporte\Documents\Proyectos web\Proyectos JavaScript\SIGG"
+cd "C:\Users\Soporte\Documents\Proyectos\SIGG"
 call Stop.bat
 echo.
 echo continuar?..
@@ -30,9 +30,9 @@ goto inicio
 :ejecutar
 echo.
 echo Ejecutando!!
-cd "C:\Users\Soporte\Documents\Proyectos web\Proyectos JavaScript\SIGG"
+cd "C:\Users\Soporte\Documents\Proyectos\SIGG"
 call Run.bat
-cd "C:\Users\Soporte\Documents\Proyectos web\Proyectos JavaScript\SIGG"
+cd "C:\Users\Soporte\Documents\Proyectos\SIGG"
 call Monit.bat
 exit
  

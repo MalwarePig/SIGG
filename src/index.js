@@ -58,11 +58,9 @@ app.set('trust proxy', true);
 
 //Escuchando el servidor
 app.listen(app.get('port'),() => {
- 
      console.log('servidor escuchando en puerto: ',app.get('port'));
      console.log('ip: ' +Object.values(OS.networkInterfaces())[0][0].address);
      console.log('Maquina: ' +OS.hostname());
-  
 });
 /*
 function mensaje() {

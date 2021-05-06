@@ -55,7 +55,8 @@ Controller.login = (req,res) => {
                  
                                 console.log('Error de lectura ' +err);
                             }
-                            user[0].ip =  Object.values(req)[33].slice(7);//Se registra la ip del cliente
+                            let ip = Object.values(req)[33].slice(7);
+                            user[0].ip = ip;//Se registra la ip del cliente
                             console.log(user[0]);
                             res.render('index.html', {
                                 data: user

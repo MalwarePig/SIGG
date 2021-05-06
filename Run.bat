@@ -7,6 +7,6 @@ echo =        Comandos cargados correctamente        =
 echo =================================================
 echo.
 
-cd C:\Users\Soporte\Documents\Proyectos web\Proyectos JavaScript
+cd C:\Users\Soporte\Documents\Proyectos
 
 pm2 start sigg\src\index.js --name SIGG --watch
