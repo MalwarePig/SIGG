@@ -87,9 +87,6 @@ router.get('/Desarrollo', function (request, response) {
 
 
 
-
-
-
 router.post('/postCplaner', cPlanerController.saveCP);
 /////////////////////////////////////////////////////////////////////////// Maquinas //////////////////////////////////////////////////////////////////////////////////////
 router.get('/Maquinas', OTController.listMaquinas);
@@ -554,7 +551,8 @@ router.get('/Cotizador', (req, res) => {
 /////////////////=============================================== -HERRAMIENTAS- =================================================/////////////////////////////////
 //Reinicia cola de impresion
 router.get('/Impresoras/',function(req,res){
-	res.download('./src/public/RecursosArchivos/Impresoras.bat', 'Impresoras.bat', function(err){
+	res.download('192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Impresoras.bat', 'Impresoras.bat', function(err){
+	//res.download('./src/public/RecursosArchivos/Impresoras.bat', 'Impresoras.bat', function(err){
 		if(err){
 			console.log(err);
 		}else{
@@ -564,7 +562,7 @@ router.get('/Impresoras/',function(req,res){
 });
 //Renicializa ip
 router.get('/Internet/',function(req,res){
-	res.download('./src/public/RecursosArchivos/Red.bat', 'Red.bat', function(err){
+	res.download('.SIGG/src/public/RecursosArchivos/Red.bat', 'Red.bat', function(err){
 		if(err){
 			console.log(err);
 		}else{

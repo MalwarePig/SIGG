@@ -54,13 +54,22 @@ app.get('/', function (req, res) {
 //routes o urls
 app.use(require('./routes/rutas.js'));//usar las rutas
 
+app.set('trust proxy', true);
+
 //Escuchando el servidor
 app.listen(app.get('port'),() => {
+ 
      console.log('servidor escuchando en puerto: ',app.get('port'));
      console.log('ip: ' +Object.values(OS.networkInterfaces())[0][0].address);
      console.log('Maquina: ' +OS.hostname());
+  
 });
-
+/*
+function mensaje() {
+     console.log('Maquina: ' +OS.hostname());
+    }
+    setInterval(mensaje, 1000);
+*/
 //file statics
 app.use(express.static(path.join(__dirname, 'public')));//para archivos como imagenes,css,javascript
 app.use(fileupload());
@@ -70,7 +79,4 @@ app.use('*', function(req, res, next) {
      res.status(404).render('Admin/Error.html');
    next();
 });
-
-
-
 

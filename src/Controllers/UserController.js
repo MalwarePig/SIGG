@@ -43,6 +43,7 @@ Controller.login = (req,res) => {
                     req.session.area = Area;
                     req.session.nombre = OS.hostname();
                     req.session.turno = Turno;
+                    let ip = req.connection.remoteAddres;
                     conn.query("UPDATE usuarios SET Nombre = '"+OS.hostname()+"' WHERE id = "+id+"",[], (error, results, fields) =>{
                         if(error){
                             console.log(error);
@@ -54,7 +55,8 @@ Controller.login = (req,res) => {
                  
                                 console.log('Error de lectura ' +err);
                             }
-                            console.log(user);
+                            user[0].ip =  Object.values(req)[33].slice(7);//Se registra la ip del cliente
+                            console.log(user[0]);
                             res.render('index.html', {
                                 data: user
                             });

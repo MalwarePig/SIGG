@@ -57,7 +57,7 @@ function PDF() {
     //doc.line(10, 205, 390, 205); // horizontal line (Eje X, Punto Y,Eje X,Punto Y)
     //doc.setFontType("bold");
    // doc.text("Usuario: ", 180, 65);
-   doc.setFontSize(35);
+  /* doc.setFontSize(35);
     doc.setFontType("normal");
     doc.text(document.getElementById("Usuario").value.toUpperCase(), 175, 65);
 
@@ -65,7 +65,7 @@ function PDF() {
     //doc.text("Planta: ", 220, 65);
     doc.setFontType("normal");
     doc.text(document.getElementById("Planta").value.toUpperCase() , 350, 65);
-
+*/
 
     doc.save(document.getElementById("OT").value+'.pdf');
 }
