@@ -44,12 +44,13 @@ Controller.login = (req,res) => {
                     req.session.nombre = OS.hostname();
                     req.session.turno = Turno;
                     let ip = req.connection.remoteAddres;
-                    conn.query("UPDATE usuarios SET Nombre = '"+OS.hostname()+"' WHERE id = "+id+"",[], (error, results, fields) =>{
+                    conn.query("UPDATE usuarios SET Nombre = '"+ OS.hostname()+ "' WHERE id = "+id+"",[], (error, results, fields) =>{
                         if(error){
                             console.log(error);
                             res.redirect('/');
                             console.log('error al actualizar nombres');
                         }
+                        
                         conn.query("SELECT * FROM usuarios WHERE usuario = '"+username+"'", (err, user) => {
                             if (err) {
                  

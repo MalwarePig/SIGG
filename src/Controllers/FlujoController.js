@@ -85,7 +85,7 @@ Controller.AlimentarVistaPlanta = (req, res) => {
         req.getConnection((err, conn) => {
             const promesa = new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/VISTAPLANTA_DAT.xls.xlsx'
+                    var ruta = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/VISTAPLANTA_DAT.xlsx'
                     xlsxFile(ruta).then((rows) => {
 
                         conn.query("Select OT from controlplaner WHERE Estatus != 'Cerrada'", [], (err, Historial) => { // UPDATE  A[B]

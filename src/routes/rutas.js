@@ -570,10 +570,42 @@ router.get('/Internet/',function(req,res){
 		}
 	})
 });
-
+ 
+router.get('/Api/',function(req,res){
+	var Prueba = [
+        {
+			id:0,
+            Nombre: "Sergio",
+            Edad: 28,
+            Sexo: "Hombre"
+        },
+        {
+			id:0,
+            Nombre: "Womy",
+            Edad: 26,
+            Sexo: "Mujer"
+        },
+        
+    ]
+    res.json(Prueba);
+});
 
 /////////////////=============================================== -PNC- =================================================/////////////////////////////////
 
+
+
+/////////////////////////////////////////////////////////////// SOPORTE //////////////////////////////////////////////////////////////////////////////////
+//====== Crear Ticket ========
+router.get('/CrearTicket', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Soporte/CreateTicket.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;
