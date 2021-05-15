@@ -19,7 +19,7 @@ Controller.search = (req, res) => {
             console.log("Salida: " + Herramienta + " Planta: " + planta+ " area: " + area);
             if(area == 'Admin'){
                 console.log("Entre como admin")
-                conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
+                conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '"+ Herramienta +"'", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');

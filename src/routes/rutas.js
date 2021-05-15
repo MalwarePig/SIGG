@@ -16,6 +16,7 @@ const MaterialesController = require('../Controllers/MaterialesController');
 const LogisiticaController = require('../Controllers/LogisticaController');
 const FlujoController = require('../Controllers/FlujoController');
 const PNCController = require('../Controllers/PNCController');
+const RHController = require('../Controllers/RHController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -606,6 +607,54 @@ router.get('/CrearTicket', (req, res) => {
 	}
 	res.end();
 });
+
+/////////////////////////////////////////////////////////////// RH //////////////////////////////////////////////////////////////////////////////////
+//====== Crear Ticket ========
+router.get('/RHPersonal', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('RH/RHPersonal.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+//====== Listar Personal ========
+router.get('/ListarPersonal/:Planta', RHController.ListarPersonal);
+//Actualiza informacion de empleados
+router.post('/EditarPersonal', RHController.EditarPersonal);
+//Mostrar ventana Registrar empleado
+router.get('/FormularioAddEmp', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('RH/RegistrarEmpleado.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+//Registrar empleado
+router.post('/RegistraEmeplado',  RHController.RegistrarEmpleado);
+//====== Abre modulo de correos ========
+router.get('/CorreoNomina', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('RH/eMailNomina.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+
+//====== Listar Personal ========
+router.get('/PrepararEnvio/:Planta', RHController.PrepararEnvio);
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;

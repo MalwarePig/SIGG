@@ -950,11 +950,12 @@ function LeerHistorial() {
                 let FechaProduccion = moment(DATA[i].FechaProd) || 'N/A';
                 let FechaAceptado = moment(DATA[i].FechaInicio) || 'N/A';
                 let FechaVencimiento = moment(DATA[i].FechaVenc).format('YYYY/MM/DD HH:mm') || 'N/A';
-                let Diferencia = CalcularTiempo(FechaAceptado, FechaProduccion);
+                let TiempoProd = CalcularTiempo(FechaAceptado, FechaProduccion);
+                let TiempoCola = CalcularTiempo(FechaRegistro, FechaAceptado);
                 // Grafica();
                 //var Estatus = DATA[i].Estatus || 'N/A';
                 //Eliminar variable dentro del For
-                var Arreglo = [id, OT, Parte, CantOt, Recibidas, Enviadas, Maquina, Planta, Servicio, Area, Origen, moment(DATA[i].FechaRegistro).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaInicio).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaProd).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaVenc).format('YYYY/MM/DD'), Diferencia];
+                var Arreglo = [id, OT, Parte, CantOt, Recibidas, Enviadas, Maquina, Planta, Servicio, Area, Origen, moment(DATA[i].FechaRegistro).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaInicio).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaProd).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaVenc).format('YYYY/MM/DD'), TiempoProd,TiempoCola];
                 ArregloGrafica.push(Arreglo);
 
                 // inserta una fila al final de la tabla

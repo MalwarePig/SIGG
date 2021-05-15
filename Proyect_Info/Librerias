@@ -18,7 +18,7 @@ npm install read-excel-file //Para lectura de excel por servidor
 npm install express-fileupload //Cargar archivos 
 ==================== Librerias para desarrollador ==================== 
 nodemon //Reiniciar servidor al guardar cambios
-npm install nodemailer
+npm install nodemailer //Servicio de correos
 npm i nodemon -D
 
 mkdir lib public routes views
