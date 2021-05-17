@@ -179,7 +179,7 @@ Controller.EnviarNomina = (req, res) => {
             var Planta = Object.values(data)[0].Planta; //obeter datos de un objeto Nombre
             var Semana = Object.values(data)[0].Semana; //obeter datos de un objeto Nombre
             var NomRuta = "";
-            ( Planta === 'E2' ) ? NomRuta = "Mor" : NomRuta = "Bvo";
+            ( Planta == 'E2' ) ? NomRuta = "Mor" : NomRuta = "Bvo";
             //console.log(Nombre + "','" + Correo );
             if (err) {
                 console.log("Conexion: " + err)
@@ -201,8 +201,11 @@ Controller.EnviarNomina = (req, res) => {
                         },
                     });
                     var NombrePDF = Planta+'-'+Curp+'-'+Nomina.substr(1)+'-'+Semana+'.pdf';
+                    var NombreXML = Planta+'-'+Curp+'-'+Nomina.substr(1)+'-'+Semana+'.xml';
+                    console.log("archivo " + NombrePDF )
+                    console.log("ruta " + NomRuta )
                     var rutaPDF = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/'+NombrePDF;
-                    var rutaXML = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/PruebaXML.xml'
+                    var rutaXML = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/'+NombreXML;
                     // send mail with defined transport object
                     let info = await transporter.sendMail({
                         from: '"soportecorreos@gemak.com.mx', // sender address
@@ -216,7 +219,7 @@ Controller.EnviarNomina = (req, res) => {
                                 // stream this file
                             },
                             {
-                                filename: 'NomaXML.xml',
+                                filename: NombreXML,
                                 path: rutaXML
                             }
                         ]
