@@ -24,9 +24,8 @@
     <div class="card text-center">
         <div class="card-header">
             <!------------------------------ BUSCAR -------------------------------------->
-    
                 <div class="form-row">
-                    <div class="form-group col-md-1">
+                    <div class="form-group col-md-2">
                         <select required id="Planta" name="Planta" class="form-control">
                             <option value="Bravo" selected>Bravo</option>
                             <option value="Morelos">Morelos</option>
@@ -35,6 +34,18 @@
                     <div class="form-group col-md-1">
                         <button type="button" id="getPersonal" name="getPersonal"
                             class="btn btn-secondary" onclick="PrepararEnvio()">Buscar</button>
+                    </div>
+                    <div class="form-group col-md-3">
+                         
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <input required type="text" id="Semana" class="form-control" placeholder="..."
+                            name="Semana" autocomplete="off" value="ORD192021">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button type="button" id="getPersonal" name="getPersonal"
+                            class="btn btn-secondary" onclick="EnviarCorreo()">Enviar</button>
                     </div>
                 </div>
         </div>
@@ -48,6 +59,7 @@
                             <th></th>
                             <th>Nombre</th>
                             <th>Nomina</th>
+                            <th>CURP</th>
                             <th>Correo</th>
                             <th>Estatus</th>
                         </tr>

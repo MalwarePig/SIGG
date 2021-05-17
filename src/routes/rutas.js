@@ -653,6 +653,8 @@ router.get('/CorreoNomina', (req, res) => {
 
 //====== Listar Personal ========
 router.get('/PrepararEnvio/:Planta', RHController.PrepararEnvio);
+//Registrar empleado
+router.post('/EnviarNomina',  RHController.EnviarNomina);
 
 
 

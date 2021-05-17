@@ -18,7 +18,8 @@ app.set('view engine', 'ejs');//motor de plantillas, permite ejecutar javascript
 app.use(express.json());//Acceder a la informacion de jason
 app.use(morgan('dev'));//muestra los mensajes en consola de las cargas y peticiones
 app.use(myConnection(mysql,{
-     host: '192.168.2.8', // host:'localhost',
+     //host: '192.168.2.8',
+     host:'localhost',
      user: 'Soporte', //user: 'root',
      password: 'Soporte1702861',
      port: 3306,

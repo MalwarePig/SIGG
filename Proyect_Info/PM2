@@ -21,3 +21,5 @@ pm2 monit >> Muestra el monitor.
 pm2 list >> Lista las aplicaciones ejecutandose. 
 pm2 startup >> inicia las aplicacions al inciar linux. 
 pm2 ecosystem >> crea un archivo de configuracion para inicio de valores automaticos. 
+
+

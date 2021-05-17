@@ -109,13 +109,13 @@ Controller.PrepararEnvio = (req, res) => {
                     let Lista = []; //Tabla Completa
                     var TotalCorreos = 0;
                     let ListaFaces = [] //json - Catalogo de correos
-                   
+
                     for (let index = 0; index < rows.length; index++) {
                         let jNombre = rows[index].Nombre;
                         let jNomina = rows[index].Nomina;
                         let jCurp = rows[index].CRUP;
                         let jCorreo = rows[index].correo;
-                        
+
                         ListaFaces.push([{
                             Nombre: jNombre,
                             Nomina: jNomina,
@@ -125,11 +125,11 @@ Controller.PrepararEnvio = (req, res) => {
                     }
 
                     TotalCorreos = ListaFaces.length
-/*
+
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //////////////////////////////////////////////////////// CORREOS ////////////////////////////////////////////////////////// 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    EnviarCorreos();
+
                     var Indice = 0;
 
                     function EnviarCorreos() {
@@ -144,70 +144,17 @@ Controller.PrepararEnvio = (req, res) => {
 
                                         console.log("Enviando tmb: " + Indice);
                                         EjecutarEnvio();
-                                        EnviarCorreos();
-                                    }, 900000);
+                                        // EnviarCorreos();
+                                    }, 10000);
                                     console.log(Indice)
                                 } else {
                                     console.log("else: " + Indice)
-                                    EjecutarEnvio();
+                                    //EjecutarEnvio();
                                     // async..await is not allowed in global scope, must use a wrapper
                                 }
                             }
                         }, 8000);
                     }
-
-
-                    function EjecutarEnvio() {
-                        async function main() {
-                            // Generate test SMTP service account from ethereal.email
-                            // Only needed if you don't have a real mail account for testing
-                            //let testAccount = await nodemailer.createTestAccount();
-
-                            // create reusable transporter object using the default SMTP transport
-                            let transporter = nodemailer.createTransport({
-                                host: "mail.gemak.com.mx",
-                                port: 465,
-                                secure: true, // true for 465, false for other ports
-                                auth: {
-                                    user: "soportecorreos@gemak.com.mx", // generated ethereal user
-                                    pass: "enigma1702861", // generated ethereal password
-                                },
-                            });
-
-                            let correo = ListaFaces[Indice][0].Correo;
-                            let nombre = ListaFaces[Indice][0].Nombre;
-                            // send mail with defined transport object
-                            let info = await transporter.sendMail({
-                                from: '"soportecorreos@gemak.com.mx', // sender address
-                                to: correo + ", soporte@gemak.com.mx", // list of receivers
-                                subject: "Hola " + nombre + " " + Indice + "✔", // Subject line
-                                text: "Mensaje de prueba?", // plain text body
-                                html: "<b>Mensaje de prueba?</b>", // html body
-                                attachments: [{
-                                        filename: 'NominaPDF.pdf',
-                                        path: path.join(__dirname, '../Archivos/Nominas/PruebaPDF.pdf')
-                                        // stream this file
-                                    },
-                                    {
-                                        filename: 'NomaXML.xml',
-                                        path: path.join(__dirname, '../Archivos/Nominas/PruebaXML.xml')
-                                    }
-                                ]
-                            });
-
-                            console.log("Message sent: %s", info.messageId);
-                            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-                            console.log("Corre: " + correo)
-                            Indice++;
-                            // Preview only available when sending through an Ethereal account
-                            //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-                        }
-                        main().catch(console.error);
-                    }*/
-
-
-
 
                 }
             });
@@ -219,9 +166,89 @@ Controller.PrepararEnvio = (req, res) => {
 
 
 
+/////////////////////////////////////////////////////////////////////--------------- Registrar Empleado----------------------/////////////////////////////////////////////////////////////////////
+Controller.EnviarNomina = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+
+            var Nombre = Object.values(data)[0].Nombre; //obeter datos de un objeto id
+            var Correo = Object.values(data)[0].Correo; //obeter datos de un objeto Nombre
+            var Nomina = Object.values(data)[0].Nomina; //obeter datos de un objeto Nombre
+            var Curp = Object.values(data)[0].Curp; //obeter datos de un objeto Nombre
+            var Planta = Object.values(data)[0].Planta; //obeter datos de un objeto Nombre
+            var Semana = Object.values(data)[0].Semana; //obeter datos de un objeto Nombre
+            var NomRuta = "";
+            ( Planta === 'E2' ) ? NomRuta = "Mor" : NomRuta = "Bvo";
+            //console.log(Nombre + "','" + Correo );
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+
+                async function main() {
+                    // Generate test SMTP service account from ethereal.email
+                    // Only needed if you don't have a real mail account for testing
+                    //let testAccount = await nodemailer.createTestAccount();
+
+                    // create reusable transporter object using the default SMTP transport
+                    let transporter = nodemailer.createTransport({
+                        host: "mail.gemak.com.mx",
+                        port: 465,
+                        secure: true, // true for 465, false for other ports
+                        auth: {
+                            user: "soportecorreos@gemak.com.mx", // generated ethereal user
+                            pass: "enigma1702861", // generated ethereal password
+                        },
+                    });
+                    var NombrePDF = Planta+'-'+Curp+'-'+Nomina.substr(1)+'-'+Semana+'.pdf';
+                    var rutaPDF = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/'+NombrePDF;
+                    var rutaXML = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/PruebaXML.xml'
+                    // send mail with defined transport object
+                    let info = await transporter.sendMail({
+                        from: '"soportecorreos@gemak.com.mx', // sender address
+                        to: Correo + ", soporte@gemak.com.mx", // list of receivers
+                        subject: "Nomina - " + Nombre + "✔", // Subject line
+                        text: "Mensaje de prueba?", // plain text body
+                        html: "<b>Mensaje de prueba?</b>", // html body
+                        attachments: [{
+                                filename: NombrePDF,
+                                path: rutaPDF
+                                // stream this file
+                            },
+                            {
+                                filename: 'NomaXML.xml',
+                                path: rutaXML
+                            }
+                        ]
+                    });
 
 
+                    // importa el módulo de node `file-system`
+                    const fs = require('fs')
 
+                    try {
+                        console.log("borrando: " + rutaPDF);
+                        fs.unlinkSync(rutaPDF)
+                        console.log('File removed')
+                    } catch (err) {
+                        console.error('Something wrong happened removing the file', err)
+                    }
+
+                    res.json(true)
+                    return info.messageId;
+                    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+                    // Preview only available when sending through an Ethereal account
+                    //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+                }
+                main().catch(console.error)
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+}
 
 
 
