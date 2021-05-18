@@ -3,7 +3,8 @@ const express = require('express'); //guardar express en una variable de servido
 var nodemailer = require('nodemailer');
 const xlsxFile = require('read-excel-file/node');
 const path = require('path'); //Traba con directorios identificando el SO // \\
-
+// importa el módulo de node `file-system`
+const fs = require('fs')
 // Muestra las lineas en tratamientos
 Controller.ListarPersonal = (req, res) => {
     if (req.session.loggedin) {
@@ -179,7 +180,7 @@ Controller.EnviarNomina = (req, res) => {
             var Planta = Object.values(data)[0].Planta; //obeter datos de un objeto Nombre
             var Semana = Object.values(data)[0].Semana; //obeter datos de un objeto Nombre
             var NomRuta = "";
-            ( Planta == 'E2' ) ? NomRuta = "Mor" : NomRuta = "Bvo";
+            (Planta == 'E2') ? NomRuta = "Mor": NomRuta = "Bvo";
             //console.log(Nombre + "','" + Correo );
             if (err) {
                 console.log("Conexion: " + err)
@@ -196,20 +197,28 @@ Controller.EnviarNomina = (req, res) => {
                         port: 465,
                         secure: true, // true for 465, false for other ports
                         auth: {
-                            user: "soportecorreos@gemak.com.mx", // generated ethereal user
-                            pass: "enigma1702861", // generated ethereal password
+                            user: "recibos@gemak.com.mx", // generated ethereal user
+                            pass: "#Enigma1702861", // generated ethereal password
                         },
                     });
-                    var NombrePDF = Planta+'-'+Curp+'-'+Nomina.substr(1)+'-'+Semana+'.pdf';
-                    var NombreXML = Planta+'-'+Curp+'-'+Nomina.substr(1)+'-'+Semana+'.xml';
-                    console.log("archivo " + NombrePDF )
-                    console.log("ruta " + NomRuta )
-                    var rutaPDF = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/'+NombrePDF;
-                    var rutaXML = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/'+NomRuta+'/'+NombreXML;
+                    var NombrePDF = Planta + '-' + Curp + '-' + Nomina.substr(1) + '-' + Semana + '.pdf';
+                    var NombreXML = Planta + '-' + Curp + '-' + Nomina.substr(1) + '-' + Semana + '.xml';
+
+                    var rutaPDF = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/' + NomRuta + '/' + NombrePDF;
+                    var rutaXML = '//192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Nom/' + NomRuta + '/' + NombreXML;
                     // send mail with defined transport object
+                    try {
+                        if (fs.accessSync(rutaPDF) && fs.accessSync(rutaXML)) {
+                            console.log("Archivo existe")
+                        }
+                    } catch (e) {
+                        console.log("Archivo no existe");
+                        res.json(false)
+                    }
+
                     let info = await transporter.sendMail({
-                        from: '"soportecorreos@gemak.com.mx', // sender address
-                        to: Correo + ", soporte@gemak.com.mx", // list of receivers
+                        from: '"recibos@gemak.com.mx', // sender address
+                        to: Correo, // list of receivers
                         subject: "Nomina - " + Nombre + "✔", // Subject line
                         text: "Mensaje de prueba?", // plain text body
                         html: "<b>Mensaje de prueba?</b>", // html body
@@ -225,19 +234,15 @@ Controller.EnviarNomina = (req, res) => {
                         ]
                     });
 
-
-                    // importa el módulo de node `file-system`
-                    const fs = require('fs')
-
                     try {
-                        console.log("borrando: " + rutaPDF);
                         fs.unlinkSync(rutaPDF)
+                        fs.unlinkSync(rutaXML)
                         console.log('File removed')
                     } catch (err) {
                         console.error('Something wrong happened removing the file', err)
                     }
+                    res.json(true);
 
-                    res.json(true)
                     return info.messageId;
                     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
@@ -245,7 +250,9 @@ Controller.EnviarNomina = (req, res) => {
                     //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
                     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
                 }
-                main().catch(console.error)
+                main().catch(console.error);
+
+
             }
         });
     } else {

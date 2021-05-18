@@ -134,14 +134,13 @@ function RegistraEmeplado() {
         });
 }
 
-var PersonalSucces;
+
 //CONSULTAR Personal -- BOTON BUSCAR    
 function PrepararEnvio() {
     var variable = document.getElementById("Planta").value;
     $.ajax({
         url: '/PrepararEnvio/' + variable,
         success: function (Personal) {
-            PersonalSucces = Personal;
 
             var Arreglo = [];
             //Limpiar tabla 
@@ -189,8 +188,10 @@ function PrepararEnvio() {
 
                     if (x == 3) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(4); //CREAR CELDA
-                        newCell.innerHTML = '<input type="text" id="Estado' + i + '" class="form-control" value="' + "Estado: " + '" ></input>';
-                    }
+                         newCell.innerHTML = '<input type="text" id="Estado' + i + '" class="form-control" value="' + "Estado: " + '" ></input>';
+                        var newCell = newRow.insertCell(5); //CREAR CELDA 
+                        newCell.innerHTML = '<input type="checkbox" id="Check'+i+'"   checked>';
+                    } 
                 } //fin de for de columnas
             } //fin de for de filas
         } //Funcion success
@@ -198,17 +199,48 @@ function PrepararEnvio() {
 } //Evento clic
 
 
-var Indice = 0;
 
+
+
+
+
+
+var PersonalSucces = [];
+//=========================================== Guardar elementos de la nota =================================================//
+function RecolectarCandidatos() {
+    PersonalSucces = [];
+    var tabla = document.getElementById("TablaPersonal");
+    var total = tabla.rows.length; //Total de filas
+ 
+    for (var j = 0; j < total-1; j++) { //filas
+        var chck = document.getElementById("Check"+j).checked; ;
+        if(chck==true){
+            PersonalSucces.push({
+                correo : document.getElementById("Correo"+j).value,
+                nombre : document.getElementById("Nombre"+j).value,
+                nomina : document.getElementById("Nomina"+j).value,
+                planta : document.getElementById("Planta").value,
+                curp : document.getElementById("CURP"+j).value,
+                fila: j
+              })
+        } 
+    } //fin filas
+    console.table(PersonalSucces);
+    EnviarCorreo();
+}
+
+
+var Indice = 0;
+var TotalCorreos;
 function EnviarCorreo() {
-    var TotalCorreos = PersonalSucces.length
+     TotalCorreos = PersonalSucces.length
     console.table(PersonalSucces)
 
     var intervalor = setInterval(function () {
         console.log("TotalCorreos : " + TotalCorreos)
         if (Indice < TotalCorreos) {
 
-            if (Indice % 2 == 0 && Indice != 0) {
+            if (Indice % 20 == 0 && Indice != 0) {
                 console.log("Pausando servicios");
                 clearInterval(intervalor);
                 setTimeout(function () {
@@ -217,13 +249,16 @@ function EnviarCorreo() {
                     console.log("Enviando tmb: " + Indice);
                     EjecutarEnvio();
                     EnviarCorreo();
-                }, 10000);
+                }, 180000);
                 console.log(Indice)
             } else {
                 console.log("else: " + Indice)
                 EjecutarEnvio();
                 // async..await is not allowed in global scope, must use a wrapper
             }
+        }else{
+            clearInterval(intervalor);
+            alert("Termino!")
         }
     }, 8000);
 }
@@ -231,10 +266,11 @@ function EnviarCorreo() {
 function EjecutarEnvio() {
  
     let correo = PersonalSucces[Indice].correo;
-    let nombre = PersonalSucces[Indice].Nombre;
-    let nomina = PersonalSucces[Indice].Nomina;
-    let planta = PersonalSucces[Indice].Planta;
-    let curp = PersonalSucces[Indice].CURP;
+    let nombre = PersonalSucces[Indice].nombre;
+    let nomina = PersonalSucces[Indice].nomina;
+    let planta = PersonalSucces[Indice].planta;
+    let curp = PersonalSucces[Indice].curp;
+    let fila = PersonalSucces[Indice].fila;
     let IndicePlanta = "";
     ( planta === 'Morelos' ) ? IndicePlanta = "E2" : IndicePlanta = "E1";
 
@@ -255,17 +291,18 @@ function EjecutarEnvio() {
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + "Estatus: " + estatus);
             if (objeto == true) {
-                var elementoSeleccionado = document.getElementById("Estado" + Indice); //default
+                var elementoSeleccionado = document.getElementById("Estado" + fila); //default
                 elementoSeleccionado.style.backgroundColor = "#c0ef63";
-                document.getElementById("Estado" + Indice).value = "Estado: Enviado..."
+                document.getElementById("Estado" + fila).value = "Estado: Enviado..."
                 Indice++;
+  
 
             } else {
-                var elementoSeleccionado = document.getElementById("Estado" + Indice); //default
+                var elementoSeleccionado = document.getElementById("Estado" + fila); //default
                 elementoSeleccionado.style.backgroundColor = "#f94c5f";
-                document.getElementById("Estado" + Indice).value = "Estado: Error..."
+                document.getElementById("Estado" + fila).value = "Estado: Error..."
                 Indice++;
-
+ 
             }
         });
 }
