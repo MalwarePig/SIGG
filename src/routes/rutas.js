@@ -611,7 +611,8 @@ router.get('/CrearTicket', (req, res) => {
 /////////////////////////////////////////////////////////////// RH //////////////////////////////////////////////////////////////////////////////////
 //====== Crear Ticket ========
 router.get('/RHPersonal', (req, res) => {
-	if (req.session.loggedin) {
+	var nivel = "RH";
+	if (req.session.nivel.toLowerCase() == nivel.toLowerCase()) {
 		res.render('RH/RHPersonal.html', {
 			title: 'Gemak'
 		});
@@ -621,13 +622,17 @@ router.get('/RHPersonal', (req, res) => {
 	res.end();
 });
 
+ 
+
+
 //====== Listar Personal ========
 router.get('/ListarPersonal/:Planta', RHController.ListarPersonal);
 //Actualiza informacion de empleados
 router.post('/EditarPersonal', RHController.EditarPersonal);
 //Mostrar ventana Registrar empleado
 router.get('/FormularioAddEmp', (req, res) => {
-	if (req.session.loggedin) {
+	var nivel = "RH";
+	if (req.session.nivel.toLowerCase() == nivel.toLowerCase()) {
 		res.render('RH/RegistrarEmpleado.html', {
 			title: 'Gemak'
 		});
@@ -640,7 +645,8 @@ router.get('/FormularioAddEmp', (req, res) => {
 router.post('/RegistraEmeplado',  RHController.RegistrarEmpleado);
 //====== Abre modulo de correos ========
 router.get('/CorreoNomina', (req, res) => {
-	if (req.session.loggedin) {
+	var nivel = "RH";
+	if (req.session.nivel.toLowerCase() == nivel.toLowerCase()) {
 		res.render('RH/eMailNomina.html', {
 			title: 'Gemak'
 		});
