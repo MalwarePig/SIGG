@@ -221,7 +221,7 @@ Controller.EnviarNomina = (req, res) => {
                         to: Correo, // list of receivers
                         subject: "Nomina - " + Nombre + "✔", // Subject line
                         text: "Mensaje de prueba?", // plain text body
-                        html: "<b>Mensaje de prueba?</b>", // html body
+                        html: "<b>Entrega de nomina: "+Nombre+"</b>", // html body
                         attachments: [{
                                 filename: NombrePDF,
                                 path: rutaPDF
