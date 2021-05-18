@@ -240,7 +240,7 @@ function EnviarCorreo() {
         console.log("TotalCorreos : " + TotalCorreos)
         if (Indice < TotalCorreos) {
 
-            if (Indice % 2  == 0 && Indice != 0) {
+            if (Indice % 20  == 0 && Indice != 0) {
                 document.getElementById("Estado").value = "Pausando servicios...";
                 console.log("Pausando servicios");
                 clearInterval(intervalor);
