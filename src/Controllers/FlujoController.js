@@ -399,7 +399,7 @@ Controller.TransFlujo = (req, res) => {
                         var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas));
                         let TotalPNC = parseInt(rows[0].PNC) +  parseInt(PNC);
                         console.log("PNC ANTES: " + parseInt(rows[0].PNC) + " Total: "+ TotalPNC + " Llego: " + PNC);
-                        console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
+                        console.log("La condicion es que " + EnviadasActual + " Sea >=  " + Recibido)
                         if (EnviadasActual >= Recibido) { //Cambia estado de Abierta a Esperando
                             console.log("Ya son todas weee Enviadas previamente: " + parseInt(rows[0].Enviadas) + " Nuevo valor de enviadas: " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)));
                             conn.query("UPDATE " + AreaOrigen + " SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ", FechaProd = now(),  Estatus = 'Espera', PNC = "+TotalPNC+" WHERE id = " + id, true, (err, rows) => {
@@ -527,13 +527,13 @@ Controller.MandarTrat = (req, res) => {
                     console.log('Error al Transferir' + err);
                 } else {
                     console.log("Linea transferida");
-                    conn.query("SELECT Enviadas FROM areatratamientos WHERE id = " + id, true, (err, rows) => {
+                    conn.query("SELECT Enviadas,Recibido FROM areatratamientos WHERE id = " + id, true, (err, rows) => {
                         if (err) {
                             console.log('Error al asignar' + err);
                         } else {
                             var EnviadasActual = (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas))
-                            console.log("La condicion es que " + EnviadasActual + " Sea >=  " + cantidadOT)
-                            if (EnviadasActual >= cantidadOT) { //Cambia estado de Abierta a Esperando
+                            console.log("La condicion es que " + EnviadasActual + " Sea >=  " + rows[0].Recibido)
+                            if (EnviadasActual >= rows[0].Recibido) { //Cambia estado de Abierta a Esperando
                                 conn.query("UPDATE areatratamientos SET Enviadas = " + (parseInt(cantidadDestino) + parseInt(rows[0].Enviadas)) + ",FechaProd = now(), Estatus = 'Espera' WHERE id = " + id, true, (err, rows) => {
                                     if (err) {
                                         console.log('Error al asignar' + err);
@@ -640,6 +640,14 @@ Controller.FinalizarTrat = (req, res) => {
                             console.log('Error al asignar' + err);
                         } else {
                             console.log("Tranferencia realizada");
+                            conn.query("UPDATE tratamientosexterno SET FechaProd =  now() WHERE id = " + id_Retorno, true, (err, rows) => {
+                                if (err) {
+                                    console.log('Error al asignar' + err);
+                                } else {
+                                    console.log("Tranferencia realizada");
+                                    
+                                }
+                            });
                         }
                     });
                 }

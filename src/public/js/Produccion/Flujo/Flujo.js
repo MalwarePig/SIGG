@@ -919,7 +919,11 @@ function EliminarOTFlujo() {
 }
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
+var TotalProduccion = 0;//Total de tiempo en produccion
+var TotalCola = 0;//Total de tiempo en cola
 function LeerHistorial() {
+    document.getElementById("TotalProd").value = "";
+    document.getElementById("TotalCola").value = "";
     var ArregloGrafica = [];
     let OTHistorial = document.getElementById("OTHistorial").value;
     var Arreglo = []
@@ -952,6 +956,8 @@ function LeerHistorial() {
                 let FechaVencimiento = moment(DATA[i].FechaVenc).format('YYYY/MM/DD HH:mm') || 'N/A';
                 let TiempoProd = CalcularTiempo(FechaAceptado, FechaProduccion);
                 let TiempoCola = CalcularTiempo(FechaRegistro, FechaAceptado);
+                    TotalProduccion = TotalProduccion + CalcularTotalProd(FechaAceptado, FechaProduccion);
+                    TotalCola = TotalCola + CalcularTotalCola(FechaRegistro, FechaAceptado);
                 // Grafica();
                 //var Estatus = DATA[i].Estatus || 'N/A';
                 //Eliminar variable dentro del For
@@ -969,7 +975,8 @@ function LeerHistorial() {
                     newCell.appendChild(newText);
                 } //fin de for de columnas
             } //fin de for de filas
-
+            document.getElementById("TotalProd").value = FormatoTiempo(TotalProduccion);
+            document.getElementById("TotalCola").value = FormatoTiempo(TotalCola);
         } //Funcion success
     }); //Ajax
     Grafica(ArregloGrafica);
@@ -1073,6 +1080,42 @@ function CalcularTiempo(FechaRegistro, FechaAceptado) {
     return Dias + "D-" + Horas + "H-" + MinutosTotal + "M";
 }
  
+
+function CalcularTotalProd(FechaaUno, FechaDos) {
+    // FechaAceptado.diff(FechaRegistro, 'hours') + " H " + FechaAceptado.diff(FechaRegistro, 'minutes') + " M";
+    TotalProduccion = FechaDos.diff(FechaaUno, 'minutes');
+    return TotalProduccion;
+}
+
+function CalcularTotalCola(FechaaUno, FechaDos) {
+    // FechaAceptado.diff(FechaRegistro, 'hours') + " H " + FechaAceptado.diff(FechaRegistro, 'minutes') + " M";
+    TotalCola = FechaDos.diff(FechaaUno, 'minutes');
+    return TotalCola;
+}
+
+function FormatoTiempo(MinutosTotales){
+    
+    let fin = false;
+    let Horas = 0;
+    let Dias = 0;
+
+    while (fin == false) {
+        if (MinutosTotales >= 1440) {
+            Dias++;
+            MinutosTotales -= 1440;
+        } else if (MinutosTotales >= 60) {
+            Horas++;
+            MinutosTotales -= 60;
+        } else {
+            fin = true;
+        }
+    }
+    return Dias + "D:" + Horas + "H:" + MinutosTotales + "M";
+}
+
+
+
+
 function ConfirmarFlujo() {
     $("#ModaVistaPlanta").modal();
 }
