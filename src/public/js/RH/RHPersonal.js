@@ -54,7 +54,7 @@ function MostrarPersonal() {
 
                     if (x == 5) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(6); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-warning" name="btn" onclick= Seleccion(' + (i + 1) + ')> Update </button>' +
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-warning" name="btn" onclick= Seleccion(' + (i + 1) + ')> 🔃 </button>' +
                             '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=EliminarEmpleado(' + (i + 1) + ')> - </button>' +
                             '<button id="' + i + '" class="btn btn-success" name="btn" onclick=ActivarEmpleado(' + (i + 1) + ')> + </button>';
                     }
