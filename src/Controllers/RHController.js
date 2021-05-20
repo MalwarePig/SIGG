@@ -100,16 +100,15 @@ Controller.PrepararEnvio = (req, res) => {
             var AreaOrigen = req.session.area;
             console.log("Planta: " + Planta)
 
-            conn.query("SELECT * FROM empleados WHERE Planta = '" + Planta + "'", true, (err, rows) => {
+            conn.query("SELECT * FROM empleados WHERE Planta = '" + Planta + "' AND eNomina = 'On'", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
                     res.json(rows);
-                    console.table(rows)
-
+                    console.table(rows);
                     let Lista = []; //Tabla Completa
                     var TotalCorreos = 0;
-                    let ListaFaces = [] //json - Catalogo de correos
+                    let ListaFaces = []; //json - Catalogo de correos
 
                     for (let index = 0; index < rows.length; index++) {
                         let jNombre = rows[index].Nombre;
@@ -125,8 +124,7 @@ Controller.PrepararEnvio = (req, res) => {
                         }])
                     }
 
-                    TotalCorreos = ListaFaces.length
-
+                    TotalCorreos = ListaFaces.length;
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //////////////////////////////////////////////////////// CORREOS ////////////////////////////////////////////////////////// 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,5 +262,56 @@ Controller.EnviarNomina = (req, res) => {
 
 
 
+//Editar Personal
+Controller.DesactivarPersonal = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+ 
+          
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("UPDATE empleados SET eNomina = 'Off' WHERE id = " + id, (err, rows) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    } else {
+                        res.json(true)
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//Editar Personal
+Controller.ActivarPersonal = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+ 
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("UPDATE empleados SET eNomina = 'On' WHERE id = " + id, (err, rows) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    } else {
+                        res.json(true)
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 module.exports = Controller;

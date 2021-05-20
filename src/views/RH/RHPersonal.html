@@ -24,19 +24,19 @@
     <div class="card text-center">
         <div class="card-header">
             <!------------------------------ BUSCAR -------------------------------------->
-    
-                <div class="form-row">
-                    <div class="form-group col-md-1">
-                        <select required id="Planta" name="Planta" class="form-control">
-                            <option value="Bravo" selected>Bravo</option>
-                            <option value="Morelos">Morelos</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-1">
-                        <button type="button" id="getPersonal" name="getPersonal"
-                            class="btn btn-secondary" onclick="MostrarPersonal()">Buscar</button>
-                    </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <select required id="Planta" name="Planta" class="form-control">
+                        <option value="Bravo" selected>Bravo</option>
+                        <option value="Morelos">Morelos</option>
+                    </select>
                 </div>
+                <div class="form-group col-md-1">
+                    <button type="button" id="getPersonal" name="getPersonal" class="btn btn-secondary"
+                        onclick="MostrarPersonal()">Buscar</button>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <!------------------------------ TABLA -------------------------------------->
@@ -50,6 +50,7 @@
                             <th>Nomina</th>
                             <th>CURP</th>
                             <th>Correo</th>
+                            <th>Estatus</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -62,23 +63,72 @@
     </div>
 
 
-	
-	<!-- Modal Nota -->
-	<div class="modal fade" id="ModalEditarEmpleado" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleado"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					Cambio exitoso
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
+
+    <!-- Modal Nota -->
+    <div class="modal fade" id="ModalEditarEmpleado" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleado"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Cambio exitoso
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nota -->
+    <div class="modal fade" id="PreguntaEditar" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleado"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Desea actualizar empleado?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal"
+                        onclick="ConfirmarEdicion()">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nota -->
+    <div class="modal fade" id="PreguntaEliminar" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleado"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    Se desactivara el envio de nomina!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        onclick="ConfirmarEliminacion()">Desactivar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Modal Nota -->
+<div class="modal fade" id="PreguntaActivar" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleado"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            Se activara el envio de nomina
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal"
+                onclick="ConfirmarActivacion()">Activar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+</div>
+</div>
 
 
 </body>
-
-

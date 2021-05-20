@@ -322,7 +322,8 @@ function VistaPlanta() {
 //=========================================== Consulta OT Pendientes de inicar =================================================//
 
 function Pendientes() {
-    if (localStorage.getItem("Area") != 'Producción') {
+    ArrayPendintes = [];
+    if (localStorage.getItem("Area") != 'Producción') {//Esconde el boton para importar excel
         document.getElementById("ButVistaPlanta").style.display = "none";
     }
 
@@ -1207,6 +1208,9 @@ function NuevoProceso() {
         }, // data to be submit
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
+           if(objeto == true){
+            Pendientes();
+           }
         });
     setTimeout(function () {
         Carga();

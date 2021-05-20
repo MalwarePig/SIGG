@@ -317,7 +317,6 @@ Controller.IniciarProdFlujo = (req, res) => {
                 });
             } else {
                 for (var i = 0; i < limite; i++) {
-
                     console.log("id: " + Object.values(data)[0][i][0] + " AreaOrigen: " + AreaOrigen);
                     conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = (now()) WHERE id = " + Object.values(data)[0][i][0], true, (err, rows) => {
                         if (err) {
@@ -407,6 +406,7 @@ Controller.TransFlujo = (req, res) => {
                                     console.log('Error al asignar' + err);
                                 } else {
                                     console.log("linea actualizada ");
+                                    res.json(true);
                                 }
                             });
                         } else {
@@ -416,6 +416,7 @@ Controller.TransFlujo = (req, res) => {
                                     console.log('Error al transferir' + err);
                                 } else {
                                     console.log("linea actualizada ");
+                                    res.json(true);
                                 }
                             });
                         }
@@ -443,6 +444,7 @@ Controller.TransFlujo = (req, res) => {
                                 console.log('Error al asignar' + err);
                             } else {
                                 console.log("linea actualizada ");
+                                res.json(true);
                             }
                         });
                     }
@@ -466,6 +468,7 @@ Controller.TransFlujo = (req, res) => {
                                 console.log('Error al asignar' + err);
                             } else {
                                 console.log("linea actualizada ");
+                                res.json(true);
                             }
                         });
                     }

@@ -662,7 +662,11 @@ router.get('/PrepararEnvio/:Planta', RHController.PrepararEnvio);
 //Registrar empleado
 router.post('/EnviarNomina',  RHController.EnviarNomina);
 
+//Actualiza informacion de empleados
+router.post('/DesactivarPersonal', RHController.DesactivarPersonal);
 
+//Actualiza informacion de empleados
+router.post('/ActivarPersonal', RHController.ActivarPersonal);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router;

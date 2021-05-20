@@ -17,9 +17,10 @@ function MostrarPersonal() {
                 var Nomina = Personal[i].Nomina;
                 var Planta = Personal[i].CURP;
                 var Correo = Personal[i].correo;
+                var Estatus = Personal[i].eNomina;
 
                 //Eliminar variable dentro del For
-                Arreglo = [id, Nombre, Nomina, Planta, Correo]
+                Arreglo = [id, Nombre, Nomina, Planta, Correo, Estatus]
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -43,14 +44,19 @@ function MostrarPersonal() {
                         case 4:
                             newCell.innerHTML = '<input type="text" id="Correo' + i + '" class="form-control" value="' + Arreglo[x] + '" ></input>';
                             break;
+                        case 5:
+                            newCell.innerHTML = '<input type="text" id="Correo' + i + '" class="form-control" value="' + Arreglo[x] + '" ></input>';
+                            break;
                         default:
                             break;
                             // code block
                     }
 
-                    if (x == 4) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(5); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Actualizar </button>';
+                    if (x == 5) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(6); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-warning" name="btn" onclick= Seleccion(' + (i + 1) + ')> Update </button>' +
+                            '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=EliminarEmpleado(' + (i + 1) + ')> - </button>' +
+                            '<button id="' + i + '" class="btn btn-success" name="btn" onclick=ActivarEmpleado(' + (i + 1) + ')> + </button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -66,8 +72,14 @@ function runScript(e) {
 }
 //=========================================== Actualizar Seleccion =================================================//
 function Seleccion(variable) {
-    var indice = variable - 1;
+    localStorage.setItem('EmpleadoEditar', variable);
 
+    $("#PreguntaEditar").modal();
+}
+
+function ConfirmarEdicion() {
+    var variable = localStorage.getItem('EmpleadoEditar');
+    var indice = variable - 1;
     var id = document.getElementById("id" + indice).value; //Obtiene el valor de id
     var Nombre = document.getElementById("Nombre" + indice).value; //Obtiene el valor de Clave
     var Nomina = document.getElementById("Nomina" + indice).value; //Obtiene el valor de Clave
@@ -96,6 +108,57 @@ function Seleccion(variable) {
         });
 }
 
+//=========================================== Actualizar Seleccion =================================================//
+function EliminarEmpleado(variable) {
+    localStorage.setItem('EmpleadoEliminar', variable);
+    $("#PreguntaEliminar").modal();
+}
+
+function ConfirmarEliminacion() {
+    var variable = localStorage.getItem('EmpleadoEliminar');
+    var indice = variable - 1;
+    var id = document.getElementById("id" + indice).value; //Obtiene el valor de id
+
+    var ObjetoTabla = {
+        id: id
+    }
+    $.post("/DesactivarPersonal", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            console.log("objeto: " + objeto + " Estatus: " + estatus + typeof (objeto));
+            if (objeto == true) {
+                $("#ModalEditarEmpleado").modal();
+            }
+        });
+}
+
+//=========================================== Actualizar Seleccion =================================================//
+function ActivarEmpleado(variable) {
+    localStorage.setItem('EmpleadoActivar', variable);
+    $("#PreguntaActivar").modal();
+}
+
+function ConfirmarActivacion() {
+    var variable = localStorage.getItem('EmpleadoActivar');
+    var indice = variable - 1;
+    var id = document.getElementById("id" + indice).value; //Obtiene el valor de id
+
+    var ObjetoTabla = {
+        id: id
+    }
+    $.post("/ActivarPersonal", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            console.log("objeto: " + objeto + " Estatus: " + estatus + typeof (objeto));
+            if (objeto == true) {
+                $("#ModalEditarEmpleado").modal();
+            }
+        });
+}
 
 //=========================================== Registar nuevo Empleado =================================================//
 function RegistraEmeplado() {
@@ -157,7 +220,7 @@ function PrepararEnvio() {
                 var Correo = Personal[i].correo;
 
                 //Eliminar variable dentro del For
-                Arreglo = [id, Nombre, Nomina,CURP, Correo]
+                Arreglo = [id, Nombre, Nomina, CURP, Correo]
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -188,59 +251,57 @@ function PrepararEnvio() {
 
                     if (x == 3) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(4); //CREAR CELDA
-                         newCell.innerHTML = '<input type="text" id="Estado' + i + '" class="form-control" value="' + "Estado: " + '" ></input>';
+                        newCell.innerHTML = '<input type="text" id="Estado' + i + '" class="form-control" value="' + "Estado: " + '" ></input>';
                         var newCell = newRow.insertCell(5); //CREAR CELDA 
-                        newCell.innerHTML = '<input type="checkbox" id="Check'+i+'"   checked>';
-                    } 
+                        newCell.innerHTML = '<input type="checkbox" id="Check' + i + '"   checked>';
+                    }
                 } //fin de for de columnas
             } //fin de for de filas
         } //Funcion success
     }); //Ajax
 } //Evento clic
 
-
-
-
-
-
-
-
 var PersonalSucces = [];
 //=========================================== Guardar elementos de la nota =================================================//
 function RecolectarCandidatos() {
-    PersonalSucces = [];
-    var tabla = document.getElementById("TablaPersonal");
-    var total = tabla.rows.length; //Total de filas
- 
-    for (var j = 0; j < total-1; j++) { //filas
-        var chck = document.getElementById("Check"+j).checked; ;
-        if(chck==true){
-            PersonalSucces.push({
-                correo : document.getElementById("Correo"+j).value,
-                nombre : document.getElementById("Nombre"+j).value,
-                nomina : document.getElementById("Nomina"+j).value,
-                planta : document.getElementById("Planta").value,
-                curp : document.getElementById("CURP"+j).value,
-                fila: j
-              })
-        } 
-    } //fin filas
-    console.table(PersonalSucces);
-    EnviarCorreo();
-}
+    if (document.getElementById("Semana").value == "") {
+        alert("Campo de semana vacio o invalido")
+    } else {
 
+        PersonalSucces = [];
+        var tabla = document.getElementById("TablaPersonal");
+        var total = tabla.rows.length; //Total de filas
+
+        for (var j = 0; j < total - 1; j++) { //filas
+            var chck = document.getElementById("Check" + j).checked;
+            if (chck == true) {
+                PersonalSucces.push({
+                    correo: document.getElementById("Correo" + j).value,
+                    nombre: document.getElementById("Nombre" + j).value,
+                    nomina: document.getElementById("Nomina" + j).value,
+                    planta: document.getElementById("Planta").value,
+                    curp: document.getElementById("CURP" + j).value,
+                    fila: j
+                })
+            }
+        } //fin filas
+        console.table(PersonalSucces);
+        EnviarCorreo();
+    }
+}
 
 var Indice = 0;
 var TotalCorreos;
+
 function EnviarCorreo() {
-     TotalCorreos = PersonalSucces.length
+    TotalCorreos = PersonalSucces.length
     console.table(PersonalSucces)
     document.getElementById("Estado").value = "Enviando...";
     var intervalor = setInterval(function () {
         console.log("TotalCorreos : " + TotalCorreos)
         if (Indice < TotalCorreos) {
 
-            if (Indice % 20  == 0 && Indice != 0) {
+            if (Indice % 20 == 0 && Indice != 0) {
                 document.getElementById("Estado").value = "Pausando servicios...";
                 console.log("Pausando servicios");
                 clearInterval(intervalor);
@@ -258,7 +319,7 @@ function EnviarCorreo() {
                 EjecutarEnvio();
                 // async..await is not allowed in global scope, must use a wrapper
             }
-        }else{
+        } else {
             clearInterval(intervalor);
             alert("Termino!")
         }
@@ -266,7 +327,7 @@ function EnviarCorreo() {
 }
 
 function EjecutarEnvio() {
- 
+
     let correo = PersonalSucces[Indice].correo;
     let nombre = PersonalSucces[Indice].nombre;
     let nomina = PersonalSucces[Indice].nomina;
@@ -274,7 +335,7 @@ function EjecutarEnvio() {
     let curp = PersonalSucces[Indice].curp;
     let fila = PersonalSucces[Indice].fila;
     let IndicePlanta = "";
-    ( planta === 'Morelos' ) ? IndicePlanta = "E2" : IndicePlanta = "E1";
+    (planta === 'Morelos') ? IndicePlanta = "E2": IndicePlanta = "E1";
 
     let ObjetoTabla = {
         Nombre: nombre,
@@ -297,14 +358,27 @@ function EjecutarEnvio() {
                 elementoSeleccionado.style.backgroundColor = "#c0ef63";
                 document.getElementById("Estado" + fila).value = "Estado: Enviado..."
                 Indice++;
-  
+
 
             } else {
                 var elementoSeleccionado = document.getElementById("Estado" + fila); //default
                 elementoSeleccionado.style.backgroundColor = "#f94c5f";
                 document.getElementById("Estado" + fila).value = "Estado: Error..."
                 Indice++;
- 
+
             }
         });
+}
+
+function EstadoCheck() { //Invierte los checks
+    var tabla = document.getElementById("TablaPersonal");
+    var total = tabla.rows.length; //Total de filas
+    for (let index = 0; index < total - 1; index++) {
+        var chck = document.getElementById("Check" + index).checked;
+        if (chck == true) {
+            document.getElementById("Check" + index).checked = false;
+        } else {
+            document.getElementById("Check" + index).checked = true;
+        }
+    }
 }
