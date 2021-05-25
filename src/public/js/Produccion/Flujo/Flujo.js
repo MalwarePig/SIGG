@@ -485,7 +485,7 @@ function Recolectar() {
                         Tabla
                     }, // data to be submit
                     function (objeto, estatus) { // success callback
-
+                        console.log(objeto)
                         if (objeto == true) {
                             Pendientes();
                         }

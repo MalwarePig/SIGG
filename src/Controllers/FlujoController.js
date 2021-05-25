@@ -263,7 +263,7 @@ Controller.Pen_FlujoProd = (req, res) => {
             }
 
             //conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio IS NULL AND Estatus != 'Cerrada' AND Estatus != 'Espera'", true, (err, rows) => {493
-            conn.query("SELECT * FROM " + AreaOrigen + " WHERE Enviadas < CantOT AND Estatus != 'Cerrada' AND Estatus != 'Espera' AND Estatus != 'Linea' AND Enviadas < (CantOt + Extra)", true, (err, rows) => {
+            conn.query("SELECT * FROM " + AreaOrigen + " WHERE Enviadas < CantOT AND Estatus != 'Cerrada' AND Estatus != 'Espera' AND Estatus != 'Linea' AND Enviadas < (CantOt + Extra)  AND FechaInicio IS null", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
@@ -338,14 +338,14 @@ Controller.IniciarProdFlujo = (req, res) => {
                         let Extra = lineas[0].Extra;
 
                         if (Origen == 'Inicial') { //Si es el inicio de flujo actualizar el envio y crear nueva linea
-                            conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = now(), Enviadas = " + TotalRecibido + ", Extra = " + Object.values(data)[0][0][3] + "  WHERE OT = '" + lineas[0].OT + "' AND Origen = 'Inicial'", true, (err, rows) => {
+                            conn.query("UPDATE " + AreaOrigen + " SET   Enviadas = " + TotalRecibido + ", Extra = " + Object.values(data)[0][0][3] + "  WHERE OT = '" + lineas[0].OT + "' AND Origen = 'Inicial'", true, (err, rows) => {
                                 if (err) {
                                     console.log('Error al asignar: ' + err);
                                 } else {
                                     console.log("Insertando : " + parseInt(Object.values(data)[0][0][2]) + " Extra: " + parseInt(Object.values(data)[0][0][3]))
                                     console.log("Maqu: " + Maquina + " OT: " + OT + " Parte: " + Parte + " CantOT: " + CantOt + " +FechReg: " + FechaRegistro + " FEchaVenc: " + FechaVenc + " Plant: " +
                                         Planta + " Client: " + Cliente + " Origne: " + Origen + " Servic: " + Servicio + " Terminad: " + Terminadas + " Enviado: " + Enviadas + " Stock: " + Stock + "Revin: " + Recibido + " xtra: " + Extra)
-                                    conn.query("INSERT INTO controlplaner(Maquina,OT,Parte,CantOt,Fisico,Planta,Cliente,Origen,Servicio,Terminadas,Enviadas,Recibido,Extra,FechaInicio,FechaVenc,Estatus)VALUES('" + Object.values(data)[0][0][4] + "','" + OT + "','" + Parte + "','" + CantOt + "','Linea','" + Planta + "','" + Cliente + "','controlplaner','" + Servicio + "'," + Terminadas + "," + Enviadas + "," + parseInt(Object.values(data)[0][0][2]) + "," + parseInt(Object.values(data)[0][0][3]) + ",now(),'" + FechaVenc + "','Linea')", true, (err, rows) => {
+                                    conn.query("INSERT INTO controlplaner(Maquina,OT,Parte,CantOt,Fisico,Planta,Cliente,Origen,Servicio,Recibido,Extra,FechaInicio,FechaVenc,Estatus)VALUES('" + Object.values(data)[0][0][4] + "','" + OT + "','" + Parte + "','" + CantOt + "','Linea','" + Planta + "','" + Cliente + "','controlplaner','" + Servicio + "'," + parseInt(Object.values(data)[0][0][2]) + "," + parseInt(Object.values(data)[0][0][3]) + ",now(),'" + FechaVenc + "','Linea')", true, (err, rows) => {
                                         if (err) {
                                             console.log('Error al asignar: ' + err);
                                         } else {
@@ -363,7 +363,8 @@ Controller.IniciarProdFlujo = (req, res) => {
                                     console.log("Insertando : " + parseInt(Object.values(data)[0][0][2]) + " Extra: " + parseInt(Object.values(data)[0][0][3]))
                                     console.log("Maqu: " + Maquina + " OT: " + OT + " Parte: " + Parte + " CantOT: " + CantOt + " +FechReg: " + FechaRegistro + " FEchaVenc: " + FechaVenc + " Plant: " +
                                         Planta + " Client: " + Cliente + " Origne: " + Origen + " Servic: " + Servicio + " Terminad: " + Terminadas + " Enviado: " + Enviadas + " Stock: " + Stock + "Revin: " + Recibido + " xtra: " + Extra)
-                                }
+                                        res.json(true); //Actualizo correctamente
+                                    }
                             });
                         } //fin de else
                     }
