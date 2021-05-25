@@ -18,6 +18,7 @@ function Carga() {
             if (Lineas.length == 0) {
                 $("#Vacio").modal();
             }
+            console.table(Lineas)
             for (var i = 0; i < Lineas.length; i++) {
                 var id = Lineas[i].id;
                 var Inicio = Lineas[i].FechaInicio;
@@ -153,7 +154,7 @@ function Carga() {
                     }
                 } //fin de for de columnas
             } //fin de for de filas
-          
+
         } //Funcion success
     }); //Ajax
 } //Evento clic
@@ -165,14 +166,20 @@ function Mostrar(indice, TipoTabla) {
     var selected = combo.options[combo.selectedIndex].text;
 
     //Solo Calidad puede enviar a Embarques
-    if(selected != 'Calidad'){
-        let ListaBloqueada = document.getElementById("ListEmbarque");
-        ListaBloqueada.disabled = true;
+    if (selected != 'Calidad') {
+        let ListEmbarque = document.getElementById("ListEmbarque");
+        ListEmbarque.disabled = true;
+        let ListTratamiento = document.getElementById("ListTratamiento");
+        ListTratamiento.disabled = true;
     }
-    
+
     if ((selected == AreaConectada) || (AreaConectada == 'Tratamientos' && selected == 'Trat. Externos')) { //Solo editar El area correspondiente a su cargo y area
         if (localStorage.getItem("Area") != 'Embarques') { //Solo mostrar el boton finalizar flujo a embarques
             document.getElementById("ButFinalizarFlujo").style.display = "none";
+        }
+
+        if (localStorage.getItem("Area") != 'Producción') { //Solo mostrar el boton finalizar flujo a embarques
+            document.getElementById("NuevoProceso").style.display = "none";
         }
         var tabla = document.getElementById(TipoTabla);
         //document.ready = document.getElementById("R_Planta").value = tabla.rows[(indice + 1)].cells[6].childNodes[0].nodeValue;
@@ -239,7 +246,7 @@ function Contadores(Lineas) {
         for (let index = 0; index < Total; index++) {
             var FechaVencimiento = new Date(moment(Lineas[index].FechaVenc).format('YYYY/MM/DD'));
             var diferencia = Math.floor((Hoy - FechaVencimiento) / (1000 * 60 * 60 * 24));
-            if(parseInt(Lineas[index].PNC) > 0){
+            if (parseInt(Lineas[index].PNC) > 0) {
                 document.getElementById("RowsFlujo" + index).style.backgroundColor = "#de724b"; //Amarillo
             } else if (Hoy > FechaVencimiento) {
                 Vencidas++;
@@ -322,8 +329,9 @@ function VistaPlanta() {
 //=========================================== Consulta OT Pendientes de inicar =================================================//
 
 function Pendientes() {
+    AutoSelectArea();
     ArrayPendintes = [];
-    if (localStorage.getItem("Area") != 'Producción') {//Esconde el boton para importar excel
+    if (localStorage.getItem("Area") != 'Producción') { //Esconde el boton para importar excel
         document.getElementById("ButVistaPlanta").style.display = "none";
     }
 
@@ -336,8 +344,8 @@ function Pendientes() {
 
             var Tabla = document.getElementById('TablaRecoleccionAreas').getElementsByTagName('tbody')[0];
             var limite = Tabla.rows.length;
-            for (let index = 0; index < limite; index++) {
-                const element = array[index];
+            for (let index = 0; index <= limite + 1; index++) {
+                const element = Lineas[index];
                 $("#RowsF" + index).remove(); //elimina los elementos con id Rows
             }
             var LocalArea = localStorage.getItem('Area');
@@ -348,23 +356,35 @@ function Pendientes() {
                     var Parte = Lineas[i].Parte;
                     var CantOt = Lineas[i].CantOt;
                     var Recibido = Lineas[i].Recibido;
+                    //var Origen = Lineas[i].Origen;
                     //Eliminar variable dentro del For
                     Arreglo = [ID, OT, Parte, CantOt, Recibido];
                     ArrayPendintes.push(Arreglo);
 
                     // inserta una fila al final de la tabla
                     var newRow = Tabla.insertRow(Tabla.rows.length);
-                    for (var x = 0; x < Arreglo.length; x++) {
+                    for (var x = 0; x < Arreglo.length + 1; x++) {
                         // inserta una celda en el indice 0
-                        var newCell = newRow.insertCell(x);
+
                         newRow.setAttribute("id", "RowsF" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
                         // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
+
+                        if (x == 4) { //Si termina de registrar datos crear el boton
+                            var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
+                            newCell.innerHTML = '<input type="text" id="Nomina' + i + '" class="form-control" value="' + 0 + '"></input>';
+                        } else if (x == 5) {
+                            var newCell = newRow.insertCell(5); //CREAR CELDA onclick="CrearNota()"
+                            newCell.innerHTML = '<input  type="checkbox"  id="CheckPendienteAreas' + i + '">';
+                        } else {
+                            var newCell = newRow.insertCell(x);
+                            var newText = document.createTextNode(Arreglo[x]);
+                            newCell.appendChild(newText);
+                        }
+                        /*
                         if (x == 3) { //Si termina de registrar datos crear el boton
                             var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
                             newCell.innerHTML = '<input  type="checkbox"  id="CheckPendienteAreas' + i + '">';
-                        }
+                        }*/
                     } //fin de for de columnas
                 } //fin de for de filas
             } else { //Produccion
@@ -373,8 +393,10 @@ function Pendientes() {
                     var OT = Lineas[i].OT;
                     var Parte = Lineas[i].Parte;
                     var CantOt = Lineas[i].CantOt;
+                    var Recibido = Lineas[i].Recibido;
+                    var Origen = Lineas[i].Origen;
                     //Eliminar variable dentro del For
-                    Arreglo = [ID, OT, Parte, CantOt];
+                    Arreglo = [ID, OT, Parte, CantOt, Recibido, Origen];
                     ArrayPendintes.push(Arreglo);
                 }
             }
@@ -413,19 +435,23 @@ function Recolectar() {
             if (FilaCheck.checked == true) {
                 var id = tabla.rows[i].cells[0].childNodes[0].nodeValue;
                 var Producto = tabla.rows[i].cells[1].childNodes[0].nodeValue;
-                var Cantidad = tabla.rows[i].cells[2].childNodes[0].nodeValue;
-                var Fila = [id, Producto, Cantidad];
+                var Parte = tabla.rows[i].cells[2].childNodes[0].nodeValue;
+                var Cantidad = document.getElementById("Nomina" + i).value;
+                var Fila = [id, Producto, Parte, Cantidad];
+                console.table(Fila);
                 Tabla.push(Fila);
                 EliminarFila.push(i);
             }
         }
-        console.table(Tabla);
+
         $.post("/IniciarProdFlujo", // inicia la lista de ot en el flujo de produccion
             {
                 Tabla
             }, // data to be submit
             function (objeto, estatus) { // success callback
-                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+                if (objeto == true) {
+                    Pendientes();
+                }
             });
 
         document.getElementById("OTBuscar").value = "";
@@ -438,16 +464,18 @@ function Recolectar() {
         var total = tabla.rows.length //Total de filas
         var EliminarFila = [];
         var Tabla = [];
+ 
         for (var i = 1; i < total; i++) {
-            var FilaCheck = document.getElementById("CheckPendiente");
+            var FilaCheck = document.getElementById("CheckPendiente"+(i-1));
 
             if (FilaCheck.checked == true) {
                 var id = tabla.rows[i].cells[0].childNodes[0].nodeValue;
                 var Producto = tabla.rows[i].cells[1].childNodes[0].nodeValue;
                 var Cantidad = tabla.rows[i].cells[2].childNodes[0].nodeValue;
-                var Inicial = document.getElementById("Inicial").value;
-                var Extra = document.getElementById("Extra").value;
+                var Inicial = document.getElementById("Inicial"+(i-1)).value;
+                var Extra = document.getElementById("Extra"+(i-1)).value;
                 var Maquina = document.getElementById("ListMaquina").value;
+      
                 var Fila = [id, Producto, Inicial, Extra, Maquina];
                 Tabla.push(Fila);
                 EliminarFila.push(i);
@@ -457,11 +485,12 @@ function Recolectar() {
                         Tabla
                     }, // data to be submit
                     function (objeto, estatus) { // success callback
-                        //console.log("objeto: " + objeto + "Estatus: " + estatus);
+
+                        if (objeto == true) {
+                            Pendientes();
+                        }
                     });
-            } else {
-                alert("Confirmar OT a iniciar");
-            }
+            }  
         }
 
         console.table(Tabla);
@@ -513,7 +542,7 @@ function Transferir() {
     } else { //Area diferente a propia
         if (cantidadDestino < CantidadTotal) {
             $("#ModalPosiblePNC").modal();
-        }else{
+        } else {
             ConfirmarTransferencia();
         }
     }
@@ -636,6 +665,7 @@ function ServicioExterno() {
     console.table(Linea);
     $("#ModalTransferenciaLista").modal();
     setTimeout(function () {
+        Carga();
         $('#ModalTransferenciaLista').modal('toggle');
     }, 2000);
 
@@ -653,33 +683,42 @@ function CargaOTPendiente() {
     var OTBuscar = document.getElementById("OTBuscar").value;
     var LimiteFilas = ArrayPendintes.length;
     var LimiteColumnas = ArrayPendintes[0].length;
-
-    $("#RowsF").remove(); //elimina los elementos con id Rows
+    var indiceFila = 0;
+    for (var i = 0; i < LimiteFilas; i++) {
+        $("#RowsF" + i).remove(); //elimina los elementos con id Rows
+    }
     for (let index = 0; index < LimiteFilas; index++) {
         if (OTBuscar == ArrayPendintes[index][1]) {
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             // inserta una fila al final de la tabla
             var newRow = Tabla.insertRow(Tabla.rows.length);
+    var LimiteColumnas = ArrayPendintes[0].length;
+            console.log(ArrayPendintes[0])
             for (var x = 0; x < LimiteColumnas; x++) {
-                // inserta una celda en el indice 0
-                var newCell = newRow.insertCell(x);
-                newRow.setAttribute("id", "RowsF"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                // adjuntar el texto al nodo
-                var newText = document.createTextNode(ArrayPendintes[index][x]);
-                newCell.appendChild(newText);
-                if (x == 3) {
+                if (x == 4) {
                     var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input required type="text" id="Inicial" class="form-control" value="' + ArrayPendintes[index][3] + '" ></input>';
-                }
-                if (x == 3) {
+                    newCell.innerHTML = '<input required type="text" id="Inicial'+indiceFila+'" class="form-control" value="' + ArrayPendintes[index][4] + '" ></input>';
+
                     var newCell = newRow.insertCell(5); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input required type="text" id="Extra" class="form-control" value="' + 0 + '" ></input>';
-                }
-                if (x == 3) { //Si termina de registrar datos crear el boton
+                    newCell.innerHTML = '<input required type="text" id="Extra'+indiceFila+'" class="form-control" value="' + 0 + '" ></input>';
+
+                }else if(x == 5){
                     var newCell = newRow.insertCell(6); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input  type="checkbox"  id="CheckPendiente">';
+                    newCell.innerHTML = '<input required type="text" id="AreaOrigen'+indiceFila+'" class="form-control" value="' + ConversorArea(ArrayPendintes[index][5]) + '" ReadOnly></input>';
+
+                    var newCell = newRow.insertCell(7); //CREAR CELDA onclick="CrearNota()"
+                    newCell.innerHTML = '<input  type="checkbox"  id="CheckPendiente'+indiceFila+'">';
+                } else {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "RowsF"+indiceFila); //se asigna id al incrementar cada fila +1 para contar el encabezado
+
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(ArrayPendintes[index][x]);
+                    newCell.appendChild(newText);
                 }
             } //fin de for de columnas
+            indiceFila++;
         } //if
     } //for
 }
@@ -920,8 +959,8 @@ function EliminarOTFlujo() {
 }
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
-var TotalProduccion = 0;//Total de tiempo en produccion
-var TotalCola = 0;//Total de tiempo en cola
+var TotalProduccion = 0; //Total de tiempo en produccion
+var TotalCola = 0; //Total de tiempo en cola
 function LeerHistorial() {
     document.getElementById("TotalProd").value = "";
     document.getElementById("TotalCola").value = "";
@@ -957,12 +996,12 @@ function LeerHistorial() {
                 let FechaVencimiento = moment(DATA[i].FechaVenc).format('YYYY/MM/DD HH:mm') || 'N/A';
                 let TiempoProd = CalcularTiempo(FechaAceptado, FechaProduccion);
                 let TiempoCola = CalcularTiempo(FechaRegistro, FechaAceptado);
-                    TotalProduccion = TotalProduccion + CalcularTotalProd(FechaAceptado, FechaProduccion);
-                    TotalCola = TotalCola + CalcularTotalCola(FechaRegistro, FechaAceptado);
+                TotalProduccion = TotalProduccion + CalcularTotalProd(FechaAceptado, FechaProduccion);
+                TotalCola = TotalCola + CalcularTotalCola(FechaRegistro, FechaAceptado);
                 // Grafica();
                 //var Estatus = DATA[i].Estatus || 'N/A';
                 //Eliminar variable dentro del For
-                var Arreglo = [id, OT, Parte, CantOt, Recibidas, Enviadas, Maquina, Planta, Servicio, Area, Origen, moment(DATA[i].FechaRegistro).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaInicio).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaProd).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaVenc).format('YYYY/MM/DD'), TiempoProd,TiempoCola];
+                var Arreglo = [id, OT, Parte, CantOt, Recibidas, Enviadas, Maquina, Planta, Servicio, Area, Origen, moment(DATA[i].FechaRegistro).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaInicio).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaProd).format('YYYY/MM/DD HH:mm'), moment(DATA[i].FechaVenc).format('YYYY/MM/DD'), TiempoProd, TiempoCola];
                 ArregloGrafica.push(Arreglo);
 
                 // inserta una fila al final de la tabla
@@ -982,7 +1021,7 @@ function LeerHistorial() {
     }); //Ajax
     Grafica(ArregloGrafica);
 }
- 
+
 
 function Grafica(ArregloGrafica) {
     google.charts.load("current", {
@@ -1080,7 +1119,7 @@ function CalcularTiempo(FechaRegistro, FechaAceptado) {
     }
     return Dias + "D-" + Horas + "H-" + MinutosTotal + "M";
 }
- 
+
 
 function CalcularTotalProd(FechaaUno, FechaDos) {
     // FechaAceptado.diff(FechaRegistro, 'hours') + " H " + FechaAceptado.diff(FechaRegistro, 'minutes') + " M";
@@ -1094,8 +1133,8 @@ function CalcularTotalCola(FechaaUno, FechaDos) {
     return TotalCola;
 }
 
-function FormatoTiempo(MinutosTotales){
-    
+function FormatoTiempo(MinutosTotales) {
+
     let fin = false;
     let Horas = 0;
     let Dias = 0;
@@ -1131,7 +1170,7 @@ function ActivarNEWPNC(Estado) {
     }
 }
 
-function ModalNuevoProceso(){
+function ModalNuevoProceso() {
     $("#ModalNuevoProceso").modal();
     document.getElementById("N_Cantidad").value = document.getElementById("R_CantidadTotal").value;
 }
@@ -1208,9 +1247,9 @@ function NuevoProceso() {
         }, // data to be submit
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
-           if(objeto == true){
-            Pendientes();
-           }
+            if (objeto == true) {
+                Pendientes();
+            }
         });
     setTimeout(function () {
         Carga();
@@ -1221,15 +1260,39 @@ function NuevoProceso() {
 
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
-function ModalResetFlujo(){
-$("#ModalResetFlujo").modal();
+function ModalResetFlujo() {
+    $("#ModalResetFlujo").modal();
 }
 
 function Reset() {
     $.ajax({
         url: '/ResetFlujo/',
         success: function (data) {
-             console.log(data.Estado)
+            console.log(data.Estado)
         } //Funcion success
     }); //Ajax
+}
+
+function AutoSelectArea() {
+    var area = localStorage.getItem('Area');
+    let indice = 0;
+    switch (area) {
+        case 'Producción':
+            indice = 0;
+            break;
+        case 'Acabados':
+            indice = 1;
+            break;
+        case 'Tratamientos':
+            indice = 2;
+            break;
+        case 'Calidad':
+            indice = 3;
+            break;
+        case 'Embarques':
+            indice = 4;
+            break;
+    }
+    var select = document.getElementById('ListArea');
+    select.children[indice].selected = true;
 }

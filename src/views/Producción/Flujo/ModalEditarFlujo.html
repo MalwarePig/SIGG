@@ -67,7 +67,7 @@ Full screen Modal
                                             <select required id="AreaDestino" name="AreaDestino" class="form-control">
                                                 <option value="controlplaner" selected>Producción</option>
                                                 <option value="areaacabados">Acabados</option>
-                                                <option value="areatratamientos">Trat. Externos</option>
+                                                <option value="areatratamientos" id="ListTratamiento">Trat. Externos</option>
                                                 <option value="areacalidad">Calidad</option>
                                                 <option value="areaembarques" id="ListEmbarque">Embarques</option>
                                             </select>
@@ -222,7 +222,7 @@ Full screen Modal
                                     </table>
                                 </div>
                                 <div class="col">
-                                    <button type="button" id="PDF" name="PDF" class="btn btn-light" onclick="ModalNuevoProceso()"
+                                    <button type="button" id="NuevoProceso" name="NuevoProceso" class="btn btn-light" onclick="ModalNuevoProceso()"
                                         data-toggle="tooltip" data-placement="top" title="PDF"><i
                                             class="fas fa-plus-square"></i> Proceso</button>
                                 </div>
