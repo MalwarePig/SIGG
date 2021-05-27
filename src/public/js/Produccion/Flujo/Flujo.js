@@ -12,13 +12,12 @@ function Carga() {
             //Limpiar tabla 
             var Tabla = document.getElementById('Tabla').getElementsByTagName('tbody')[0];
             var limite = Tabla.rows.length;
-            for (var i = 0; i < limite; i++) {
-                $("#RowsFlujo" + i).remove(); //elimina los elementos con id Rows
-            }
+           
             if (Lineas.length == 0) {
                 $("#Vacio").modal();
             }
-
+           
+            $("#CuerpoTabla tr").remove(); 
             for (var i = 0; i < Lineas.length; i++) {
                 var id = Lineas[i].id;
                 var Inicio = Lineas[i].FechaInicio;
@@ -83,12 +82,11 @@ function Carga() {
     }); //Ajax
 
 
-   
+    $("#Tabla").dataTable().fnDestroy();
     
     setTimeout(function () {
 
        
- 
         $('#Tabla').DataTable({
             language: {
                 processing: "Tratamiento en curso...",
@@ -118,8 +116,6 @@ function Carga() {
                 [10, 25, "All"]
             ],
         });
-        $("#Tabla").dataTable().fnDestroy();
-
     }, 1000);
 } //Evento clic
 
