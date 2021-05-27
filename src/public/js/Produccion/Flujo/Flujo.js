@@ -153,8 +153,7 @@ function Carga() {
                         newCell.appendChild(newText);
                     }
                 } //fin de for de columnas
-            } //fin de for de filas
-
+            }//fin de for de filas
         } //Funcion success
     }); //Ajax
 } //Evento clic
@@ -329,6 +328,7 @@ function VistaPlanta() {
 //=========================================== Consulta OT Pendientes de inicar =================================================//
 
 function Pendientes() {
+    Familias()
     AutoSelectArea();
     ArrayPendintes = [];
     if (localStorage.getItem("Area") != 'Producción') { //Esconde el boton para importar excel
@@ -916,7 +916,7 @@ function FinalizarLineas() {
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
 function Maquinas() {
-    let familia = document.getElementById("Familia").value;
+    let familia = document.getElementById("List_Familia").value;
     var listMaquina = document.getElementById("ListMaquina");
     $.ajax({
         url: '/listaMaquinas/' + familia + '',
@@ -929,6 +929,27 @@ function Maquinas() {
                 var option = document.createElement("option");
                 option.text = maquinas[i].Nombre;
                 listMaquina.add(option);
+            }
+        } //Funcion success
+    }); //Ajax
+}
+
+//=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
+function Familias() {
+    var listFamilias = document.getElementById("List_Familia");
+    $.ajax({
+        url: '/MaquinasFamilias/',
+        success: function (maquinas) {
+            console.table(maquinas)
+            for (let i = listFamilias.options.length; i >= 0; i--) { //Borrar elementos option de select
+                listFamilias.remove(i);
+            }
+            for (var i = 0; i < maquinas.length; i++) { //Agregar nuevos options del select
+
+                var option = document.createElement("option");
+                option.text = maquinas[i].Familia;
+                option.value = maquinas[i].Familia;
+                listFamilias.add(option);
             }
         } //Funcion success
     }); //Ajax

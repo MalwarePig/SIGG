@@ -256,6 +256,24 @@ Controller.listMaquinas = (req, res) => {
     }
 };
 
+//**********************************************************************************
+Controller.MaquinasFamilias = (req, res) => {
+    if (req.session.loggedin) { //se verifica si el usuario esta logueado
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            conn.query("SELECT DISTINCT  Familia FROM maquinas WHERE Planta = '" +req.session.planta+"'", (err, Fami) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error de lectura');
+                }
+                res.json(Fami);
+            });
+        });
+    } else {
+        res.redirect('/');
+    }
+};
+
 //ENVIA INFORMACION A LA PAGINA PARA SER EDITADA
 Controller.edit = (req, res) => {
     const {

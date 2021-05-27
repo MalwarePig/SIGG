@@ -91,6 +91,7 @@ router.get('/Desarrollo', function (request, response) {
 router.post('/postCplaner', cPlanerController.saveCP);
 /////////////////////////////////////////////////////////////////////////// Maquinas //////////////////////////////////////////////////////////////////////////////////////
 router.get('/Maquinas', OTController.listMaquinas);
+router.get('/MaquinasFamilias', OTController.MaquinasFamilias);
 router.get('/update/:id', OTController.edit);
 router.post('/update/:id', OTController.update);
 
@@ -622,7 +623,6 @@ router.get('/RHPersonal', (req, res) => {
 	res.end();
 });
 
- 
 
 
 //====== Listar Personal ========

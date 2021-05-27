@@ -363,8 +363,8 @@ Controller.IniciarProdFlujo = (req, res) => {
                                     console.log("Insertando : " + parseInt(Object.values(data)[0][0][2]) + " Extra: " + parseInt(Object.values(data)[0][0][3]))
                                     console.log("Maqu: " + Maquina + " OT: " + OT + " Parte: " + Parte + " CantOT: " + CantOt + " +FechReg: " + FechaRegistro + " FEchaVenc: " + FechaVenc + " Plant: " +
                                         Planta + " Client: " + Cliente + " Origne: " + Origen + " Servic: " + Servicio + " Terminad: " + Terminadas + " Enviado: " + Enviadas + " Stock: " + Stock + "Revin: " + Recibido + " xtra: " + Extra)
-                                        res.json(true); //Actualizo correctamente
-                                    }
+                                    res.json(true); //Actualizo correctamente
+                                }
                             });
                         } //fin de else
                     }
