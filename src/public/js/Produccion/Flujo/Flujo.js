@@ -87,7 +87,7 @@ function Carga() {
     
     setTimeout(function () {
 
-        $("#Tabla").dataTable().fnDestroy();
+       
  
         $('#Tabla').DataTable({
             language: {
@@ -118,8 +118,7 @@ function Carga() {
                 [10, 25, "All"]
             ],
         });
-
- 
+        $("#Tabla").dataTable().fnDestroy();
 
     }, 1000);
 } //Evento clic
