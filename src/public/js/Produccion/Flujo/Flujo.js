@@ -88,8 +88,6 @@ function Carga() {
     setTimeout(function () {
 
         $("#Tabla").dataTable().fnDestroy();
-     
-
  
         $('#Tabla').DataTable({
             language: {
@@ -123,7 +121,7 @@ function Carga() {
 
  
 
-    }, 800);
+    }, 1000);
 } //Evento clic
 
 //=========================================== Evento clic para desplegar modal =================================================//
