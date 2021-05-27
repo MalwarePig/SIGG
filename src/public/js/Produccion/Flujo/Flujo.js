@@ -18,7 +18,7 @@ function Carga() {
             if (Lineas.length == 0) {
                 $("#Vacio").modal();
             }
-            console.table(Lineas)
+
             for (var i = 0; i < Lineas.length; i++) {
                 var id = Lineas[i].id;
                 var Inicio = Lineas[i].FechaInicio;
@@ -62,9 +62,9 @@ function Carga() {
                 for (var x = 1; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell((x - 1));
-                    newRow.setAttribute("id", "RowsFlujo" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    newRow.setAttribute("ondblclick", "Mostrar(" + i + ",'Tabla')"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    newRow.setAttribute("data-Indexdb" + i, Arreglo[0])
+                    newRow.setAttribute("id", "RowsFlujo" + id); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("ondblclick", "Mostrar(" + id + ",'Tabla')"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("data-Indexdb"+id,id)
                     // adjuntar el texto al nodo
                     if (x != 1 && x != 2) { //Omite el campo de fechas
                         var newText = document.createTextNode(Arreglo[x]);
@@ -78,149 +78,132 @@ function Carga() {
                     }
                 } //fin de for de columnas
             } //fin de for de filas
-            Contadores(Lineas);
+            // Contadores(Lineas);
         } //Funcion success
     }); //Ajax
 
-    //Muestra la tabla inferior de lineas en espera
-    $.ajax({
-        url: '/ConsultaFlujoEspera/' + Planta + " " + ListArea,
-        success: function (Lineas) {
-            var Arreglo = [];
-            //Limpiar tabla 
-            var Tabla = document.getElementById('TablaEspera').getElementsByTagName('tbody')[0];
-            var limite = Tabla.rows.length;
-            for (var i = 0; i < limite; i++) {
-                $("#RowsEspera" + i).remove(); //elimina los elementos con id Rows
-            }
-            if (Lineas.length == 0) {
-                $("#Vacio").modal();
-            }
-            for (var i = 0; i < Lineas.length; i++) {
-                var id = Lineas[i].id;
-                var Inicio = Lineas[i].FechaInicio;
-                var OT = Lineas[i].OT;
-                var Maquina = Lineas[i].Maquina || 'N/A';
-                var Cliente = Lineas[i].Cliente || 'N/A';
-                var Parte = Lineas[i].Parte;
-                var Servicio = Lineas[i].Servicio || 'N/A';
-                var Origen = Lineas[i].Origen || 'N/A';
-                var CantOt = Lineas[i].CantOt;
-                var Recibido = Lineas[i].Recibido + (Lineas[i].Extra || 0);
-                var Enviadas = Lineas[i].Enviadas;
-                var Stock = Lineas[i].Stock;
-                var Vencimiento = Lineas[i].FechaVenc;
-                var PNC = Lineas[i].PNC;
-                switch (Origen) {
-                    case "controlplaner":
-                        Origen = "Producción";
-                        break;
-                    case "areaacabados":
-                        Origen = "Acabados";
-                        break;
-                    case "areatratamientos":
-                        Origen = "Tratamientos";
-                        break;
-                    case "areacalidad":
-                        Origen = "Calidad";
-                        break;
-                    case "areaembarques":
-                        Origen = "Embarques";
-                        break;
-                    default:
-                        Origen = "";
-                        break;
+
+   
+    
+    setTimeout(function () {
+
+        $("#Tabla").dataTable().fnDestroy();
+     
+
+ 
+        $('#Tabla').DataTable({
+            language: {
+                processing: "Tratamiento en curso...",
+                search: "Buscar&nbsp;:",
+                lengthMenu: "Agrupar por _MENU_  ",
+                info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                infoEmpty: "No existen datos.",
+                infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron datos con tu busqueda",
+                emptyTable: "No hay datos disponibles en la tabla.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                aria: {
+                    sortAscending: ": active para ordenar la columna en orden ascendente",
+                    sortDescending: ": active para ordenar la columna en orden descendente"
                 }
+            },
+            scrollY: 400,
+            lengthMenu: [
+                [10, 25, -1],
+                [10, 25, "All"]
+            ],
+        });
 
-                Arreglo = [id, Inicio, Vencimiento, OT, Parte, Maquina, Cliente, Servicio, Origen, CantOt, Recibido, Enviadas, Stock, PNC];
-                // inserta una fila al final de la tabla
-                var newRow = Tabla.insertRow(Tabla.rows.length);
-                for (var x = 1; x < Arreglo.length; x++) {
-                    // inserta una celda en el indice 0
-                    var newCell = newRow.insertCell(x - 1);
-                    newRow.setAttribute("id", "RowsEspera" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    newRow.setAttribute("ondblclick", "Mostrar(" + i + ",'TablaEspera')"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    newRow.setAttribute("data-IndexEsperadb" + i, Arreglo[0])
-                    // adjuntar el texto al nodo
-                    if (x != 1 && x != 2) { //Omite el campo de fechas
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
-                    } else if (x == 1) {
-                        var newText = document.createTextNode(moment(Arreglo[x]).format('YYYY/MM/DD HH:mm'));
-                        newCell.appendChild(newText);
-                    } else {
-                        var newText = document.createTextNode(moment(Arreglo[x]).format('YYYY/MM/DD'));
-                        newCell.appendChild(newText);
-                    }
-                } //fin de for de columnas
-            }//fin de for de filas
-        } //Funcion success
-    }); //Ajax
+ 
+
+    }, 800);
 } //Evento clic
 
 //=========================================== Evento clic para desplegar modal =================================================//
-function Mostrar(indice, TipoTabla) {
-    let AreaConectada = localStorage.getItem("Area");
-    var combo = document.getElementById("ListArea");
-    var selected = combo.options[combo.selectedIndex].text;
+function Mostrar(idOT, TipoTabla) {
+ 
+    var table = document.getElementById('Tabla').getElementsByTagName('tbody')[0];
+    var LimiteFilas = table.rows.length;
+    var index = 0;
+    for (index; index < LimiteFilas; index++) {
 
-    //Solo Calidad puede enviar a Embarques
-    if (selected != 'Calidad') {
-        let ListEmbarque = document.getElementById("ListEmbarque");
-        ListEmbarque.disabled = true;
-        let ListTratamiento = document.getElementById("ListTratamiento");
-        ListTratamiento.disabled = true;
-    }
+        var row = table.rows[index];
+        var identificador = 'RowsFlujo' + idOT;
+        //console.log("id fila: " + row.id + " identificador: " + identificador);
+        if (identificador == row.id) { //Fila seleccionada 
+            let AreaConectada = localStorage.getItem("Area");
+            var combo = document.getElementById("ListArea");
+            var selected = combo.options[combo.selectedIndex].text;
 
-    if ((selected == AreaConectada) || (AreaConectada == 'Tratamientos' && selected == 'Trat. Externos')) { //Solo editar El area correspondiente a su cargo y area
-        if (localStorage.getItem("Area") != 'Embarques') { //Solo mostrar el boton finalizar flujo a embarques
-            document.getElementById("ButFinalizarFlujo").style.display = "none";
+            //Solo Calidad puede enviar a Embarques
+            if (selected != 'Calidad') {
+                let ListEmbarque = document.getElementById("ListEmbarque");
+                ListEmbarque.disabled = true;
+                let ListTratamiento = document.getElementById("ListTratamiento");
+                ListTratamiento.disabled = true;
+            }
+
+            if ((selected == AreaConectada) || (AreaConectada == 'Tratamientos' && selected == 'Trat. Externos')) { //Solo editar El area correspondiente a su cargo y area
+                if (localStorage.getItem("Area") != 'Embarques') { //Solo mostrar el boton finalizar flujo a embarques
+                    document.getElementById("ButFinalizarFlujo").style.display = "none";
+                }
+
+                if (localStorage.getItem("Area") != 'Producción') { //Solo mostrar el boton finalizar flujo a embarques
+                    document.getElementById("NuevoProceso").style.display = "none";
+                }
+
+                var tabla = document.getElementById(TipoTabla);
+                //document.ready = document.getElementById("R_Planta").value = tabla.rows[(indice + 1)].cells[6].childNodes[0].nodeValue;
+                //document.ready = document.getElementById("R_Area").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
+                if (TipoTabla == 'Tabla') {
+                    localStorage.removeItem('R_id'); // Elimina el elemento de memoria 
+                    localStorage.setItem('R_id', tabla.rows[(index + 1)].getAttribute("data-indexdb" + idOT));
+                } else {
+                    localStorage.removeItem('R_id'); // Elimina el elemento de memoria 
+                    localStorage.setItem('R_id', tabla.rows[(index + 1)].getAttribute("data-indexesperadb" + idOT));
+                }
+
+                localStorage.removeItem('R_Planta'); // Elimina el elemento de memoria 
+                localStorage.setItem('R_Planta', document.getElementById("Planta").value);
+
+                document.getElementById("R_OT").value = tabla.rows[(index + 1)].cells[2].childNodes[0].nodeValue;
+                document.getElementById("R_Parte").value = tabla.rows[(index + 1)].cells[3].childNodes[0].nodeValue;
+                document.getElementById("R_Cantidad").value = tabla.rows[(index + 1)].cells[8].childNodes[0].nodeValue;
+                let TotalRecibido = tabla.rows[(index + 1)].cells[9].childNodes[0].nodeValue
+                let Enviados = tabla.rows[(index + 1)].cells[10].childNodes[0].nodeValue;
+                document.getElementById("R_CantidadTotal").value = parseInt(TotalRecibido) - parseInt(Enviados);
+                document.getElementById("R_Maquina").value = tabla.rows[(index + 1)].cells[4].childNodes[0].nodeValue;
+                //document.getElementById("R_Area").value = tabla.rows[(indice+1)].cells[5].childNodes[0].nodeValue;
+                var fecha = moment(tabla.rows[(index + 1)].cells[0].childNodes[0].nodeValue).format('YYYY-MM-DD');
+                document.getElementById("R_Inicio").value = fecha;
+                var fecha = moment(tabla.rows[(index + 1)].cells[1].childNodes[0].nodeValue).format('YYYY-MM-DD');
+                document.getElementById("R_Fin").value = fecha;
+                document.getElementById("R_Recibido").value = tabla.rows[(index + 1)].cells[9].childNodes[0].nodeValue
+
+                $("#ModalEditarFlujo").modal();
+                /*setTimeout(function () {
+                    var widthModal = document.getElementById("GraficaGant");
+                    var Ancho = widthModal.clientWidth;
+                    Grafica(Ancho);
+                }, 500);*/
+                let Area = localStorage.getItem('Area');
+                //Agrear solo lectura cuando no es area de produccion
+                if (Area != 'Producción') {
+                    $("#R_Recibido").attr("readonly", "readonly");
+                    $("#R_Extra").attr("readonly", "readonly");
+                }
+
+            }
+
+
         }
-
-        if (localStorage.getItem("Area") != 'Producción') { //Solo mostrar el boton finalizar flujo a embarques
-            document.getElementById("NuevoProceso").style.display = "none";
-        }
-        var tabla = document.getElementById(TipoTabla);
-        //document.ready = document.getElementById("R_Planta").value = tabla.rows[(indice + 1)].cells[6].childNodes[0].nodeValue;
-        //document.ready = document.getElementById("R_Area").value = tabla.rows[(indice + 1)].cells[5].childNodes[0].nodeValue;
-        if (TipoTabla == 'Tabla') {
-            localStorage.removeItem('R_id'); // Elimina el elemento de memoria 
-            localStorage.setItem('R_id', tabla.rows[(indice + 1)].getAttribute("data-indexdb" + indice));
-        } else {
-            localStorage.removeItem('R_id'); // Elimina el elemento de memoria 
-            localStorage.setItem('R_id', tabla.rows[(indice + 1)].getAttribute("data-indexesperadb" + indice));
-        }
-
-        localStorage.removeItem('R_Planta'); // Elimina el elemento de memoria 
-        localStorage.setItem('R_Planta', document.getElementById("Planta").value);
-
-        document.getElementById("R_OT").value = tabla.rows[(indice + 1)].cells[2].childNodes[0].nodeValue;
-        document.getElementById("R_Parte").value = tabla.rows[(indice + 1)].cells[3].childNodes[0].nodeValue;
-        document.getElementById("R_Cantidad").value = tabla.rows[(indice + 1)].cells[8].childNodes[0].nodeValue;
-        let TotalRecibido = tabla.rows[(indice + 1)].cells[9].childNodes[0].nodeValue
-        let Enviados = tabla.rows[(indice + 1)].cells[10].childNodes[0].nodeValue;
-        document.getElementById("R_CantidadTotal").value = parseInt(TotalRecibido) - parseInt(Enviados);
-        document.getElementById("R_Maquina").value = tabla.rows[(indice + 1)].cells[4].childNodes[0].nodeValue;
-        //document.getElementById("R_Area").value = tabla.rows[(indice+1)].cells[5].childNodes[0].nodeValue;
-        var fecha = moment(tabla.rows[(indice + 1)].cells[0].childNodes[0].nodeValue).format('YYYY-MM-DD');
-        document.getElementById("R_Inicio").value = fecha;
-        var fecha = moment(tabla.rows[(indice + 1)].cells[1].childNodes[0].nodeValue).format('YYYY-MM-DD');
-        document.getElementById("R_Fin").value = fecha;
-        document.getElementById("R_Recibido").value = tabla.rows[(indice + 1)].cells[9].childNodes[0].nodeValue
-
-        $("#ModalEditarFlujo").modal();
-        /*setTimeout(function () {
-            var widthModal = document.getElementById("GraficaGant");
-            var Ancho = widthModal.clientWidth;
-            Grafica(Ancho);
-        }, 500);*/
-        let Area = localStorage.getItem('Area');
-        //Agrear solo lectura cuando no es area de produccion
-        if (Area != 'Producción') {
-            $("#R_Recibido").attr("readonly", "readonly");
-            $("#R_Extra").attr("readonly", "readonly");
-        }
-
     }
 }
 
@@ -464,18 +447,18 @@ function Recolectar() {
         var total = tabla.rows.length //Total de filas
         var EliminarFila = [];
         var Tabla = [];
- 
+
         for (var i = 1; i < total; i++) {
-            var FilaCheck = document.getElementById("CheckPendiente"+(i-1));
+            var FilaCheck = document.getElementById("CheckPendiente" + (i - 1));
 
             if (FilaCheck.checked == true) {
                 var id = tabla.rows[i].cells[0].childNodes[0].nodeValue;
                 var Producto = tabla.rows[i].cells[1].childNodes[0].nodeValue;
                 var Cantidad = tabla.rows[i].cells[2].childNodes[0].nodeValue;
-                var Inicial = document.getElementById("Inicial"+(i-1)).value;
-                var Extra = document.getElementById("Extra"+(i-1)).value;
+                var Inicial = document.getElementById("Inicial" + (i - 1)).value;
+                var Extra = document.getElementById("Extra" + (i - 1)).value;
                 var Maquina = document.getElementById("ListMaquina").value;
-      
+
                 var Fila = [id, Producto, Inicial, Extra, Maquina];
                 Tabla.push(Fila);
                 EliminarFila.push(i);
@@ -490,7 +473,7 @@ function Recolectar() {
                             Pendientes();
                         }
                     });
-            }  
+            }
         }
 
         console.table(Tabla);
@@ -692,26 +675,26 @@ function CargaOTPendiente() {
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             // inserta una fila al final de la tabla
             var newRow = Tabla.insertRow(Tabla.rows.length);
-    var LimiteColumnas = ArrayPendintes[0].length;
+            var LimiteColumnas = ArrayPendintes[0].length;
             console.log(ArrayPendintes[0])
             for (var x = 0; x < LimiteColumnas; x++) {
                 if (x == 4) {
                     var newCell = newRow.insertCell(4); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input required type="text" id="Inicial'+indiceFila+'" class="form-control" value="' + ArrayPendintes[index][4] + '" ></input>';
+                    newCell.innerHTML = '<input required type="text" id="Inicial' + indiceFila + '" class="form-control" value="' + ArrayPendintes[index][4] + '" ></input>';
 
                     var newCell = newRow.insertCell(5); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input required type="text" id="Extra'+indiceFila+'" class="form-control" value="' + 0 + '" ></input>';
+                    newCell.innerHTML = '<input required type="text" id="Extra' + indiceFila + '" class="form-control" value="' + 0 + '" ></input>';
 
-                }else if(x == 5){
+                } else if (x == 5) {
                     var newCell = newRow.insertCell(6); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input required type="text" id="AreaOrigen'+indiceFila+'" class="form-control" value="' + ConversorArea(ArrayPendintes[index][5]) + '" ReadOnly></input>';
+                    newCell.innerHTML = '<input required type="text" id="AreaOrigen' + indiceFila + '" class="form-control" value="' + ConversorArea(ArrayPendintes[index][5]) + '" ReadOnly></input>';
 
                     var newCell = newRow.insertCell(7); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input  type="checkbox"  id="CheckPendiente'+indiceFila+'">';
+                    newCell.innerHTML = '<input  type="checkbox"  id="CheckPendiente' + indiceFila + '">';
                 } else {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
-                    newRow.setAttribute("id", "RowsF"+indiceFila); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("id", "RowsF" + indiceFila); //se asigna id al incrementar cada fila +1 para contar el encabezado
 
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(ArrayPendintes[index][x]);

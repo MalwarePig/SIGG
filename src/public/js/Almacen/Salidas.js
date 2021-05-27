@@ -139,6 +139,7 @@ function Nombres(e) {
         $.ajax({
             url: '/Num_Nomina',
             success: function (empleados) {
+                console.log(empleados)
                 let Nomina = document.getElementById("Empleado").value;
                 for (var i = 0; i < empleados.length; i++) {
                     if (Nomina == empleados[i].Nomina) {
