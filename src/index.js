@@ -45,8 +45,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
 
-
-
 app.use(express.urlencoded({extended: false}));//para que el servidor entienda los datos del navegador al hacer un guardado de formulario
 /*
 app.get('/', function (req, res) {

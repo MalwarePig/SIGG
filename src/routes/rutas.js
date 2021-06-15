@@ -63,6 +63,7 @@ router.get('/Planeacion', function (request, response) {
 	}
 	response.end();
 });
+
 //Obtener lista de familias
 router.get('/ListaFamilias', OTController.ListaFamilias);
 router.get('/Listado/:parametros', OTController.FiltroMaquinas);
@@ -148,6 +149,8 @@ router.get('/AlimentarVistaPlanta', FlujoController.AlimentarVistaPlanta);
 router.get('/Pen_FlujoProd', FlujoController.Pen_FlujoProd);
 //inicia la lista de ot en el flujo de produccion
 router.post('/IniciarProdFlujo', FlujoController.IniciarProdFlujo);
+//Asignar OT a cola
+router.post('/AsignarCola', FlujoController.AsignarCola);
 //Transferir linea de un area a la siguiente
 router.post('/TransFlujo', FlujoController.TransFlujo);
 //Guarda los cambios en las cantidades del flujo
@@ -167,8 +170,26 @@ router.post('/CerrarLineas', FlujoController.CerrarLineas);
 
 router.post('/EliminarOTFlujo', FlujoController.EliminarOTFlujo);
 //Leer HistorialFlujo
-
 router.get('/LeerHistorial/:variable', FlujoController.LeerHistorial);
+//Registrar eficiencia
+router.post('/RegistrarEficiencia/', FlujoController.RegistrarEficiencia);
+
+
+/////////////////////////////////////////////////////////////////////////// Eficiencia ///////////////////////////////////////////////////////////////////////////////
+router.get('/Eficiencia', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Producción/Eficiencia/Eficiencia.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+//Leer Eficiencias
+router.get('/LeerEficiencias/:OT', FlujoController.LeerEficiencias);
+
 /////////////////////////////////////////////////////////////////////////// MENU ADMIN //////////////////////////////////////////////////////////////////////////////
 //Acceder Menu admin
 router.get('/Admin', (req, res) => {
@@ -253,6 +274,31 @@ router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
 
 //============================== Almacen Aajuste ==============================//
 router.get('/BuscarHerramientasAjuste/:Herra', AlmacenController.searchAjuste);
+
+
+//====== Tornilleria ========
+//Abre pagina principal para tornilleria
+router.get('/wh_Accesorios', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Accesorios/Accesorios.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+router.post('/RegistrarAccesorio', AlmacenController.RegistrarAccesorio);
+//============================== Almacen Aajuste ==============================//
+router.get('/LeerAccesorios/:variable', AlmacenController.LeerAccesorios);
+
+
+
+
+
+
+
 
 //============================== Almacen Gaveta (Oficina) ==============================//
 //Abre pagina principal para editar
@@ -362,6 +408,25 @@ router.get('/wh_ReporteArticulo', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 });
+
+
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
+router.get('/ExistenciasAlmacen', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_ExistenciasAlmacen.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Busca Herramientas en Gaveta
+router.get('/ExistenciaTotalAlmacen/:parametros', AlmacenController.ExistenciaTotalAlmacen);
+
+
+
 
 
 //Muestra reporte de entradas y salidas de herramienta
