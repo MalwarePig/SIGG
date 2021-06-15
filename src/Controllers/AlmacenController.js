@@ -16,17 +16,17 @@ Controller.search = (req, res) => {
             var Herramienta = Tranformer(Herra);
             const planta = "Almacen " + req.session.planta;
             const area = req.session.area;
-            console.log("Salida: " + Herramienta + " Planta: " + planta+ " area: " + area);
-            if(area == 'Admin'){
+            console.log("Salida: " + Herramienta + " Planta: " + planta + " area: " + area);
+            if (area == 'Admin') {
                 console.log("Entre como admin")
-                conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '"+ Herramienta +"'", (err, Herramientas) => {
+                conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '" + Herramienta + "'", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
                     }
                     res.json(Herramientas);
                 });
-            }else{
+            } else {
                 conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = '" + planta + "'", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
@@ -740,12 +740,14 @@ Controller.ActualizarProducto = (req, res) => {
             var StockUsado = Object.values(data)[0].StockUsado; //obeter datos de un objeto Ubicacion
             var StockMinimo = Object.values(data)[0].StockMinimo; //obeter datos de un objeto Ubicacion
             var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
+            var Categoria = Object.values(data)[0].Categoria; //obeter datos de un objeto Ubicacion
+            var Familia = Object.values(data)[0].Familia; //obeter datos de un objeto Ubicacion
 
             console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "')", true, (err, rows, fields) => {
+                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "','"+Categoria+"','"+Familia+"')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al actualizar' + err);
@@ -888,7 +890,7 @@ Controller.MostrarReporteHerramienta = (req, res) => {
             conn.query("SELECT * FROM itemprestado WHERE Producto LIKE '%" + Articulo + "%' ORDER BY Salida Desc", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
-                    console.log('Error de lectura'+err);
+                    console.log('Error de lectura' + err);
                 }
                 res.json(Herramientas)
             });
@@ -904,6 +906,8 @@ Controller.MostrarReporteHerramienta = (req, res) => {
 Controller.ExistenciasAlmacen = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
+
+
 
             conn.query("SELECT Clave,Producto,almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion FROM almacen order by Almacen", (err, Herramientas) => {
                 if (err) {
@@ -1137,7 +1141,7 @@ Controller.BuscarHerramientasGav = (req, res) => {
             var Herramienta = Tranformer(Herra);
             const planta = "Almacen " + req.session.planta;
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' AND Almacen = 'Gaveta'", (err, Herramientas) => {
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '%" + Herramienta + "%' AND Almacen = 'Gaveta'", (err, Herramientas) => {
                 if (err) {
 
                     console.log('Error de lectura ' + err);
@@ -1210,7 +1214,7 @@ Controller.searchAjuste = (req, res) => {
             var Herramienta = Tranformer(Herra);
             const planta = "Almacen " + req.session.planta;
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -1222,4 +1226,108 @@ Controller.searchAjuste = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+
+
+
+
+
+Controller.RegistrarAccesorio = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+            let Usuario = req.session.nombre; //obeter datos de un objeto nombre
+           
+            let Tor_OC = Object.values(data)[0].Tor_OC;
+            let Tor_OT = Object.values(data)[0].Tor_OT;
+            let Tor_Producto = Object.values(data)[0].Tor_Producto;
+            let Tor_PO = Object.values(data)[0].Tor_PO;
+            let Tor_ENS = Object.values(data)[0].Tor_ENS;
+            let Tor_Cantidad = Object.values(data)[0].Tor_Cantidad;
+            let Tor_Ubicacion = Object.values(data)[0].Tor_Ubicacion;
+            let Tor_Recibe = Object.values(data)[0].Tor_Recibe;
+
+            conn.query("INSERT INTO Accesorios(OCGemak,OT,Producto,POCliente,ENS,Cantidad,Ubicacion,Recibe)VALUES"+
+            "('"+Tor_OC+"','"+Tor_OT+"','"+Tor_Producto+"','"+Tor_PO+"','"+Tor_ENS+"','"+Tor_Cantidad+"','"+Tor_Ubicacion+"','"+Tor_Recibe+"')", (err, Herramientas) => {
+                if (err) {
+ 
+                    console.log('Error de lectura' + err);
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+///////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////// == Accesorios == //////////////////// == Accesorios
+Controller.LeerAccesorios = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                variable
+            } = req.params;
+   
+          
+            const planta = "Almacen " + req.session.planta;
+            console.log("variable: " + variable);
+            conn.query("SELECT * FROM Accesorios WHERE OCGemak = '"+variable+"' OR POCliente = '"+variable+"' OR OT = '"+variable+"'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+
+
+//=====================================================================================================================================================================================
+///////// == Existencia == ////////////////////////////// == Existencia == ////////////////////////////// == Existencia == ////////////////////////// == Existencia == ////////////////
+//=====================================================================================================================================================================================
+
+Controller.ExistenciaTotalAlmacen = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var Almacen = parametros.split('|')[0]; // categoria o tipo de reporte
+            var Categoria = parametros.split('|')[1]; // Fecha inicial
+            var Familia = parametros.split('|')[2]; // Fecha limite
+
+            Almacen == 'Todo'? Almacen = ' IS not null': Almacen = " = 'Almacen " + Almacen+"'";
+            Categoria == 'Todo'? Categoria = ' AND Categoria IS not null': Categoria = " AND Categoria = '" + Categoria + "'";
+            Familia == 'Todo'? Familia = ' AND Familia IS not null': Familia = " AND Familia = '" + Familia + "'";
+             
+            let consulta = "SELECT id,Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Familia,Categoria FROM almacen WHERE Almacen"+Almacen+Categoria+Familia;
+ 
+            console.log(consulta);
+            conn.query(consulta, (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura'+err);
+                }
+                console.table(Herramientas.length)
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
 module.exports = Controller;
