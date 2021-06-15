@@ -240,6 +240,7 @@ Controller.Pen_FlujoProd = (req, res) => {
                 OT
             } = req.params;
             var AreaOrigen = req.session.area;
+            let AreaUsuario = req.session.planta;
             console.log(AreaOrigen);
             switch (AreaOrigen) {
                 case "Producción":
@@ -263,7 +264,7 @@ Controller.Pen_FlujoProd = (req, res) => {
             }
 
             //conn.query("SELECT * FROM " + AreaOrigen + " WHERE FechaInicio IS NULL AND Estatus != 'Cerrada' AND Estatus != 'Espera'", true, (err, rows) => {493
-            conn.query("SELECT * FROM " + AreaOrigen + " WHERE Enviadas < CantOT AND Estatus != 'Cerrada' AND Estatus != 'Espera' AND Estatus != 'Linea' AND Enviadas < (CantOt + Extra)  AND FechaInicio IS null", true, (err, rows) => {
+            conn.query("SELECT * FROM " + AreaOrigen + " WHERE Planta = '"+AreaUsuario+"' AND Enviadas < CantOT AND Estatus != 'Cerrada' AND Estatus != 'Espera' AND Estatus != 'Linea' AND Enviadas < (CantOt + Extra)  AND FechaInicio IS null", true, (err, rows) => {
                 if (err) {
                     console.log('Error al cargar' + err);
                 } else {
@@ -388,6 +389,74 @@ Controller.IniciarProdFlujo = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Asignar a la cola
+Controller.AsignarCola = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+
+            const data = req.body;
+            //console.table(Object.values(data)[0][0][0]);
+            var limite = Object.values(data)[0].length;
+
+            var AreaOrigen = req.session.area;
+            console.log("IniciarProdFlujo: " + AreaOrigen);
+            switch (AreaOrigen) {
+                case "Producción":
+                    AreaOrigen = "controlplaner";
+                    break;
+                case "Acabados":
+                    AreaOrigen = "areaacabados";
+                    break;
+                case "Tratamientos":
+                    AreaOrigen = "areatratamientos";
+                    break;
+                case "Calidad":
+                    AreaOrigen = "areacalidad";
+                    break;
+                case "Embarques":
+                    AreaOrigen = "areaembarques";
+                    break;
+                default:
+                    AreaOrigen = "";
+                    break;
+            }
+
+            console.log("id: " +Object.values(data)[0][0][0]+ " Maquina: " + Object.values(data)[0][0][4] + " Cantidad: " + Object.values(data)[0][0][2] + " Extra: " + Object.values(data)[0][0][3] )
+            conn.query("UPDATE controlplaner SET FechaRegistro = now(), Maquina = '" + Object.values(data)[0][0][4] + "', Fisico = 'Cola', Recibido = "+ Object.values(data)[0][0][2] + ", Extra = "+ Object.values(data)[0][0][3] + ", Origen = 'Fila'  WHERE  id = " + Object.values(data)[0][0][0], true, (err, rows) => {
+                if (err) {
+                    console.log('Error al asignar: ' + err);
+                } else {
+                    console.log(rows);
+                    res.json(true)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Tranfiere la linea de un area a otra
 Controller.TransFlujo = (req, res) => {
@@ -855,6 +924,81 @@ function FormatoFechas(fecha) {
     return today
 }
 
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Registrar Eficiencia
+Controller.RegistrarEficiencia = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body;
+
+            let Ef_OT = Object.values(data)[0].Ef_OT;
+            let CantOT = Object.values(data)[0].Ef_CantOT;
+            let Maquina = Object.values(data)[0].Ef_Maquina;  
+            let FechaInicio = Object.values(data)[0].Ef_Inicio; 
+
+            let Nomina = Object.values(data)[0].Ef_Nomina;
+            let Nombre = Object.values(data)[0].Ef_Nombre;
+            let Turno = Object.values(data)[0].Ef_Turno;
+
+            let TiempoOperacion = Object.values(data)[0].Ef_OperacionT;
+            let CantTurno = Object.values(data)[0].Ef_CantidadXTurno;
+            let Estimado = Object.values(data)[0].Ef_Estimado;
+
+            let TotalTMuerto = Object.values(data)[0].Ef_TotalTMuerto;
+            let Eficiencia = Object.values(data)[0].Ef_Eficiencia;
+            
+            let TMuertoUno = Object.values(data)[0].T_Muerto1;
+            let TMUno = Object.values(data)[0].Ef_Muertos1;
+            let TMuertoDos = Object.values(data)[0].T_Muerto2;
+            let TMDos = Object.values(data)[0].Ef_Muertos2;
+            let TMuertoTres = Object.values(data)[0].T_Muerto3;
+            let TMTres = Object.values(data)[0].Ef_Muertos3;
+
+            let Arreglo = [Ef_OT+"'",CantOT,"'"+Maquina+"'","'"+Nomina+"'","'"+Nombre+"'","'"+Turno+"'",TiempoOperacion,CantTurno,Estimado,"'"+TMuertoUno+"'",TMUno,"'"+TMuertoDos+"'",TMDos,"'"+TMuertoTres+"'",TMTres]
+
+            console.log(Ef_OT + " " + CantOT + " " + Maquina + " " + FechaInicio)
+            //=================================================================================
+            //============================ REGISTRAR EFICIENCIA ===============================
+            //=================================================================================
+            conn.query("insert into eficiencia(OT,CantOT,Maquina,FechaInicio,Nomina,Nombre,Turno,TiempoOperacion,CantTurno,Estimado,TMuertoUno,TMUno,TMuertoDos,TMDos,TMuertoTres,TMTres,TotalTMuerto,Eficiencia)Values "+
+             "('"+ Ef_OT+"',"+CantOT+",'"+Maquina+"','"+FechaInicio+"','"+Nomina+"','"+Nombre+"','"+Turno+"',"+TiempoOperacion+","+CantTurno+","+Estimado+",'"+TMuertoUno+"',"+TMUno+",'"+TMuertoDos+"',"+TMDos+",'"+TMuertoTres+"',"+TMTres +","+TotalTMuerto+","+Eficiencia+")",true, (err, rows) => {
+                if (err) {
+                    console.log('Error al asignar' + err);
+                } else {
+                    console.log("Tranferencia realizada" +rows);
+
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.LeerEficiencias = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                OT
+            } = req.params;
+            conn.query("SELECT * FROM eficiencia WHERE OT= '"+OT+"'", true, (err, rows) => {
+                if (err) {
+                    console.log('Error al registrar folios' + err);
+                } else {
+                    console.log(rows);
+                    res.json(rows);
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 
 module.exports = Controller;
