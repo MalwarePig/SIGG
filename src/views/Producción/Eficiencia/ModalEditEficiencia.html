@@ -1,0 +1,133 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalEditEficiencia"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Eficiencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="FormularioEficicencia">
+          <div class="form-group" >
+
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">OT:</label>
+                <input type="text" class="form-control" id="Ef_OT" readonly>
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Cantidad OT:</label>
+                <input type="text" class="form-control" id="Ef_CantOT" readonly>
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Maquina:</label>
+                <input type="text" class="form-control" id="Ef_Maquina" readonly>
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Inicio:</label>
+                <input type="text" class="form-control" id="Ef_Inicio" readonly>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">#Empleado:</label>
+                <input type="text" class="form-control" id="Ef_Nomina" onkeypress="return Nombres(event)">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Nombre operador:</label>
+                <input type="text" class="form-control" id="Ef_Nombre">
+              </div>
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Turno:</label>
+                <select required id="Ef_Turno" name="Area" class="form-control">
+                  <option value="controlplaner" selected>Dia</option>
+                  <option value="areaacabados">Tarde</option>
+                  <option value="areatratamientos">12 Día</option>
+                  <option value="areatratamientos">12 Noche</option>
+                </select>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Tiempo operación:</label>
+                <input type="number" class="form-control" id="Ef_Operacion" placeholder="minutos...">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Cantidad por turno:</label>
+                <input type="number" class="form-control" id="Ef_CantidadXTurno">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Estimado por turno:</label>
+                <input type="number" class="form-control" id="Ef_Estimado">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">T. Muerto:</label>
+                <select required id="T_Muerto1" name="Area" class="form-control">
+                 
+                </select>
+              </div>
+
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Minutos</label>
+                <input type="number" class="form-control" id="Ef_Muertos1" value="0">
+              </div>
+
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">T. Muerto:</label>
+                <select required id="T_Muerto2" name="Area" class="form-control">
+                 
+                </select>
+              </div>
+
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Minutos</label>
+                <input type="number" class="form-control" id="Ef_Muertos2" value="0">
+              </div>
+
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">T. Muerto:</label>
+                <select required id="T_Muerto3" name="Area" class="form-control">
+                 
+                </select>
+              </div>
+
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Minutos</label>
+                <input type="number" class="form-control" id="Ef_Muertos3" value="0">
+              </div>
+               
+            </div>
+            
+
+          </div>
+
+        </form>
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" onclick="RegistrarEficiencia()" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

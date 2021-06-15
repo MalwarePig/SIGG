@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+    <script type="text/javascript" src="js/Almacen/ExistenciasAlmacen.js"></script>
+    
+</head>
+
+<body>
+    <%- include ('../partials/navegacion.html') %>
+    <!------ incluir navegacion Menu ----->
+    <div class="card text-center">
+        <div class="card-header">
+            <!------------------------------ BUSCAR -------------------------------------->
+
+            <div class="form-row">
+
+                <div class="form-group col-md-1">
+                    <label for="inputState" class="font-weight-bold">Almacen</label>
+                    <select required id="Almacen" name="Sal_Estatus" class="form-control" onfocus="CargarAlmacen()">
+                        <option value="Todo" selected >Todo</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="inputState" class="font-weight-bold">Categoria</label>
+                    <select required id="Categoria" name="Categoria" class="form-control" onfocus="CargarCategorias()">
+                        <option value="Todo" selected>Todo</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="inputState" class="font-weight-bold">Familia</label>
+                    <select required id="Familia" name="Familia" class="form-control" onfocus="CargarFamilias()">
+                        <option value="Todo" selected>Todo</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group col-md-1 p-4">
+                    <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                        onclick="MostrarReporte()">Buscar</button>
+                </div>
+
+ 
+
+                <div class="col m-4 text-center">
+                    <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
+                        onclick="ExportarExcel()" data-toggle="tooltip" data-placement="top" title="Excel"><i
+                            class="fas fa-file-csv"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <!------------------------------ TABLA -------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+            style="width:96%; height:650px; overflow: scroll;">
+            <table class="table table-condensed table-hover " id="TablaReporte">
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Producto</th>
+                        <th>Almacen</th>
+                        <th>Stock</th>
+                        <th>StockMin</th>
+                        <th>StockMax</th>
+                        <th>StockUsado</th>
+                        <th>Ubicacion</th>
+                        <th>Categoria</th>
+                        <th>Familia</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>

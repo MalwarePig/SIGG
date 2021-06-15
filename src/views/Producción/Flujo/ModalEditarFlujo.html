@@ -67,7 +67,8 @@ Full screen Modal
                                             <select required id="AreaDestino" name="AreaDestino" class="form-control">
                                                 <option value="controlplaner" selected>Producción</option>
                                                 <option value="areaacabados">Acabados</option>
-                                                <option value="areatratamientos" id="ListTratamiento">Trat. Externos</option>
+                                                <option value="areatratamientos" id="ListTratamiento">Trat. Externos
+                                                </option>
                                                 <option value="areacalidad">Calidad</option>
                                                 <option value="areaembarques" id="ListEmbarque">Embarques</option>
                                             </select>
@@ -207,7 +208,7 @@ Full screen Modal
                                                 <td id="indice"><input required type="text" id="R_Maquina"
                                                         class="form-control" readonly></input></td>
 
-                                                <td id="indice"><input required type="date" id="R_Inicio"
+                                                <td id="indice"><input required type="text" id="R_Inicio"
                                                         class="form-control" name="R_Inicio" autocomplete="off"
                                                         readonly>
                                                 </td>
@@ -221,11 +222,23 @@ Full screen Modal
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col">
-                                    <button type="button" id="NuevoProceso" name="NuevoProceso" class="btn btn-light" onclick="ModalNuevoProceso()"
-                                        data-toggle="tooltip" data-placement="top" title="PDF"><i
-                                            class="fas fa-plus-square"></i> Proceso</button>
+
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-2">
+                                            <button type="button" id="NuevoProceso" name="NuevoProceso" class="btn btn-light"
+                                                onclick="ModalNuevoProceso()" data-toggle="tooltip" data-placement="top"
+                                                title="PDF"><i class="fas fa-plus-square"></i> Proceso</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" id="Eficiencia" name="Eficiencia" class="btn btn-light"
+                                                onclick="ModalEficiencia()" data-toggle="tooltip" data-placement="top"
+                                                title="Formulario de eficiencia" data-dismiss="modal"><i class="fab fa-algolia"></i> Eficiencia</button>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                
                             </div>
                             <div id="GraficaGant" class="Diag shadow-lg">
                             </div>
@@ -330,28 +343,30 @@ Full screen Modal
 
 
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio_Proceso" onchange="ActivarNEWPNC(false)" checked> 
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio_Proceso"
+                        onchange="ActivarNEWPNC(false)" checked>
                     <label class="form-check-label" for="Radio_Proceso">
                         Sigue en proceso
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio_PNC" onchange="ActivarNEWPNC(true)">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio_PNC"
+                        onchange="ActivarNEWPNC(true)">
                     <label class="form-check-label" for="Radio_PNC">
                         Hubo pnc
                     </label>
                 </div>
-                 
+
                 <br>
                 <div class="form-group col-md-6">
-                    <input required type="text" id="NewPNC"
-                        class="form-control solo-numero" placeholder="Cantidad..."
+                    <input required type="text" id="NewPNC" class="form-control solo-numero" placeholder="Cantidad..."
                         name="NewPNC" autocomplete="off" disabled>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal" onclick="ConfirmarTransferencia()">Continuar</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal"
+                    onclick="ConfirmarTransferencia()">Continuar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -361,46 +376,47 @@ Full screen Modal
 
 
 <!-- Modal Terminar Tratamiento Externo -->
-<div class="modal fade" id="ModalNuevoProceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="ModalNuevoProceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Asignar nuevo proceso</h1>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-row">
-  
-            <div class="form-group col-md-3">
-              <input required type="text" id="N_Cantidad" class="form-control" placeholder="0" name="T_Cantidad"
-                autocomplete="off" value="0">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Asignar nuevo proceso</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-  
-            <div class="form-group col-md-5">
-              <select required id="N_AreaDestino" name="AreaDestino" class="form-control">
-                <option value="controlplaner" selected>Producción</option>
-              </select>
+            <div class="modal-body">
+                <div class="form-row">
+
+                    <div class="form-group col-md-3">
+                        <input required type="text" id="N_Cantidad" class="form-control" placeholder="0"
+                            name="T_Cantidad" autocomplete="off" value="0">
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <select required id="N_AreaDestino" name="AreaDestino" class="form-control">
+                            <option value="controlplaner" selected>Producción</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                            onclick="NuevoProceso()" data-dismiss="modal">Aceptar</button>
+                    </div>
+
+                </div>
             </div>
-  
-            <div class="form-group col-md-2">
-              <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
-                onclick="NuevoProceso()" data-dismiss="modal">Aceptar</button>
+            <div class="modal-footer">
+                <br>
             </div>
-  
-          </div>
         </div>
-        <div class="modal-footer">
-          <br>
-        </div>
-      </div>
     </div>
-  </div>
-  
+</div>
 
 
-  <div class="modal" tabindex="-1" role="dialog" id="ModalResetFlujo">
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalResetFlujo">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -413,8 +429,7 @@ Full screen Modal
                 <p>Se limpiara todos los registros del flujo<span id="OTAEliminar"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" onclick="Reset()"
-                    data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-light" onclick="Reset()" data-dismiss="modal">Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>

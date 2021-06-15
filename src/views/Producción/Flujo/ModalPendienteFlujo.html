@@ -1,148 +1,157 @@
 <!--ModalRecoleccion Produccion-->
-<div class="modal fade bd-example-modal-lg" id="ModalRecoleccion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="ModalRecoleccion" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div id="Nota" class="list-group">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-row">
-        
-                                <div class="form-group col-md-3">
-                                    <input required type="text" id="OTBuscar" class="form-control" placeholder="OT" name="OTBuscar"
-                                        autocomplete="off">
+        <div class="modal-content">
+            <div id="Nota" class="list-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-3">
+                                        <input required type="text" id="OTBuscar" class="form-control" placeholder="OT"
+                                            name="OTBuscar" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                                            onclick="CargaOTPendiente()">Buscar</button>
+                                    </div>
                                 </div>
-        
-                                <div class="form-group col-md-2">
-                                    <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
-                                        onclick="CargaOTPendiente()">Buscar</button>
-                                </div>       
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <!------------------------------ TABLA-------------------------------------->
-        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-            <table class=" table table-bordered table-hover" id="TablaRecoleccion">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>OT</th>
-                        <th>No. de parte</th>
-                        <th style="width: 15%">Cant. OT</th>
-                        <th style="width: 15%">Mat. Inicial</th>
-                        <th style="width: 15%">Mat. Extra</th>
-                        <th style="width: 15%">Origen</th>
-                        <th>Iniciar</th>
-                    </tr>
-                </thead>
-                <tbody id="CuerpoNota">
-                </tbody>
-                </table>
-                <br><br>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="inputState" class="font-weight-bold">Familia</label>
-                        <select required id="List_Familia" name="Sal_Familia" class="form-control" onchange="Maquinas()">
-                     <!-----       <option value="a" selected disabled>seleccione la familia</option>
-                          <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
-                          <option value="TORNOS CNC" selected>TORNOS CNC</option>
-                          <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
-                          <option value="ACABADO" selected>ACABADO</option>
-                          <option value="CALIDAD" selected>CALIDAD</option>
-                          <option value="OTROS" selected>OTROS</option>------>
-                        </select>
-                      </div>
-              
-                      <div class="form-group col-md-4">
-                        <label for="inputState">Máquinas</label>
-                        <select required id="ListMaquina" name="ListMaquina" class="form-control">
-                          <option selected>Todo</option>
-                        </select>
-                      </div>
+                <!------------------------------ TABLA-------------------------------------->
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                    <table class=" table table-bordered table-hover" id="TablaRecoleccion">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>OT</th>
+                                <th>No. de parte</th>
+                                <th style="width: 15%">Cant. OT</th>
+                                <th style="width: 15%">Mat. Inicial</th>
+                                <th style="width: 15%">Mat. Extra</th>
+                                <th style="width: 15%">Origen</th>
+                                <th>Iniciar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="CuerpoNota">
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="inputState" class="font-weight-bold">Familia</label>
+                            <select required id="List_Familia" name="Sal_Familia" class="form-control"
+                                onchange="Maquinas()">
+
+                            </select>
+                        </div>
+
+                        <div class="form-group col">
+                            <label for="inputState" class="font-weight-bold">Máquinas</label>
+                            <select required id="ListMaquina" name="ListMaquina" class="form-control">
+                              
+                            </select>
+                        </div>
+
+                        <div class="form-group col p-4">
+                       
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Recolectar()"
+                                data-target="#RecoleccionExito" data-toggle="modal">Asignar a filas </button>
+                        </div>
+
                     </div>
-                <hr/>
-                
+                    <hr />
+
                 </div>
-                
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="Recolectar()" data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
 
-  
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Recolectar()"
+                    data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
 <!--ModalRecoleccion Areas-->
-<div class="modal fade bd-example-modal-lg" id="ModalRecoleccionAreas" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="ModalRecoleccionAreas" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div id="Nota" class="list-group">
-        <!------------------------------ TABLA-------------------------------------->
-        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-            <table class=" table table-bordered table-hover" id="TablaRecoleccionAreas">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>OT</th>
-                        <th>Número de parte</th>
-                        <th>Cantidad OT</th>
-                        <th>Recibido</th>
-                        <th>Iniciar</th>
-                    </tr>
-                </thead>
-                <tbody id="CuerpoNota">
-  
-                </tbody>
-                </table>
-  
-                <br><br>
-                <hr/>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="Recolectar()" data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
-                
+        <div class="modal-content">
+            <div id="Nota" class="list-group">
+                <!------------------------------ TABLA-------------------------------------->
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                    <table class=" table table-bordered table-hover" id="TablaRecoleccionAreas">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>OT</th>
+                                <th>Número de parte</th>
+                                <th>Cantidad OT</th>
+                                <th>Recibido</th>
+                                <th>Iniciar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="CuerpoNota">
+
+                        </tbody>
+                    </table>
+
+                    <br><br>
+                    <hr />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Recolectar()"
+                        data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
+
+                </div>
+                <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
             </div>
-           <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
-          </div>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 
 
-  <!--ModalCarga-->
-<div class="modal fade bd-example-modal-lg" id="ModalPantallaCarga" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<!--ModalCarga-->
+<div class="modal fade bd-example-modal-lg" id="ModalPantallaCarga" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <button class="btn btn-light text-nowrap" type="button">
                 <span class="spinner-border spinner-border-sm mr-2"></span>
                 Enviando datos...
-              </button>
-      </div>   
-  </div>
+            </button>
+        </div>
+    </div>
 </div>
 
-    <!--Modal Transferencia-->
-<div class="modal fade bd-example-modal-lg" id="ModalTransferenciaLista" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+<!--Modal Transferencia-->
+<div class="modal fade bd-example-modal-lg" id="ModalTransferenciaLista" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <button class="btn btn-light text-nowrap" type="button">
                 <span class="spinner-grow mr-2"></span>
-               Transferencia completada...
-              </button>
-      </div>   
-  </div>
-</div>
- 
-
-    <!--Modal Vista Planta-->
-    <div class="modal fade bd-example-modal-lg" id="ModalExportVistaPlanta" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <button class="btn btn-light text-nowrap" type="button">
-                    <span class="spinner-grow mr-2"></span>
-                   Exportando vista planta...
-                  </button>
-          </div>   
-      </div>
+                Transferencia completada...
+            </button>
+        </div>
     </div>
+</div>
+
+
+<!--Modal Vista Planta-->
+<div class="modal fade bd-example-modal-lg" id="ModalExportVistaPlanta" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <button class="btn btn-light text-nowrap" type="button">
+                <span class="spinner-grow mr-2"></span>
+                Exportando vista planta...
+            </button>
+        </div>
+    </div>
+</div>
