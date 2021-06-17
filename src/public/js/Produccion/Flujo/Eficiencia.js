@@ -159,11 +159,7 @@ function CargaEficiencias() {
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
-
-                    if (x == 14) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(15); //CREAR CELDA
-                        newCell.innerHTML = '<button id="Boton' + index + '" class="btn btn-dark" name="btn" onclick=EditarEficiencia(' + index + ')> <i class="fas fa-edit"></i> </button>';
-                    }
+ 
                  } //fin de for de columnas
             }
 

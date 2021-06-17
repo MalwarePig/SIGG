@@ -709,8 +709,10 @@ Controller.NuevoProducto = (req, res) => {
             var StockMax = Object.values(data)[0][5]; //obeter datos de un objeto Item
             var StockUsado = Object.values(data)[0][6]; //obeter datos de un objeto Item
             var Ubicacion = Object.values(data)[0][7]; //obeter datos de un objeto Item
+            var Categoria = Object.values(data)[0][8]; //obeter datos de un objeto Item
+            var Familia = Object.values(data)[0][9]; //obeter datos de un objeto Item
 
-            conn.query("INSERT INTO almacen(Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion)VALUES('" + Clave + "','" + Producto + "','" + Almacen + "'," + Stock + "," + StockMin + "," + StockMax + "," + StockUsado + ",'" + Ubicacion + "')", (err, Herramientas) => {
+            conn.query("INSERT INTO almacen(Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Categoria,Familia)VALUES('" + Clave + "','" + Producto + "','" + Almacen + "'," + Stock + "," + StockMin + "," + StockMax + "," + StockUsado + ",'" + Ubicacion + "','"+Categoria+"','"+Familia+"')", (err, Herramientas) => {
                 if (err) {
                     console.log('Error de lectura' + err);
                 }
@@ -1247,10 +1249,9 @@ Controller.RegistrarAccesorio = (req, res) => {
             let Tor_ENS = Object.values(data)[0].Tor_ENS;
             let Tor_Cantidad = Object.values(data)[0].Tor_Cantidad;
             let Tor_Ubicacion = Object.values(data)[0].Tor_Ubicacion;
-            let Tor_Recibe = Object.values(data)[0].Tor_Recibe;
 
-            conn.query("INSERT INTO Accesorios(OCGemak,OT,Producto,POCliente,ENS,Cantidad,Ubicacion,Recibe)VALUES"+
-            "('"+Tor_OC+"','"+Tor_OT+"','"+Tor_Producto+"','"+Tor_PO+"','"+Tor_ENS+"','"+Tor_Cantidad+"','"+Tor_Ubicacion+"','"+Tor_Recibe+"')", (err, Herramientas) => {
+            conn.query("INSERT INTO Accesorios(OCGemak,OT,Producto,POCliente,ENS,Cantidad,Ubicacion)VALUES"+
+            "('"+Tor_OC+"','"+Tor_OT+"','"+Tor_Producto+"','"+Tor_PO+"','"+Tor_ENS+"','"+Tor_Cantidad+"','"+Tor_Ubicacion+"')", (err, Herramientas) => {
                 if (err) {
  
                     console.log('Error de lectura' + err);

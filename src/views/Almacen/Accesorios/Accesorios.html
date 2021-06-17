@@ -29,7 +29,7 @@
     </script>
 </head>
 
-<body>
+<body onload="CargarInicial()">
     <%- include ('../../partials/navegacion.html') %>
 
     <div class="row">
@@ -49,11 +49,23 @@
                                     class="fas fa-search"></i></button>
                         </div>
 
+                        <div class="col-1 text-center">
+                            <label for="recipient-name" class="col-form-label">Fecha de entrega:</label>
+                        </div>
+                        <div class="col-1 text-center">
+                            <input required type="text" id="FechaRecibo" class="form-control" name="FechaRecibo"
+                                autocomplete="off" placeholder="Fecha entregado..." readonly>
+                        </div>
+
+                        <div class="col-2 text-center">
+                            <input required type="text" id="Recibe" class="form-control" name="Recibe"
+                                autocomplete="off" placeholder="Recibe...">
+                        </div>
+
                         <div class="col text-right">
                             <button type="button" class="btn btn-secondary btn-lg"
                                 onclick="ModalAccesorios()">Registrar</button>
                         </div>
-
 
                     </div>
                 </div>
@@ -74,8 +86,9 @@
                             <th>ENS</th>
                             <th>Cantidad</th>
                             <th>Ubicación</th>
-                            <th>Entregado</th>
+                            <th>Fecha entregado</th>
                             <th>Recibe</th>
+                            <th><input type="checkbox" id="CheckMaster" onchange="EstadoCheck()" checked></th>
                         </tr>
                     </thead>
                     <tbody id="CuerpoTablaAccesorios">
@@ -84,6 +97,19 @@
                 </table>
             </div>
         </div>
+
+        <div class="form-row">
+            <div class="col text-center">
+                <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
+                    onclick="FlujoActivoExcel()" data-toggle="tooltip" data-placement="top" title="Excel"><i
+                        class="fas fa-file-csv"></i></button>
+
+                <button type="button" id="PDF" name="PDF" class="btn btn-danger btn-lg" onclick="PDF()"
+                    data-toggle="tooltip" data-placement="top" title="PDF"><i class="fas fa-file-pdf"></i></button>
+            </div>
+
+        </div>
+    </div>
     </div><!-- Card Body -->
 
 

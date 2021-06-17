@@ -12,12 +12,12 @@ function Carga() {
             //Limpiar tabla 
             var Tabla = document.getElementById('Tabla').getElementsByTagName('tbody')[0];
             var limite = Tabla.rows.length;
-           
+
             if (Lineas.length == 0) {
                 $("#Vacio").modal();
             }
-           
-            $("#CuerpoTabla tr").remove(); 
+
+            $("#CuerpoTabla tr").remove();
             for (var i = 0; i < Lineas.length; i++) {
                 var id = Lineas[i].id;
                 var Inicio = Lineas[i].FechaInicio;
@@ -63,7 +63,7 @@ function Carga() {
                     var newCell = newRow.insertCell((x - 1));
                     newRow.setAttribute("id", "RowsFlujo" + id); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     newRow.setAttribute("ondblclick", "Mostrar(" + id + ",'Tabla')"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                    newRow.setAttribute("data-Indexdb"+id,id)
+                    newRow.setAttribute("data-Indexdb" + id, id)
                     // adjuntar el texto al nodo
                     if (x != 1 && x != 2) { //Omite el campo de fechas
                         var newText = document.createTextNode(Arreglo[x]);
@@ -83,10 +83,7 @@ function Carga() {
 
 
     $("#Tabla").dataTable().fnDestroy();
-    
     setTimeout(function () {
-
-       
         $('#Tabla').DataTable({
             language: {
                 processing: "Tratamiento en curso...",
@@ -121,7 +118,7 @@ function Carga() {
 
 //=========================================== Evento clic para desplegar modal =================================================//
 function Mostrar(idOT, TipoTabla) {
- 
+
     var table = document.getElementById('Tabla').getElementsByTagName('tbody')[0];
     var LimiteFilas = table.rows.length;
     var index = 0;
@@ -174,8 +171,8 @@ function Mostrar(idOT, TipoTabla) {
                 document.getElementById("R_CantidadTotal").value = parseInt(TotalRecibido) - parseInt(Enviados);
                 document.getElementById("R_Maquina").value = tabla.rows[(index + 1)].cells[4].childNodes[0].nodeValue;
                 //document.getElementById("R_Area").value = tabla.rows[(indice+1)].cells[5].childNodes[0].nodeValue;
-                var fecha = moment(tabla.rows[(index + 1)].cells[0].childNodes[0].nodeValue).format('YYYY-MM-DD');
-                document.getElementById("R_Inicio").value = fecha;
+       
+                document.getElementById("R_Inicio").value = tabla.rows[(index + 1)].cells[0].childNodes[0].nodeValue;
                 var fecha = moment(tabla.rows[(index + 1)].cells[1].childNodes[0].nodeValue).format('YYYY-MM-DD');
                 document.getElementById("R_Fin").value = fecha;
                 document.getElementById("R_Recibido").value = tabla.rows[(index + 1)].cells[9].childNodes[0].nodeValue
@@ -371,8 +368,10 @@ function Pendientes() {
                     var CantOt = Lineas[i].CantOt;
                     var Recibido = Lineas[i].Recibido;
                     var Origen = Lineas[i].Origen;
+                    var Extra = Lineas[i].Extra;
+                    var Maquina = Lineas[i].Maquina;
                     //Eliminar variable dentro del For
-                    Arreglo = [ID, OT, Parte, CantOt, Recibido, Origen];
+                    Arreglo = [ID, OT, Parte, CantOt, Recibido, Origen, Extra, Maquina];
                     ArrayPendintes.push(Arreglo);
                 }
             }
@@ -443,8 +442,8 @@ function Recolectar() {
 
         for (var i = 1; i < total; i++) {
             var FilaCheck = document.getElementById("CheckPendiente" + (i - 1));
-
             if (FilaCheck.checked == true) {
+                var Origen = document.getElementById("AreaOrigen" + (i - 1)).value;
                 var id = tabla.rows[i].cells[0].childNodes[0].nodeValue;
                 var Producto = tabla.rows[i].cells[1].childNodes[0].nodeValue;
                 var Cantidad = tabla.rows[i].cells[2].childNodes[0].nodeValue;
@@ -455,17 +454,29 @@ function Recolectar() {
                 var Fila = [id, Producto, Inicial, Extra, Maquina];
                 Tabla.push(Fila);
                 EliminarFila.push(i);
-
-                $.post("/IniciarProdFlujo", // inicia la lista de ot en el flujo de produccion
-                    {
-                        Tabla
-                    }, // data to be submit
-                    function (objeto, estatus) { // success callback
-                        console.log(objeto)
-                        if (objeto == true) {
-                            Pendientes();
-                        }
-                    });
+                if ((Origen == 'N/A') || (Origen == 'Origen') ) {
+                    $.post("/AsignarCola", // inicia la lista de ot en el flujo de produccion
+                        {
+                            Tabla
+                        }, // data to be submit
+                        function (objeto, estatus) { // success callback
+                            console.log(objeto)
+                            if (objeto == true) {
+                                Pendientes();
+                            }
+                        });
+                } else {
+                    $.post("/IniciarProdFlujo", // inicia la lista de ot en el flujo de produccion
+                        {
+                            Tabla
+                        }, // data to be submit
+                        function (objeto, estatus) { // success callback
+                            console.log(objeto)
+                            if (objeto == true) {
+                                Pendientes();
+                            }
+                        });
+                }
             }
         }
 
@@ -668,7 +679,7 @@ function CargaOTPendiente() {
             var Tabla = document.getElementById('TablaRecoleccion').getElementsByTagName('tbody')[0];
             // inserta una fila al final de la tabla
             var newRow = Tabla.insertRow(Tabla.rows.length);
-            var LimiteColumnas = ArrayPendintes[0].length;
+            var LimiteColumnas = ArrayPendintes[0].length - 2;
             console.log(ArrayPendintes[0])
             for (var x = 0; x < LimiteColumnas; x++) {
                 if (x == 4) {
@@ -676,7 +687,7 @@ function CargaOTPendiente() {
                     newCell.innerHTML = '<input required type="text" id="Inicial' + indiceFila + '" class="form-control" value="' + ArrayPendintes[index][4] + '" ></input>';
 
                     var newCell = newRow.insertCell(5); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<input required type="text" id="Extra' + indiceFila + '" class="form-control" value="' + 0 + '" ></input>';
+                    newCell.innerHTML = '<input required type="text" id="Extra' + indiceFila + '" class="form-control" value="' + ArrayPendintes[index][6] + '" ></input>';
 
                 } else if (x == 5) {
                     var newCell = newRow.insertCell(6); //CREAR CELDA onclick="CrearNota()"
@@ -694,6 +705,12 @@ function CargaOTPendiente() {
                     newCell.appendChild(newText);
                 }
             } //fin de for de columnas
+            //Se agrega la Maquina en la cual esta en fila
+            var listMaquina = document.getElementById("ListMaquina");
+            var option = document.createElement("option");
+            option.text = ArrayPendintes[index][7] || 'Todo';
+            listMaquina.add(option);
+
             indiceFila++;
         } //if
     } //for
@@ -894,6 +911,7 @@ function FinalizarLineas() {
 function Maquinas() {
     let familia = document.getElementById("List_Familia").value;
     var listMaquina = document.getElementById("ListMaquina");
+
     $.ajax({
         url: '/listaMaquinas/' + familia + '',
         success: function (maquinas) {
@@ -920,13 +938,19 @@ function Familias() {
             for (let i = listFamilias.options.length; i >= 0; i--) { //Borrar elementos option de select
                 listFamilias.remove(i);
             }
+
+            var option = document.createElement("option");
+            option.text = "Familias...";
+            option.value = "Familias...";
+
+            listFamilias.add(option);
             for (var i = 0; i < maquinas.length; i++) { //Agregar nuevos options del select
 
                 var option = document.createElement("option");
                 option.text = maquinas[i].Familia;
                 option.value = maquinas[i].Familia;
                 listFamilias.add(option);
-            }
+            } //
         } //Funcion success
     }); //Ajax
 }
@@ -1087,6 +1111,9 @@ function ConversorArea(Origen) {
             break;
         case "areaembarques":
             Origen = "Embarques";
+            break;
+        case "Fila":
+            Origen = "Fila";
             break;
         default:
             Origen = "N/A";
@@ -1292,4 +1319,41 @@ function AutoSelectArea() {
     }
     var select = document.getElementById('ListArea');
     select.children[indice].selected = true;
+}
+
+
+function ModalEficiencia() {
+    document.getElementById("Ef_OT").value = document.getElementById("R_OT").value;
+    document.getElementById("Ef_CantOT").value = document.getElementById("R_Cantidad").value;
+    document.getElementById("Ef_Maquina").value = document.getElementById("R_Maquina").value;
+    document.getElementById("Ef_Inicio").value = document.getElementById("R_Inicio").value;
+    ListaOpciones();
+ 
+    console.clear();
+    $("#ModalEficiencia").modal();
+}
+
+//=========================================== OPCIONES DE SELECT POR TIEMPO MUERTO =================================================//
+function ListaOpciones() {
+
+    console.log("Holis")
+    let Opciones = ['Setup', 'Programa-Error', 'Programa-No hay', 'Herramienta', 'Material', 'Mantenimiento', 'Planeación', 'Otros'];
+
+    for (let Listas = 0; Listas < 3; Listas++) {
+        var ListaOpciones = document.getElementById("T_Muerto" + (Listas + 1));
+
+        for (let i = ListaOpciones.options.length; i >= 0; i--) { //Borrar elementos option de select
+            ListaOpciones.remove(i);
+        }
+
+        var option = document.createElement("option");
+        option.text = 'N/A';
+        ListaOpciones.add(option);
+
+        for (let index = 0; index < Opciones.length; index++) {//Agregar opciones a los select de tiempos muertos
+            var option = document.createElement("option");
+            option.text = Opciones[index] || 'Todo';
+            ListaOpciones.add(option);
+        }
+    }
 }

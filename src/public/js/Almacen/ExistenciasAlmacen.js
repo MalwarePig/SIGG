@@ -83,7 +83,7 @@ function MostrarReporte() {
             var TotalHerramientas = Herramientas.length;
 
             for (var i = 0; i < limite; i++) {
-                $("#Rows").remove(); //elimina los elementos con id Rows
+                $("#Rows"+i).remove(); //elimina los elementos con id Rows
             }
 
             for (var i = 0; i < Herramientas.length; i++) {
