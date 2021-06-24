@@ -1,0 +1,58 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalImportarAccesorios"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo registro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-row">
+          <div class="col text-center">
+            <input type="file" id="input-excel"/>
+          </div>
+        </div>
+
+         <!--Aqui se alimentara la tabla cargar del excel-->
+			<table id="wrapper"> </table>
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" onclick="RegistrarImportacion()"
+          data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!--Aqui ejecuta el evento de lectura de excel-->
+<script>
+  $('#input-excel').change(function (e) {
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(e.target.files[0]);
+    reader.onload = function (e) {
+      var data = new Uint8Array(reader.result);
+      var wb = XLSX.read(data, {
+        type: 'array'
+      });
+      var htmlstr = XLSX.write(wb, {
+        sheet: "Hoja1",
+        type: 'binary',
+        bookType: 'html'
+      }); //obtener tabla
+      //console.log(htmlstr);
+      //Find desired cell
+      var desired_cell = $('#wrapper')[0].innerHTML += htmlstr; //insertar tabla en html
+    }
+  });
+</script>

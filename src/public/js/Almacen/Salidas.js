@@ -104,7 +104,7 @@ function CrearNota() {
             newCell.appendChild(newText);
             if (x == 7) { //Si termina de registrar datos crear el boton
                 var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
-                newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
+                newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
             }
         }
         //document.getElementById("RegistroSalida").reset();

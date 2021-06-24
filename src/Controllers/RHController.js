@@ -144,7 +144,7 @@ Controller.PrepararEnvio = (req, res) => {
                                         console.log("Enviando tmb: " + Indice);
                                         EjecutarEnvio();
                                         // EnviarCorreos();
-                                    }, 10000);
+                                    }, 20000);
                                     console.log(Indice)
                                 } else {
                                     console.log("else: " + Indice)
@@ -196,7 +196,7 @@ Controller.EnviarNomina = (req, res) => {
                         secure: true, // true for 465, false for other ports
                         auth: {
                             user: "recibos@gemak.com.mx", // generated ethereal user
-                            pass: "#Enigma1702861", // generated ethereal password
+                            pass: "#Pokemon1702861", // generated ethereal password
                         },
                     });
                     var NombrePDF = Planta + '-' + Curp + '-' + Nomina.substr(1) + '-' + Semana + '.pdf';
@@ -218,7 +218,7 @@ Controller.EnviarNomina = (req, res) => {
                         from: '"recibos@gemak.com.mx', // sender address
                         to: Correo, // list of receivers
                         subject: "Nomina - " + Nombre + "✔", // Subject line
-                        text: "Mensaje de prueba?", // plain text body
+                        text: "Entrega de nomina", // plain text body
                         html: "<b>Entrega de nomina: "+Nombre+"</b>", // html body
                         attachments: [{
                                 filename: NombrePDF,

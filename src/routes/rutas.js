@@ -292,10 +292,12 @@ router.get('/wh_Accesorios', (req, res) => {
 router.post('/RegistrarAccesorio', AlmacenController.RegistrarAccesorio);
 //============================== Almacen Aajuste ==============================//
 router.get('/LeerAccesorios/:variable', AlmacenController.LeerAccesorios);
-
-
-
-
+router.get('/HistorialAccesorios/:variable', AlmacenController.HistorialAccesorios);
+router.post('/ActualizarAccesorios', AlmacenController.ActualizarAccesorios);
+router.post('/ImportarAccesorios', AlmacenController.ImportarAccesorios);
+router.get('/CargaCapturasPendientes/', AlmacenController.CargaCapturasPendientes);
+router.get('/CargaCapturasEntregado/', AlmacenController.CargaCapturasEntregado);
+router.get('/FolioAccesorios/', AlmacenController.FolioAccesorios);
 
 
 
@@ -535,6 +537,18 @@ router.post('/GuardarPronostico', ProcesosController.SavePronostico);
 //====== Mostrar Pronostico ========
 router.get('/PronosticosProcesos', ProcesosController.list);
 /////////////////////////////////////////////////////////////////////////// Compras //////////////////////////////////////////////////////////////////////////////////////
+//====== Crear Peticion ========
+//Abre pagina principal para editar
+router.get('/Peticiones', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Compras/Requerimientos/Peticiones.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+
 //====== Mostrar Pronostico ========
 router.get('/ComprasPronosticos', ComprasController.list);
 //====== Mostrar Pronostico ========

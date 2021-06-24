@@ -1,8 +1,11 @@
-const { json } = require("express");
-
 function ModalAccesorios() {
     console.clear();
     $("#ModalAccesorios").modal();
+}
+
+function ModalImportarAccesorios() {
+    console.clear();
+    $("#ModalImportarAccesorios").modal();
 }
 
 
@@ -23,18 +26,273 @@ function RegistrarAccesorio() {
         }, // data to be submit
         function (objeto, estatus) { // success callback
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
-            if (objeto == true) {
-                Pendientes();
-            }
+            if (objeto == true) {}
         });
     $('#FormularioAccesorios')[0].reset();
 }
 
-
-
 function CargaAccesorios() {
+    
+    let Busqueda = document.getElementById("Busqueda").value;
+    let condicionBusqueda = Busqueda.substr(0,4);
+    let TipoURL = '';
+
+    condicionBusqueda == 'FAC-' ? TipoURL = '/HistorialAccesorios/'+Busqueda  : TipoURL = '/LeerAccesorios/' + Busqueda
     $.ajax({
-        url: '/LeerAccesorios/' + document.getElementById("Busqueda").value,
+        url: TipoURL,
+        success: function (data) {
+            console.log(data[0])
+
+            $("#CuerpoTablaAccesorios tr").remove();
+            let TotalRegistros = data.length;
+            var Tabla = document.getElementById('TablaAccesorios').getElementsByTagName('tbody')[0];
+            for (let index = 0; index < TotalRegistros; index++) {
+                let id = data[index].id;
+                let OCGemak = data[index].OCGemak;
+                let OT = data[index].OT;
+                let Producto = data[index].Producto;
+
+                let POCliente = data[index].POCliente;
+                let ENS = data[index].ENS;
+                let Cantidad = data[index].Cantidad;
+
+                let Ubicacion = data[index].Ubicacion || '-';
+                let Entregado = moment(data[index].Entregado).format("DD/MM/YYYY") || '-';
+                let Recibe = data[index].Recibe || '-';
+
+                document.getElementById("Notas").value = data[index].Notas;
+
+                let Arreglo = [id, OCGemak, OT, Producto, POCliente, ENS, Cantidad, Ubicacion, Entregado, Recibe];
+                // inserta una fila al final de la tabla
+                var newRow = Tabla.insertRow(Tabla.rows.length);
+                Cantidad <= '0' ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#e7fed4";
+
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows" + index); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+                    if (x == 0) { //Ingresar el id
+                        newCell.innerHTML = '<input required type="text" id="id' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
+                    } else if (x == 9) { //Si termina de registrar datos crear el boton
+                        if (Arreglo[6] > 0 && condicionBusqueda != 'FAC-') {
+                            var newCell = newRow.insertCell(10); //CREAR CELDA
+                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>';
+                        } else {
+                            var newCell = newRow.insertCell(10); //CREAR CELDA
+                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
+                        }
+                    }
+                } //fin de for de columnas
+            }
+            //document.getElementById("TotalMuerto").value = (data[0].TMUno + data[0].TMDos + data[0].TMTres);
+        } //Funcion success
+    }); //Ajax 
+}
+
+function CargarInicial() {
+    document.getElementById("FechaRecibo").value = moment().format('DD/MM/YYYY 00:00:00');
+
+    $.ajax({
+        url: '/FolioAccesorios/',
+        success: function (data) {
+             document.getElementById("Folio").value = "FAC-"+ ('000000' + (data[0].Total)).slice(-5); 
+        } //Funcion success
+    }); //Ajax 
+}
+
+function redireccionar() {
+    location.reload();
+}
+
+
+function PDF() {
+    var doc = new jsPDF();
+    var tabla = document.getElementById("TablaSalidas");
+    var total = tabla.rows.length; //Total de filas
+    var SaltoLinea = 4;
+    var Linea = 0;
+
+    for (let Parte = 1; Parte < 3; Parte++) {
+
+        var columns = ["OC Compra", "OT", "Producto", "PO Cliente", "ENS", "Cantidad", "Ubicación", "Fecha", "Recibe"];
+        var data = [];
+        var PDFdata = [];
+        var Folio = document.getElementById("Folio").value;
+
+        for (var j = 1; j < total; j++) {
+            let id = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+            let OCCompra = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+            let OT = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+            let Producto = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+            let POCliente = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+            let ENS = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+            let Cantidad = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+            let Ubicación = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+            let Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+            let Recibe = tabla.rows[j].cells[9].childNodes[0].nodeValue;
+            let Notas = document.getElementById("Notas").value;
+            let Folio = document.getElementById("Folio").value;
+            var array = [id, OCCompra, OT, Producto, POCliente, ENS, Cantidad, Ubicación, Fecha, Recibe, Notas,Folio];
+            data.push(array);
+            var arrayPDF = [OCCompra, OT, Producto, POCliente, ENS, Cantidad, Ubicación, Fecha, Recibe, Notas];
+            PDFdata.push(arrayPDF);
+        }
+
+        doc.setFontSize(8);
+        doc.setTextColor(100);
+        Parte == 1 ? Linea = 2: Linea = 39;
+        doc.text("REPORTE DE ENTREGAS" + "\t\t\t\t\t\t\t\t\ Folio "+Folio+ "\t\t\t\t\t\t  FECHA " + moment().format("D MMM YYYY"), 15, (SaltoLinea * Linea));
+        Parte == 1 ? Linea = 3: Linea = 40;
+        doc.text(" ", 10, (SaltoLinea * Linea));
+
+        if(Parte == 2){
+            doc.autoTable(columns, PDFdata, {
+                styles: {
+                    fillColor: [158, 184, 193], //Columnas
+                    fontSize: number = 6
+                },
+                columnStyles: { //Filas
+                    0: {
+                        halign: 'center',
+                        fillColor: [255, 255, 255],
+                        fontSize: number = 6
+                    }
+                }, // Cells in first column centered and green
+                margin: {
+                    top: 15
+                }
+            });
+        }else{
+            doc.autoTable(columns, PDFdata, {
+                styles: {
+                    fillColor: [158, 184, 193], //Columnas
+                    fontSize: number = 6
+                },
+                columnStyles: { //Filas
+                    0: {
+                        halign: 'center',
+                        fillColor: [255, 255, 255],
+                        fontSize: number = 6
+                    }
+                }, // Cells in first column centered and green
+                margin: {
+                    top: 165
+                }
+            });  
+        }
+        
+        Parte == 1 ? Linea = 35: Linea = 70;
+        doc.line(120, (SaltoLinea * Linea), 195, (SaltoLinea * Linea));  
+        Parte == 1 ? Linea = 36: Linea = 71;
+        doc.text("Recibe", 155, (SaltoLinea * Linea));
+        Parte == 1 ? Linea = 37: Linea = 72;
+        doc.line(2, (SaltoLinea * Linea), 200, (SaltoLinea * Linea)); // Mitad de hoja
+
+    }//If de copias
+
+    doc.save('documento.pdf');
+
+    $.post("/ActualizarAccesorios", // inicia la lista de ot en el flujo de produccion
+        {
+            data
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            if (objeto == true) {}
+        });
+
+        $("#CuerpoTablaAccesorios tr").remove();
+        setTimeout("redireccionar()", 800); //Tiempo para reedireccionar
+}
+
+
+
+
+
+function ReporteExcel() {
+    var tabla = document.getElementById("TablaAccesorios");
+    var total = tabla.rows.length //Total de filas
+    var sheet_1_data = [];
+    for (var j = 0; j <= total - 1; j++) { //filas
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+
+        var OCCompra = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var OT = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Producto = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var POCliente = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var ENS = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+        var Cantidad = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+        var Ubicación = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+        var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+        var Recibe = tabla.rows[j].cells[9].childNodes[0].nodeValue;
+        var Fila = [OCCompra, OT, Producto, POCliente, ENS, Cantidad, Ubicación, Fecha, Recibe]
+        sheet_1_data.push(Fila);
+    } //fin filas
+
+    var opts = [{
+        sheetid: 'Hoja1',
+        header: true
+    }];
+    var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+}
+
+
+function RegistrarImportacion() { //Ejecutar codigo al dar click en boton
+    try {
+        var i = 0; //Contador para brincar la cabaezera y suar la referencia de indice
+        var Arreglo = [];
+        $('#wrapper tr').each(function () { //leer una tabla html    
+            if (i > 0) { //Iniciar despues de cabezera de tabla y OT sea diferente de Null
+                if (($(this).find("td").eq(0).html() != null) && ($(this).find("td").eq(0).html() != '') && ($(this).find("td").eq(0).html() != '<empty string>')) {
+                    var Producto = $(this).find("td").eq(0).html() || '-';
+                    var Cantidad = $(this).find("td").eq(1).html() || '-';
+                    var ORCompra = $(this).find("td").eq(2).html() || '-';
+                    var OT = $(this).find("td").eq(3).html() || '-';
+                    var PO = $(this).find("td").eq(4).html() || '-';
+                    var ENS = $(this).find("td").eq(5).html() || '-';
+
+                    var Ubicacion = $(this).find("td").eq(6).html() || '-';
+                    var Entregado = document.getElementById("FechaRecibo").value;
+                    var Recibe = document.getElementById("Recibe").value;
+                    var Notas = document.getElementById("Recibe").Notas;
+
+                    var Tabla = [Producto, Cantidad, ORCompra, OT, PO, ENS, Notas];
+                    Arreglo.push(Tabla);
+                }
+            }
+            i++;
+        }); //each para recorrer tabla
+
+        console.table(Arreglo);
+        $.post("/ImportarAccesorios", // url
+            {
+                Arreglo
+            }, // data to be submit
+            function (Estado, status) { // success callback
+                console.log(Estado + status);
+                if (Estado == true) {
+                    var parrafo = document.getElementById("wrapper");
+                    while (parrafo.firstChild) {
+                        //The list is LIVE so it will re-index each call
+                        parrafo.removeChild(parrafo.firstChild);
+                    }
+                }
+            })
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+
+
+function CargaCapturasPendientes() {
+    $.ajax({
+        url: '/CargaCapturasPendientes/',
         success: function (data) {
             console.log(data[0])
 
@@ -50,14 +308,16 @@ function CargaAccesorios() {
                 let ENS = data[index].ENS;
                 let Cantidad = data[index].Cantidad;
 
-                let Ubicacion = data[index].Ubicacion;
-                let Entregado = data[index].Entregado || '-';
+                let Ubicacion = data[index].Ubicacion || '-';
+                let Entregado = moment(data[index].Entregado).format("DD/MM/YYYY") || '-';
                 let Recibe = data[index].Recibe || '-';
 
-                let Arreglo = [OCGemak, OT, Producto, POCliente, ENS, Cantidad, Ubicacion, Entregado, Recibe];
+                document.getElementById("Notas").value = data[index].Notas;
+
+                let Arreglo = ['', OCGemak, OT, Producto, POCliente, ENS, Cantidad, Ubicacion, Entregado, Recibe];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
-                Entregado != null ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#ffd2d2";
+                Cantidad <= 0 ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#e7fed4";
 
                 for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
@@ -67,9 +327,9 @@ function CargaAccesorios() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 8) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(9); //CREAR CELDA 
-                        newCell.innerHTML = '<input type="checkbox" id="Check' + index + '"   checked>';
+                    if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
                     }
                 } //fin de for de columnas
             }
@@ -78,47 +338,152 @@ function CargaAccesorios() {
     }); //Ajax 
 }
 
-function CargarInicial() {
-    document.getElementById("FechaRecibo").value = moment().format('DD/MM/YYYY');
+
+function CargaCapturasEntregado() {
+    $.ajax({
+        url: '/CargaCapturasEntregado/',
+        success: function (data) {
+            console.log(data[0])
+
+            $("#CuerpoTablaAccesorios tr").remove();
+            let TotalRegistros = data.length;
+            var Tabla = document.getElementById('TablaAccesorios').getElementsByTagName('tbody')[0];
+            for (let index = 0; index < TotalRegistros; index++) {
+                let OCGemak = data[index].OCGemak;
+                let OT = data[index].OT;
+                let Producto = data[index].Producto;
+
+                let POCliente = data[index].POCliente;
+                let ENS = data[index].ENS;
+                let Cantidad = data[index].Cantidad;
+
+                let Ubicacion = data[index].Ubicacion || '-';
+                let Entregado = moment(data[index].Entregado).format("DD/MM/YYYY") || '-';
+                let Recibe = data[index].Recibe || '-';
+
+                document.getElementById("Notas").value = data[index].Notas;
+
+                let Arreglo = ['', OCGemak, OT, Producto, POCliente, ENS, Cantidad, Ubicacion, Entregado, Recibe];
+                // inserta una fila al final de la tabla
+                var newRow = Tabla.insertRow(Tabla.rows.length);
+                Cantidad <= 0 ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#e7fed4";
+
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows" + index); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+
+                    if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
+                    }
+                } //fin de for de columnas
+            }
+            //document.getElementById("TotalMuerto").value = (data[0].TMUno + data[0].TMDos + data[0].TMTres);
+        } //Funcion success
+    }); //Ajax 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Seleccion(variable) {
+    Registro = document.getElementById("TablaAccesorios");
+
+    let id = document.getElementById("id" + (variable - 1)).value; //Obtiene el valor de Producto
+    document.getElementById("idArticulo").value = id;
+
+    var OCCOmpras = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    document.getElementById("OCCOmpras").value = OCCOmpras;
+
+    var OT = Registro.rows[variable].cells[2].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    document.getElementById("OT").value = OT;
+
+    var POCliente = Registro.rows[variable].cells[4].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    document.getElementById("POCliente").value = POCliente;
+
+    var ENS = Registro.rows[variable].cells[5].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    document.getElementById("ENS").value = ENS;
+
+    var Producto = Registro.rows[variable].cells[3].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    document.getElementById("ProductoSalida").value = Producto;
+
+    var Cantidad = Registro.rows[variable].cells[6].childNodes[0].nodeValue; //Obtiene el valor de Producto
+    document.getElementById("Cantidad").value = Cantidad;
+
+    document.getElementById("Cantidad").focus()
 }
 
 
-function EstadoCheck() { //Invierte los checks
-    var tabla = document.getElementById("TablaAccesorios");
-    var total = tabla.rows.length; //Total de filas
-    for (let index = 0; index < total - 1; index++) {
-        var chck = document.getElementById("Check" + index).checked;
-        if (chck == true) {
-            document.getElementById("Check" + index).checked = false;
-        } else {
-            document.getElementById("Check" + index).checked = true;
+//=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//
+function CrearNota() {
+    var id = document.getElementById("idArticulo").value; //Obtiene el valor de Clave
+    var FechaRecibo = document.getElementById("FechaRecibo").value; //Obtiene el valor de Clave
+    var Recibe = document.getElementById("Recibe").value; //Obtiene el valor de Clave
+    var ProductoSalida = document.getElementById("ProductoSalida").value; //Obtiene el valor de Clave
+    var Cantidad = document.getElementById("Cantidad").value; //Obtiene el valor de Clave
+    var Ubicacion = document.getElementById("Ubicacion").value; //Obtiene el valor de Clave
+
+    var OCCOmpras = document.getElementById("OCCOmpras").value; //Obtiene el valor de Clave
+    var OT = document.getElementById("OT").value; //Obtiene el valor de Clave
+    var POCliente = document.getElementById("POCliente").value; //Obtiene el valor de Clave
+    var ENS = document.getElementById("ENS").value; //Obtiene el valor de Clave
+
+    var Arreglo = [id, OCCOmpras, OT, ProductoSalida, POCliente, ENS, Cantidad, Ubicacion, FechaRecibo, Recibe];
+
+    var Condicion = true; //para campos vacios
+    for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
+        if (Arreglo[a].length == 0) {
+            Condicion = false; //si algun campo esta vacio cambia a falso
+            alert("Faltan campos por llenar")
         }
+    }
+
+    if (Condicion == true) { //si todos los campos estan llenos avanza
+        var TablaAlmacen = document.getElementById('TablaSalidas').getElementsByTagName('tbody')[0];
+        // inserta una fila al final de la tabla
+        var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+        let indice = (TablaAlmacen.rows.length + 1);
+        newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
+        for (var x = 0; x < Arreglo.length; x++) {
+
+            // inserta una celda en el indice 0
+            var newCell = newRow.insertCell(x);
+            // adjuntar el texto al nodo
+            var newText = document.createTextNode(Arreglo[x]);
+            newCell.appendChild(newText);
+            if (x == 7) { //Si termina de registrar datos crear el boton
+                var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
+                newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
+            }
+        }
+        //document.getElementById("RegistroSalida").reset();
+        document.getElementById("ProductoSalida").value = "";
+        document.getElementById("Cantidad").value = "";
     }
 }
 
-
-function RecolectarCandidatos() {
-    PersonalSucces = [];
-    var tabla = document.getElementById("TablaAccesorios");
-    var total = tabla.rows.length; //Total de filas
-
-    for (var j = 0; j < total - 1; j++) { //filas
-        var chck = document.getElementById("Check" + j).checked;
-        if (chck == true) {
-            PersonalSucces.push({
-                OCCompra: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                OT: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                Producto: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                POCliente: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                ENS: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                Cantidad: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                Ubicación: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                Fecha: Registro.rows[j].cells[0].childNodes[0].nodeValue,
-                Recibe: Registro.rows[j].cells[0].childNodes[0].nodeValue
-            })
-        }
-    } //fin filas
-    console.table(PersonalSucces);
-    EnviarCorreo();
-
+//=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
+function EliminarFila(index) {
+    $("#fila" + index).remove();
 }
+
+$(function () {
+    $(".solo-numero").keydown(function (event) {
+        //alert(event.keyCode);
+        if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !== 190 && event.keyCode !== 110 && event.keyCode !== 8 && event.keyCode !== 9) {
+            return false;
+        }
+    });
+}); //Funcion JQuery
+
+
+
+
+
+
+
+
+
+

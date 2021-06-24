@@ -408,7 +408,7 @@ function PDF() {
 
 
     doc.line(120, 280, 195, 280); // horizontal line (Eje X, Punto Y,Eje X,Punto Y)
-    doc.text("Autoriza", 160, 285);
+    doc.text("Autoriza", 155, 285);
 
     /*Add HTML
     var elementHTML = $('#Content').html();

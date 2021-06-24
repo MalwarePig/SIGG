@@ -1,0 +1,3 @@
+ function ModalPeticiones() {
+    $("#ModalPeticiones").modal();
+ }
