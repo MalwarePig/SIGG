@@ -1,3 +1,4 @@
  function ModalPeticiones() {
-    $("#ModalPeticiones").modal();
+   $("#ModalPeticiones").modal();
  }
+ 

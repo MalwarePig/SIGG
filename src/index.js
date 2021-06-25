@@ -5,8 +5,8 @@ const path = require('path');//Traba con directorios identificando el SO // \\
 const mysql = require('mysql');
 const myConnection = require('express-myconnection');
 const session = require('express-session');
-const fileupload = require('express-fileupload');
 const OS = require("os");
+const fileupload = require('express-fileupload');//Subida de archivos
 
 //Configuracion Servidor
 app.set('port',process.env.PORT || 3000)//asignar puerto, si lo da el So que lo tome, sino el 3000
@@ -18,8 +18,8 @@ app.set('view engine', 'ejs');//motor de plantillas, permite ejecutar javascript
 app.use(express.json());//Acceder a la informacion de jason
 app.use(morgan('dev'));//muestra los mensajes en consola de las cargas y peticiones
 app.use(myConnection(mysql,{
-     host: '192.168.2.8',
-     //host:'localhost',
+     //host: '192.168.2.8',
+     host:'localhost',
      user: 'Soporte', //user: 'root',
      password: 'Soporte1702861',
      port: 3306,

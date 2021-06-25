@@ -32,12 +32,12 @@ function RegistrarAccesorio() {
 }
 
 function CargaAccesorios() {
-    
+
     let Busqueda = document.getElementById("Busqueda").value;
-    let condicionBusqueda = Busqueda.substr(0,4);
+    let condicionBusqueda = Busqueda.substr(0, 4);
     let TipoURL = '';
 
-    condicionBusqueda == 'FAC-' ? TipoURL = '/HistorialAccesorios/'+Busqueda  : TipoURL = '/LeerAccesorios/' + Busqueda
+    condicionBusqueda == 'FAC-' ? TipoURL = '/HistorialAccesorios/' + Busqueda : TipoURL = '/LeerAccesorios/' + Busqueda
     $.ajax({
         url: TipoURL,
         success: function (data) {
@@ -76,10 +76,14 @@ function CargaAccesorios() {
                     newCell.appendChild(newText);
                     if (x == 0) { //Ingresar el id
                         newCell.innerHTML = '<input required type="text" id="id' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
+                    } else if(x == 7) {//Agregar campo de ubicacion
+                       // var newCell = newRow.insertCell(7);
+                        newCell.innerHTML = '<input  type="text" id="Tab_Ubicacion' + index + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                     } else if (x == 9) { //Si termina de registrar datos crear el boton
                         if (Arreglo[6] > 0 && condicionBusqueda != 'FAC-') {
                             var newCell = newRow.insertCell(10); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>';
+                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>' +
+                                '<button id="actualizarUbicacion' + index + '" class="btn btn-info" name="btn" onclick=CambiarUbicacion(' + (index + 1) + ')><i class="fas fa-edit"></i></button>';
                         } else {
                             var newCell = newRow.insertCell(10); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
@@ -98,7 +102,7 @@ function CargarInicial() {
     $.ajax({
         url: '/FolioAccesorios/',
         success: function (data) {
-             document.getElementById("Folio").value = "FAC-"+ ('000000' + (data[0].Total)).slice(-5); 
+            document.getElementById("Folio").value = "FAC-" + ('000000' + (data[0].Total)).slice(-5);
         } //Funcion success
     }); //Ajax 
 }
@@ -135,7 +139,7 @@ function PDF() {
             let Recibe = tabla.rows[j].cells[9].childNodes[0].nodeValue;
             let Notas = document.getElementById("Notas").value;
             let Folio = document.getElementById("Folio").value;
-            var array = [id, OCCompra, OT, Producto, POCliente, ENS, Cantidad, Ubicación, Fecha, Recibe, Notas,Folio];
+            var array = [id, OCCompra, OT, Producto, POCliente, ENS, Cantidad, Ubicación, Fecha, Recibe, Notas, Folio];
             data.push(array);
             var arrayPDF = [OCCompra, OT, Producto, POCliente, ENS, Cantidad, Ubicación, Fecha, Recibe, Notas];
             PDFdata.push(arrayPDF);
@@ -143,12 +147,12 @@ function PDF() {
 
         doc.setFontSize(8);
         doc.setTextColor(100);
-        Parte == 1 ? Linea = 2: Linea = 39;
-        doc.text("REPORTE DE ENTREGAS" + "\t\t\t\t\t\t\t\t\ Folio "+Folio+ "\t\t\t\t\t\t  FECHA " + moment().format("D MMM YYYY"), 15, (SaltoLinea * Linea));
-        Parte == 1 ? Linea = 3: Linea = 40;
+        Parte == 1 ? Linea = 2 : Linea = 39;
+        doc.text("REPORTE DE ENTREGAS" + "\t\t\t\t\t\t\t\t\ Folio " + Folio + "\t\t\t\t\t\t  FECHA " + moment().format("D MMM YYYY"), 15, (SaltoLinea * Linea));
+        Parte == 1 ? Linea = 3 : Linea = 40;
         doc.text(" ", 10, (SaltoLinea * Linea));
 
-        if(Parte == 2){
+        if (Parte == 2) {
             doc.autoTable(columns, PDFdata, {
                 styles: {
                     fillColor: [158, 184, 193], //Columnas
@@ -165,7 +169,7 @@ function PDF() {
                     top: 15
                 }
             });
-        }else{
+        } else {
             doc.autoTable(columns, PDFdata, {
                 styles: {
                     fillColor: [158, 184, 193], //Columnas
@@ -181,17 +185,17 @@ function PDF() {
                 margin: {
                     top: 165
                 }
-            });  
+            });
         }
-        
-        Parte == 1 ? Linea = 35: Linea = 70;
-        doc.line(120, (SaltoLinea * Linea), 195, (SaltoLinea * Linea));  
-        Parte == 1 ? Linea = 36: Linea = 71;
+
+        Parte == 1 ? Linea = 35 : Linea = 70;
+        doc.line(120, (SaltoLinea * Linea), 195, (SaltoLinea * Linea));
+        Parte == 1 ? Linea = 36 : Linea = 71;
         doc.text("Recibe", 155, (SaltoLinea * Linea));
-        Parte == 1 ? Linea = 37: Linea = 72;
+        Parte == 1 ? Linea = 37 : Linea = 72;
         doc.line(2, (SaltoLinea * Linea), 200, (SaltoLinea * Linea)); // Mitad de hoja
 
-    }//If de copias
+    } //If de copias
 
     doc.save('documento.pdf');
 
@@ -204,8 +208,8 @@ function PDF() {
             if (objeto == true) {}
         });
 
-        $("#CuerpoTablaAccesorios tr").remove();
-        setTimeout("redireccionar()", 800); //Tiempo para reedireccionar
+    $("#CuerpoTablaAccesorios tr").remove();
+    setTimeout("redireccionar()", 800); //Tiempo para reedireccionar
 }
 
 
@@ -478,12 +482,29 @@ $(function () {
     });
 }); //Funcion JQuery
 
+function CambiarUbicacion(fila) {
+    Registro = document.getElementById("TablaAccesorios");
 
+    let idRegistro = document.getElementById("id"+(fila-1)).value;
+    let NuevaUbicacion = document.getElementById("Tab_Ubicacion"+(fila-1)).value;
 
-
-
-
-
-
-
-
+    alert(idRegistro + " - " + NuevaUbicacion)
+    data = {
+        id: idRegistro,
+        Ubicacion: NuevaUbicacion
+    }
+    $.post("/ActuaUbicacionAcces", // url
+    {
+        data
+    }, // data to be submit
+    function (Estado, status) { // success callback
+        console.log(Estado + status);
+        if (Estado == true) {
+            var parrafo = document.getElementById("wrapper");
+            while (parrafo.firstChild) {
+                //The list is LIVE so it will re-index each call
+                parrafo.removeChild(parrafo.firstChild);
+            }
+        }
+    })
+}

@@ -1,5 +1,5 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalPeticiones"
-  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -12,7 +12,7 @@
 
       <div class="modal-body">
         <form id="FormularioEficicencia">
-          <div class="form-group" >
+          <div class="form-group">
 
             <div class="form-row">
               <div class="col">
@@ -73,34 +73,44 @@
             <div class="form-row">
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Cotización:</label>
-                <input type="file" class="form-control-file" id="P_Cotizacion"/>
+                <input type="file" id="subir_archivo" name="archivo" />
+                <div id="resultado"></div>
               </div>
 
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Ayuda visual:</label>
-                <input type="file" class="form-control-file" id="P_Ayuda"/>
+                <input type="file" class="form-control-file" id="P_Ayuda" />
               </div>
             </div>
 
+
+            <form action='/upload' method="POST" enctype="multipart/form-data">
+
+              <input type="file" name="file">
+
+              <input type="submit" value="Subir">
+
+            </form>
             <hr>
-            
+
             <div class="form-row">
- 
+
               <div class="col text-center">
                 <label for="recipient-name" class="col-form-label">Notas:</label>
-                <textarea class="form-control bg-dark text-white" id="Notas" rows="3" ></textarea>
+                <textarea class="form-control bg-dark text-white" id="Notas" rows="3"></textarea>
+              </div>
             </div>
-            </div>
-            
+
 
           </div>
 
         </form>
       </div>
 
-  
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" onclick="RegistrarEficiencia()" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-light" onclick="RegistrarEficiencia()"
+          data-dismiss="modal">Guardar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
       </div>
 

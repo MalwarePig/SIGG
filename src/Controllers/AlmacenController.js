@@ -1378,7 +1378,7 @@ Controller.ActualizarAccesorios = (req, res) => {
                 let Folio = Object.values(data)[0][i][11]; //obeter datos de un objeto Maquina
 
 
-                conn.query("call DespacharAccesorio(" + id + "," + Cantidad + ",'"+Recibe+"','"+Ubicacion+"')", true, (err, rows, fields) => {
+                conn.query("call DespacharAccesorio(" + id + "," + Cantidad + ",'"+Recibe+"')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al actualizar accesorio' + err);
@@ -1526,5 +1526,31 @@ Controller.FolioAccesorios = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+Controller.ActuaUbicacionAcces = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const data = req.body;
+            var id = Object.values(data)[0].id;
+            var Ubicacion = Object.values(data)[0].Ubicacion;
+            console.log(id + " - " + Ubicacion)
+            
+            conn.query("UPDATE accesorios SET Ubicacion = '"+Ubicacion+"' WHERE id = "+ id, (err, data) => {
+                if (err) {
+                    //res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion ' + err);
+                } else {
+                    res.json(data)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
 
 module.exports = Controller;

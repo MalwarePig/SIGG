@@ -17,6 +17,7 @@ const LogisiticaController = require('../Controllers/LogisticaController');
 const FlujoController = require('../Controllers/FlujoController');
 const PNCController = require('../Controllers/PNCController');
 const RHController = require('../Controllers/RHController');
+const PeticionesController = require('../Controllers/PeticionesController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -298,7 +299,7 @@ router.post('/ImportarAccesorios', AlmacenController.ImportarAccesorios);
 router.get('/CargaCapturasPendientes/', AlmacenController.CargaCapturasPendientes);
 router.get('/CargaCapturasEntregado/', AlmacenController.CargaCapturasEntregado);
 router.get('/FolioAccesorios/', AlmacenController.FolioAccesorios);
-
+router.post('/ActuaUbicacionAcces', AlmacenController.ActuaUbicacionAcces);
 
 
 
@@ -748,6 +749,20 @@ router.post('/DesactivarPersonal', RHController.DesactivarPersonal);
 router.post('/ActivarPersonal', RHController.ActivarPersonal);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+
+router.post('/upload',(req,res) => {
+
+    let EDFile = req.files.file
+
+	console.log(__dirname+ EDFile.name)
+	EDFile.mv(__dirname+ EDFile.name,err => {
+    //EDFile.mv(`./files/${EDFile.name}`,err => {
+		console.log(__dirname+ EDFile.name)
+        if(err) return res.status(500).send({ message : err })
+        return res.status(200).send({ message : 'File upload' })
+    })
+})
 module.exports = router;
 
 /*ESTA ES UNA VERSION DIRECTA SIN VERIFICAR LOGIN
