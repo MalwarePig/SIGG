@@ -76,14 +76,15 @@ function CargaAccesorios() {
                     newCell.appendChild(newText);
                     if (x == 0) { //Ingresar el id
                         newCell.innerHTML = '<input required type="text" id="id' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if(x == 7) {//Agregar campo de ubicacion
-                       // var newCell = newRow.insertCell(7);
+                    } else if (x == 7) { //Agregar campo de ubicacion
+                        // var newCell = newRow.insertCell(7);
                         newCell.innerHTML = '<input  type="text" id="Tab_Ubicacion' + index + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                     } else if (x == 9) { //Si termina de registrar datos crear el boton
                         if (Arreglo[6] > 0 && condicionBusqueda != 'FAC-') {
                             var newCell = newRow.insertCell(10); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>' +
-                                '<button id="actualizarUbicacion' + index + '" class="btn btn-info" name="btn" onclick=CambiarUbicacion(' + (index + 1) + ')><i class="fas fa-edit"></i></button>';
+                                '<button id="actualizarUbicacion' + index + '" class="btn btn-info" name="btn" onclick=CambiarUbicacion(' + (index + 1) + ')><i class="fas fa-edit"></i></button>' +
+                                '<button id="EliminarAccesorio' + index + '" class="btn btn-danger" name="btn" onclick=EliminarAccesorio(' + (index + 1) + ')><i class="fas fa-edit"></i></button>';;
                         } else {
                             var newCell = newRow.insertCell(10); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
@@ -485,8 +486,8 @@ $(function () {
 function CambiarUbicacion(fila) {
     Registro = document.getElementById("TablaAccesorios");
 
-    let idRegistro = document.getElementById("id"+(fila-1)).value;
-    let NuevaUbicacion = document.getElementById("Tab_Ubicacion"+(fila-1)).value;
+    let idRegistro = document.getElementById("id" + (fila - 1)).value;
+    let NuevaUbicacion = document.getElementById("Tab_Ubicacion" + (fila - 1)).value;
 
     alert(idRegistro + " - " + NuevaUbicacion)
     data = {
@@ -494,17 +495,72 @@ function CambiarUbicacion(fila) {
         Ubicacion: NuevaUbicacion
     }
     $.post("/ActuaUbicacionAcces", // url
-    {
-        data
-    }, // data to be submit
-    function (Estado, status) { // success callback
-        console.log(Estado + status);
-        if (Estado == true) {
-            var parrafo = document.getElementById("wrapper");
-            while (parrafo.firstChild) {
-                //The list is LIVE so it will re-index each call
-                parrafo.removeChild(parrafo.firstChild);
+        {
+            data
+        }, // data to be submit
+        function (Estado, status) { // success callback
+            console.log(Estado + status);
+            if (Estado == true) {
+                var parrafo = document.getElementById("wrapper");
+                while (parrafo.firstChild) {
+                    //The list is LIVE so it will re-index each call
+                    parrafo.removeChild(parrafo.firstChild);
+                }
             }
-        }
-    })
+        })
+}
+
+
+function EliminarAccesorio(fila) {
+    Registro = document.getElementById("TablaAccesorios");
+    let Producto = Registro.rows[fila].cells[3].childNodes[0].nodeValue
+
+    localStorage.setItem('fila', fila);
+    localStorage.setItem('idEliminar', (fila - 1));
+
+    //Se obtiene el nodo
+    var Nodo = document.getElementById("ProductoSpan");
+    //se crea texto para el nodo
+    var newText = document.createTextNode(Producto);
+    //se inserta el valor al nodo
+
+    Nodo.appendChild(newText);
+    $("#ConfirmarEliminar").modal();
+}
+
+
+
+function ConfirmarEliminacion() {
+
+    let idEliminar = localStorage.getItem('idEliminar');
+    let idRegistro = document.getElementById("id" + idEliminar).value;
+    var data = {
+        id: idRegistro
+    }
+    console.table(data);
+    $.post("/EliminarAccesorio", // url
+        {
+            data
+        }, // data to be submit
+        function (Estado, status) { // success callback
+            console.log(Estado + status);
+            if (Estado == true) {
+                var parrafo = document.getElementById("wrapper");
+                while (parrafo.firstChild) {
+                    //The list is LIVE so it will re-index each call
+                    parrafo.removeChild(parrafo.firstChild);
+                }
+            }
+        })
+
+    setTimeout("redireccionar()", 800); //Tiempo para reedireccionar
+
+    var Nodo = document.getElementById("ProductoSpan");
+    Nodo.removeChild(Nodo.firstChild)
+    localStorage.clear();
+}
+
+//Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
+function redireccionar() {
+    location.reload();
 }

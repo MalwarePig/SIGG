@@ -1,5 +1,60 @@
 const Controller = {};
 
+
+Controller.MostrarReporte = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            console.log(parametros)
+            var Planta = parametros.split('|')[0]; // categoria o tipo de reporte
+            var fechaInicio = parametros.split('|')[1]; // Fecha inicial
+            var fechafin = parametros.split('|')[2]; // Fecha limite
+  
+            conn.query("SELECT * FROM controlplaner WHERE Planta = '" + Planta + "' AND FechaRegistro BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                console.table(Herramientas)
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Controller.CargaMaterial = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -64,6 +119,14 @@ Controller.listaMateriales = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+
+
+
+
+
+
 
 
 module.exports = Controller;

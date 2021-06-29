@@ -67,11 +67,12 @@
 							<span class="label-input100">Área</span>
 							<select name="Area" id="familia" class="form-control">
 								<option selected>Seleccionar...</option>
+								<option>Admin</option>
 								<option>Acabados</option>
 								<option>Almacen</option>
 								<option>Calidad</option>
 								<option>Compras</option>
-								<option>Embarques</option>							
+								<option>Embarques</option>
 								<option>Producción</option>
 								<option>Ventas</option>
 								<option>Tratamientos</option>
@@ -111,7 +112,7 @@
 	<!------------------------------ TABLA-------------------------------------->
 	<div id="Editar" class="tabcontent">
 		<div class="SpaceWork">
-			<table class="table table-bordered table-hover" id="OTRegistros">
+			<table class="table table-bordered table-hover" id="Tabla">
 				<thead>
 					<tr>
 						<th>id</th>
@@ -138,10 +139,8 @@
 						<td id="inicio"><%= data[i].Nivel   %></td>
 						<td id="Rfin"><%= data[i].Turno %></td>
 						<td>
-						<!--	<button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
-								onclick="modal()">Agregar</button>
-							<button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
-								onclick="modal()">Agregar</button>-->
+							<button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+								onclick="Eliminar('<%= data[i].id %>')">Eliminar</button>
 						</td>
 					</tr>
 					<% } %>
@@ -179,7 +178,28 @@
 		// Get the element with id="defaultOpen" and click on it
 		document.getElementById("defaultOpen").click();
 	</script>
- 
+
+
+
+	<script>
+		function Eliminar(id) {
+			var data = {
+				id: id
+			}
+			console.table(data);
+			$.post("/EliminarUsuario", // url
+				{
+					data
+				}, // data to be submit
+				function (Estado, status) { // success callback
+					console.log(Estado + status);
+					if (Estado == true) {
+						 alert("Eliminado")
+					}
+				})
+		}
+	</script>
+
 </body>
 
 </html>

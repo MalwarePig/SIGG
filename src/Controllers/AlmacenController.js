@@ -1552,5 +1552,27 @@ Controller.ActuaUbicacionAcces = (req, res) => {
 };
 
 
+Controller.EliminarAccesorio = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const data = req.body;
+            var id = Object.values(data)[0].id;
+            console.log(id + " - " + id)
+            
+            conn.query("DELETE FROM accesorios WHERE id = "+ id, (err, data) => {
+                if (err) {
+                    //res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion ' + err);
+                } else {
+                    res.json(data)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 module.exports = Controller;

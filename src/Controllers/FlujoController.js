@@ -346,7 +346,7 @@ Controller.IniciarProdFlujo = (req, res) => {
                                     console.log("Insertando : " + parseInt(Object.values(data)[0][0][2]) + " Extra: " + parseInt(Object.values(data)[0][0][3]))
                                     console.log("Maqu: " + Maquina + " OT: " + OT + " Parte: " + Parte + " CantOT: " + CantOt + " +FechReg: " + FechaRegistro + " FEchaVenc: " + FechaVenc + " Plant: " +
                                         Planta + " Client: " + Cliente + " Origne: " + Origen + " Servic: " + Servicio + " Terminad: " + Terminadas + " Enviado: " + Enviadas + " Stock: " + Stock + "Revin: " + Recibido + " xtra: " + Extra)
-                                    conn.query("INSERT INTO controlplaner(Maquina,OT,Parte,CantOt,Fisico,Planta,Cliente,Origen,Servicio,Recibido,Extra,FechaInicio,FechaVenc,Estatus)VALUES('" + Object.values(data)[0][0][4] + "','" + OT + "','" + Parte + "','" + CantOt + "','Linea','" + Planta + "','" + Cliente + "','controlplaner','" + Servicio + "'," + parseInt(Object.values(data)[0][0][2]) + "," + parseInt(Object.values(data)[0][0][3]) + ",now(),'" + FechaVenc + "','Linea')", true, (err, rows) => {
+                                    conn.query("INSERT INTO controlplaner(Maquina,OT,Parte,CantOt,Fisico,Planta,Cliente,Origen,Servicio,Recibido,Extra,FechaInicio,FechaVenc,Estatus,Usuario)VALUES('" + Object.values(data)[0][0][4] + "','" + OT + "','" + Parte + "','" + CantOt + "','Linea','" + Planta + "','" + Cliente + "','controlplaner','" + Servicio + "'," + parseInt(Object.values(data)[0][0][2]) + "," + parseInt(Object.values(data)[0][0][3]) + ",now(),'" + FechaVenc + "','Linea','"+req.session.username+"')", true, (err, rows) => {
                                         if (err) {
                                             console.log('Error al asignar: ' + err);
                                         } else {
@@ -357,7 +357,7 @@ Controller.IniciarProdFlujo = (req, res) => {
                                 }
                             });
                         } else { //Se va actualizar una linea ya en produccion
-                            conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = now(), Maquina = '" + Object.values(data)[0][0][4] + "', Fisico = 'Linea' WHERE OT = '" + lineas[0].OT + "' AND id = " + Object.values(data)[0][0][0], true, (err, rows) => {
+                            conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = now(), Maquina = '" + Object.values(data)[0][0][4] + "', Fisico = 'Linea', Usuario = '"+req.session.username+"' WHERE OT = '" + lineas[0].OT + "' AND id = " + Object.values(data)[0][0][0], true, (err, rows) => {
                                 if (err) {
                                     console.log('Error al asignar: ' + err);
                                 } else {
@@ -374,7 +374,7 @@ Controller.IniciarProdFlujo = (req, res) => {
             } else { //Otras areas
                 for (var i = 0; i < limite; i++) {
                     console.log("id: " + Object.values(data)[0][i][0] + " AreaOrigen: " + AreaOrigen);
-                    conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = (now()), Recibido = " + Object.values(data)[0][i][3] + " WHERE id = " + Object.values(data)[0][i][0], true, (err, rows) => {
+                    conn.query("UPDATE " + AreaOrigen + " SET FechaInicio = (now()), Recibido = " + Object.values(data)[0][i][3] + ", Usuario = '" +req.session.username+"' WHERE id = " + Object.values(data)[0][i][0], true, (err, rows) => {
                         if (err) {
                             console.log('Error al asignar' + err);
                         } else {
@@ -426,7 +426,7 @@ Controller.AsignarCola = (req, res) => {
             }
 
             console.log("id: " +Object.values(data)[0][0][0]+ " Maquina: " + Object.values(data)[0][0][4] + " Cantidad: " + Object.values(data)[0][0][2] + " Extra: " + Object.values(data)[0][0][3] )
-            conn.query("UPDATE controlplaner SET FechaRegistro = now(), Maquina = '" + Object.values(data)[0][0][4] + "', Fisico = 'Cola', Recibido = "+ Object.values(data)[0][0][2] + ", Extra = "+ Object.values(data)[0][0][3] + ", Origen = 'Fila'  WHERE  id = " + Object.values(data)[0][0][0], true, (err, rows) => {
+            conn.query("UPDATE controlplaner SET FechaRegistro = now(), Maquina = '" + Object.values(data)[0][0][4] + "', Fisico = 'Cola', Recibido = "+ Object.values(data)[0][0][2] + ", Extra = "+ Object.values(data)[0][0][3] + ", Origen = 'Fila', Usuario ='"+req.session.username+"' WHERE  id = " + Object.values(data)[0][0][0], true, (err, rows) => {
                 if (err) {
                     console.log('Error al asignar: ' + err);
                 } else {

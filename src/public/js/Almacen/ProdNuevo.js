@@ -109,18 +109,34 @@ function CargarCategorias(indice) {
 
 function CargarFamilias() {
     var listFamilia = document.getElementById("Familia");
-    let FamiliasMorelos = ['Torno','Centro maquinado','Endmills','Machuelos','Rimas','Brocas','Produccion','Seguridad','Embarque','Acabado','Mantenimiento','ULINE','Otros']
-    let FamiliasBravo = ['John Deere','Nidec','Nidec ACEM','Tornos Ch ACME','Tornos','Centro maquinado','Machuelos','Endmills','Rimas','Brocas','Produccion','Embarque','Seguridad','Acabado','Mantenimiento']
+    let FamiliasMorelos = ['Acabado','Torno','Centro maquinado','Endmills','Machuelos','Rimas','Brocas','Produccion','Seguridad','Embarque','Mantenimiento','ULINE','Otros']
+    let FamiliasBravo = ['Acabado','John Deere','Nidec','Nidec ACEM','Tornos Ch ACME','Tornos','Centro maquinado','Machuelos','Endmills','Rimas','Brocas','Produccion','Embarque','Seguridad','Mantenimiento']
+    let FamiliasGaveta = ['Stock'];
     let PlantaSeleccionada = "";
-    document.getElementById("Almacen").value == 'Almacen Morelos' ? PlantaSeleccionada = "Morelos" : PlantaSeleccionada = "Bravo";
+    PlantaSeleccionada = document.getElementById("Almacen").value;
+ 
     for (let i = listFamilia.options.length; i >= 0; i--) { //Borrar elementos option de select
         listFamilia.remove(i);
     }
 
-    for (var i = 0; i < FamiliasMorelos.length; i++) { //Agregar nuevos options del select
-
-        var option = document.createElement("option");
-        option.text = PlantaSeleccionada == 'Morelos' ? FamiliasMorelos[i] : FamiliasBravo[i];
-        listFamilia.add(option);
-    }    
+   
+    if (PlantaSeleccionada == 'Almacen Morelos') {
+        for (let i = 0; i < FamiliasMorelos.length; i++) {
+            var option = document.createElement("option");
+            option.text = FamiliasMorelos[i];
+            listFamilia.add(option);
+        }
+    } else if (PlantaSeleccionada == 'Gaveta') {
+        for (let i = 0; i < FamiliasGaveta.length; i++) {
+            var option = document.createElement("option");
+            option.text = FamiliasGaveta[i];
+            listFamilia.add(option);
+        }
+    } else {
+        for (let i = 0; i < FamiliasBravo.length; i++) {
+            var option = document.createElement("option");
+            option.text = FamiliasBravo[i];
+            listFamilia.add(option);
+        }
+    }   
 }

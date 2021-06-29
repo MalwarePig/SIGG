@@ -44,8 +44,7 @@
                     <div class="form-row">
 
                         <div class="form-group col-1 text-left">
-                            <input type="text" class="form-control" id="Busqueda" placeholder="Tipo reporte..."
-                                value="GM47427">
+                            <input type="text" class="form-control" id="Busqueda" placeholder="Tipo reporte...">
                         </div>
 
                         <div class="form-group col-1">
@@ -119,7 +118,7 @@
                             <div class="col-2 text-center">
                                 <label for="recipient-name" class="col-form-label">Recibe:</label>
                                 <input required type="text" id="Recibe" class="form-control" name="Recibe"
-                                    autocomplete="off" placeholder="Recibe..." value="Sergio Osvaldo">
+                                    autocomplete="off" placeholder="Recibe...">
                             </div>
 
                             <div class="col-3 text-center">
@@ -137,7 +136,7 @@
                             <div class="col-1 text-center">
                                 <label for="recipient-name" class="col-form-label">Ubicación:</label>
                                 <input required type="text" id="Ubicacion" class="form-control" name="Ubicacion"
-                                    autocomplete="off" placeholder="Ubicación..." value="B-15">
+                                    autocomplete="off" placeholder="Ubicación..." >
                             </div>
 
                             <div class="col-1 text-center">
@@ -214,6 +213,30 @@
         </div>
     </div>
     </div><!-- Card Body -->
+ 
+    <div class="modal fade bd-example-modal-sm" id="ConfirmarEliminar" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">Seguro de eliminar  </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="font-weight-bold"><span id="ProductoSpan"></span></label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal"
+                    onclick="ConfirmarEliminacion()">Confirmar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                     >Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
     <%- include ('../../Almacen/Accesorios/ModalAccesorios.html') %>

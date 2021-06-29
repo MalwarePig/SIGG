@@ -1,6 +1,6 @@
 function CargarAlmacen() {
     var listPlantas = document.getElementById("Almacen");
-    let Plantas = ['Todo', 'Bravo', 'Morelos'];
+    let Plantas = ['Todo', 'Bravo', 'Morelos', 'Gaveta'];
     for (let i = listPlantas.options.length; i >= 0; i--) { //Borrar elementos option de select
         listPlantas.remove(i);
     }
@@ -46,8 +46,9 @@ function CargarCategorias() {
 function CargarFamilias() {
     var listFamilia = document.getElementById("Familia");
     var Almacen = document.getElementById("Almacen").value;
-    let FamiliasMorelos = ['Torno','Acabado', 'Centro maquinado', 'Endmills', 'Machuelos', 'Rimas', 'Brocas', 'Produccion', 'Seguridad', 'Embarque', 'Acabado', 'Mantenimiento', 'ULINE', 'Otros']
-    let FamiliasBravo = ['John Deere','Acabado', 'Nidec', 'Nidec ACEM', 'Tornos Ch ACME', 'Tornos', 'Centro maquinado', 'Machuelos', 'Endmills', 'Rimas', 'Brocas', 'Produccion', 'Embarque', 'Seguridad', 'Acabado', 'Mantenimiento']
+    let FamiliasMorelos = ['Torno', 'Acabado', 'Centro maquinado', 'Endmills', 'Machuelos', 'Rimas', 'Brocas', 'Produccion', 'Seguridad', 'Embarque', 'Mantenimiento', 'ULINE', 'Otros']
+    let FamiliasBravo = ['John Deere', 'Acabado', 'Nidec', 'Nidec ACEM', 'Tornos Ch ACME', 'Tornos', 'Centro maquinado', 'Machuelos', 'Endmills', 'Rimas', 'Brocas', 'Produccion', 'Embarque', 'Seguridad', 'Mantenimiento']
+    let FamiliasGaveta = ['Stock']
 
     for (let i = listFamilia.options.length; i >= 0; i--) { //Borrar elementos option de select
         listFamilia.remove(i);
@@ -56,14 +57,30 @@ function CargarFamilias() {
     var option = document.createElement("option");
     option.text = "Todo";
     listFamilia.add(option);
-    for (var i = 0; i < FamiliasMorelos.length; i++) { //Agregar nuevos options del select
-
-        var option = document.createElement("option");
-        option.text = Almacen == 'Morelos' ? FamiliasMorelos[i] : FamiliasBravo[i];
-        listFamilia.add(option);
-    }
-}
  
+    if (Almacen == 'Morelos') {
+        for (let i = 0; i < FamiliasMorelos.length; i++) {
+            var option = document.createElement("option");
+            option.text = FamiliasMorelos[i];
+            listFamilia.add(option);
+        }
+    } else if (Almacen == 'Gaveta') {
+        for (let i = 0; i < FamiliasGaveta.length; i++) {
+            var option = document.createElement("option");
+            option.text = FamiliasGaveta[i];
+            listFamilia.add(option);
+        }
+    } else {
+        for (let i = 0; i < FamiliasBravo.length; i++) {
+            var option = document.createElement("option");
+            option.text = FamiliasBravo[i];
+            listFamilia.add(option);
+        }
+    }
+ 
+
+}
+
 function MostrarReporte() {
     var Categoria = document.getElementById("Categoria").value;
     var Almacen = document.getElementById("Almacen").value;
@@ -80,7 +97,7 @@ function MostrarReporte() {
             var TotalHerramientas = Herramientas.length;
 
             for (var i = 0; i < limite; i++) {
-                $("#Rows"+i).remove(); //elimina los elementos con id Rows
+                $("#Rows" + i).remove(); //elimina los elementos con id Rows
             }
 
             for (var i = 0; i < Herramientas.length; i++) {
@@ -145,7 +162,7 @@ function ExportarExcel() {
 
     var opts = [{
         sheetid: 'Hoja1',
-       
+
     }];
     var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }

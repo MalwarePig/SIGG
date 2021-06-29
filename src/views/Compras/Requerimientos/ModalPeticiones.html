@@ -17,19 +17,19 @@
             <div class="form-row">
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Folio:</label>
-                <input type="text" class="form-control" id="P_Folio" readonly>
+                <input type="text" class="form-control" id="P_Folio" readonly value="0153">
               </div>
               <div class="col">
                 <label for="recipient-name" class="col-form-label">OT:</label>
-                <input type="text" class="form-control" id="P_OT" readonly>
+                <input type="text" class="form-control" id="P_OT" value="1702861">
               </div>
               <div class="col">
                 <label for="recipient-name" class="col-form-label">PN:</label>
-                <input type="text" class="form-control" id="P_PN" readonly>
+                <input type="text" class="form-control" id="P_PN" value="0205">
               </div>
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Fecha:</label>
-                <input type="text" class="form-control" id="P_Fecha" readonly>
+                <input type="text" class="form-control" id="P_Fecha" readonly value="0153">
               </div>
             </div>
 
@@ -38,11 +38,11 @@
             <div class="form-row">
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Nombre:</label>
-                <input type="text" class="form-control bg-dark text-white" id="P_Nombre">
+                <input type="text" class="form-control bg-dark text-white" id="P_Nombre" value="Sergio Mañas">
               </div>
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Correo:</label>
-                <input type="text" class="form-control bg-dark text-white" id="P_Correo">
+                <input type="text" class="form-control bg-dark text-white" id="P_Correo" value="soporte@gemak.com.mx">
               </div>
             </div>
 
@@ -51,11 +51,11 @@
             <div class="form-row">
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Producto:</label>
-                <input type="text" class="form-control bg-dark text-white" id="P_Producto">
+                <input type="text" class="form-control bg-dark text-white" id="P_Producto" value="Teclado Gamer Negro X2">
               </div>
               <div class="col-2">
                 <label for="recipient-name" class="col-form-label">Cantidad:</label>
-                <input type="text" class="form-control bg-dark text-white" id="P_Cantidad">
+                <input type="text" class="form-control bg-dark text-white" id="P_Cantidad" value="1">
               </div>
             </div>
 
@@ -64,7 +64,7 @@
             <div class="form-row">
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Link:</label>
-                <input type="text" class="form-control bg-dark text-white" id="P_Link">
+                <input type="text" class="form-control bg-dark text-white" id="P_Link" value="https://mega.nz/folder/rSAmFAaL#DXNJbHCJeMfvHw4y3SYXOg/folder/zDBWwIZR">
               </div>
             </div>
 
@@ -83,21 +83,12 @@
               </div>
             </div>
 
-
-            <form action='/upload' method="POST" enctype="multipart/form-data">
-
-              <input type="file" name="file">
-
-              <input type="submit" value="Subir">
-
-            </form>
             <hr>
 
             <div class="form-row">
-
               <div class="col text-center">
                 <label for="recipient-name" class="col-form-label">Notas:</label>
-                <textarea class="form-control bg-dark text-white" id="Notas" rows="3"></textarea>
+                <textarea class="form-control bg-dark text-white" id="P_Notas" rows="3"></textarea>
               </div>
             </div>
 
@@ -109,7 +100,7 @@
 
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" onclick="RegistrarEficiencia()"
+        <button type="button" class="btn btn-light" onclick="SolicitarCompra()"
           data-dismiss="modal">Guardar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
       </div>

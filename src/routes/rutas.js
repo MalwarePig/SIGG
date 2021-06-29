@@ -36,6 +36,9 @@ router.get('/Signup',  UserController.SignUp);
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
 
+//Eliminar usuario en db
+router.post('/EliminarUsuario', UserController.EliminarUsuario);
+
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
 router.get('/home', UserController.HOME);
@@ -176,6 +179,20 @@ router.get('/LeerHistorial/:variable', FlujoController.LeerHistorial);
 router.post('/RegistrarEficiencia/', FlujoController.RegistrarEficiencia);
 
 
+/////////////////////////////////////////////////////////////////////////// Materiales ///////////////////////////////////////////////////////////////////////////////
+router.get('/Materiales', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Producción/Materiales/Materiales.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+ 
+router.get('/ConsultaMateriales/:parametros', MaterialesController.MostrarReporte);
+
 /////////////////////////////////////////////////////////////////////////// Eficiencia ///////////////////////////////////////////////////////////////////////////////
 router.get('/Eficiencia', (req, res) => {
 	if (req.session.loggedin) {
@@ -300,6 +317,8 @@ router.get('/CargaCapturasPendientes/', AlmacenController.CargaCapturasPendiente
 router.get('/CargaCapturasEntregado/', AlmacenController.CargaCapturasEntregado);
 router.get('/FolioAccesorios/', AlmacenController.FolioAccesorios);
 router.post('/ActuaUbicacionAcces', AlmacenController.ActuaUbicacionAcces);
+router.post('/EliminarAccesorio', AlmacenController.EliminarAccesorio);
+
 
 
 
@@ -548,6 +567,13 @@ router.get('/Peticiones', (req, res) => {
 	}
 });
 
+router.post('/SolicitarCompra', PeticionesController.SolicitarCompra);
+router.get('/BuscarPeticion/:Folio', PeticionesController.BuscarPeticion);
+router.post('/ActualizarCompra', PeticionesController.ActualizarCompra);
+router.post('/EliminarCompra', PeticionesController.EliminarCompra);
+
+
+
 
 
 //====== Mostrar Pronostico ========
@@ -751,18 +777,8 @@ router.post('/ActivarPersonal', RHController.ActivarPersonal);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
 
-router.post('/upload',(req,res) => {
 
-    let EDFile = req.files.file
 
-	console.log(__dirname+ EDFile.name)
-	EDFile.mv(__dirname+ EDFile.name,err => {
-    //EDFile.mv(`./files/${EDFile.name}`,err => {
-		console.log(__dirname+ EDFile.name)
-        if(err) return res.status(500).send({ message : err })
-        return res.status(200).send({ message : 'File upload' })
-    })
-})
 module.exports = router;
 
 /*ESTA ES UNA VERSION DIRECTA SIN VERIFICAR LOGIN

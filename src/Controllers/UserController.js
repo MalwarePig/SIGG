@@ -14,6 +14,22 @@ Controller.save = (req,res) => {
     res.send('works');*/
 }
 
+
+Controller.EliminarUsuario = (req,res) => {
+    const data = req.body;
+    const nombre = req.body.Planta;
+    req.getConnection((err,conn) => {
+
+        var id = Object.values(data)[0].id;
+
+        conn.query("delete from usuarios WHERE id = '"+id+"'", (err, ot) =>{
+            res.json(true);
+        });
+    })
+   /* console.log(req.body);//se obtienen los datos del formulario a traves del req.body
+    res.send('works');*/
+}
+
 /////////////////////////////////////////////////////////////////////--------------- LOGIN ----------------------/////////////////////////////////////////////////////////////////////
 Controller.login = (req,res) => {
     req.session.Usuario = req.body.username;
@@ -44,7 +60,7 @@ Controller.login = (req,res) => {
                     req.session.nombre = OS.hostname();
                     req.session.turno = Turno;
                     let ip = req.connection.remoteAddres;
-                    conn.query("UPDATE usuarios SET Nombre = '"+ OS.hostname()+ "' WHERE id = "+id+"",[], (error, results, fields) =>{
+                    conn.query("UPDATE usuarios SET Nombre = '"+ username + "' WHERE id = "+id+"",[], (error, results, fields) =>{
                         if(error){
                             console.log(error);
                             res.redirect('/');
