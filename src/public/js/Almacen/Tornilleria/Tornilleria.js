@@ -84,7 +84,7 @@ function CargaAccesorios() {
                             var newCell = newRow.insertCell(10); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>' +
                                 '<button id="actualizarUbicacion' + index + '" class="btn btn-info" name="btn" onclick=CambiarUbicacion(' + (index + 1) + ')><i class="fas fa-edit"></i></button>' +
-                                '<button id="EliminarAccesorio' + index + '" class="btn btn-danger" name="btn" onclick=EliminarAccesorio(' + (index + 1) + ')><i class="fas fa-edit"></i></button>';;
+                                '<button id="EliminarAccesorio' + index + '" class="btn btn-danger" name="btn" onclick=EliminarAccesorio(' + (index + 1) + ')><i class="fas fa-minus-square"></i></button>';;
                         } else {
                             var newCell = newRow.insertCell(10); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
@@ -537,6 +537,7 @@ function ConfirmarEliminacion() {
     var data = {
         id: idRegistro
     }
+    
     console.table(data);
     $.post("/EliminarAccesorio", // url
         {

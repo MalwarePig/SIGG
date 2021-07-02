@@ -1316,12 +1316,12 @@ Controller.LeerAccesorios = (req, res) => {
             const {
                 variable
             } = req.params;
- 
+
             console.log("variable: " + variable);
             conn.query("call LeerAccesorios('" + variable + "')", true, (err, rows, fields) => {
                 if (err) {
                     console.log('Error al descontar almacen' + err);
-                }else{
+                } else {
                     console.table(rows[0])
                     res.json(rows[0])
                 }
@@ -1342,7 +1342,7 @@ Controller.HistorialAccesorios = (req, res) => {
                 variable
             } = req.params;
 
-            conn.query("SELECT A.OCGemak,A.OT,A.Producto,A.POCliente,A.ENS,F.Cantidad,F.Ubicacion,F.Entregado,F.Recibe FROM accesorios A, SalidaAccesorios F WHERE A.id = F.idAccesorio AND F.Folio = '"+variable+"'", (err, Herramientas) => {
+            conn.query("SELECT A.OCGemak,A.OT,A.Producto,A.POCliente,A.ENS,F.Cantidad,F.Ubicacion,F.Entregado,F.Recibe FROM accesorios A, SalidaAccesorios F WHERE A.id = F.idAccesorio AND F.Folio = '" + variable + "'", (err, Herramientas) => {
                 if (err) {
                     console.log('Error de lectura');
                 }
@@ -1354,7 +1354,7 @@ Controller.HistorialAccesorios = (req, res) => {
     }
 };
 
- 
+
 
 
 Controller.ActualizarAccesorios = (req, res) => {
@@ -1378,13 +1378,13 @@ Controller.ActualizarAccesorios = (req, res) => {
                 let Folio = Object.values(data)[0][i][11]; //obeter datos de un objeto Maquina
 
 
-                conn.query("call DespacharAccesorio(" + id + "," + Cantidad + ",'"+Recibe+"')", true, (err, rows, fields) => {
+                conn.query("call DespacharAccesorio(" + id + "," + Cantidad + ",'" + Recibe + "')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al actualizar accesorio' + err);
                     } else {
                         console.log('Se actualizó accesorio');
-                        conn.query("INSERT INTO SalidaAccesorios(idAccesorio,Folio ,Ubicacion,Recibe,Cantidad)VALUES(" + id + ",'" +Folio+ "','" + Ubicacion + "','" + Recibe+ "',"+Cantidad+")", (err, Herramientas) => {
+                        conn.query("INSERT INTO SalidaAccesorios(idAccesorio,Folio ,Ubicacion,Recibe,Cantidad)VALUES(" + id + ",'" + Folio + "','" + Ubicacion + "','" + Recibe + "'," + Cantidad + ")", (err, Herramientas) => {
                             if (err) {
                                 console.log('Error de lectura' + err);
                             }
@@ -1400,7 +1400,7 @@ Controller.ActualizarAccesorios = (req, res) => {
                     }
                 });
 
-                
+
             }
         });
     } else {
@@ -1441,7 +1441,7 @@ Controller.ImportarAccesorios = (req, res) => {
                 });
             }
 
-            conn.query('INSERT INTO NotaAccesorios(POCliente, Notas)values(?,?)', [PO,''], (err, ot) => {
+            conn.query('INSERT INTO NotaAccesorios(POCliente, Notas)values(?,?)', [PO, ''], (err, ot) => {
                 if (err) {
                     //res.json("Error json: " + err);
                     console.log('Error al registrar recepcion ' + err);
@@ -1464,7 +1464,7 @@ Controller.CargaCapturasPendientes = (req, res) => {
             const {
                 variable
             } = req.params;
- 
+
             console.log("variable: " + variable);
             conn.query('SELECT * FROM Accesorios WHERE Cantidad > 0', (err, ot) => {
                 if (err) {
@@ -1488,7 +1488,7 @@ Controller.CargaCapturasEntregado = (req, res) => {
             const {
                 variable
             } = req.params;
- 
+
             console.log("variable: " + variable);
             conn.query('SELECT * FROM Accesorios WHERE Cantidad <= 0', (err, ot) => {
                 if (err) {
@@ -1512,7 +1512,7 @@ Controller.FolioAccesorios = (req, res) => {
             const {
                 variable
             } = req.params;
- 
+
             conn.query('select count(distinct Folio) AS Total  from salidaaccesorios', (err, data) => {
                 if (err) {
                     //res.json("Error json: " + err);
@@ -1536,8 +1536,8 @@ Controller.ActuaUbicacionAcces = (req, res) => {
             var id = Object.values(data)[0].id;
             var Ubicacion = Object.values(data)[0].Ubicacion;
             console.log(id + " - " + Ubicacion)
-            
-            conn.query("UPDATE accesorios SET Ubicacion = '"+Ubicacion+"' WHERE id = "+ id, (err, data) => {
+
+            conn.query("UPDATE accesorios SET Ubicacion = '" + Ubicacion + "' WHERE id = " + id, (err, data) => {
                 if (err) {
                     //res.json("Error json: " + err);
                     console.log('Error al registrar recepcion ' + err);
@@ -1559,8 +1559,8 @@ Controller.EliminarAccesorio = (req, res) => {
             const data = req.body;
             var id = Object.values(data)[0].id;
             console.log(id + " - " + id)
-            
-            conn.query("DELETE FROM accesorios WHERE id = "+ id, (err, data) => {
+
+            conn.query("DELETE FROM accesorios WHERE id = " + id, (err, data) => {
                 if (err) {
                     //res.json("Error json: " + err);
                     console.log('Error al registrar recepcion ' + err);
@@ -1575,4 +1575,214 @@ Controller.EliminarAccesorio = (req, res) => {
 };
 
 
+
+
+
+Controller.RegistrarTrabajoIn = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
+
+            let Usuario = Object.values(data)[0].Usuario;
+            let OT = Object.values(data)[0].OT;
+            let PN = Object.values(data)[0].PN;
+            let Articulo = Object.values(data)[0].Articulo;
+            let Cantidad = Object.values(data)[0].Cantidad;
+            let Instrucciones = Object.values(data)[0].Instrucciones;
+
+            conn.query("INSERT INTO TrabajosIn(Usuario,OT,PN,Articulo,Cantidad,Instrucciones)VALUES" +
+                "('" + Usuario + "','" + OT + "','" + PN + "','" + Articulo + "'," + Cantidad + ",'" + Instrucciones + "')", (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(true);
+                });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+///////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////// == Accesorios == //////////////////// == Accesorios
+Controller.LeerTrabajosIn = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                variable
+            } = req.params;
+
+            console.log("variable: " + variable);
+            conn.query("SELECT * FROM TrabajosIn", (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Herramientas);
+                });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.ActualizarTrabajoIn = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            let POCliente = Object.values(data)[0][0][4]; //obeter datos de un objeto Estado
+            let Notas = Object.values(data)[0][0][10]; //obeter datos de un objeto Maquina
+            var limite = Object.values(data)[0].length || 0;
+            for (var i = 0; i < limite; i++) {
+                let id = Object.values(data)[0][i][0];
+                let FechaRegistro = Object.values(data)[0][i][1]; //obeter datos de un objeto Folio
+                let Usuario = Object.values(data)[0][i][2]; //obeter datos de un objeto Producto
+                let OT = Object.values(data)[0][i][3]; //obeter datos de un objeto Entregado
+                let PN = Object.values(data)[0][i][4]; //obeter datos de un objeto Estado
+                let Articulo = Object.values(data)[0][i][5]; //obeter datos de un objeto OT
+                let Cantidad = Object.values(data)[0][i][6]; //obeter datos de un objeto OT
+                let Aprobado = Object.values(data)[0][i][7]; //obeter datos de un objeto Maquina
+                let Entregado = Object.values(data)[0][i][8]; //obeter datos de un objeto Maquina
+                let FechaEntrega = Object.values(data)[0][i][9]; //obeter datos de un objeto Maquina
+                let Instrucciones = Object.values(data)[0][i][10]; //obeter datos de un objeto Maquina
+                let Folio = Object.values(data)[0][i][11]; //obeter datos de un objeto Maquina
+
+
+                conn.query("call DespacharTrabajoIn(" + id + "," + Cantidad + ")", true, (err, rows, fields) => {
+                    if (err) {
+                        res.json(err);
+                        console.log('Error al actualizar accesorio' + err);
+                    } else {
+                        console.log('Se actualizó accesorio');
+                        conn.query("INSERT INTO SalidaTrabajoIn(idTrabajoIn, Aprobado , Entregado, Folio, Cantidad)VALUES(" + id + ",'" + Aprobado + "','" + Entregado + "','" + Folio + "'," + Cantidad + ")", (err, data) => {
+                            if (err) {
+                                console.log('Error de lectura' + err);
+                            }
+                        });
+                    }
+                });
+                conn.query("call InstruccionesTrabajoIn('" + OT + "','" + Instrucciones + "')", true, (err, rows, fields) => {
+                    if (err) {
+                        res.json(err);
+                        console.log('Error al actualizar notas' + err);
+                    } else {
+                        console.log('Se actualizó notas');
+                    }
+                });
+
+
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+
+Controller.FolioTrabajoIn = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                variable
+            } = req.params;
+
+            conn.query('select count(distinct Folio) AS Total  from SalidaTrabajoIn', (err, data) => {
+                if (err) {
+                    //res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion ' + err);
+                } else {
+                    res.json(data)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+}
+
+
+Controller.EliminarTrabajoIn = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const data = req.body;
+            var id = Object.values(data)[0].id;
+            console.log(id + " - " + id)
+
+            conn.query("DELETE FROM TrabajosIn WHERE id = " + id, (err, data) => {
+                if (err) {
+                    //res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion ' + err);
+                } else {
+                    res.json(data)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.CargaCapturasEntregadoTI = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                variable
+            } = req.params;
+
+   
+            conn.query('SELECT * FROM TrabajosIn WHERE Cantidad <= 0', (err, ot) => {
+                if (err) {
+                    //res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion ' + err);
+                } else {
+                    console.log('Nota añadida');
+                    res.json(ot)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+///////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////// == Accesorios == //////////////////// == Accesorios
+Controller.CargaCapturasPendientesTI = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                variable
+            } = req.params;
+
+   
+            conn.query('SELECT * FROM TrabajosIn WHERE Cantidad > 0', (err, ot) => {
+                if (err) {
+                    //res.json("Error json: " + err);
+                    console.log('Error al registrar recepcion ' + err);
+                } else {
+                    console.log(ot);
+                    res.json(ot)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 module.exports = Controller;
+

@@ -319,6 +319,26 @@ router.get('/FolioAccesorios/', AlmacenController.FolioAccesorios);
 router.post('/ActuaUbicacionAcces', AlmacenController.ActuaUbicacionAcces);
 router.post('/EliminarAccesorio', AlmacenController.EliminarAccesorio);
 
+//====== Trabajo Interno ========
+//Abre pagina principal para tornilleria
+router.get('/wh_TrabajoInterno', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/TrabajoInterno/TrabajoInterno.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+router.post('/RegistrarTrabajoIn', AlmacenController.RegistrarTrabajoIn);
+router.get('/LeerTrabajosIn/:variable', AlmacenController.LeerTrabajosIn);
+router.post('/ActualizarTrabajoIn', AlmacenController.ActualizarTrabajoIn);
+router.get('/FolioTrabajoIn/', AlmacenController.FolioTrabajoIn);
+router.post('/EliminarTrabajoIn', AlmacenController.EliminarTrabajoIn);
+router.get('/CargaCapturasEntregadoTI/', AlmacenController.CargaCapturasEntregadoTI);
+router.get('/CargaCapturasPendientesTI/', AlmacenController.CargaCapturasPendientesTI);
 
 
 
