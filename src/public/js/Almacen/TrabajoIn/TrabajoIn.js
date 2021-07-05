@@ -30,6 +30,8 @@ function RegistrarTrabajoIn() {
 
 
 function CargaTrabajoIn() {
+    document.getElementById("Principal").style.display = "block";
+    document.getElementById("Historial").style.display = "none";
     let Busqueda = document.getElementById("Busqueda").value;
     let condicionBusqueda = Busqueda.substr(0, 4);
     let TipoURL = '';
@@ -52,11 +54,9 @@ function CargaTrabajoIn() {
                 let Articulo = data[index].Articulo;
                 let Cantidad = data[index].Cantidad;
                 let Instrucciones = data[index].Instrucciones;
-                let Aprobado = '-';
-                let Entregado = '-';
-                let entrega = '-';
 
-                let Arreglo = [id, FechaRegistro, Usuario, OT, PN, Articulo, Cantidad, Aprobado, Entregado, entrega, Instrucciones];
+
+                let Arreglo = [id, FechaRegistro, Usuario, OT, PN, Articulo, Cantidad, Instrucciones];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 Cantidad <= '0' ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#e7fed4";
@@ -68,15 +68,15 @@ function CargaTrabajoIn() {
 
                     if (x == 0) { //Ingresar el id
                         newCell.innerHTML = '<input required type="text" id="id' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 10) {
+                    } else if (x == 7) {
                         newCell.innerHTML = '<input required type="text" id="Instruccion' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 11) { //Si termina de registrar datos crear el boton
+                    } else if (x == 8) { //Si termina de registrar datos crear el boton
                         if (Arreglo[6] > 0 && condicionBusqueda != 'FAC-') {
-                            var newCell = newRow.insertCell(11); //CREAR CELDA
+                            var newCell = newRow.insertCell(8); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>' +
                                 '<button id="EliminarTi' + index + '" class="btn btn-danger" name="btn" onclick=EliminarTrabajoIn(' + (index + 1) + ')><i class="fas fa-minus-square"></i></button>';
                         } else {
-                            var newCell = newRow.insertCell(11); //CREAR CELDA
+                            var newCell = newRow.insertCell(8); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
                         }
                     } else {
@@ -359,6 +359,8 @@ function ConfirmarEliminacion() {
 
 
 function CargaCapturasEntregado() {
+    document.getElementById("Principal").style.display = "none";
+    document.getElementById("Historial").style.display = "blocke";
     $.ajax({
         url: '/CargaCapturasEntregadoTI/',
         success: function (data) {

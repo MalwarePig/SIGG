@@ -1616,18 +1616,17 @@ Controller.LeerTrabajosIn = (req, res) => {
             } = req.params;
 
             console.log("variable: " + variable);
-            conn.query("SELECT * FROM TrabajosIn", (err, Herramientas) => {
-                    if (err) {
-                        console.log('Error de lectura' + err);
-                    }
-                    res.json(Herramientas);
-                });
+            conn.query("SELECT * FROM trabajosin WHERE OT = '"+variable+"' OR PN = '"+variable+"' OR Articulo = '"+variable+"'", (err, data) => {
+                if (err) {
+                    console.log('Error de lectura' + err);
+                }
+                res.json(data)
+            });
         });
     } else {
         res.render('Admin/Login.html');
     }
 };
-
 
 
 Controller.ActualizarTrabajoIn = (req, res) => {
@@ -1740,15 +1739,12 @@ Controller.CargaCapturasEntregadoTI = (req, res) => {
             const {
                 variable
             } = req.params;
-
-   
-            conn.query('SELECT * FROM TrabajosIn WHERE Cantidad <= 0', (err, ot) => {
+            conn.query("call CargaCapturasEntregadoTI('0000')", true, (err, rows, fields) => {
                 if (err) {
-                    //res.json("Error json: " + err);
-                    console.log('Error al registrar recepcion ' + err);
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
                 } else {
-                    console.log('Nota añadida');
-                    res.json(ot)
+                    console.table(rows[0])
                 }
             });
         });
@@ -1769,14 +1765,12 @@ Controller.CargaCapturasPendientesTI = (req, res) => {
                 variable
             } = req.params;
 
-   
-            conn.query('SELECT * FROM TrabajosIn WHERE Cantidad > 0', (err, ot) => {
+            conn.query("call LeerTratabajoIn('0000')", true, (err, rows, fields) => {
                 if (err) {
-                    //res.json("Error json: " + err);
-                    console.log('Error al registrar recepcion ' + err);
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
                 } else {
-                    console.log(ot);
-                    res.json(ot)
+                    console.table(rows[0])
                 }
             });
         });
@@ -1785,4 +1779,3 @@ Controller.CargaCapturasPendientesTI = (req, res) => {
     }
 };
 module.exports = Controller;
-

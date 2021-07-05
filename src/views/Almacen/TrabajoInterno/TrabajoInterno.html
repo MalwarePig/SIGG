@@ -77,7 +77,28 @@
     <div class="card text-center col-md-12 col-s-12" id="ReporteOT">
         <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
             style="width:96%; height:350px; overflow: scroll;">
-            <div class="table-responsive">
+            <div class="table-responsive" id="Principal" style="display: none">
+                <table class="table table-condensed table-hover" id="TablaTrabajoIn">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Fecha registro</th>
+                            <th>Usuario</th>
+                            <th>OT</th>
+                            <th>PN</th>
+                            <th>Articulo</th>
+                            <th>Cantidad</th>
+                            <th></th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="CuerpoTablaAccesorios">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive" id="Historial" style="display: none;">
                 <table class="table table-condensed table-hover" id="TablaTrabajoIn">
                     <thead>
                         <tr>
