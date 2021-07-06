@@ -189,10 +189,7 @@ function Mostrar(idOT, TipoTabla) {
                     $("#R_Recibido").attr("readonly", "readonly");
                     $("#R_Extra").attr("readonly", "readonly");
                 }
-
             }
-
-
         }
     }
 }

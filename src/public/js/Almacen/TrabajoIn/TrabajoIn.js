@@ -360,15 +360,15 @@ function ConfirmarEliminacion() {
 
 function CargaCapturasEntregado() {
     document.getElementById("Principal").style.display = "none";
-    document.getElementById("Historial").style.display = "blocke";
+    document.getElementById("Historial").style.display = "block";
     $.ajax({
         url: '/CargaCapturasEntregadoTI/',
         success: function (data) {
             console.log(data[0])
 
-            $("#CuerpoTablaAccesorios tr").remove();
+            $("#CuerpoTablaHistorial tr").remove();
             let TotalRegistros = data.length;
-            var Tabla = document.getElementById('TablaTrabajoIn').getElementsByTagName('tbody')[0];
+            var Tabla = document.getElementById('TablaHistorial').getElementsByTagName('tbody')[0];
             for (let index = 0; index < TotalRegistros; index++) {
                 let id = data[index].id;
                 let FechaRegistro = moment(data[index].FechaRegistro).format("DD/MM/YYYY") || '-';
@@ -376,35 +376,28 @@ function CargaCapturasEntregado() {
                 let OT = data[index].OT;
                 let PN = data[index].PN;
                 let Articulo = data[index].Articulo;
-                let Cantidad = data[index].Cantidad;
+                let CantidadInicial = data[index].inicial;
+                let CantidadFinal = data[index].final;
                 let Instrucciones = data[index].Instrucciones;
-                let Aprobado = '-';
-                let Entregado = '-';
-                let entrega = '-';
+                let Aprobado = data[index].Aprobado;
+                let Entregado = data[index].Entregado;
+                let entrega =  moment(data[index].FechaEntrega).format("DD/MM/YYYY") || '-';
 
-                let Arreglo = [id, FechaRegistro, Usuario, OT, PN, Articulo, Cantidad, Aprobado, Entregado, entrega, Instrucciones];
+                let Arreglo = [id, FechaRegistro, Usuario, OT, PN, Articulo, CantidadInicial,CantidadFinal, Aprobado, Entregado, entrega, Instrucciones];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
-                Cantidad <= '0' ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#e7fed4";
+               
+                Cantidad <= 0 ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#ffd2d2";
 
-                for (var x = 0; x < Arreglo.length + 1; x++) {
+                for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
                     newRow.setAttribute("id", "Rows" + index); //se asigna id al incrementar cada fila +1 para contar el encabezado
 
                     if (x == 0) { //Ingresar el id
                         newCell.innerHTML = '<input required type="text" id="id' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 10) {
+                    } else if (x == 11) {
                         newCell.innerHTML = '<input required type="text" id="Instruccion' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 11) { //Si termina de registrar datos crear el boton
-                        if (Arreglo[6] > 0 && condicionBusqueda != 'FAC-') {
-                            var newCell = newRow.insertCell(11); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ')> <i class="fas fa-circle"></i> </button>' +
-                                '<button id="EliminarTi' + index + '" class="btn btn-danger" name="btn" onclick=EliminarTrabajoIn(' + (index + 1) + ')><i class="fas fa-minus-square"></i></button>';
-                        } else {
-                            var newCell = newRow.insertCell(11); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
-                        }
                     } else {
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);
@@ -417,16 +410,18 @@ function CargaCapturasEntregado() {
     }); //Ajax 
 }
 
-
-function CargaCapturasPendientes() {
+ 
+function CargaCapturasPendientesTI() {
+    document.getElementById("Principal").style.display = "none";
+    document.getElementById("Historial").style.display = "block";
     $.ajax({
         url: '/CargaCapturasPendientesTI/',
         success: function (data) {
             console.log(data[0])
 
-            $("#CuerpoTablaAccesorios tr").remove();
+            $("#CuerpoTablaHistorial tr").remove();
             let TotalRegistros = data.length;
-            var Tabla = document.getElementById('TablaTrabajoIn').getElementsByTagName('tbody')[0];
+            var Tabla = document.getElementById('TablaHistorial').getElementsByTagName('tbody')[0];
             for (let index = 0; index < TotalRegistros; index++) {
                 let id = data[index].id;
                 let FechaRegistro = moment(data[index].FechaRegistro).format("DD/MM/YYYY") || '-';
@@ -434,35 +429,27 @@ function CargaCapturasPendientes() {
                 let OT = data[index].OT;
                 let PN = data[index].PN;
                 let Articulo = data[index].Articulo;
-                let Cantidad = data[index].Cantidad;
+                let CantidadInicial = data[index].inicial;
+                let CantidadFinal = data[index].final;
                 let Instrucciones = data[index].Instrucciones;
-                let Aprobado = '-';
-                let Entregado = '-';
-                let entrega = '-';
+                let Aprobado = data[index].Aprobado;
+                let Entregado = data[index].Entregado;
+                let entrega =  moment(data[index].FechaEntrega).format("DD/MM/YYYY") || '-';
 
-                let Arreglo = [id, FechaRegistro, Usuario, OT, PN, Articulo, Cantidad, Aprobado, Entregado, entrega, Instrucciones];
+                let Arreglo = [id, FechaRegistro, Usuario, OT, PN, Articulo, CantidadInicial, CantidadFinal, Aprobado, Entregado, entrega, Instrucciones];
                 // inserta una fila al final de la tabla
                 var newRow = Tabla.insertRow(Tabla.rows.length);
                 Cantidad <= '0' ? newRow.style.backgroundColor = "#ffd2d2" : newRow.style.backgroundColor = "#e7fed4";
 
-                for (var x = 0; x < Arreglo.length + 1; x++) {
+                for (var x = 0; x < Arreglo.length; x++) {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
                     newRow.setAttribute("id", "Rows" + index); //se asigna id al incrementar cada fila +1 para contar el encabezado
 
                     if (x == 0) { //Ingresar el id
                         newCell.innerHTML = '<input required type="text" id="id' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 10) {
+                    } else if (x == 11) {
                         newCell.innerHTML = '<input required type="text" id="Instruccion' + index + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 11) { //Si termina de registrar datos crear el boton
-                        if (Arreglo[6] > 0 ) {
-                            var newCell = newRow.insertCell(11); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle" ></i> </button>' +
-                                '<button id="EliminarTi' + index + '" class="btn btn-danger" name="btn" onclick=EliminarTrabajoIn(' + (index + 1) + ') disabled><i class="fas fa-minus-square" ></i></button>';
-                        } else {
-                            var newCell = newRow.insertCell(11); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + index + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (index + 1) + ') disabled> <i class="fas fa-circle"></i> </button>';
-                        }
                     } else {
                         // adjuntar el texto al nodo
                         var newText = document.createTextNode(Arreglo[x]);

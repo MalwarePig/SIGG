@@ -55,7 +55,7 @@
 
                         <div class="form-group col text-left">
                             <button type="button" class="btn btn-success" id="ButtCargaEficiencias" name="Carga"
-                                onclick="CargaCapturasPendientes()" title="Alimentar Base de datos"><i
+                                onclick="CargaCapturasPendientesTI()" title="Alimentar Base de datos"><i
                                     class="fas fa-file-powerpoint"></i></button>
                             <button type="button" class="btn btn-danger" id="ButtCargaEficiencias" name="Carga"
                                 onclick="CargaCapturasEntregado()" title="Alimentar Base de datos"><i
@@ -99,7 +99,7 @@
             </div>
 
             <div class="table-responsive" id="Historial" style="display: none;">
-                <table class="table table-condensed table-hover" id="TablaTrabajoIn">
+                <table class="table table-condensed table-hover" id="TablaHistorial">
                     <thead>
                         <tr>
                             <th></th>
@@ -108,15 +108,15 @@
                             <th>OT</th>
                             <th>PN</th>
                             <th>Articulo</th>
-                            <th>Cantidad</th>
+                            <th>Cantidad restante</th>
+                            <th>Cantidad entregado</th>
                             <th>Aprobado</th>
                             <th>Entregado</th>
                             <th>Fecha entrega</th>
                             <th></th>
-                            <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tbody id="CuerpoTablaAccesorios">
+                    <tbody id="CuerpoTablaHistorial">
 
                     </tbody>
                 </table>

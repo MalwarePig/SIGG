@@ -1739,12 +1739,13 @@ Controller.CargaCapturasEntregadoTI = (req, res) => {
             const {
                 variable
             } = req.params;
-            conn.query("call CargaCapturasEntregadoTI('0000')", true, (err, rows, fields) => {
+            conn.query("call CargaCapturasEntregadoTI()", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
                 } else {
                     console.table(rows[0])
+                    res.json(rows[0])
                 }
             });
         });
@@ -1752,11 +1753,9 @@ Controller.CargaCapturasEntregadoTI = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
-
-
-
-
+ 
 ///////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////////// == Accesorios == ////////////////////////// == Accesorios == //////////////////// == Accesorios
+ 
 Controller.CargaCapturasPendientesTI = (req, res) => {
     if (req.session.loggedin) {
         //res.send('Metodo Get list');
@@ -1764,13 +1763,13 @@ Controller.CargaCapturasPendientesTI = (req, res) => {
             const {
                 variable
             } = req.params;
-
-            conn.query("call LeerTratabajoIn('0000')", true, (err, rows, fields) => {
+            conn.query("call CargaCapturasPorEntregarTI()", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
                 } else {
                     console.table(rows[0])
+                    res.json(rows[0])
                 }
             });
         });
@@ -1778,4 +1777,6 @@ Controller.CargaCapturasPendientesTI = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
 module.exports = Controller;
