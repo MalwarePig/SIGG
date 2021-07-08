@@ -18,6 +18,7 @@ const FlujoController = require('../Controllers/FlujoController');
 const PNCController = require('../Controllers/PNCController');
 const RHController = require('../Controllers/RHController');
 const PeticionesController = require('../Controllers/PeticionesController');
+const CalidadController = require('../Controllers/CalidadController');
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -795,7 +796,37 @@ router.post('/DesactivarPersonal', RHController.DesactivarPersonal);
 router.post('/ActivarPersonal', RHController.ActivarPersonal);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- 
+ //====== Abre modulo de Inspeccion ========
+router.get('/Inspeccion', (req, res) => {
+	res.render('Calidad/Inspeccion/Inspeccion.html', {
+		title: 'Gemak'
+	});
+});
+
+
+router.post('/NuevaInspeccion', CalidadController.NuevaInspeccion);
+router.get('/CargarInspeccion/', CalidadController.CargarInspeccion);
+router.post('/ActualizarOrden/', CalidadController.ActualizarOrden);
+router.post('/EliminarOrdenInsp', CalidadController.EliminarOrdenInsp);
+router.get('/CargarInspectores/', CalidadController.CargarInspectores);
+
+ //====== Abre modulo de Inspeccion de reportes ========
+ router.get('/ReporteInspeccion', (req, res) => {
+	res.render('Calidad/Inspeccion/ListaInspeccion.html', {
+		title: 'Gemak'
+	});
+});
+
+router.get('/ListaInspecciones/:parametros', CalidadController.ListaInspecciones);
+
+
+
+
+
+
+
+
+
 
 
 
