@@ -1,0 +1,168 @@
+body {
+font-family : 'Lato', sans-serif;
+background :    #ffffff;
+}
+body p {
+color : #000000;
+font-family : "Lato", sans-serif;
+font-size : 13px;
+letter-spacing : 1px;
+}
+body h1, h2, h3, h4, h5, h6 {
+color : #000000;
+font-family : "Lato", sans-serif;
+font-size : 16px;
+text-transform : capitalize;
+font-weight : 800;
+text-transform : uppercase;
+}
+
+ 
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+#Formulario{
+  margin: 2% 2% 0% 2%;
+  padding: 1% 2%;
+  background-color: #f4f3f3;
+}
+
+#lblForm{
+  padding: 0% 0% 0% 0%;
+}
+
+.Diag{
+margin: 2% 2% 2% 2%; /*TOP,RIGHT,BOTTOM,LEFT*/
+padding-right: 0%;
+}
+/*
+.TimeMaquina{
+  margin: 2% 2% 0% 2%; TOP,RIGHT,BOTTOM,LEFT
+  padding-right: 0%;
+  /*background-color: darkgoldenrod;
+}*/
+
+.SpaceWork{
+margin: 1% 2% 2% 2%; /*TOP,RIGHT,BOTTOM,LEFT*/
+padding: 1% 1% 1% 1%;
+border: 1px solid rgb(228, 226, 226);
+border-radius: 5px;
+height: auto;
+
+-webkit-box-shadow: 4px 4px 14px -4px rgba(0,0,0,0.71);
+-moz-box-shadow: 4px 4px 14px -4px rgba(0,0,0,0.71);
+box-shadow: 4px 4px 14px -4px rgba(0,0,0,0.71);
+}
+ 
+h2 {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+
+  li {
+    border-radius: 3px;
+    padding: auto;
+    display: flex;
+    margin-bottom: 25px;
+  }
+  .table-header {
+    background-color: #e8e9e9;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+  }
+  .col-1 {
+    flex-basis: 10%;
+  }
+  
+  .col-2 {
+    flex-basis: 30%;
+  }
+  li #Fila{
+    height: 300PX;
+    padding-right: 0;
+
+  }
+  
+/*////////////////////  tabla ///////////////////////////*/
+#wrapper {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#wrapper td, #wrapper th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#wrapper tr:nth-child(even){background-color: #f2f2f2;}
+
+#wrapper tr:hover {background-color: #ddd;}
+
+#wrapper th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+/************************************** GRUPO DE DIVS EN HORARIO DRAG & DROP ********************************************************/
+.list-group-item{
+  height:60;
+  width:100%;
+  text-align:center;
+  display: table-cell;
+  vertical-align:middle;
+}
+
+ 
+
+.nav-link {
+  background-color: #f0f0f0;
+}/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.nav-link {
+  color: rgba(56, 56, 56, 0.8);
+}/* change the link color */
+.nav-link:hover{
+  color: rgba(0, 0, 0, 0.8);
+}/* change the link color */
+
+
+/*//////////////////////////////////////////////////// DARK MODE ////////////////////////////////////////////////////////////////////////*/
+[data-theme="dark"] {
+  background-color: #111 !important;
+  color: #eee;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #333 !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #000 !important;
+}
+
+[data-theme="dark"] .bg-black {
+  background-color: #eee !important;
+}
+
+.modal-backdrop
+{
+    opacity:0.5 !important;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-dialog{
+  overflow-y: initial !important
+}
+.modal-body{
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}

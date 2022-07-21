@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../../partials/head.html') %>
+    <!-----------------------------------------------     incluir cabezera navegacion     ---------------------------------------------------------------->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/Produccion/Materiales/Materiales.js"></script>
+    <!-----------------------------------------------     Dark Mode Switch     ---------------------------------------------------------------->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+      <!--html2canvas, podría ser desde un servidor propio o como yo lo hago: desde jsdelivr -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.1/dist/html2canvas.min.js"></script> 
+</head>
+
+<body onload="Iniciar()">
+    <%- include ('../../partials/navegacion.html') %>
+    <!---  <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+    </div>
+    <script type="text/javascript" src="js/Recursos/dark-mode-switch.min.js"></script>------->
+
+    <div class="row">
+        <div class="col-sm-12 p-1">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-row">
+
+                        <div class="col-1">
+                            <select required id="Planta" name="Planta" class="form-control">
+                                <option value="Bravo" selected>Bravo</option>
+                                <option value="Morelos">Morelos</option>
+                            </select>
+                        </div>
+
+                        <div class="col-2">
+                            <input required type="date" id="Inicio"
+                                            class="form-control" name="Inicio" autocomplete="off">
+                        </div>
+
+                        <div class="col-2">
+                            <input required type="date" id="Fin"
+                                            class="form-control" name="Fin" autocomplete="off">
+                        </div>
+
+                        <div class=" col-2">
+                            <button type="button" class="btn btn-dark" id="Carga" name="Carga"
+                            onclick="Carga()"title="Alimentar Base de datos"><i class="fas fa-search"></i></button>
+                        </div>
+
+                        <div class="col">
+                            <button type="button" id="Excel" name="Excel" class="btn btn-success "
+                                onclick="FlujoActivoExcel()" data-toggle="tooltip" data-placement="top" title="Excel"><i
+                                    class="fas fa-file-csv"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card text-center col-md-12 col-s-12">
+        <div class="card-body">
+            
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                <div class="table-responsive">
+                    <table class="table table-condensed table-hover" id="Tabla">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Fecha</th>
+                                <th>OT</th>
+                                <th>Maquina</th>
+                                <th>Cant. OT</th>
+                                <th>Cant. entregada</th>
+                                <th>Entrega</th>
+                                <th>Recibe</th>
+                                <th>Comentarios</th>
+                                <th>Actualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="CuerpoTabla">
+    
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+    <%- include ('../../Producción/Flujo/ModalEditarFlujo.html') %>
+
+
+    <!-- DATATABLES 
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- BOOTSTRAP  
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+-->
+
+ 
+  <!-- DATATABLES -->
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  <!-- BOOTSTRAP -->
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+</body>

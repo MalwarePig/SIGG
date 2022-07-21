@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>
+		GEMAK
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="css/style.css">
+	 <!-- GENERAR EXCEL -->
+	 <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+	<!-- CARGAR EXCEL -->
+ 	<script type="text/javascript" src="js/Recursos/xlsxfullmin.js"></script>
+	<script type="text/javascript" src="js/Recursos/FileSaver.js"></script>
+	
+	<script type="text/javascript" src="js/Almacen/Recepcion.js"></script>
+</head>
+
+<body>
+	<%- include ('../partials/navegacion.html')%>
+	<br>
+	<!-----------------------------------------     SUB-MENU      ---------------------------------------------------------------->
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#Recepcion">Recepción</a></li>
+		<li onclick="ConsultaRecepcion()"><a data-toggle="tab" href="#Asignacion">Asignación</a></li>
+		<li onclick="ConsultaFlotante()"><a data-toggle="tab" href="#Flotante">Herramienta en espera</a></li>
+	</ul>
+	<!-----------------------------------------   div-Contenido  ----------------------------------------------------------------->
+	<div class="tab-content">
+		<!-----------------------------------------   Tab Uno  ----------------------------------------------------------------->
+		<div id="Recepcion" class="tab-pane fade in active">
+			<div class="card text-center">
+				<div class="card-header">
+					RECEPCIÓN ALMACEN
+					<button type="button" class="btn btn-secondary btn-sm" onclick="FormatoExcel()">Formato</button>				</div>
+				<div class="card-body">
+					<p class="card-text">Selecciona archivo de excel</p>
+					<!-- <a href="#" class="btn btn-primary">Go somewhere</a>-->
+					<div class="container text-center  d-flex justify-content-center align-items-center">
+						<div class="col-3">
+							<input type="file" id="input-excel" />
+						</div>
+						<div class="col-3">
+							<input type="button" id="button" class="btn btn-primary" value="Registrar"
+								onclick="GuardarRecepcion()" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--Aqui se alimentara la tabla cargar del excel-->
+			<table id="wrapper"> </table>
+		</div>
+		<!-----------------------------------------   Tab Dos  ----------------------------------------------------------------->
+		<div id="Asignacion" class="tab-pane fade">
+			<!------------------------------ TABLA -------------------------------------->
+			<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+				style="margin-top: 10px; width:96%; height:350px; overflow: scroll;">
+				<table class="table table-condensed table-hover" id="Herr_Encontradas">
+					<thead>
+						<tr>
+							<th>Registro</th>
+							<th>Item</th>
+							<th>Pendiente</th>
+							<th>Estatus</th>
+							<th class="col-sm-1">Agregar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+			<!------------------------------ FIN DE TABLA --------------------------------->
+
+			<!----------------------------------- TABLA ----------------------------------------->
+			<div class="card  ">
+				<div class="card-header">
+					<!---------------- FORMULARIO ---------------->
+					<div class="container shadow-lg p-3  bg-white rounded">
+						<form id="RegistroSalida" name="RegistroSalida">
+
+							<div class="form-row">
+								<div class="form-group col-md-1" style="display:none">
+									<label for="inputAddress" class="font-weight-bold">Indice</label>
+									<input required type="text" id="Indice" class="form-control text-dark" name="Indice"
+										autocomplete="off" required>
+								</div>
+
+								<div class="form-group col-md-1">
+									<label for="inputAddress2" class="font-weight-bold">id</label>
+									<input required type="text" id="id" class="form-control" placeholder="#####"
+										name="id" autocomplete="off" readonly>
+								</div>
+
+								<div class="form-group col-md-3">
+									<label for="inputAddress2" class="font-weight-bold">Descripción de
+										herramienta</label>
+									<input type="text" id="Herramienta" class="form-control solo-numero"
+										placeholder="Herramienta..." name="Herramienta" autocomplete="off" readonly
+										required>
+								</div>
+
+								<div class="form-group col-md-2">
+									<label for="inputAddress2" class="font-weight-bold">Cantidad</label>
+									<input type="text" id="Cantidad" class="form-control solo-numero"
+										placeholder="Orden de trabajo" name="Cantidad" autocomplete="off" required>
+								</div>
+
+								<div class="form-group col-md-2">
+									<label for="inputState" class="font-weight-bold">Planta</label>
+									<select required id="Planta" name="Planta" class="form-control">
+										<option value="Almacen Morelos" selected>Morelos</option>
+										<option value="Almacen Bravo">Bravo</option>
+										<option value="Gaveta">Gaveta</option>
+									</select>
+								</div>
+								<div class="form-group col-md-1 p-5">
+									<button type="button" class="btn btn-dark btn-sm t-100" data_but="btn-xs"
+										onclick="CrearNota()"><i class='fa fa-plus'></i> Agregar</button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+					<!------------------------------- FIN DE FORMULARIO --------------------------------->
+				</div>
+				<div class="card-body">
+					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+						<table class="table table-condensed table-hover" id="TablaAsignacion">
+							<thead>
+								<tr>
+									<th>Registro</th>
+									<th>Item</th>
+									<th>Entregado</th>
+									<th>Planta asignada</th>
+									<th class="col-sm-1">Eliminar</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+						<button type="button" class="btn btn-secondary" onclick="GuardarNota()"
+							data-target="#AsignadoExito" data-toggle="modal">Registrar</button>
+					</div>
+					<!------------------------------ FIN DE TABLA --------------------------------->
+				</div><!-- CARD BODY -->
+			</div><!-- CARD -->
+
+		</div>
+		<!-----------------------------------------   Tab Tres  ----------------------------------------------------------------->
+		<div id="Flotante" class="tab-pane fade">
+			<div class="card">
+				<div class="card-header">
+					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+						<label for="inputAddress2" class="font-weight-bold  text-center">Bravo</label>
+						<table class="table table-condensed table-hover" id="PlantaBravo">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Item</th>
+									<th>Entregado</th>
+									<th>Planta asignada</th>
+									<th>Cancelar</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+						<label for="inputAddress2" class="font-weight-bold ">Morelos</label>
+						<table class="table table-condensed table-hover" id="PlantaMorelos">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Item</th>
+									<th>Entregado</th>
+									<th>Planta asignada</th>
+									<th>Cancelar</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-----------------------------------------   Fin de Tab  ----------------------------------------------------------------->
+
+	<!--Aqui ejecuta el evento de lectura de excel-->
+	<script>
+		$('#input-excel').change(function (e) {
+			var reader = new FileReader();
+			reader.readAsArrayBuffer(e.target.files[0]);
+			reader.onload = function (e) {
+				var data = new Uint8Array(reader.result);
+				var wb = XLSX.read(data, {
+					type: 'array'
+				});
+				var htmlstr = XLSX.write(wb, {
+					sheet: "Hoja1",
+					type: 'binary',
+					bookType: 'html'
+				}); //obtener tabla
+				//console.log(htmlstr);
+				//Find desired cell
+				var desired_cell = $('#wrapper')[0].innerHTML += htmlstr; //insertar tabla en html
+			}
+		});
+	</script>
+
+	<!-- Modal Sin elementos -->
+	<div class="modal fade" id="AsignadoExito" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					Asignación exitosa.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+</body>
+</html>

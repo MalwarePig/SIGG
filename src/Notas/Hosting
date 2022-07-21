@@ -1,0 +1,29 @@
+************************** LINEA DE COMANDOS CMD **********************************
+> heroku login
+
+********************** Entrar en repositorio *****************************
+> cd C:\Users\Soporte\Desktop\NodeControl - FCFM  
+> git init //para crear repositorio vacio a subir
+> git status //verificar archivos a subir
+> git add .  //Agrega todos los archivos listos a subir
+> git status //verificar archivos a subir, deben verse en verde
+> heroku git:remote -a app-embebidos //Seleccionar el espacio de heroku donde se debe subir
+> git commit -m "Mensaje de referencia" //comando para subir al servidor
+> git push heroku master //Inicia la subida de archivos a servidor
+> heroku open //Iniciar aplicacion
+
+**************************** LINKS **********************************
+
+https://console.clever-cloud.com/users/me/applications/app_83ede109-4bef-4568-8e47-c75b48b056ba
+
+https://dashboard.heroku.com/apps
+
+
+sistema interno de gestion gemak
+
+gemakcn_Soporte
+enigma1702861
+
+Nota hacer itempresato tiempo salida now
+
+tareas FechaInicio tiempo salida now

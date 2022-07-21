@@ -1,0 +1,104 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalInspeccion"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Orden por insepccionar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="Formulario">
+          <div class="form-group" >
+
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Fecha de registro:</label>
+                <input type="text" class="form-control" id="N_FechaRegistro" readonly placeholder="dd / mm / aaaa hh:mm">
+              </div>
+             
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Tipo:</label>
+                <select required id="N_Tipo" name="Area" class="form-control">
+                  <option value="1 Pieza" selected>1 Pieza</option>
+                  <option value="Proceso">Proceso</option>
+                </select>
+              </div>
+            </div>
+
+            <hr>
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">OT:</label>
+                <input type="text" class="form-control" id="N_OT">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Cantidad OT:</label>
+                <input type="text" class="form-control" id="N_CantidadOT">
+              </div>
+            
+            </div>
+
+            <hr>
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Nómina:</label>
+                <input type="text" class="form-control" id="N_Nomina" onkeypress="return Nombres(event)">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Empleado:</label>
+                <input type="text" class="form-control" id="N_Empleado">
+              </div>
+            
+            </div>
+            <hr>
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Serie:</label>
+                <input type="text" class="form-control" id="N_Serie">
+              </div>
+            </div>
+            <hr>
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Notas:</label>
+                <input type="text" class="form-control" id="N_Notas">
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" onclick="RegistrarOrden()" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

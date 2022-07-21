@@ -1,0 +1,166 @@
+<style>
+    /*
+Full screen Modal 
+*/
+    .modal-dialog-full-width {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+
+    }
+
+    .modal-content-full-width {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important;
+        background-color: #ffffff !important
+    }
+
+    .modal-header-full-width {
+        border-bottom: 1px solid #ffffff !important;
+    }
+
+    .modal-footer-full-width {
+        border-top: 1px solid #ffffff !important;
+    }
+</style>
+
+
+
+<div class="container my-4">
+    <!-- Modal -->
+    <div class="modal fade right" id="ModalReporteMensual" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+            <div class="modal-content-full-width modal-content ">
+                <div class=" modal-header-full-width   modal-header text-center">
+
+
+                    <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Historial</h1>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-row">
+
+                            <div class="form-group col-md-1">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha Fin</label>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-1">
+                                <input required type="date" id="inicio" class="form-control" name="Inicio"
+                                    autocomplete="off">
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <input required type="date" id="fin" class="form-control" name="vencimiento"
+                                    autocomplete="off">
+                            </div>
+
+                            <div class="form-group col-md-2 ">
+                                <button type="button" id="LeerHistorial" name="LeerHistorial" class="btn btn-secondary "
+                                    onclick="ReporteMensual()">Buscar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card text-center">
+                        <div class="card-body">
+
+                            <div class="form-row">
+                                <div class="form-group col-md-2 col-sm-2">
+                                    <label for="inputAddress" class="font-weight-bold">Departamento</label>
+                                    <input required type="text" id="Producto" class="form-control text-dark"
+                                        name="Sal_Herramienta" autocomplete="off" readonly>
+                                </div>
+
+                                <div class="form-group col-md-2 col-sm-2">
+                                    <label for="inputAddress2" class="font-weight-bold">Total Cerradas</label>
+                                    <input required type="text" id="Ubicacion" class="form-control" name="Sal_Ubicación"
+                                        autocomplete="off" readonly>
+                                </div>
+
+                                <div class="form-group col-md-2 col-sm-2">
+                                    <label for="inputAddress2" class="font-weight-bold">Actuales abiertas</label>
+                                    <input type="text" id="cantidad" class="form-control solo-numero"
+                                        name="Sal_Cantidad" autocomplete="off" readonly>
+                                </div>
+
+                                <div class="form-group col-md-2 col-sm-2">
+                                    <label for="inputAddress2" class="font-weight-bold">Total hrs. mensuales</label>
+                                    <input type="text" id="OT" class="form-control" name="Sal_OT" autocomplete="off"
+                                        readonly>
+                                </div>
+
+
+                                <div class="form-group col-md-2">
+                                    <label for="inputAddress2" class="font-weight-bold">Promedio mensual</label>
+                                    <input type="text" id="Empleado" class="form-control" name="Sal_Empleado"
+                                        autocomplete="off" readonly>
+                                </div>
+
+                                <div class="container-fluid shadow-lg p-1  bg-white rounded">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover" id="TablaHistorial">
+                                            <thead>
+                                                <tr>
+                                                    <th>N°</th>
+                                                    <th>OT</th>
+                                                    <th>N° Parte</th>
+                                                    <th>Cant. OT</th>
+                                                    <th>Recibido</th>
+                                                    <th>Enviados</th>
+                                                    <th>Maquina</th>
+                                                    <th>Planta</th>
+                                                    <th>Servicios</th>
+                                                    <th>Area</th>
+                                                    <th>Origen</th>
+                                                    <th>Registro</th>
+                                                    <th>Aceptado</th>
+                                                    <th>Terminado</th>
+                                                    <th>vencimiento</th>
+                                                    <th>Tiempo Prod.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Grafica"></div>
+                    </div>
+
+                    <div class="modal-footer-full-width  modal-footer">
+                        <button type="button" class="btn btn-danger btn-md btn-rounded"
+                            data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-md btn-rounded"
+                            onclick="HistorialExcel()">Exportar</button>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

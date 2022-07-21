@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../../partials/head.html') %>
+    <!-----------------------------------------------     incluir cabezera navegacion     ---------------------------------------------------------------->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="js/Produccion/Flujo/Eficiencia.js"></script>
+    <!-----------------------------------------------     Dark Mode Switch     ---------------------------------------------------------------->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!--html2canvas, podría ser desde un servidor propio o como yo lo hago: desde jsdelivr -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.1/dist/html2canvas.min.js">
+    </script>
+</head>
+
+<body>
+    <%- include ('../../partials/navegacion.html') %>
+
+    <div class="row">
+
+        <div class="col-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col ">
+                            <input required type="text" id="Busqueda" class="form-control" name="OTHistorial"
+                                placeholder="OT..." value="72900">
+                        </div>
+
+                        <div class="form-group col">
+                            <button type="button" id="LeerHistorial" name="LeerHistorial" class="btn btn-secondary "
+                                onclick="CargaEficienciasOT()">Buscar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-1">
+        </div>
+
+        <div class="col-4 ">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-row">
+
+                        <div class="form-group col">
+                            <select required id="Planta" name="Planta" class="form-control">
+                                <option value="Bravo" selected>Bravo</option>
+                                <option value="Morelos">Morelos</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-4 ">
+                            <input required type="date" id="InicioMes" class="form-control" name="Inicio" autocomplete="off">
+                        </div>
+
+                        <div class="form-group col-4 ">
+                            <input required type="date" id="FinMes" class="form-control" name="Inicio" autocomplete="off">
+                        </div>
+
+                        <div class="form-group col-md-2 ">
+                            <button type="button" id="LeerHistorialMensual" name="LeerHistorialMensual" class="btn btn-secondary "
+                                onclick="CargaEficienciasMensual()">Buscar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-1">
+        </div>
+
+        <div class="col-4 ">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-row">
+
+                        <div class="form-group col-4 ">
+                            <input required type="date" id="NominaInicio" class="form-control" name="NominaInicio" autocomplete="off">
+                        </div>
+
+                        <div class="form-group col-4 ">
+                            <input required type="date" id="NominaFin" class="form-control" name="NominaFin" autocomplete="off">
+                        </div>
+
+                        <div class="form-group col ">
+                            <input required type="text" id="Nomina" class="form-control" name="Nomina"
+                                placeholder="Nomina...">
+                        </div>
+
+                        <div class="form-group col-md-2 ">
+                            <button type="button" id="LeerHistorial" name="LeerHistorial" class="btn btn-secondary "
+                                onclick="CargaEficienciasNomina()">Buscar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="modal-body">
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="container-fluid shadow-lg p-1  bg-white rounded">
+                    <!-- Tabla Reporte OT -->
+                    <div class="table-responsive" id="HistorialOT" style="display: none">
+                        <table class="table table-condensed table-hover" id="TablaHistorial">
+                            <thead>
+                                <tr>
+                                    <th>OT</th>
+                                    <th>Maquina</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
+                                    <th>Cant. OT</th>
+                                    <th>Nombre</th>
+                                    <th>Turno</th>
+                                    <th>Tiempo Operacion</th>
+                                    <th>Cant.Turno</th>
+                                    <th>Estimado</th>
+                                    <th>Eficiencia</th>
+                                    <th id="FilaTiempoMuerto0">TotalTMuerto</th>
+                                    <th id="FilaTiempoMuerto1">Aditamentos</th>
+                                    <th id="FilaTiempoMuerto2">Herramienta</th>
+                                    <th id="FilaTiempoMuerto3">Liberación</th>
+                                    <th id="FilaTiempoMuerto4">Luz</th>
+                                    <th id="FilaTiempoMuerto5">Mantenimiento</th>
+                                    <th id="FilaTiempoMuerto6">Material</th>
+                                    <th id="FilaTiempoMuerto7">Planeacion</th>
+                                    <th id="FilaTiempoMuerto8">Programa</th>
+                                    <th id="FilaTiempoMuerto9">Setup</th>
+                                    <th id="FilaTiempoMuerto10">Otros</th>
+                                </tr>
+                            </thead>
+                            <tbody id="CuerpoTablaOT">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Tabla Reporte Mensual -->
+                    <div class="table-responsive" id="HistorialMensual" style="display: none;">
+                        <table class="table table-condensed table-hover" id="TablaHistorialMensual">
+                            <thead>
+                                <tr>
+                                    <th>OT</th>
+                                    <th>Eficiencia</th>
+                                    <th id="FilaTiempoMuertoMensual0">TotalTMuerto</th>
+                                    <th id="FilaTiempoMuertoMensual1">Aditamentos</th>
+                                    <th id="FilaTiempoMuertoMensual2">Herramienta</th>
+                                    <th id="FilaTiempoMuertoMensual3">Liberación</th>
+                                    <th id="FilaTiempoMuertoMensual4">Luz</th>
+                                    <th id="FilaTiempoMuertoMensual5">Mantenimiento</th>
+                                    <th id="FilaTiempoMuertoMensual6">Material</th>
+                                    <th id="FilaTiempoMuertoMensual7">Planeacion</th>
+                                    <th id="FilaTiempoMuertoMensual8">Programa</th>
+                                    <th id="FilaTiempoMuertoMensual9">Setup</th>
+                                    <th id="FilaTiempoMuertoMensual10">Otros</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="CuerpoTablaMensual">
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer-full-width  modal-footer">
+        <button type="button" class="btn btn-danger btn-md btn-rounded" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary btn-md btn-rounded" onclick="Excel()">Exportar</button>
+    </div>
+
+
+
+
+
+
+
+    <%- include ('../../Producción/Eficiencia/ModalEditEficiencia.html') %>
+
+
+</body>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../../partials/head.html') %>
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+ 
+  <script type="text/javascript" src="js/Almacen/Salidas.js"></script>
+</head>
+
+<body onload="Folios()">
+  <%- include ('../../partials/navegacion.html') %>
+  <!------incluir navegacion Menu----->
+
+  <div class="card text-center">
+    <div class="card-header">
+      <!------------------------------ BUSCAR -------------------------------------->
+     
+        <div class="form-row">
+          <div class="form-group col-md-0">
+            <a href="#" class="badge badge-info" data-target="#ModalRecoleccion" data-toggle="modal"><span id="value">0</span></a>
+          </div>
+          <div class="form-group col-md-2">
+            <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
+          </div>
+          <div class="form-group col-md-1">
+            <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary" onclick="GETPRODUCTS()">Buscar</button>
+          </div>
+        </div>
+    
+    </div>
+    <div class="card-body">
+      <!------------------------------ TABLA -------------------------------------->
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%; height:350px; overflow: scroll;">
+        <table class="table table-condensed table-hover" id="Herr_Encontradas">
+          <thead>
+            <tr>
+              <th>Clave</th>
+              <th>Articulo</th>
+              <th>Cantidad</th>
+              <th>Usados</th>
+              <th>Ubicacion</th>
+              <th >Agregar</th>
+            </tr>
+          </thead>
+          <tbody>
+         
+          </tbody>
+        </table>
+      </div>
+
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+        <form  id="RegistroSalida" name="RegistroSalida">
+
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="inputAddress" class="font-weight-bold">Descripción herramienta</label>
+              <input required type="text" id="Producto" class="form-control text-dark" placeholder="Herramienta..."
+                name="Sal_Herramienta" autocomplete="off" readonly required>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress2" class="font-weight-bold">Ubicación</label>
+              <input required type="text" id="Ubicacion" class="form-control" placeholder="A,5,B,2" name="Sal_Ubicación"
+                autocomplete="off" readonly required>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress2" class="font-weight-bold">Cantidad</label>
+              <input type="text" id="cantidad" class="form-control solo-numero"  name="Sal_Cantidad"
+                autocomplete="off" required>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress2" class="font-weight-bold">OT</label>
+              <input type="text" id="OT" class="form-control" name="Sal_OT"
+                autocomplete="off" required>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputState" class="font-weight-bold">Estatus</label>
+              <select required id="Estatus" name="Sal_Estatus" class="form-control">
+                <option selected>Abierta</option>
+                <option selected>Cerrada</option>
+                <option selected>Uso interno</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputState" class="font-weight-bold">Estado</label>
+              <select required id="Estado" name="Sal_Estado" class="form-control">
+                <option value="Nuevo" selected>Nuevo</option>
+                <option value="Usado" >Usado</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress2" class="font-weight-bold"># Empleado</label>
+              <input type="text" id="Empleado" class="form-control"  name="Sal_Empleado"
+                autocomplete="off" onkeypress="return Nombres(event)" required>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress2" class="font-weight-bold">Nombre de empleado</label>
+              <input type="text" id="Nombre" class="form-control"  name="Sal_Nombre"
+                autocomplete="off" required>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputState" class="font-weight-bold">Familia</label>
+              <select required id="Familia" name="Sal_Familia" class="form-control" onchange="Maquinas()">
+                <option value="a" selected disabled>seleccione la familia</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputState" class="font-weight-bold">Máquina</label>
+              <select required id="Maquina" name="Sal_Maquina" class="form-control">
+                <option value="" selected disabled>seleccione la máquina</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputState" class="font-weight-bold">Parcial</label>
+              <select requiredname="Parcial" id="Parcial" class="form-control" required>
+                <option value="N/A" selected>N/A</option>
+                <option value="Completo" >Completo</option>
+                <option value="Parcial" >Parcial</option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="inputAddress2" class="font-weight-bold">Comentario</label>
+              <input type="text" id="Comentario" class="form-control" placeholder="Comentario" name="Sal_Comentario"
+                autocomplete="off" value="N/A">
+            </div>
+          </div>
+         
+        
+        </form>
+        <button type="submit" class="btn btn-secondary" onclick="CrearNota()">Agregar</button>
+        <br>
+        <div style="width: 5%px;display: inline-block;">
+          <input type="text" id="Folio" class="form-control" placeholder="Folio" name="Sal_Folio" autocomplete="off"
+            required readonly>
+        </div>
+      </div>
+
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+        <table class="table table-condensed table-hover" id="Almacen">
+            <thead class="thead-dark">
+              <tr>
+                <th>Folio</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Estado</th>
+                <th>OT</th>
+                <th>Estatus</th>
+                <th>Maquina</th>
+                <th>Empleado</th>
+                <th>Parcialidad</th>
+                <th>Comentario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+        <br><br>
+        <hr />
+        <button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal" data-toggle="modal">Registrar</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal Nota -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+                Nota creada correctamente
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--ModalRecoleccion-->
+<div class="modal fade bd-example-modal-lg" id="ModalRecoleccion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div id="Nota" class="list-group">
+      <!------------------------------ TABLA-------------------------------------->
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+          <table class=" table table-bordered table-hover" id="TablaRecoleccion">
+              <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th>Producto</th>
+                      <th>Cantidad</th>
+                      <th>Planta</th>
+                      <th>Recolectar</th>
+                  </tr>
+              </thead>
+              <tbody id="CuerpoNota">
+
+              </tbody>
+              </table>
+
+              <br><br>
+              <hr />
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="Recolectar()" data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
+          </div>
+         <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Sin elementos -->
+<div class="modal fade" id="Vacio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        No se encontraron elementos con ese nombre.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Sin elementos -->
+<div class="modal fade" id="RecoleccionExito" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+       Recolección exitosa.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+

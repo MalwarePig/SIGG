@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../partials/head.html') %>
+
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="js/Almacen/PreAuditoria.js"></script>
+
+<!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+<!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+</head>
+ 
+<body onload="modal()">
+    <%- include ('../partials/navegacion.html') %>
+
+    <script>
+        function modal() {
+            $("#myModal").modal();
+        }
+    </script>
+
+<div class="container my-4">
+
+    <p class="font-weight-bold">An example of bootstrap modal size . Easy to implement and customize. Examples of basic and advanced usage.</p>
+
+    <p><strong>Detailed documentation and more examples you can find in our <a href="https://mdbootstrap.com/docs/jquery/modals/basic/"
+          target="_blank">Bootstrap Modal Docs</a> </p>
+
+		<hr>
+
+    <p class="font-weight-bold">Basic examples</p>
+    
+    <p>To change the size of the modal add one of the following classes to the
+    <code>.modal-dialog</code> div.</p>
+    
+    <p>
+      <strong>Note:</strong> Medium size is a default value, so there isn't a dedicated class for it.</p>
+    
+    <p>
+      <code>.modal-sm</code> Small Modal</p>
+    
+    <p>
+      <code>.modal-lg</code> Large Modal</p>
+    
+    <p>
+      <code>.modal-fluid</code> Full Width Modal</p>
+    
+    <section class="border border-light p-3 mb-4">
+      <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#centralModal">Medium Modal</button>
+      <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#centralModalSm">Small Modal</button>
+      <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#centralModalLg">Large Modal</button>
+      <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#centralModalFluid">Fluid Modal</button>
+    </section>
+    
+<!-- Central Modal Medium -->
+    <div class="modal fade" id="centralModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body">
+            ...
+          </div>
+          <!--Footer-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Medium -->
+
+    <!-- Central Modal Small -->
+    <div class="modal fade" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body">
+            ...
+          </div>
+          <!--Footer-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary btn-sm">Save changes</button>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Small -->
+
+    <!-- Central Modal Large -->
+    <div class="modal fade" id="centralModalLg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body">
+            ...
+          </div>
+          <!--Footer-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Large -->
+
+    <!-- Central Modal Fluid -->
+    <div class="modal fade" id="centralModalFluid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-fluid" role="document">
+        <!--Content-->
+        <div class="modal-content">
+          <!--Header-->
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+     .....
+          <!--Footer-->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- Central Modal Fluid -->
+
+  </div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->

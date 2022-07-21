@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../partials/head.html') %>
+
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="js/Almacen/PreAuditoria.js"></script>
+
+</head>
+
+<body onload="Modal()">
+  <%- include ('../partials/navegacion.html') %>
+  <!------incluir navegacion Menu----->
+
+
+  <!------------------------------ Modal Auditoria-------------------------------------->
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" id="ModalAuditoria" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title">Registros faltantes</p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!------------------------------ TABLA-------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+          <table class=" table table-bordered table-hover" id="Registros">
+            <thead>
+              <tr>
+                <th>Correcto</th>
+                <th>Faltante</th>
+                <th>Producto</th>
+                <th>Entregado</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (data) { %>
+              <% for(var i = 0; i < data.length; i++) { %>
+              <tr>
+                <td id="CheckCorrecto"><input type="checkbox" name="" id="C<%= i %>"></td>
+                <td id="CheckFaltante"><input type="checkbox" name="" id="F<%= i %>"></td>
+                <td id="Producto"><%= data[i].Producto %></td>
+                <td id="Entregado"><%= data[i].Entregado %></td>
+                <td id="Salida"><%= data[i].Salida %></td>
+              </tr>
+              <% } %>
+              <% } %>
+            </tbody>
+          </table>
+
+          <div class="form-group col-md-12">
+            <label for="inputAddress2" class="font-weight-bold">Nota</label>
+            <textarea id="Nota" class="form-control solo-numero" name="Sal_Cantidad" autocomplete="off"></textarea>
+          </div>
+
+          <label for="Confirmacion"><input type="checkbox" name="Confirmacion" id="Confirmacion">Confirmo la
+            información</label>
+        </div>
+        <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal"
+          onclick="Aplicar()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!------------------------------ Modal Auditoria dos-------------------------------------->
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" id="ModalAuditoriaDos" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title">Auditoria</p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!------------------------------ TABLA-------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+          <table class=" table table-bordered table-hover" id="Auditoria">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Actual</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+          <div class="form-group col-md-12">
+          </div>
+
+          <label for="Confirmacion2"><input type="checkbox" name="Confirmacion2" id="Confirmacion2">Confirmo la
+            información</label>
+        </div>
+        <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal"
+          onclick="SaveAuditoriaCiclica()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+
+</body>

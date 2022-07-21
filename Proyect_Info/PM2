@@ -1,0 +1,25 @@
+================================= CONFIGURAR INICIO =========================================  
+pm2 start sigg/src/index.js >> Inicia un Proyecto.  
+pm2 start ALL >> Inicia todos los proyectos  
+pm2 start ecosystem >> Inicia un archivo de configuracion  
+pm2 start sigg/src/index.js --watch>> Inicia un Proyecto buscando si hubo cambios.  
+pm2 start sigg/src/index.js --name SIGG --watch >> Inicia un Proyecto.  
+
+================================= CONFIGURAR REINICIO =========================================  
+pm2 restart sigg/src/index,js >> Reinicia el servicio.  
+pm2 restart "ID" >> Reinicia el servicio por id.  
+
+================================= CONFIGURAR DETENER ========================================= 
+pm2 stop "ID" >> Detiene el servicio por id. 
+pm2 stop "ALL" >> Detiene  todos los servicios. 
+
+================================= CONFIGURAR BORRADO ========================================= 
+pm2 delete "ID" >> Elimina un servicio por id. 
+
+================================= CONFIGURAR MONITOR ========================================= 
+pm2 monit >> Muestra el monitor. 
+pm2 list >> Lista las aplicaciones ejecutandose. 
+pm2 startup >> inicia las aplicacions al inciar linux. 
+pm2 ecosystem >> crea un archivo de configuracion para inicio de valores automaticos. 
+
+

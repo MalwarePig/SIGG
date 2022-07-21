@@ -1,0 +1,121 @@
+    <!-- The Modal -->
+    <div class="modal fade" id="ModalTratExternos">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h1 class="modal-title w-100" id="exampleModalPreviewLabel"> </h1>
+            <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+              <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <!------------------------------ TABLA-------------------------------------->
+            <div class="container-fluid shadow-lg   bg-white rounded">
+              <table class=" table  table-hover" id="TablaTratamientos">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>OT</th>
+                    <th>Parte</th>
+                    <th>Cant.OT</th>
+                    <th>Servicio</th>
+                    <th>Proveedor</th>
+                    <th>Recibidas</th>
+                    <th>Terminadas</th>
+                    <th>Reetrabajo</th>
+                    <th>Salida</th>
+                    <th>Finalizar</th>
+                  </tr>
+                </thead>
+                <tbody id="CuerpoTratamiento">
+
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+<!-- Modal Terminar Tratamiento Externo -->
+<div class="modal fade" id="CantidadTerminada" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Cantidad a retornar</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+            <input required type="text" id="T_Cantidad" class="form-control" placeholder="0" name="T_Cantidad"
+              autocomplete="off" value="0">
+          </div>
+
+          <div class="form-group col-md-5">
+            <select required id="T_AreaDestino" name="AreaDestino" class="form-control">
+              <option value="areacalidad">Calidad</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-2">
+            <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+              onclick="FinalizarTrat()" data-dismiss="modal">Aceptar</button>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal Cerrar linieas -->
+<div class="modal fade" id="CerrarLineas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Cantidad a cerrar</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+            <input required type="text" id="Cantidad_Cerrando" class="form-control" placeholder="0" name="T_Cantidad"
+              autocomplete="off" value="0">
+          </div>
+
+          <div class="form-group col-md-2">
+            <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+              onclick="FinalizarLineas()" data-dismiss="modal">Aceptar</button>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <br>
+      </div>
+    </div>
+  </div>
+</div>

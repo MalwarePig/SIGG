@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/Compras/Pronostico.js"></script>
+</head>
+
+<body onload="Fecha()">
+    <%- include ('../partials/navegacion.html') %>
+    <!------incluir navegacion Menu----->
+
+    <div class="card text-center">
+        <div class="card-header">
+            <!------------------------------ BUSCAR -------------------------------------->
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="option1" autocomplete="off" checked> Excel
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="option2" autocomplete="off"> PDF
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="option3" autocomplete="off"> Imprimir
+                </label>
+              </div>
+        </div>
+        <div class="card-body">
+
+            <!------------------------------ TABLA-------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+            <table class=" table table-bordered table-hover" id="OTRegistros">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>clave</th>
+                        <th>Producto</th>
+                        <th>Solicitado</th>
+                        <th>Stock</th>
+                        <th>OT</th>
+                        <th>Comentarios</th>
+                        <th>Planta</th>
+                        <th>Empleado</th>
+                        <th>Fecha</th>
+                        <th>Estatus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (data) { %>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td id="Check"><input type="checkbox" name="" id="<%= i %>"></td>
+                        <td id="clave"><%= data[i].Clave %></td>
+                        <td id="Producto" value="<%= data[i].Producto %>"><button type="button" class="btn btn-link" id ="Button<%= i %>" value="<%= data[i].Producto %>" onclick="MostrarOTs('<%= data[i].Producto %>')"><%= data[i].Producto %></button></td>
+                        <td id="Solicitado"><%= data[i].Cantidad %></td>
+                        <td id="Stock"><%= data[i].Stock %></td>
+                        <td id="OT"><%= data[i].OT %></td>
+                        <td id="Comentarios"><%= data[i].Comentarios %></td>
+                        <td id="Planta"><%= data[i].Planta %></td>
+                        <td id="Empleado"><%= data[i].EmpleadoReq %></td>
+                        <td id="Fecha_solicitado<%= i %>"><%= data[i].FechaReq %></td>
+                        <td id="Estatus"><%= data[i].Estatus %></td>
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="CrearNota()">Crear Nota</button>
+            <!--CardBody-->
+        </div>
+        <!--Card-->
+    </div>
+
+
+    <!--ModalApartado-->
+    <div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div id="list-OT" class="list-group">
+               <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
+              </div>
+          </div>
+        </div>
+      </div>
+
+    <!--ModalNota-->
+    <div class="modal fade bd-example-modal-lg" id="ModalNota" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div id="Nota" class="list-group">
+            <!------------------------------ TABLA-------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                <table class=" table table-bordered table-hover" id="TablaRequisicion">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Clave</th>
+                            <th>Producto</th>
+                            <th>Solicitado</th>
+                            <th>OT</th>
+                            <th>Comentario</th>
+                        </tr>
+                    </thead>
+                    <tbody id="CuerpoNota">
+ 
+                    </tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" onclick="GuardarNota()">Solicitar requisición</button>
+                </div>
+               <!-- <a class="list-group-item list-group-item-action"> Item 1</a>-->
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- Modal Listo-->
+    <div class="modal fade" id="Listo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+          Seleccionada herramienta por requerir.
+          </div>
+        </div>
+      </div>
+    </div>
+</body>

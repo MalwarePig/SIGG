@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="shortcut icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <link rel="icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/86322b1947.js" crossorigin="anonymous"></script>
+  <!-- Barra -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+ 
+  <!------ JQUERY PARA USAR AJAX ----->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- css -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <%- include ('../partials/navegacion.html') %>
+
+  <div class="card text-center">
+    <div class="card-header">
+      <!------------------------------ BUSCAR -------------------------------------->
+      <div class="form-row">
+        <div class="form-group col-md-7">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+            onclick="Mostrar()">Mostrar</button>
+        </div>
+
+        <div class="form-group col-md-7">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+            onclick="MostrarSub()">MostrarSub</button>
+        </div>
+
+        <div class="form-group col-md-7">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+            onclick="MostrarSub2()">MostrarSub</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <br>
+ 
+ 
+  <!------ Colapso ----->
+  <div class="SpaceWork" id="accordion">
+  </div>
+
+<div id="Oculta" style="display: none">
+    <!------ =================================================== KITS ========================================================== -----> 
+<div class="card container-fluid shadow-lg p-3 mb-5 bg-dark rounded"  style="width:96%; ; height:350px;" id="cardPrincial" > 
+  <div class="card" >
+    <div class="card-header" id="headingTwo">
+      <h2 class="mb-0">
+        <button id="BtnPrincipal" value="Valores" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapsePrincipal" aria-expanded="false"
+          aria-controls="collapseTwo">
+          Ensamble - No. Parte - 645856
+        </button>
+      </h2>
+    </div>
+    <div id="collapsePrincipal" class="collapse bg-light" aria-labelledby="headingTwo">
+      <div class="card-body">
+  <!------ =============================================== COMPONENTES ====================================================== -----> 
+        <!------ Colapso ----->
+        <div id="AccordionSub">
+        </div>
+  <!------ =============================================== COMPONENTES ====================================================== ----->      
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+   
+
+ <!------ Componente 1 ----->
+ <div  id="cardSub">
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0 bg-light text-dark">
+        <button  id="Btn" >
+          Componente - NMY33-RC-C7-EST-001-REV1
+        </button>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+      <div class="card-body">
+         <!------ SubComponente 1 ----->
+        <table class="table table-bordered table-hover" id="OTRegistros">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>OT</th>
+              <th>N° Parte</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+ </div>
+
+    <!------ ====== oculto ===== -----> 
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>  
+  function Mostrar() {
+    //var tarjeta = document.getElementById("card");
+    var tarjeta = document.getElementById("cardPrincial").innerHTML;
+    document.getElementById("accordion").innerHTML = tarjeta;
+
+    for (var i = 0; i < 10; i++) {
+        //Crear el div
+        const div = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+        div.id = "Kit" + i;
+        div.innerHTML = tarjeta;
+        document.getElementById("accordion").appendChild(div); //Incrusta el nuevo div en el apartado de subAcordion
+
+        var btn = document.getElementById('BtnPrincipal'); //Se extrae el boton de la tarjeta
+        //Se le asigna las propiedades para el colapso
+        document.getElementById('BtnPrincipal').setAttribute('class', 'btn btn-link collapsed');
+        document.getElementById('BtnPrincipal').setAttribute('data-target', '#collapsePrincipal' + i);
+        document.getElementById('BtnPrincipal').setAttribute('data-toggle', 'collapse');
+        document.getElementById('BtnPrincipal').setAttribute('aria-expanded', 'false');
+        document.getElementById('BtnPrincipal').setAttribute('aria-controls', 'collapseTwo');
+        btn.id = "BtnPrincipal" + i; //Se renombra el boton
+
+        const colapsador = document.getElementById('collapsePrincipal'); //se renombra el id de la parte colapsador
+        colapsador.id = 'collapsePrincipal' + i;
+
+         //Crear el div
+         const AccordionSub = document.getElementById('AccordionSub'); //se renombra el id de la parte colapsador
+         AccordionSub.id = "AccordionSub" + i;
+    }
+}
+
+function MostrarSub2() {
+    //Obten datos
+    var tarjeta = document.getElementById("cardSub").innerHTML; //Creo la subtarjeta en un objeto
+
+    for (var i = 0; i < 5; i++) {
+        var Acordeon = document.getElementById('AccordionSub'+i);
+        //Crear el div
+        const div = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+        div.id = "Sub" + i;
+        div.innerHTML = tarjeta;
+        document.getElementById("AccordionSub"+i).appendChild(div); //Incrusta el nuevo div en el apartado de subAcordion
+
+        var btn = document.getElementById('Btn'); //Se extrae el boton de la tarjeta
+        //Se le asigna las propiedades para el colapso
+        document.getElementById('Btn').setAttribute('class', 'btn btn-link collapsed');
+        document.getElementById('Btn').setAttribute('data-target', '#collapseThree' + i);
+        document.getElementById('Btn').setAttribute('data-toggle', 'collapse');
+        document.getElementById('Btn').setAttribute('aria-expanded', 'false');
+        document.getElementById('Btn').setAttribute('aria-controls', 'collapseTwo');
+        btn.id = "Btn" + i; //Se renombra el boton
+
+        const colapsador = document.getElementById('collapseThree'); //se renombra el id de la parte colapsador
+        colapsador.id = 'collapseThree' + i;
+    }
+    /*Contar los hijos
+    var temp = document.getElementById("AccordionSub").childNodes.length;
+    console.log("Total: " + temp  );*/
+}
+  </script>
+
+</body>
+
+</html>

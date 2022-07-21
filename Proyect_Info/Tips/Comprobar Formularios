@@ -1,0 +1,7 @@
+ var Condicion = true; //para campos vacios
+     for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
+         if (Arreglo[a].length == 0) {
+             Condicion = false; //si algun campo esta vacio cambia a falso
+             alert("Faltan campos por llenar")
+         }
+     }

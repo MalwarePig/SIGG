@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>
+                GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+
+        <link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="js/CRM/Tareas.js"></script>
+
+
+        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+        <!-- jQUERY CHOSEN para autocompletado -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+        <script src="js/chosen.jquery.js" type="text/javascript"></script>
+
+</head>
+
+<body onload="InicializarSelects()">
+        <%- include ('../partials/navegacion.html')%>
+
+
+        <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+        <div class="SpaceWork">
+                <form action="/BuscarCliente" method="post" id="FormClientes">
+                        <div class="card">
+                                <div class="card-body">
+                                        <!------------------------------ TXT INFO -------------------------------------->
+                                        <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                        <select class="form-control chosen-select"
+                                                                data-placeholder="Seleccione cliente..." tabindex="1"
+                                                                onclick="Autocomplete()" id="SelectCliente">
+
+                                                        </select>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                        <button type="submit" act class="btn btn-dark"
+                                                                data-toggle="button" aria-pressed="false"
+                                                                autocomplete="off">
+                                                                <i class="fas fa-search"></i> Buscar</button>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                        <button type="button" act class="btn btn-dark"
+                                                                data-toggle="button" aria-pressed="false"
+                                                                autocomplete="off" onclick="Prueba()">
+                                                                <i class="fas fa-search"></i> Prueba</button>
+                                                </div>
+
+                                        </div>
+                                </div>
+                        </div>
+                        <!------------------------------ BOTONES -------------------------------------->
+
+                </form>
+        </div>
+        <!--SpaceWork-->
+       
+<!------------------------------ TABLA Clientes Oculta-------------------------------------->
+        <div class="SpaceWork">
+                <table class="table table-bordered table-hover" id="RegistroClientes">
+                        <thead class="thead-dark">
+                                <tr>
+                                        <th>N°</th>
+                                        <th>Cliente</th>
+                                        <th>Contacto</th>
+                                        <th>Vendedor</th>
+                                        <th>Correo</th>
+                                        <th>Estatus</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
+                                        <th>Comentarios</th>
+                                        <th>Accion</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <% if (data) { %>
+                                <% for(var i = 0; i < data.length; i++) { %>
+                                <tr>
+                                        <td id="id"><%= data[i].id %></td>
+                                        <td id="Cliente"><%= data[i].Cliente %></td>
+                                        <td id="Contacto"><%= data[i].Contacto %></td>
+                                        <td id="Vendedor"><%= data[i].Vendedor %></td>
+                                        <td id="Correo"><%= data[i].Correo %></td>
+                                        <td id="Estatus"><%= data[i].Estatus %></td>
+                                        <td id="FechaInicio"><%= data[i].FechaInicio %></td>
+                                        <td id="Fechafin"><%= data[i].Fechafin %></td>
+                                        <td id="Comentarios"><%= data[i].Comentarios %></td>
+                                        <!-- <td id="FechaInicio"><%= new Date(data[i].FechaInicio).toDateString() %></td> -->
+                                        <td>
+                                                <a href="/delete/<%= data[i].id %>" class="btn btn-danger">Eliminar</a>
+                                        </td>
+                                </tr>
+                                <% } %>
+                                <% } %>
+                        </tbody>
+                </table>
+        </div>
+ <!------------------------------ TABLA Clientes Oculta-------------------------------------->
+ <div class="SpaceWork">
+        <table class="table table-bordered table-hover" id="TablaClientes">
+                <thead class="thead-dark">
+                        <tr>
+                                <th>N°</th>
+                                <th>Cliente</th>
+                                <th>Contacto</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <% if (cliente) { %>
+                        <% for(var i = 0; i < cliente.length; i++) { %>
+                        <tr>
+                                <td id="id"><%= cliente[i].id %></td>
+                                <td id="Cliente"><%= cliente[i].Cliente %></td>
+                                <td id="Contacto"><%= cliente[i].Contacto %></td>
+                        </tr>
+                        <% } %>
+                        <% } %>
+                </tbody>
+        </table>
+</div>
+ <!------------------------------ TABLA Clientes Oculta-------------------------------------->
+ <div class="SpaceWork">
+        <table class="table table-bordered table-hover" id="TablaVendedores">
+                <thead class="thead-dark">
+                        <tr>
+                                <th>N°</th>
+                                <th>Vendedor</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <% if (vendedores) { %>
+                        <% for(var i = 0; i < vendedores.length; i++) { %>
+                        <tr>
+                                <td id="id"><%= vendedores[i].id %></td>
+                                <td id="Vendedor"><%= vendedores[i].Nombre %></td>
+                        </tr>
+                        <% } %>
+                        <% } %>
+                </tbody>
+        </table>
+</div>
+        <!--------------------------------------------------------------- PAGINADOR DE TABLA---------------------------------------------------------------------------------->
+        <!-- JQUERY -->
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+                integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+                </script>
+        <!-- DATATABLES -->
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+        </script>
+        <!-- BOOTSTRAP -->
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+        </script>
+        <script>
+                $(document).ready(function () {
+                        $('#RegistroClientes').DataTable({
+                                language: {
+                                        processing: "Tratamiento en curso...",
+                                        search: "Buscar&nbsp;:",
+                                        lengthMenu: "Agrupar de _MENU_ items",
+                                        info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                                        infoEmpty: "No existen datos.",
+                                        infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                                        infoPostFix: "",
+                                        loadingRecords: "Cargando...",
+                                        zeroRecords: "No se encontraron datos con tu busqueda",
+                                        emptyTable: "No hay datos disponibles en la tabla.",
+                                        paginate: {
+                                                first: "Primero",
+                                                previous: "Anterior",
+                                                next: "Siguiente",
+                                                last: "Ultimo"
+                                        },
+                                        aria: {
+                                                sortAscending: ": active para ordenar la columna en orden ascendente",
+                                                sortDescending: ": active para ordenar la columna en orden descendente"
+                                        }
+                                },
+                                scrollY: 400,
+                                lengthMenu: [[10, 25, -1], [10, 25, "All"]],
+                        });
+                });
+        </script>
+
+        <script>
+                function Prueba() {
+                        var objetoPrueba = data;
+                        console.log("objeto: " + Object.values(objetoPrueba));
+                        console.log('<%= data[0].Cliente %>');
+                }
+
+        </script>
+
+</body>
+
+</html>

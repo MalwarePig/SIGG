@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>
+		GEMAK
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!------incluir cabezera navegacion----->
+	<script src="https://code.jquery.com/jquery-3.4.1.js"
+		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="js/Almacen/Requisicion.js"></script>
+</head>
+
+<body>
+	<%- include ('../partials/navegacion.html') %>
+	<div class="card text-center">
+		<div class="card-header">
+			<!------------------------------ BUSCAR -------------------------------------->
+			<form action="/BuscarHerramienta" method="post">
+				<div class="form-row">
+					<div class="form-group col-md-2">
+						<input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+							name="BHerramienta" autocomplete="off" value="" onkeypress="autocompletar()">
+					</div>
+					<div class="form-group col-md-1">
+						<button type="button" id="getProducts" name="getProducts"
+							class="btn btn-secondary">Buscar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="card-body">
+			<!------------------------------ TABLA -------------------------------------->
+			<div class="SpaceWork" style="width:96%; height:350px; overflow: scroll;">
+				<table class="table table-condensed table-hover" id="Herr_Encontradas">
+					<thead>
+						<tr>
+							<th>Clave</th>
+							<th>Articulo</th>
+							<th>Agregar</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+
+			<div class="SpaceWork">
+				<form id="RegistroSalida" name="RegistroSalida">
+
+					<div class="form-row">
+						<div class="form-group col-md-2">
+							<label for="inputAddress" class="font-weight-bold">Clave</label>
+							<input required type="text" id="Clave" class="form-control text-dark"
+								placeholder="Clave..." name="Req_Clave" autocomplete="off" required>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="inputAddress" class="font-weight-bold">Descripción herramienta</label>
+							<input required type="text" id="Producto" class="form-control text-dark"
+								placeholder="Herramienta..." name="Req_Herramienta" autocomplete="off" required>
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="inputAddress2" class="font-weight-bold">Cantidad</label>
+							<input type="text" id="cantidad" class="form-control solo-numero"
+								placeholder="cantidad de pza." name="Req_Cantidad" autocomplete="off" required>
+						</div>
+
+						<div class="form-group col-md-2">
+							<label for="inputAddress2" class="font-weight-bold">OT</label>
+							<input type="text" id="OT" class="form-control solo-numero"
+								placeholder="OT" name="Req_OT" autocomplete="off" value="-" required>
+						</div>
+
+						<div class="form-group col-md-3">
+							<label for="inputAddress2" class="font-weight-bold">Comentario</label>
+							<input type="text" id="Comentario" class="form-control" placeholder="Comentario"
+								name="Req_Comentario" autocomplete="off" value="N/A">
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-secondary" onclick="CrearNota()">Agregar</button>
+				</form>
+				<br>
+			</div>
+
+			<div class="SpaceWork">
+				<table class="table table-condensed table-hover" id="Almacen">
+					<thead class="thead-dark">
+						<tr>
+							<th>Clave</th>
+							<th>Producto</th>
+							<th>Cantidad</th>
+							<th>OT</th>
+							<th>Comentario</th>
+							<th>Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+				<br><br>
+				<hr />
+				<button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal"
+					data-toggle="modal">Registrar</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

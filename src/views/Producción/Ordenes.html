@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../partials/head.html') %>
+  <!------incluir cabezera navegacion----->
+
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="js/Produccion/RegistroOT.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-------------------------------- plugin y css de paginacion de tablas ------------------------------------------>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js">
+  </script>
+  <!---------------------------------------------------------------------------------------------------------------->
+
+
+  <!---------------------------------------------------------------------------------------------------------------->
+
+</head>
+
+<body onload="Carga()">
+  <%- include ('../partials/navegacion.html')%>
+
+  <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+  <div class="SpaceWork" >
+    <form >
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="inputAddress" id="Prueb">id</label>
+          <input required type="text" id="id" class="form-control" placeholder="#Orden de trabajo..." name="id"
+            autocomplete="off" readonly>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputAddress" id="Prueb">OT</label>
+          <input required type="text" id="ot" class="form-control" placeholder="#Orden de trabajo..." name="OT"
+            autocomplete="off">
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="inputAddress2">Numero de parte</label>
+          <input required type="text" id="numPart" class="form-control" placeholder="Número de parte" name="NumPart"
+            autocomplete="off">
+        </div>
+ 
+        <div class="form-group col-md-1">
+          <label for="inputAddress2">Cantidad</label>
+          <input type="text" id="cantidad" class="form-control" placeholder="cantidad de pza." name="Cantidad"
+            autocomplete="off">
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="inputState" class="font-weight-bold">Planta</label>
+          <select required id="Planta" name="Planta" data-default-value="-"  class="form-control" onchange="Maquinas()">
+            <option value="PlantaDefault" selected disabled>seleccione la planta</option>
+            <option value="Bravo">Bravo</option>
+            <option value="Morelos">Morelos</option> 
+          </select>
+        </div>
+       
+        <div class="form-group col-md-2">
+          <label for="inputState" class="font-weight-bold">Familia</label>
+          <select required id="List_Familia" name="Sal_Familia" class="form-control" onchange="Maquinas()">
+     
+          </select>
+        </div>
+
+
+        <div class="form-group col-md-2">
+          <label for="inputState">Máquinas</label>
+          <select required id="ListMaquina" name="ListMaquina" class="form-control" data-default-value="-" >
+            
+          </select>
+        </div>
+      </div>
+ 
+
+      <button type="button" class="btn btn-secondary" onclick="ActualizarOT()">Actualizar</button>
+
+
+    </form>
+
+  </div>
+  <!------------------------------ TABLA--------------------------------------> 
+
+  <div class="card text-center col-md-12 col-s-12">
+    <div class="card-body">
+        
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover" id="OTRegistros">
+                    <thead>
+                      <tr>
+                        <th id="indice">N°</th>
+                        <th id="Rot">OT</th>
+                        <th id="numPart">N° Parte</th>
+                        <th id="Planta">Planta</th>
+                        <th id="Estatus">Estatus</th>
+                        <th id="cantidad">Cantidad</th>
+                        <th id="maquina">Maquina</th>
+                        <th id="inicio">Fecha inicio</th>
+                        <th id="Rfin">Fecha vencimiento</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="CuerpoTabla">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"> </script>
+
+  <!-- DATATABLES -->
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  <!-- BOOTSTRAP -->
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+</body>
+
+</html>

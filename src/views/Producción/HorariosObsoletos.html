@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title >
+           GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="js/Produccion/Horarios.js"></script>
+
+        <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="carga()">
+  <%- include ('partials/navegacion.html')%>
+    <!-- ---------------------------------------------------------------------------- Encabezado -------------------------------------------------------------------------------->
+      <div class="card text-center">
+        <div class="card-header">
+          CONTROL DE HORARIOS
+        </div>
+      </div>
+      <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+      <div class="SpaceWork"  id="FormHorario">
+        <form action="/addHorario" method="post" class="FormWork" name="FEmpleados">
+
+        </form>
+      </div>
+      <!--------------------------------- TABLA MAQUINAS -------------------------------------->
+  <table class="table table-bordered table-hover" id="MaquinasTabla" visibility: hidden>
+    <thead> 
+      <tr>
+        <th>Familia</th>
+        <th>Maquina</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <% if (Data) { %>
+        <% for(var i = 0; i < Data.length; i++) { %>
+          <tr>
+            <td id="TFamilia"><%= Data[i].Familia %></td>
+            <td id="TNombre"><%= Data[i].Nombre %></td>
+          </tr>
+        <% } %>
+      <% } %>
+    </tbody>
+  </table>
+
+        <!--------------------------------- TABLA Empleados -------------------------------------->
+        <table class="table table-bordered table-hover" id="EmpleadosTabla" visibility: hidden>
+          <thead> 
+            <tr>
+              <th>Id</th>
+              <th>Nombre</th>
+              <th>Nomina</th>
+              <th>Planta</th>
+            </tr>
+          </thead>
+          <tbody> 
+            <% if (Empleados) { %>
+              <% for(var i = 0; i < Empleados.length; i++) { %>
+                <tr>
+                  <td id="Eid"><%= Empleados[i].id %></td>
+                  <td id="ENombre"><%= Empleados[i].Nombre %></td>
+                  <td id="ENomina"><%= Empleados[i].Nomina %></td>
+                  <td id="EPlanta"><%= Empleados[i].Planta %></td>
+                </tr>
+              <% } %>
+            <% } %>
+          </tbody>
+        </table>
+
+
+</body>
+</html>
+<!-------------------------------------------------------------------
+ <div class="input-group">
+           <div class="input-group-prepend">
+             <div class="input-group-text">
+             <input type="radio" aria-label="Radio button for following text input">
+            </div>
+          </div>  
+
+
+                    <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck">
+              <label class="form-check-label" for="gridCheck">
+                Listo
+              </label>
+            </div>
+          </div>
+-------------------------------------------------------------------
+            <div class="form-row">
+            <div class="form-group col-md-1">
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" id="gridCheck" name="Planta">
+                  <label class="form-check-label" for="gridCheck">
+                    Bravo
+                  </label>
+                </div>
+              </div>
+    
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" id="gridCheck" name="Planta">
+                  <label class="form-check-label" for="gridCheck">
+                    Morelos
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+-----------------------------------------------------------------------
+<script> 
+        $('.add-more-btn').click(function () {
+          var clone = $('.form-row').clone('.form-block');
+               for(var i = 0; i<3; i++){
+                 console.log('indice: ' + i + clone);
+                $('.form-main').append(clone);
+               }
+        });
+      </script>
+-------------------------------------------------
+       <script> 
+ var clone = $('.form-row').clone('.form-block');
+        function carga(){
+               for(var i = 0; i<3; i++){
+                 console.log('indice: ' + i + clone);
+                $(clone).insertBefore('.form-row');
+               }
+        };
+      </script>
+
+-->

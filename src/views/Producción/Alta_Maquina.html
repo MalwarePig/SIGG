@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Gemak Control</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<!--<link rel="stylesheet" type="text/css" href="css/util.css">-->
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+<!--===============================================================================================-->
+</head>
+<body>
+    <%- include ('../partials/navegacion.html')%>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title" style="background-image: url(images/maquina.jpg);">
+					<span class="login100-form-title-1">
+						Gemak Control
+					</span>
+				</div>
+
+                <form action="/AddMaquina" method="POST" class="login100-form validate-form">
+
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Nombre requerido">
+						<span class="label-input100">Nómbre</span>
+						<input class="input100" type="text" name="Nombre" placeholder="Nombre o número de maquina" required autocomplete="off">
+						<span class="focus-input100"></span>
+                    </div>
+                    
+                    <div class="wrap-input100 validate-input m-b-30" id="Combos">
+						<span class="label-input100">Familia</span>
+                        <select name="Familia" id="familia" class="form-control">
+							<option selected>Seleccionar...</option>
+							<option >ACABADO</option>
+							<option >CALIDAD</option>
+							<option >EROSIONADO</option>
+							<option >CENTROS DE MAQUINADO</option>
+                            <option >TORNOS</option>
+                            <option >CM CHICOS</option>
+                            <option >CM MEDIANOS</option>
+                            <option >CM GRANDES</option>
+							<option >CONVENCIONALES</option>
+							<option >OTROS</option>
+                          </select>
+                    </div>
+					
+					<div class="wrap-input100 validate-input m-b-30" id="Combos">
+						<span class="label-input100">Planta</span>
+                        <select name="Planta" id="familia" class="form-control">
+                            <option selected>Seleccionar...</option>
+                            <option>Bravo</option>
+                            <option >Morelos</option>
+                          </select>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="Horas aproximadas requerido">
+						<span class="label-input100">Horas</span>
+						<input class="input100" type="text" name="Tiempo" placeholder="Horas aproximadas de trabajo semanal" required autocomplete="off">
+						<span class="focus-input100"></span>
+                    </div>
+                                        
+					<div class="container-login100-form-btn"> 
+                        <button type="submit" class="login100-form-btn"> Registrar</button>
+                    </div>                    
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

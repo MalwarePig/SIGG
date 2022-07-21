@@ -1,0 +1,20 @@
+***********************************************************************************************************************
+*       *               *                *               *              *                *              *             *
+*  ID   *    Nombre     *   Usuario      *  Contraseña   *  Planta      *      Area      *    Nivel     *   Turno     *
+*       *               *                *               *              *                *              *             *
+***********************************************************************************************************************
+*   1 	*	Osvaldo 	*   admin   	 *	admin 		 *	Morelos 	*	Admin 	     *	Admin 	    *	Completo  * 
+*   2 	*	Osvaldo 	*   tarde 	     *	tarde 		 *	Morelos 	*	Almacen 	 *	Usuario 	*	Tarde 	  *
+*   3 	*	Felipe  	*   AlmacenM1 	 *	turno1 		 *	Morelos 	*	Almacen 	 *	Usuario 	*	Dia 	  *
+*   4 	*	Francisco 	*   AlmacenM2 	 *	Koma1525446  *	Morelos 	*	Almacen 	 *	Usuario 	*	Tarde 	  *
+*   5 	*	Oziel 	    *   AlmacenB1 	 *	turno1 		 *	Bravo   	*	Almacen 	 *	Usuario 	*	Dia 	  * 
+*   6 	*	jose luis 	*   AlmacenB2 	 *	turno2 	 	 *	Bravo   	*	Almacen 	 *	Usuario 	*	Tarde     *	
+*   7 	*	Osvaldo 	*   gemak        *	gemak 	 	 *	Bravo   	*	Embarques 	 *	Usuario 	*	Dia       *	
+*   8 	*	Sandra 	    *   sah 	     *	1245 	 	 *	Morelos 	*	Admin   	 *	Admin 	    *	Dia       *	
+*   9 	*	Osvaldo 	*   prod 	     *	prod 		 *	Morelos 	*	Producción 	 *	Usuario 	*	Dia 	  *
+*   10 	*	asd 	    *   acabado 	 *	acabado 	 *	Morelos 	*	Acabados 	 *	Usuario 	*	Dia       *
+*   10 	*	asd 	    *   Calidad 	 *	Calidad 	 *	Morelos 	*	Calidad 	 *	Usuario 	*	Dia       *
+*   10 	*	asd 	    *   Tratamientos *	Tratamientos *	Morelos 	*	Tratamientos *	Usuario 	*	Dia       *
+*   10 	*	asd 	    *   Embarques    *	Embarques 	 *	Morelos 	*	Embarques 	 *	Usuario 	*	Dia       *
+*   9 	*	Osvaldo 	*   Calidad      *	Calidad  	 *	Morelos 	*	Calidad 	 *	Usuario 	*	Dia 	  *
+***********************************************************************************************************************

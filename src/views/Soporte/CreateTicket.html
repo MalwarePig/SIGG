@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="js/Produccion/RegistroOT.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+
+    <!-------------------------------- plugin y css de paginacion de tablas ------------------------------------------>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js">
+    </script>
+    <!---------------------------------------------------------------------------------------------------------------->
+
+
+    <!---------------------------------------------------------------------------------------------------------------->
+
+</head>
+
+<body>
+  <%- include ('../partials/navegacion.html')%>
+
+    
+
+    <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+    <div class="SpaceWork">
+      
+
+      <div class="container-fluid h-100 mt-3">
+        <div class="row w-100 align-items-center">
+          <div class="col text-center">
+
+            
+            <div class="card align-items-center" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+
+
+
+            <button class="btn btn-danger regular-button"> A regular button </button>
+            <button class="btn btn-danger regular-button"> A regular button </button>
+          </div>
+        </div> 
+      </div>
+
+    </div><!--- Barra superior --->
+    <!------------------------------ TABLA-------------------------------------->
+    <div class="SpaceWork">
+ 
+      <form>
+        <div class="form-row">
+
+          <div class="form-group col-md-2">
+            <label for="inputNombre" id="Nombre">Nómbre</label>
+            <input required type="text" id="Nombre" class="form-control" placeholder="#Nombre..." name="Nombre"
+              autocomplete="off">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="inputState" class="font-weight-bold">Planta</label>
+            <select required id="Planta" name="Planta" class="form-control" onchange="Maquinas()">
+              <option value="Bravo" selected>Bravo</option>
+              <option value="Morelos" selected>Morelos</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="inputState" class="font-weight-bold">Tipo solicitud</label>
+            <select required id="Solicitud" name="solicitud" class="form-control" onchange="Maquinas()">
+              <option value="Impresora" selected>Impresora</option>
+              <option value="Internet" selected>Internet</option>
+              <option value="Computadora" selected>Computadora</option>
+              <option value="Otros" selected>Otros</option>
+            </select>   
+          </div>
+
+
+
+          <div class="form-group col-md-1">
+            <label for="inputAddress2">Equipo</label>
+            <input type="text" id="Equipo" class="form-control" placeholder="Nombre maquina" name="Horas"
+              autocomplete="off">
+          </div>
+
+        </div> 
+      </form>
+
+
+
+
+
+      <table class="table table-bordered table-hover" id="OTRegistros">
+        <thead>
+          <tr>
+            <th id="indice">N°</th>
+            <th id="Rot">OT</th>
+            <th id="numPart">N° Parte</th>
+            <th id="Planta">Planta</th>
+            <th id="Estatus">Estatus</th>
+            <th id="cantidad">Cantidad</th>
+            <th id="maquina">Maquina</th>
+            <th id="inicio">Fecha inicio</th>
+            <th id="Rfin">Fecha vencimiento</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
+
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+</body>
+
+</html>

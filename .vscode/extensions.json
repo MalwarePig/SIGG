@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "wallabyjs.quokka-vscode",
+        "coenraads.bracket-pair-colorizer-2",
+        "aaron-bond.better-comments",
+        "formulahendry.auto-rename-tag"
+    ]
+}

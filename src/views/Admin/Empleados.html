@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Gemak Control</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+<!--===============================================================================================-->	
+<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<!--<link rel="stylesheet" type="text/css" href="css/util.css">-->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" href="css/style.css">
+<!--===============================================================================================-->
+</head>
+<body>
+    <%- include ('../partials/navegacion.html')%>
+    <button class="tablink" onclick="openPage('Editar', this, 'gray')" id="defaultOpen">Lista</button>
+    <button class="tablink" onclick="openPage('Registrar', this,'gray' )">Registrar</button>
+    
+    <div id="Registrar" class="tabcontent">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-form-title" style="background-image: url(images/gacklogin.jpg);">
+                        <span class="login100-form-title-1">
+                            Gemak Control
+                        </span>
+                    </div>
+    
+                    <form action="/addEmpleados" method="POST" class="login100-form validate-form">
+    
+                        <div class="wrap-input100 validate-input m-b-26" data-validate="Nombre requerido">
+                            <span class="label-input100">Nómbre</span>
+                            <input class="input100" type="text" name="Nombre" placeholder="Nombre de usuario" required>
+                            <span class="focus-input100"></span>
+                        </div>
+    
+                        <div class="wrap-input100 validate-input m-b-26" data-validate="Usuario requerido">
+                            <span class="label-input100">Nómina</span>
+                            <input class="input100" type="text" name="Nomina" placeholder="Nomina" required>
+                            <span class="focus-input100"></span>
+                        </div>
+    
+    
+                        <div class="wrap-input100 validate-input m-b-30" id="Combos">
+                            <span class="label-input100">Planta</span>
+                            <select name="Planta" id="planta" class="form-control">
+                                <option selected>Seleccionar...</option>
+                                <option>Bravo</option>
+                                <option >Morelos</option>
+                              </select>
+                        </div>
+    
+                        <div class="wrap-input100 validate-input m-b-30" id="Combos">
+                            <span class="label-input100">Tipo horario</span>
+                            <select name="Tipo" id="Tipo" class="form-control">
+                                <option selected>Seleccionar...</option>
+                                <option>Fijo</option>
+                                <option >Dia</option>
+                                <option >Tarde</option>
+                                <option >Noche</option>
+                              </select>
+                        </div>
+                        
+                        <div class="container-login100-form-btn"> 
+                            <button type="submit" class="login100-form-btn"> Registrar</button>
+                        </div>
+                        
+                        
+                    </form>
+                </div>
+            </div>
+        </div>    
+    </div>
+          
+<!------------------------------ TABLA-------------------------------------->
+    <div id="Editar" class="tabcontent">
+        <div class="SpaceWork">
+            <table class="table table-bordered table-hover" id="OTRegistros">
+            <thead> 
+                <tr>
+                <th>Nombre</th>
+                <th>Nomina</th>
+                <th>Planta</th>
+                <th>Tipo</th>
+                <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody> 
+                <% if (data) { %>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                      <tr>
+                        <td id="Nombre"><%= data[i].Nombre %></td>
+                        <td id="Nomina"><%= data[i].Nomina %></td>
+                        <td id="Planta"><%= data[i].Planta %></td>
+                        <td id="Tipo"><%= data[i].Tipo %></td>
+                        <td>
+                          <a href="/deleteEmpleado/<%= data[i].id %>" class="btn btn-danger">Eliminar</a>
+                        </td>
+                      </tr>
+                    <% } %>
+                  <% } %>
+         
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+	
+    <script>
+            function openPage(pageName, elmnt, color) {
+        // Hide all elements with class="tabcontent" by default */
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Remove the background color of all tablinks/buttons
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+        }
+
+        // Show the specific tab content
+        document.getElementById(pageName).style.display = "block";
+
+        // Add the specific color to the button used to open the tab content
+        elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click(); 
+    </script>
+
+</body>
+</html>

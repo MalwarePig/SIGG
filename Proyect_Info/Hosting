@@ -1,0 +1,23 @@
+************************** LINEA DE COMANDOS CMD **********************************
+> heroku login
+
+********************** Entrar en repositorio *****************************
+> cd C:\Users\Soporte\Documents\Proyectos web\Proyectos JavaScript\Encuesta
+> git init //para crear repositorio vacio a subir
+> git status //verificar archivos a subir
+> git add .  //Agrega todos los archivos listos a subir
+> git status //verificar archivos a subir, deben verse en verde
+> heroku git:remote -a app-gemak //Seleccionar el espacio de heroku donde se debe subir
+> git commit -m "Mensaje de referencia" //comando para subir al servidor
+> git push heroku master //Inicia la subida de archivos a servidor
+> heroku open //Iniciar aplicacion
+
+**************************** LINKS **********************************
+Blackgeass.s #Enigma
+https://console.clever-cloud.com/users/me/applications/app_83ede109-4bef-4568-8e47-c75b48b056ba
+
+https://dashboard.heroku.com/apps
+
+
+
+

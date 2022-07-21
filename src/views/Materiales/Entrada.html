@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>
+		GEMAK
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<!------incluir cabezera navegacion----->
+
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.4.1.js"
+		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="js/xlsxfullmin.js"></script>
+	<script type="text/javascript" src="js/FileSaver.js"></script>
+	<script type="text/javascript" src="js/Materiales/Carga.js"></script>
+</head>
+
+<body>
+	<%- include ('../partials/navegacion.html')%>
+
+	<div class="card text-center">
+		<div class="card-header">
+			Recibo Importación
+		</div>
+		<div class="card-body">
+			<p class="card-text">Selecciona archivo de excel</p>
+			<!-- <a href="#" class="btn btn-primary">Go somewhere</a>-->
+			<input type="file" id="input-excel" />
+			<input type="button" id="button" class="btn btn-primary" onclick="GuardarRecepcion()" value="Registrar" />
+		</div>
+	</div>
+	<!--Aqui se alimentara la tabla cargar del excel-->
+	<table id="wrapper"> </table>
+
+
+	<!-- Modal Nota -->
+	<div class="modal fade" id="ModalBarra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog" role="document">
+			<div class="progress">
+				<div id="Barra" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+					aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+			</div>
+			<div class="modal-content">
+				
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<!--Aqui ejecuta el evento de lectura de excel-->
+	<script>
+		$('#input-excel').change(function (e) {
+			var reader = new FileReader();
+			reader.readAsArrayBuffer(e.target.files[0]);
+			reader.onload = function (e) {
+				var data = new Uint8Array(reader.result);
+				var wb = XLSX.read(data, {
+					type: 'array'
+				});
+				var htmlstr = XLSX.write(wb, {
+					sheet: "Hoja1",
+					type: 'binary',
+					bookType: 'html'
+				}); //obtener tabla
+				//console.log(htmlstr);
+				//Find desired cell
+				var desired_cell =
+
+					$('#wrapper')[0].innerHTML += htmlstr; //insertar tabla en html
+			}
+		});
+	</script>
+
+	<script>
+		function agregarColumna() {
+			var CantidadColumn = 19; //Vista planta tiene 19 columnas
+			var table = document.getElementsByTagName("table")[0];
+			var rowCount = table.rows.length;
+			for (var i = 0; i < rowCount; i++) {
+				var row = table.rows[i];
+				row.insertCell(CantidadColumn);
+			}
+		}
+	</script>
+
+
+</body>
+
+</html>

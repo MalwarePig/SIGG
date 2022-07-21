@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title >
+           GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('../partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/pupop.css">
+        <script type="text/javascript" src="js/Produccion/MaquinasFiltradas.js"></script>
+</head>
+<body">
+    <%- include ('../partials/navegacion.html')%>
+      <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+      <div class="SpaceWork">
+        <form action="/filtrarMach" method="post">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputState">Familia</label>
+              <select id="familia" class="form-control" onchange="Cargar_list_Maquina()">
+                <option value="a" selected disabled>seleccione la familia</option>
+                <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
+                <option value="TORNOS CNC" selected>TORNOS CNC</option>
+                <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
+                <option value="ACABADO" selected>ACABADO</option>
+                <option value="CALIDAD" selected>CALIDAD</option>
+                <option value="OTROS" selected>OTROS</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputState">Máquinas</label>
+              <select required id="maquina"  name="maquina" class="form-control">
+                <option >Todo</option>
+                <% if (Maquinas) { %>
+                  <% for(var i = 0; i < Maquinas.length; i++) { %>
+                    <option ><%= Maquinas[i].Nombre %></option>
+                  <% } %>
+                <% } %>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <input type="button" class="btn btn-primary"  value="Filtrar" onclick="CrearTablaMaquinas()"/>
+           
+            <a class="nav-link active" href="/Maquinas"><i class="fas fa-times"></i> Eliminar filtro</a>
+            <input type="button" class="btn btn-danger"  value="Rezagadas" onclick="CrearTablaRezagada()"/>
+          </div>
+        </form>
+       </div>
+
+<!------------------------------ LINETIME -------------------------------------->
+      <div id="SpaceTimeLine" class="SpaceWork">
+        <div id="MaquinasLap" class="TimeMaquina"></div>
+      </div>
+<!------------------------------ TABLA-------------------------------------->
+       <div class="SpaceWork" id="divTabla">
+          <table class="table table-bordered table-hover" id="OTRegistros">
+            <thead> 
+              <tr>
+                <th>N°</th>
+                <th>OT</th>
+                <th>N° Parte</th>
+                <th>Estatus</th>
+                <th>Cantidad</th>
+                <th>Maquina</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Vencimiento</th>
+                <th>Editar</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <% if (data) { %>
+                <% for(var i = 0; i < data.length; i++) { %>
+                  <tr>
+                    <td id="indice"><%= (i + 1) %></td>
+                    <td id="OT"><%= data[i].OT %></td>
+                    <td id="numPart"><%= data[i].Parte %></td>
+                    <td id="Estatus"><%= data[i].Estatus %></td>
+                    <td id="cantidad"><%= data[i].CantOt %></td>
+                    <td id="maquina"><%= data[i].Maquina %></td>
+                    <td id="inicio"><%= new Date(data[i].FechaInicio).toDateString() %></td>
+                    <td id="Rfin"><%= new Date(data[i].FechaProd).toDateString() %></td>
+                    <td id="Vencimiento"><%= new Date(data[i].FechaVenc).toDateString() %></td>
+                    <td>
+                      <!--  <button id="btn-abrir-popup" onclick="AbrirPupop()" class="btn btn-primary">Editar</button>	--->
+                      <a href="/update/<%= data[i].id %>" class="btn btn-info"></a>
+                    </td>
+                  </tr>
+                <% } %>
+              <% } %>
+            </tbody>
+          </table>
+       </div>
+
+
+<!--------------------------------- PUPOP -------------------------------------->
+<div class="contenedor">
+  <div class="overlay" id="overlay">
+    <div class="popup" id="popup">
+      <a href="#" id="btn-cerrar-popup" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
+      <h3>EDITAR</h3>
+      <h4>actualizar campos</h4>
+      <form action="">
+        <div class="contenedor-inputs">
+          <input type="text" placeholder="Nombre">
+          <input type="email" placeholder="Correo">
+        </div>
+        <input type="submit" class="btn-submit" value="Suscribirse">
+      </form>
+    </div>
+  </div>
+</div>
+<!--------------------------------- TABLA MAQUINAS -------------------------------------->
+<div class="SpaceWork" id="CMaquinasTabla" visibility: hidden>
+  <table class="table table-bordered table-hover" id="MaquinasTabla" >
+    <thead> 
+      <tr>
+        <th>Familia</th>
+        <th>Maquina</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <% if (Maquinas) { %>
+        <% for(var i = 0; i < Maquinas.length; i++) { %>
+          <tr>
+            <td id="TFamilia"><%= Maquinas[i].Familia %></td>
+            <td id="TNombre"><%= Maquinas[i].Nombre %></td>
+          </tr>
+        <% } %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+
+
+<!--
+<script>
+  $(document).ready(function AbrirPupop(){
+    try{
+    console.log('clic');
+    var btnAbrirPopup = document.getElementById('btn-abrir-popup'),
+    overlay = document.getElementById('overlay'),
+    popup = document.getElementById('popup'),
+    btnCerrarPopup = document.getElementById('btn-cerrar-popup');
+
+    btnAbrirPopup.addEventListener('click', function(){
+      overlay.classList.add('active');
+      popup.classList.add('active');
+    });
+
+    btnCerrarPopup.addEventListener('click', function(e){
+      e.preventDefault();
+      overlay.classList.remove('active');
+      popup.classList.remove('active');
+    });
+   }catch(err){
+     console.log(err);
+   }
+   
+  });
+  </script>-->
+
+<!------------------------------------ PAGINAR TABLA --------------------------------------------->
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+        </script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+
+<script>
+  $(document).ready(function () {
+      $('#OTRegistros').DataTable({
+          language: {
+              processing: "Tratamiento en curso...",
+              search: "Buscar&nbsp;:",
+              lengthMenu: "Agrupar de _MENU_ items",
+              info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+              infoEmpty: "No existen datos.",
+              infoFiltered: "(filtrado de _MAX_ elementos en total)",
+              infoPostFix: "",
+              loadingRecords: "Cargando...",
+              zeroRecords: "No se encontraron datos con tu busqueda",
+              emptyTable: "No hay datos disponibles en la tabla.",
+              paginate: {
+                  first: "Primero",
+                  previous: "Anterior",
+                  next: "Siguiente",
+                  last: "Ultimo"
+              },
+              aria: {
+                  sortAscending: ": active para ordenar la columna en orden ascendente",
+                  sortDescending: ": active para ordenar la columna en orden descendente"
+              }
+          },
+          scrollY: 700,
+          lengthMenu: [ [-1,10, 25], ["All",10, 25] ],
+      });
+      getTabla();
+     
+  });
+</script>
+<!--------------------------------------------------------------------------------------------->
+
+</body>
+</html> 
+
+
+<!--
+  <div class="SpaceWork">
+   <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>
+   <ul class="responsive-table">
+     <li class="table-header">
+       <div class="col col-1">Job Id</div>
+       <div class="col col-2">Customer Name</div>
+       <div class="col col-3">Amount Due</div>
+       <div class="col col-4">Payment Status</div>
+     </li>
+     <li class="table-row">
+       <div class="col col-1" data-label="Job Id">42235</div>
+       <div class="col col-2" data-label="Customer Name">John Doe</div>
+       <div class="col col-3" data-label="Amount">$350</div>
+       <div class="col col-4" data-label="Payment Status">Pending</div>
+     </li>
+     <li class="table-row">
+       <div class="col col-1" data-label="Job Id">42442</div>
+       <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
+       <div class="col col-3" data-label="Amount">$220</div>
+       <div class="col col-4" data-label="Payment Status">Pending</div>
+     </li>
+     <li class="table-row">
+       <div class="col col-1" data-label="Job Id">42257</div>
+       <div class="col col-2" data-label="Customer Name">John Smith</div>
+       <div class="col col-3" data-label="Amount">$341</div>
+       <div class="col col-4" data-label="Payment Status">Pending</div>
+     </li>
+     <li class="table-row">
+       <div class="col col-1" data-label="Job Id">42311</div>
+       <div class="col col-2" data-label="Customer Name">John Carpenter</div>
+       <div class="col col-3" data-label="Amount">$115</div>
+       <div class="col col-4" data-label="Payment Status">Pending</div>
+     </li>
+   </ul>
+ </div>-->

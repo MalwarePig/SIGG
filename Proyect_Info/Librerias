@@ -1,0 +1,27 @@
+==================== Librerias necesarias para funicionamiento de la aplicacion ==================== 
+express //Manejo del servidor
+express-handlebars //Manejo o motor de plantillas
+express-session //Manejo de sesiones
+mysql //Motor de base e datos
+express-mysql-session //Almacenara sesiones en la base de datos en lugar del servidor
+morgan //Muestra por consola las peticiones get y post
+bcryptjs //Modulo para cifrar contrasenias
+passport //Metodo de auntiticacion
+passport-local //Crear sesiones locales como google o facebook
+timeago.js //Convierte fechas en tiempos transcurrido pasados
+conect-flash //Mostrar mensajes de error o mensajes a usuario
+express-validatos //Validar datos de usuario
+ejs //Para trabajar con html
+
+npm i express express-handlebars express-session mysql express-mysql-session morgan passport express-validator express-myconnection ejs
+npm install read-excel-file //Para lectura de excel por servidor
+npm install express-fileupload //Cargar archivos 
+==================== Librerias para desarrollador ==================== 
+nodemon //Reiniciar servidor al guardar cambios
+npm install nodemailer //Servicio de correos
+npm i nodemon -D
+
+mkdir lib public routes views
+
+
+https://github.com/simonbengtsson/jsPDF-AutoTable // CrearPDF

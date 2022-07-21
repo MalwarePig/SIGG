@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>
+		GEMAK
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-----------------------------------------------     PDF     -------------------------------------------------------------- 
+	<script src="jsPDF-master/jspdf.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+ ---------------------------------------------     PDF     ---------------------------------------------------------------->
+<script src="js/Recursos/jspdf.min.js"></script>
+<script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<!-----------------------------------------------      JS      ------------------------------------------------------------------>
+	<script type="text/javascript" src="js/Almacen/Intercambios.js"></script>
+</head>
+
+<body>
+	<%- include ('../partials/navegacion.html')%>
+	<br>
+	<!-----------------------------------------     SUB-MENU      ---------------------------------------------------------------->
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#Recepcion">Transferir</a></li>
+		<li onclick="MostrarIntercambio()"><a data-toggle="tab" href="#Asignacion">Recolectar</a></li>
+		<li onclick="MostrarCancelacion()"><a data-toggle="tab" href="#Flotante">Cancelar transferencia</a></li>
+	</ul>
+	<!-----------------------------------------   div-Contenido  ----------------------------------------------------------------->
+	<div class="tab-content">
+		<!-----------------------------------------   Tab Uno  ----------------------------------------------------------------->
+		<div id="Recepcion" class="tab-pane fade in active">
+ 
+			<div class="card text-center">
+				<div class="card-header">
+				  <!------------------------------ BUSCAR -------------------------------------->
+					<div class="form-row">
+					  <div class="form-group col-md-2">
+						<input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+						  name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
+					  </div>
+					  <div class="form-group col-md-1">
+						<button type="button" id="getProducts" name="getProducts" class="btn btn-secondary" onclick="GETPRODUCTS()">Buscar</button>
+					  </div>
+					</div>
+				</div>
+				<div class="card-body text-center">
+				  <!------------------------------ TABLA -------------------------------------->
+				  <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded "
+				   style="margin-top: 10px; width:96%; height:350px; overflow: scroll;">
+					<table class="table table-condensed table-hover" id="Herr_Encontradas">
+					  <thead class = "text-center">
+						<tr>
+						  <th>Clave</th>
+						  <th>Articulo</th>
+						  <th>Cantidad</th>
+						  <th>Usados</th>
+						  <th>Ubicacion</th>
+						  <th>Planta</th>
+						  <th >Agregar</th>
+						</tr>
+					  </thead>
+					  <tbody>
+					 
+					  </tbody>
+					</table>
+				  </div>
+			
+				  <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+					<form  id="RegistroSalida" name="RegistroSalida">
+			
+					  <div class="form-row">
+						<div class="form-group col-md-3">
+						  <label for="inputAddress" class="font-weight-bold">Descripción herramienta</label>
+						  <input required type="text" id="Producto" class="form-control text-dark" placeholder="Herramienta..."
+							name="Sal_Herramienta" autocomplete="off" readonly required>
+						</div>
+			
+						<div class="form-group col-md-1">
+						  <label for="inputAddress2" class="font-weight-bold">Cantidad</label>
+						  <input type="text" id="cantidad" class="form-control solo-numero"  name="Sal_Cantidad"
+							autocomplete="off" required>
+						</div>
+			
+						<div class="form-group col-md-1">
+						  <label for="inputState" class="font-weight-bold">Estado</label>
+						  <select required id="Estado" name="Sal_Estado" class="form-control">
+							<option value="Nuevo" selected>Nuevo</option>
+							<option value="Usado" >Usado</option>
+						  </select>
+						</div>
+		
+						<div class="form-group col-md-2">
+						  <label for="inputAddress2" class="font-weight-bold">Responsable de envío</label>
+						  <input type="text" id="Nombre" class="form-control"  name="Sal_Nombre"
+							autocomplete="off" required>
+						</div>
+			
+						<div class="form-group col-md-2">
+						  <label for="inputAddress2" class="font-weight-bold">Comentario</label>
+						  <input type="text" id="Comentario" class="form-control" placeholder="Comentario" name="Sal_Comentario"
+							autocomplete="off" value="N/A" maxlength="40">
+						</div>
+					  </div>
+					
+					</form>
+					<button type="submit" class="btn btn-secondary" onclick="CrearNotas()">Agregar</button>
+				  </div>
+			
+				  <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+				  style="margin-top: 10px; width:96%; height:350px; overflow: scroll;">
+					<table class="table table-condensed table-hover" id="Almacen">
+						<thead class="thead-dark">
+						  <tr>
+							<th>Producto</th>
+							<th>Cantidad</th>
+							<th>Estado</th>
+							<th>Empleado</th>
+							<th>Comentario</th>
+							<th>Acción</th>
+						  </tr>
+						</thead>
+					  <tbody>
+			
+					  </tbody>
+					</table>
+					<br><br>
+					<hr />
+					<button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal" data-toggle="modal">Registrar</button>
+				  </div>
+				</div>
+			  </div>
+ 
+		</div>
+		<!---=========================================================== Tab Dos  ===========================================================-->
+		<div id="Asignacion" class="tab-pane fade">
+
+			<div class="card text-center" id="Content">
+				<div class="card-body">
+					<!------------------------------ TABLA -------------------------------------->
+					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%; height:350px; overflow: scroll;">
+						<table class="table table-condensed table-hover" id="Herr_Pendiente">
+						  <thead>
+							<tr>
+							  <th>Articulo</th>
+							  <th>Cantidad</th>
+							  <th>Estado</th>
+							  <th>Empleado</th>
+							  <th>Comentario</th>
+							  <th>Fecha</th>
+							  <th>Agregar</th>
+							</tr>
+						  </thead>
+						  <tbody>
+
+						  </tbody>
+						</table>			
+					  </div>
+              <hr />
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="Recolectar()" data-target="#RecoleccionExito" data-toggle="modal">Recolectar</button>
+				</div>
+			</div>
+	 
+		</div>
+		<!-----------------------------------------   Tab Tres  ----------------------------------------------------------------->
+		<div id="Flotante" class="tab-pane fade">
+			<div class="card text-center">
+				<div class="card-body">
+					<!------------------------------ TABLA -------------------------------------->
+					<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%; height:350px; overflow: scroll;">
+						<table class="table table-condensed table-hover" id="Herr_Cancelar">
+						  <thead>
+							<tr>
+							  <th>Articulo</th>
+							  <th>Cantidad</th>
+							  <th>Estado</th>
+							  <th>Empleado</th>
+							  <th>Comentario</th>
+							  <th>Fecha</th>
+							  <th>Acción</th>
+							</tr>
+						  </thead>
+						  <tbody>
+
+						  </tbody>
+						</table>			
+					  </div>
+        
+				</div>
+			</div>
+		</div>
+	</div>
+	<!---------------------------------------------   Fin de Tab  ----------------------------------------------------------------->
+ 
+	<!-- Modal Sin elementos -->
+	<div class="modal fade" id="AsignadoExito" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					Asignación exitosa.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Sin elementos -->
+<div class="modal fade" id="RecoleccionExito" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-body">
+		 Recolección exitosa.
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+	
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>
+		GEMAK
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<!------incluir cabezera navegacion----->
+
+
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+
+</head>
+
+<body onload="TipoTabla('Multitabla')">
+	<%- include ('../partials/navegacion.html')%>
+
+	<div class="SpaceWork">
+		<div>
+			<button class="btn btn-dark" onclick="Contador()" value="Registrar" style="display: block; margin: 0 auto;">
+				Ejecutar</button>
+		</div>
+		</br>
+		<!--=====================================	ENCABEZADOS  ===================================================-->
+		<div class="container-fluid">
+			<div class="row">
+				<!-------------------------------	MAQUINAS  --------------------------------------->
+				<div data-id="example2-left" class="list-group col-lg-3">
+					<div class="list-group-item bg-dark text-white filtered">Máquinas</div>
+				</div>
+
+				<!-------------------------------	TRABAJADOR 1  --------------------------------------->
+				<div data-id="example3-right" class="list-group col-lg-3">
+					<div class="list-group-item bg-dark text-white filtered">Trabajador 8 Horas</div>
+				</div>
+
+				<!-------------------------------	TRABAJADOR 2  --------------------------------------->
+				<div data-id="example3-right" class="list-group col-lg-3">
+					<div class="list-group-item bg-dark text-white filtered">Trabajador 7.5 Horas</div>
+
+				</div>
+
+				<!-------------------------------	NOMBRES  --------------------------------------->
+				<div data-id="example3-right" class="list-group col-lg-3">
+					<div class="list-group-item bg-dark text-white filtered">Trabajador disponible</div>
+
+				</div>
+			</div>
+		</div>
+		<!--=====================================	DATOS  ===================================================-->
+		<div class="container-fluid">
+			<div id="shared-lists" class="row">
+				<!-------------------------------	MAQUINAS  --------------------------------------->
+				<div data-id="example2-left" class="list-group col-lg-3" id="Maquinas">
+					<% if (data) { %>
+					<% for(var i = 0; i < data.length; i++) { %>
+					<div class="list-group-item col-15" id="M<%= i %>"><%= data[i].Nombre %></div>
+					<% } %>
+					<% } %>
+				</div>
+
+				<!-------------------------------	TRABAJADOR 1  --------------------------------------->
+				<div data-id="example3-right" class="list-group col-lg-3" id="TrabajadorUno">
+
+				</div>
+
+				<!-------------------------------	TRABAJADOR 2  --------------------------------------->
+				<div data-id="example3-right" class="list-group col-lg-3" id="TrabajadorDos">
+
+
+				</div>
+
+				<!-------------------------------	NOMBRES  --------------------------------------->
+				<div data-id="example3-right" class="list-group col-lg-3" id="derecho">
+					<div class="list-group-item col-15" data-id="data it tal">-</div>
+					<% if (Empleados) { %>
+					<% for(var i = 0; i < Empleados.length; i++) { %>
+					<div class="list-group-item col-15" data-id="data it tal"><%= Empleados[i].Nombre %></div>
+					<% } %>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-------------------------------	Drag&Drop  --------------------------------------->
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script src="js/Recursos/Drag&Drop.js"></script>
+	<script src="js/Produccion/Horarios.js"></script>
+
+</body>
+
+</html>
+
+
+
+<!--
+	          swap: true, // Enable swap plugin
+            swapClass: 'highlight', // The class applied to the hovered swap item
+-->

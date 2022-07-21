@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+    <script type="text/javascript" src="js/Almacen/ReporteAjustes.js"></script>
+
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body onload="InicarFechas()">
+    <%- include ('../partials/navegacion.html') %>
+    <!------ incluir navegacion Menu ----->
+    <div class="card text-center">
+        <div class="card-header">
+            <!------------------------------ BUSCAR -------------------------------------->
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                    <input required type="date" id="inicio" class="form-control" name="Inicio" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="inputAddress2" class="font-weight-bold">Fecha Vencimiento</label>
+                    <input required type="date" id="fin" class="form-control" name="vencimiento" autocomplete="off">
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="inputState" class="font-weight-bold">Almacen</label>
+                    <select required id="Almacen" name="Sal_Estatus" class="form-control">
+                        <option selected>Bravo</option>
+                        <option>Morelos</option>
+                    </select>
+                </div>
+ 
+
+                <div class="form-group col-md-1 p-4">
+                    <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                        onclick="MostrarReporte()">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <!------------------------------ TABLA -------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+            style="width:96%; height:650px; overflow: scroll;">
+            <table class="table table-condensed table-hover " id="TablaReporte">
+                <thead>
+                    <tr>
+                        <th class="col-sm-1">Responsable</th> 
+                        <th>Producto</th>
+                        <th class="col-sm-1">Cant. Actual</th>
+                        <th class="col-sm-1">Cant. Anterior</th>
+                        <th class="col-sm-2">Fecha Ajuste</th>
+                        <th>Razón</th> 
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-5 ">
+ 
+            </div>
+            <div class="form-group col-md-1 ">
+                <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+                    onclick="ExcelReporte()">Excel</button>
+            </div> 
+        </div>
+    </div>
+  
+ 
+</body>

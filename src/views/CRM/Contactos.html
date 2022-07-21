@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>
+                GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+
+        <link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="js/CRM/Contactos.js"></script>
+</head>
+
+<body onload="SelectElements()">
+        <%- include ('../partials/navegacion.html')%>
+        <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+        <div class="SpaceWork">
+                <form action="/addCliente" method="post" id="FormClientes">
+
+                        <div class="card">
+                                <div class="card-body">
+                                        <!------------------------------ TXT INFO -------------------------------------->
+                                        <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                        <label for="inputAddress">Cliente</label>
+                                                        <input required type="text" id="Cliente" class="form-control"
+                                                                placeholder="Cliente..." name="Cliente"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputAddress2">Pagina web</label>
+                                                        <input required type="text" id="Pagina" class="form-control"
+                                                                placeholder="www.portal.com" name="Pagina"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-3">
+                                                        <label for="inputAddress2">Dirección</label>
+                                                        <input required type="text" id="Direccion" class="form-control"
+                                                                placeholder="Calle x #351 Col..." name="Direccion"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-1">
+                                                        <label for="inputAddress2">País</label>
+                                                        <input type="text" id="Pais" class="form-control"
+                                                                placeholder="México" name="Pais" autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-1">
+                                                        <label for="inputAddress2">Estado</label>
+                                                        <input type="text" id="Estado" class="form-control"
+                                                                placeholder="Nuevo León" name="Estado"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputState">Planta</label>
+                                                        <select id="Planta" name="Planta" class="form-control"
+                                                                onchange="">
+                                                                <option selected>Seleccionar...</option>
+                                                                <option>Gemak</option>
+                                                                <option>Gemak CNC</option>
+                                                                <option>Bravo Machining</option>
+                                                        </select>
+                                                </div>
+                                        </div>
+                                        <!------------------------------ TXT CLIENTE -------------------------------------->
+
+                                        <div class="form-row">
+                                                <div class="form-group col-md-3">
+                                                        <label for="inputAddress">Nombre de contacto</label>
+                                                        <input required type="text" id="contacto" class="form-control"
+                                                                placeholder="Nómbre..." name="Contacto"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputAddress2">eMail</label>
+                                                        <input required type="text" id="Correo" class="form-control"
+                                                                placeholder="email@correo.com" name="Correo"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-3">
+                                                        <label for="inputAddress2">Puesto</label>
+                                                        <input required type="text" id="Puesto" class="form-control"
+                                                                placeholder="Socio..." name="Puesto" autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-1">
+                                                        <label for="inputAddress2">Telefono</label>
+                                                        <input type="text" id="Telefono" class="form-control"
+                                                                placeholder="81 - ######" name="Telefono"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-1">
+                                                        <label for="inputAddress2">Celular</label>
+                                                        <input type="text" id="Celular" class="form-control"
+                                                                placeholder="81 - 81####" name="Celular"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-1">
+                                                        <label for="inputAddress2">Gasto anual</label>
+                                                        <input type="text" id="Gasto" class="form-control"
+                                                                placeholder="$1000" name="Gasto" autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-1" style="display: none">
+                                                        <label for="inputAddress2">id</label>
+                                                        <input type="text" id="id" class="form-control"
+                                                                placeholder="id" name="id" autocomplete="off">
+                                                </div>
+                                        </div>
+
+                                </div>
+                        </div>
+                        <!------------------------------ LIST -------------------------------------->
+                        <div class="card">
+                                <div class="card-body">
+                                        <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputState">Fuente</label>
+                                                        <select id="Fuente" name="Fuente" class="form-control"
+                                                                onchange="">
+                                                                <option>Pagina GEMAK</option>
+                                                                <option>Llamada</option>
+                                                                <option>Desarrollo Cliente</option>
+                                                                <option>Recomendación externa</option>
+                                                                <option>Otro</option>
+                                                        </select>
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputState">Industria</label>
+                                                        <select id="Industria" name="Industria" class="form-control"
+                                                                onchange="">
+                                                                <option selected>Electrodomesticos</option>
+                                                                <option>Automotriz</option>
+                                                                <option>Aeroespacial</option>
+                                                                <option>Tecnologia</option>
+                                                                <option>Mineria</option>
+                                                                <option>Alimentos</option>
+                                                                <option>IoT</option>
+                                                                <option>Otro</option>
+                                                        </select>
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputState">Estatus</label>
+                                                        <select id="Estatus" name="Estatus" class="form-control"
+                                                                onchange="">
+                                                                <option selected>Activo</option>
+                                                                <option>Inactivo</option>
+                                                                <option>Prospecto</option>
+                                                        </select>
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                        <label for="inputAddress2">Fecha de contato</label>
+                                                        <input required type="date" id="FechaInicio"
+                                                                class="form-control" name="FechaInicio"
+                                                                autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                        <label for="inputAddress2">Comentarios</label>
+                                                        <input type="text" id="Comentarios" class="form-control"
+                                                                placeholder="Cliente potencial" name="Comentarios"
+                                                                autocomplete="off">
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        <!------------------------------ BOTONES -------------------------------------->
+                        <div class="card">
+                                <div class="card-body">
+                                        <div class="form-row">
+                                                <div class="form-group col-md-4">
+
+                                                        <button type="submit" act class="btn btn-dark"
+                                                                data-toggle="button" aria-pressed="false"
+                                                                autocomplete="off">
+                                                                <i class="fas fa-user-plus"></i> Nuevo
+                                                                contacto</button>
+
+                                                        <button type="button" class="btn btn-dark" data-toggle="button"
+                                                                aria-pressed="false" autocomplete="off" onclick="Update()"> <i
+                                                                        class="fas fa-user-edit"></i>
+                                                                Actualizar
+                                                                registro</button>
+
+                                                        <button type="button" class="btn btn-dark" data-toggle="button"
+                                                                aria-pressed="false" autocomplete="off" onClick="window.location = '/Tareas';"> 
+                                                                <i class="fas fa-mail-bulk"></i>
+                                                                Tareas</button>
+
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </form>
+        </div>
+        <!--SpaceWork-->
+        <!------------------------------ TABLA-------------------------------------->
+        <div class="SpaceWork">
+                <table class="table table-bordered table-hover" id="RegistroClientes">
+                        <thead class="thead-dark">
+                                <tr>
+                                        <th>N°</th>
+                                        <th>Cliente</th>
+                                        <th>Pagina</th>
+                                        <th>Direccion</th>
+                                        <th>Pais</th>
+                                        <th>Estado</th>
+                                        <th>Planta</th>
+                                        <th>Contacto</th>
+                                        <th>Correo</th>
+                                        <th>Puesto</th>
+                                        <th>Telefono</th>
+                                        <th>Celular</th>
+                                        <th>FechaInicio</th>
+                                        <th>Fuente</th>
+                                        <th>Industria</th>
+                                        <th>Estatus</th>
+                                        <th>Gasto</th>
+                                        <th>Comentarios</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <% if (data) { %>
+                                <% for(var i = 0; i < data.length; i++) { %>
+                                <tr>
+                                        <td id="indice"><%= data[i].id %></td>
+                                        <td id="Cliente"><%= data[i].Cliente %></td>
+                                        <td id="Pagina"><%= data[i].Pagina %></td>
+                                        <td id="Direccion"><%= data[i].Direccion %></td>
+                                        <td id="Pais"><%= data[i].Pais %></td>
+                                        <td id="Estado"><%= data[i].Estado %></td>
+                                        <td id="Planta"><%= data[i].Planta %></td>
+                                        <td id="Contacto"><%= data[i].Contacto %></td>
+                                        <td id="Correo"><%= data[i].Correo %></td>
+                                        <td id="Puesto"><%= data[i].Puesto %></td>
+                                        <td id="Telefono"><%= data[i].Telefono %></td>
+                                        <td id="Celular"><%= data[i].Celular %></td>
+                                        <td id="FechaInicio"><%= data[i].FechaInicio %></td>
+                                        <td id="Fuente"><%= data[i].Fuente %></td>
+                                        <td id="Industria"><%= data[i].Industria %></td>
+                                        <td id="Estatus"><%= data[i].Estatus %></td>
+                                        <td id="Gasto"><%= data[i].Gasto %></td>
+                                        <td id="Comentarios"><%= data[i].Comentarios %></td>
+                                        <!-- <td id="FechaInicio"><%= new Date(data[i].FechaInicio).toDateString() %></td> -->
+                                </tr>
+                                <% } %>
+                                <% } %>
+                        </tbody>
+                </table>
+        </div>
+<!--------------------------------------------------------------- PAGINADOR DE TABLA---------------------------------------------------------------------------------->
+
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+  </script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+</script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+</script>
+<script>
+  $(document).ready(function () {
+      $('#RegistroClientes').DataTable({
+          language: {
+              processing: "Tratamiento en curso...",
+              search: "Buscar&nbsp;:",
+              lengthMenu: "Agrupar de _MENU_ items",
+              info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+              infoEmpty: "No existen datos.",
+              infoFiltered: "(filtrado de _MAX_ elementos en total)",
+              infoPostFix: "",
+              loadingRecords: "Cargando...",
+              zeroRecords: "No se encontraron datos con tu busqueda",
+              emptyTable: "No hay datos disponibles en la tabla.",
+              paginate: {
+                  first: "Primero",
+                  previous: "Anterior",
+                  next: "Siguiente",
+                  last: "Ultimo"
+              },
+              aria: {
+                  sortAscending: ": active para ordenar la columna en orden ascendente",
+                  sortDescending: ": active para ordenar la columna en orden descendente"
+              }
+          },
+          scrollY: 400,
+          lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
+      });
+  });
+</script>
+
+
+<ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="#"> <i
+                class="fas fa-industry"></i> <%= Estadistica.Clientes %> Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"> <i
+                class="fas fa-users"></i> <%= Estadistica.Contactos %> Contacto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i
+                class="fas fa-plus"></i> <%= Estadistica.Nuevos %> Nuevos Clientes </a>
+        </li>
+      </ul>
+
+            
+
+
+
+</body>
+
+</html>

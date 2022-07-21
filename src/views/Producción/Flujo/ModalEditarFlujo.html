@@ -1,0 +1,447 @@
+<style>
+    /*
+Full screen Modal 
+*/
+    .modal-dialog-full-width {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+
+    }
+
+    .modal-content-full-width {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important;
+        background-color: #ffffff !important
+    }
+
+    .modal-header-full-width {
+        border-bottom: 1px solid #ffffff !important;
+    }
+
+    .modal-footer-full-width {
+        border-top: 1px solid #ffffff !important;
+    }
+</style>
+
+<script>
+    function modal() {
+        $("#exampleModalPreview").modal();
+    }
+</script>
+
+
+<div class="container my-4">
+    <!-- Modal -->
+    <div class="modal fade right" id="ModalEditarFlujo" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+            <div class="modal-content-full-width modal-content ">
+                <div class=" modal-header-full-width   modal-header text-center">
+
+                    <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
+                    </h1>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- card -->
+                        <div class="col-sm-4 p-1 shadow-lg">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3" style="display: none">
+                                            <input required readonly type="text" id="R_id" class="form-control"></input>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <input required type="text" id="CantidadDestino"
+                                                class="form-control solo-numero" placeholder="Cantidad..."
+                                                name="Cantidad" autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <select required id="AreaDestino" name="AreaDestino" class="form-control">
+                                                <option value="controlplaner" selected>Producción</option>
+                                                <option value="areaacabados">Acabados</option>
+                                                <option value="areatratamientos" id="ListTratamiento">Trat. Externos
+                                                </option>
+                                                <option value="areacalidad">Calidad</option>
+                                                <option value="areaembarques" id="ListEmbarque">Embarques</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-2 ">
+                                            <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                                                onclick="Transferir()">Transferir</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div class="col-sm-6 p-1 shadow-lg">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-2">
+                                            <input required type="text" id="CantidadTrat" class="form-control"
+                                                placeholder="Cantidad..." name="CantidadTrat" autocomplete="off">
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            <select required id="Servicios" name="Servicios" class="form-control">
+                                                <option value="ANODIZADO" selected>ANODIZADO</option>
+                                                <option value="CADMINIZAD">CADMINIZAD</option>
+                                                <option value="CEMENTADO">CEMENTADO</option>
+                                                <option value="COBRE">COBRE</option>
+                                                <option value="CROMO">CROMO</option>
+                                                <option value="FOSFATIZAD">FOSFATIZAD</option>
+                                                <option value="HONE">HONE</option>
+                                                <option value="HULE">HULE</option>
+                                                <option value="Manzur">Manzur</option>
+                                                <option value="NIKEL E">NIKEL E</option>
+                                                <option value="NITRURADO">NITRURADO</option>
+                                                <option value="ORO">ORO</option>
+                                                <option value="PAVON">PAVON</option>
+                                                <option value="PINTURA">PINTURA</option>
+                                                <option value="PREMIUM">PREMIUM</option>
+                                                <option value="PRUEBAS">PRUEBAS</option>
+                                                <option value="QPQ">QPQ</option>
+                                                <option value="RECTIFICAD">RECTIFICAD</option>
+                                                <option value="RELEVADO">RELEVADO</option>
+                                                <option value="REVENIDO">REVENIDO</option>
+                                                <option value="SHOTPEEN">SHOTPEEN</option>
+                                                <option value="SOLDADURA">SOLDADURA</option>
+                                                <option value="TEMPLE">TEMPLE</option>
+                                                <option value="TESTIGO">TESTIGO</option>
+                                                <option value="TROPICALIZ">TROPICALIZ</option>
+                                                <option value="TUNGSTEN">TUNGSTEN</option>
+                                                <option value="VULCANIZAD">VULCANIZAD</option>
+                                                <option value="XYLAN">XYLAN</option>
+                                                <option value="ZINC">ZINC</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            <select required id="Proveedores" name="Proveedores" class="form-control">
+                                                <option value="Chapa" selected>Chapa</option>
+                                                <option value="Cromadora del Norte">Cromadora del Norte</option>
+                                                <option value="Cromo Industrial">Cromo Industrial</option>
+                                                <option value="Deproinsa">Deproinsa</option>
+                                                <option value="Generados">Generados</option>
+                                                <option value="Indux">Indux</option>
+                                                <option value="Iscsa">Iscsa</option>
+                                                <option value="Manzur">Manzur</option>
+                                                <option value="Maquinados Progreso">Maquinados Progreso</option>
+                                                <option value="Nicolas">Nicolas</option>
+                                                <option value="Omega">Omega</option>
+                                                <option value="Proquimica">Proquimica</option>
+                                                <option value="Tecnotrat">Tecnotrat</option>
+                                                <option value="Testecno">Testecno</option>
+                                                <option value="Tratamientos Victoria">Tratamientos Victoria</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label><input type="checkbox" id="Retrabajo" name="Retrabajo" value="true">
+                                                Retrabajo</label>
+                                        </div>
+
+                                        <div class="form-group col-md-2 ">
+                                            <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                                                onclick="ServicioExterno()">Transferir</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div class="col-sm-2 p-1 shadow-lg">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <button type="button" id="Carga" name="Carga"
+                                            class="btn btn-lg btn-danger  btn-block"
+                                            onclick="ModalEliminarOT()">Eliminar
+                                            registro</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed table-hover" id="TablaEdit">
+                                        <thead>
+                                            <tr>
+                                                <th>OT</th>
+                                                <th>N° Parte</th>
+                                                <th>Cant.OT</th>
+                                                <th>Cant. Restante</th>
+                                                <th>Maquina</th>
+                                                <!-- <th>Area</th>-->
+                                                <th>Fecha inicio</th>
+                                                <th>Fecha vencimiento</th>
+                                                <th>Cant. Recibida</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td id="indice"><input required readonly type="text" id="R_OT"
+                                                        class="form-control"></input></td>
+                                                <td id="indice"><input required readonly type="text" id="R_Parte"
+                                                        class="form-control"></input></td>
+                                                <td id="indice"><input required type="text" id="R_Cantidad"
+                                                        class="form-control" readonly></input></td>
+                                                <td id="indice"><input required type="text" id="R_CantidadTotal"
+                                                        class="form-control" readonly></input></td>
+                                                <td id="indice"><input required type="text" id="R_Maquina"
+                                                        class="form-control" readonly></input></td>
+
+                                                <td id="indice"><input required type="text" id="R_Inicio"
+                                                        class="form-control" name="R_Inicio" autocomplete="off"
+                                                        readonly>
+                                                </td>
+                                                <td id="indice"><input required type="date" id="R_Fin"
+                                                        class="form-control" name="R_Fin" autocomplete="off" readonly>
+                                                </td>
+                                                <td id="indice"><input type="text" id="R_Recibido"
+                                                        class="form-control"></input></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-2">
+                                            <button type="button" id="NuevoProceso" name="NuevoProceso" class="btn btn-light"
+                                                onclick="ModalNuevoProceso()" data-toggle="tooltip" data-placement="top"
+                                                title="PDF"><i class="fas fa-plus-square"></i> Proceso</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" id="Eficiencia" name="Eficiencia" class="btn btn-light"
+                                                onclick="ModalEficiencia()" data-toggle="tooltip" data-placement="top"
+                                                title="Formulario de eficiencia" data-dismiss="modal"><i class="fab fa-algolia"></i> Eficiencia</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                            <div id="GraficaGant" class="Diag shadow-lg">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body" id="ButFinalizarFlujo">
+                    <div class="form-row">
+                        <button type="button" id="Carga" name="Carga" class="btn btn-lg btn-info  btn-block"
+                            onclick="ModalFinalizar()">Enviar</button>
+                    </div>
+                </div>
+
+                <div class="modal-footer-full-width  modal-footer">
+                    <button type="button" class="btn btn-danger btn-md btn-rounded"
+                        data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-md btn-rounded" onclick="GuardarCambios()">Guardar
+                        cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sin elementos -->
+<div class="modal fade" id="ModalCambiosAplicados" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button class="btn btn-light text-nowrap" type="button">
+                    <span class="spinner-grow mr-2"></span>
+                    Cambios Aplicados.
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalEliminarOT">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar OT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Seguro de eliminar OT: <span id="OTAEliminar"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="EliminarOTFlujo()">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModaVistaPlanta">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alimentar flujo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Buscar actualizaciones en vista planta<span id="OTAEliminar"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" onclick="VistaPlanta()"
+                    data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalPosiblePNC">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cantidad incompleta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>La cantidad a transferir es inferior: <span id="OTAEliminar"></span></p>
+
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio_Proceso"
+                        onchange="ActivarNEWPNC(false)" checked>
+                    <label class="form-check-label" for="Radio_Proceso">
+                        Sigue en proceso
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="Radio_PNC"
+                        onchange="ActivarNEWPNC(true)">
+                    <label class="form-check-label" for="Radio_PNC">
+                        Hubo pnc
+                    </label>
+                </div>
+
+                <br>
+                <div class="form-group col-md-6">
+                    <input required type="text" id="NewPNC" class="form-control solo-numero" placeholder="Cantidad..."
+                        name="NewPNC" autocomplete="off" disabled>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal"
+                    onclick="ConfirmarTransferencia()">Continuar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Terminar Tratamiento Externo -->
+<div class="modal fade bd-example-modal-lg" id="ModalNuevoProceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Asignar nuevo proceso</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+
+                    <div class="form-group col-md-2">
+                        <label for="inputState" class="font-weight-bold">Cantidad</label>
+                        <input required type="text" id="N_Cantidad" class="form-control" placeholder="0"
+                            name="N_Cantidad" autocomplete="off" value="0">
+                    </div>
+
+ 
+
+                    <div class="form-group col">
+                        <label for="inputState" class="font-weight-bold">Familia</label>
+                        <select required id="List_Familia_NuevaLinea" name="Sal_Familia" class="form-control"
+                            onchange="Maquinas('List_Familia_NuevaLinea','ListMaquina_NuevaLinea')">
+
+                        </select>
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="inputState" class="font-weight-bold">Máquinas</label>
+                        <select required id="ListMaquina_NuevaLinea" name="ListMaquina" class="form-control">
+                          
+                        </select>
+                    </div> 
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="button" id="Carga" name="Carga" class="btn btn-secondary "
+                        onclick="NuevoProceso()">Aceptar</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalResetFlujo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reiniciar flujo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Se limpiara todos los registros del flujo<span id="OTAEliminar"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" onclick="Reset()" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+Formato ruta
+PROMESA/AÑO/1. Administración/1. Ordenes de Compra/1. NOMBREOBRA
+
+Formato pdf
+OC" "+[campo nombre]+" "+año+" "provedor
+
+//BD
+PROMESA/Proveedores/Proveedores.xmlx

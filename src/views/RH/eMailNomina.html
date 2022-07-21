@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/RH/RHPersonal.js"></script>
+</head>
+
+<body>
+    <%- include ('../partials/navegacion.html') %>
+    <!------incluir navegacion Menu----->
+
+    <div class="card text-center">
+        <div class="card-header">
+            <!------------------------------ BUSCAR -------------------------------------->
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <select required id="Planta" name="Planta" class="form-control">
+                            <option value="Bravo" selected>Bravo</option>
+                            <option value="Morelos">Morelos</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button type="button" id="getPersonal" name="getPersonal"
+                            class="btn btn-secondary" onclick="PrepararEnvio()">Buscar</button>
+                    </div>
+                    <div class="form-group col-md-2">
+                         
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <input required type="text" id="Semana" class="form-control" placeholder="..."
+                            name="Semana" autocomplete="off"  >
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button type="button" id="getPersonal" name="getPersonal"
+                            class="btn btn-secondary" onclick="RecolectarCandidatos()">Enviar</button>
+                    </div>
+                    <div class="form-group col-md-2">
+                         
+                    </div>
+                    <div class="form-group col-md-1">
+                        <input required type="text" id="Estado" class="form-control" placeholder="..."
+                            name="Estado" autocomplete="off"  readonly>
+                    </div>
+                </div>
+        </div>
+        <div class="card-body">
+            <!------------------------------ TABLA -------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                style="width:96%; height: 700px; overflow: scroll;">
+                <table class="table table-condensed table-hover" id="TablaPersonal">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Nomina</th>
+                            <th>CURP</th>
+                            <th>Correo</th>
+                            <th>Estatus</th>
+                            <th><input type="checkbox" id="CheckMaster" onchange="EstadoCheck()" checked></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+	<!-- Modal Nota -->
+	<div class="modal fade" id="ModalEditarEmpleado" tabindex="-1" role="dialog" aria-labelledby="ModalEditarEmpleado"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					Cambio exitoso
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+

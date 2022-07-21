@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script type="text/javascript" src="js/Almacen/ExistenciasAlmacen.js"></script>
+</head>
+
+<body onload="CargarListasModal()">
+    <%- include ('../partials/navegacion.html') %>
+        <!------ incluir navegacion Menu ----->
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-1">
+                        <label for="inputState" class="font-weight-bold">Almacen</label>
+                        <select required id="Almacen" name="Sal_Estatus" class="form-control" onfocus="FiltroFamilia()"
+                            onchange="FiltroFamilia()">
+                            <option value="Todo" selected>Todo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-1">
+                        <label for="inputState" class="font-weight-bold">Categoria</label>
+                        <select required id="Categoria" name="Categoria" class="form-control"
+                            onfocus="CargarCategorias()">
+                            <option value="Todo" selected>Todo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-1">
+                        <label for="inputState" class="font-weight-bold">Familia</label>
+                        <select required id="Familia" name="Familia" class="form-control">
+                            <option value="Todo" selected>Todo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-1 p-4">
+                        <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                            onclick="MostrarReporte()">Buscar</button>
+                    </div>
+
+                    <div class="col m-4 text-center">
+                        <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
+                            onclick="ExportarExcel()" data-toggle="tooltip" data-placement="top" title="Excel"><i
+                                class="fas fa-file-csv"></i></button>
+
+                        <button type="button" id="Excel" name="Excel" class="btn btn-info btn-lg"
+                            onclick="ModalListas()" data-toggle="tooltip" data-placement="top" title="Listas"><i
+                                class="far fa-list-alt"></i></button>
+
+                        <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg"><a
+                                href="/whCompras"><i class="fas fa-dollar-sign"></i></a></button>
+
+                        <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
+                            data-target="#ModalRequerido" data-toggle="tooltip" data-placement="top"
+                            title="Reporte requerido"> <i class="fas fa-cart-plus"></i></button>
+
+                        <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
+                            data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
+                            title="Reporte ordenados"> <i class="fas fa-check-double"></i></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!------------------------------ TABLA -------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="  overflow: scroll;">
+                <table class="table table-condensed table-hover " id="TablaReporte">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-1">Clave</th>
+                            <th>Producto</th>
+                            <th>Almacen</th>
+                            <th>Stock</th>
+                            <th>Min</th>
+                            <th>Max</th>
+                            <th>Usado</th>
+                            <th>Ubicacion</th>
+                            <th>Categoria</th>
+                            <th>Familia</th>
+                            <th class="col-sm-1">Requerido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!--ModalRecoleccion-->
+        <div class="modal fade bd-example-modal-lg" id="ModalListas" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title w-100" id="myModalLabel">Listas</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+                    <hr>
+
+                    <div class="form-row">
+                        <div class="col-4 ml-3">
+                            <input type="text" id="newCategoria" class="form-control solo-numero"
+                                placeholder="Nueva Categoria" name="newCategoria" autocomplete="off">
+                        </div>
+
+                        <div class="col-4">
+                            <button type="button" class="btn btn-dark btn-sm t-100" data_but="btn-xs"
+                                onclick="addCategoria()"><i class='fa fa-plus'></i></button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!------------------------------ TABLA-------------------------------------->
+                        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                            <table class=" table table-bordered table-hover" id="TablaCategorias">
+                                <thead>
+                                    <tr>
+                                        <th>Categoria</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="CuerpoNota">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-4  ml-3">
+                            <input type="text" id="newFamilia" class="form-control solo-numero"
+                                placeholder="Nueva familia" name="Cantidad" autocomplete="off" required>
+                        </div>
+
+                        <div class="col">
+                            <select required id="AlmacenAdd" name="AlmacenAdd" class="form-control">
+                                <option value="Todo" selected disabled>Selecciona almacen</option>
+                                <option value="Bravo">Bravo</option>
+                                <option value="Morelos">Morelos</option>
+                                <option value="Gaveta">Gaveta</option>
+                                <option value="Almacen Extra">Almacen Extra</option>
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <button type="button" class="btn btn-dark btn-sm t-100" data_but="btn-xs"
+                                onclick="addFamilia()"><i class='fa fa-plus'></i></button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <!------------------------------ TABLA-------------------------------------->
+                        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                            <table class=" table table-bordered table-hover" id="TablaFamilias">
+                                <thead>
+                                    <tr>
+                                        <th>Familia</th>
+                                        <th>Planta</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="CuerpoNota">
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- DATATABLES -->
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+        <!-- BOOTSTRAP -->
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+
+        <!-- Modal Requerido -->
+        <div class="modal fade" id="ModalRequerido" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito"
+            aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reporte Requerido</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <!--  <div class="form-group col-md-3">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                                <input required type="date" id="Req_inicio" class="form-control" name="Inicio" autocomplete="off">
+                            </div>
+            
+                            <div class="form-group col-md-3">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha Fin</label>
+                                <input required type="date" id="Req_fin" class="form-control" name="vencimiento" autocomplete="off">
+                            </div> -->
+
+                            <div class="form-group">
+                                <label for="inputState" class="font-weight-bold">Almacen</label>
+                                <select required id="Req_Almacen" name="Sal_Estatus" class="form-control">
+                                    <option selected value="Almacen Bravo">Bravo</option>
+                                    <option value="Almacen Morelos">Morelos</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-1 p-4">
+                                <button type="button" id="Req_Reporte" name="getProducts" class="btn btn-secondary "
+                                    onclick="ReporteRequeridos()">Descargar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Ordenado -->
+        <div class="modal fade" id="ModalOrdenados" tabindex="-1" role="dialog" aria-labelledby="RecoleccionExito"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reporte Ordenado</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-row">
+                             <div class="form-group col-md-3">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                                <input required type="date" id="Ord_inicio" class="form-control" name="Inicio" autocomplete="off">
+                            </div>
+            
+                            <div class="form-group col-md-3">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha Fin</label>
+                                <input required type="date" id="Ord_fin" class="form-control" name="vencimiento" autocomplete="off">
+                            </div>
+
+                            
+
+                            <div class="form-group col-md-1 p-4">
+                                <button type="button" id="Ord_Reporte" name="getProducts" class="btn btn-secondary "
+                                    onclick="ReporteOrdenados()">Descargar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+</body>

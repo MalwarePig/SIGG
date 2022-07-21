@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/Procesos/MostrarWH.js"></script>
+</head>
+
+<body">
+    <%- include ('../partials/navegacion.html') %>
+    <!------incluir navegacion Menu----->
+    <div class="card text-center">
+        <div class="card-header">
+            <!------------------------------ BUSCAR -------------------------------------->
+        
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <input type="text" id="Herramienta" class="form-control" placeholder="Herramienta..."
+                            name="Herramienta" autocomplete="off" required onkeypress="runScript(event)">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button type="button" id="BuscarPlanta" name="BuscarPlanta"
+                            class="btn btn-secondary" onclick="BuscarHerramienta()">Buscar</button>
+                    </div>
+                </div>
+        </div>
+        <div class="card-body">
+
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"> 
+                <table class="table table-bordered table-hover" id="Herr_Encontradas">
+                    <thead>
+                        <tr>
+                            <th>clave</th>
+                            <th>Producto</th>
+                            <th>Nuevo Morelos</th>
+                            <th>Nuevo Bravo</th>
+                            <th>Usado Morelos</th>
+                            <th>Usado Bravo</th>
+                            <th>Total Nuevos</th>
+                            <th>Total Usado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!--ModalApartado-->
+
+    <div class="modal fade" id="ModalApartado" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Completar registro</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <input type="text" id="OT" class="form-control" placeholder="OT..."
+                            name="OT" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <input type="text" id="Cantidad" class="form-control" placeholder="Cantidad..."
+                            name="Cantidad" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group col-md-10">
+                        <input type="text" id="Comentario" class="form-control" placeholder="Comentarios..."
+                            name="Comentario" autocomplete="off" >
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiar()">Cerrar</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Guardar()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+        <!-- Modal Listo-->
+  <div class="modal fade" id="Listo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Herramienta pronosticada.
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>

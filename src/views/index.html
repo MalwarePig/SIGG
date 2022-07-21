@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+
+
+    <!--<link rel="icon" type="image/ico" href="/src/public/icon/Gemak.ico" />-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="p-2 mb-1 bg-light text-dark">
+        <%- include ('partials/navegacion.html') %>
+    </div>
+
+    <!------incluir navegacion Menu----->
+    <style>
+        body {
+            background-image: url('images/wall.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            width: 100%;
+            min-height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(90deg, rgb(3, 1, 94), rgb(255, 0, 0));
+            opacity: 0.3;
+            z-index: -1;
+        }
+    </style>
+
+    <div class="bg-light" style="opacity: .8;">
+        <div class="text-center">
+            <!-- Masthead Avatar Image-->
+            <img src="images/Logo.png" alt="" width="50%" />
+            <!-- Masthead Heading-->
+            <p class="font-weight ">SIGG - v 1.1.0</p>
+            <p class="font-weight ">usuario: <span id="Sp_Usuario"> <%= data[0].usuario %></span> planta:
+                <span id="SP_Planta"><%= data[0].Planta %></span> turno: <span><%= data[0].Turno %></span> Area: <span
+                    id="SP_Area"><%= data[0].Area %></span> Nombre:<span id="SP_Nombre"><%= data[0].Nombre %></span> </p>
+        </div>
+        <br>
+    </div>
+
+    <script>
+        localStorage.clear();
+        // Guardar datos al almacenamiento local actual
+        localStorage.setItem("usuario", document.getElementById("Sp_Usuario").innerHTML);
+        localStorage.setItem("Area", document.getElementById("SP_Area").innerHTML);
+        localStorage.setItem("PlantaGeneral", document.getElementById("SP_Planta").innerHTML);
+        localStorage.setItem("Nombre", document.getElementById("SP_Nombre").innerHTML);
+
+ 
+
+
+        
+    </script>
+ 
+ 
+  
+    <!-- ----------------------------------------------------------------------------- MAQUINAS -------------------------------------------------------------------------------->
+    <!--<div id="barra"></div>   --->
+    <!-- ---------------------------------------------------------------------- CONTADOR ORDENES ------------------------------------------------------------------------------
+    
+        
+    <section id="counting_sec">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="counting_sl">
+                        <i class="fas fa-wrench"></i>
+                        <h2 class="counter">150</h2>
+                        <h4>Lineas Activas</h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="counting_sl">
+                        <i class="fas fa-skull-crossbones"></i>
+                        <h2 class="counter">120</h2>
+                        <h4>Vencidas</h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="counting_sl">
+                        <i class="fas fa-business-time"></i>
+                        <h2 class="counter">65</h2>
+                        <h4>En Proceso</h4>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="counting_sl">
+                        <i class="fas fa-box-open"></i>
+                        <h2 class="counter">425</h2>
+                        <h4>Terminadas</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+
+
+</body>
+
+</html>

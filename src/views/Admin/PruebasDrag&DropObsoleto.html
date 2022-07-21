@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title >
+           GEMAK
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <%- include ('partials/head.html') %> <!------incluir cabezera navegacion----->
+       
+
+        <link rel="stylesheet" href="css/style.css">
+        <title>Listas con Drag and Drop || SortableJS</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/estilos.css">
+        
+</head><!DOCTYPE html>
+
+<body>
+	<div class="contenedor">
+		<div class="contenedor-lista">
+			<h1>Drag and Drop con Javascript</h1>
+
+			<div class="lista" id="izquierdo">
+				<!-- Persona #1 -->
+				<div class="persona" data-id="Persona 1">
+					<div class="nombre">
+						<div>
+							<p class="label">Nombre</p>
+							<p class="dato">Carlos Arturo</p>
+						</div>
+					</div>
+					<div class="edad">
+						<p class="label">Edad</p>
+						<p class="dato">24</p>
+					</div>
+					<div class="correo">
+						<div class="label">Correo</div>
+						<p class="dato">carlos@gmail.com</p>
+					</div>
+				</div>
+				
+				<!-- Persona #2 -->
+				<div class="persona" data-id="Persona 2">
+					<div class="nombre">
+						<div>
+							<p class="label">Nombre</p>
+							<p class="dato">Alejandro</p>
+						</div>
+					</div>
+					<div class="edad">
+						<p class="label">Edad</p>
+						<p class="dato">25</p>
+					</div>
+					<div class="correo">
+						<div class="label">Correo</div>
+						<p class="dato">alejandro@gmail.com</p>
+					</div>
+				</div>
+
+				<!-- Persona #3 -->
+				<div class="persona"  data-id="Persona 3">
+					<div class="nombre">
+						<div>
+							<p class="label">Nombre</p>
+							<p class="dato">Stephanie</p>
+						</div>
+					</div>
+					<div class="edad">
+						<p class="label">Edad</p>
+						<p class="dato">20</p>
+					</div>
+					<div class="correo">
+						<div class="label">Correo</div>
+						<p class="dato">stephanie@gmail.com</p>
+					</div>
+				</div>
+
+				<!-- Persona #4 -->
+				<div class="persona"  data-id="Persona 4">
+					<div class="nombre">
+						<div>
+							<p class="label">Nombre</p>
+							<p class="dato">Mike</p>
+						</div>
+					</div>
+					<div class="edad">
+						<p class="label">Edad</p>
+						<p class="dato">18</p>
+					</div>
+					<div class="correo">
+						<div class="label">Correo</div>
+						<p class="dato">mike@gmail.com</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script src="js/Drag&Drop.js"></script>
+</body>
+</html>

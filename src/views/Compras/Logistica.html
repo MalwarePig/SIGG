@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="shortcut icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <link rel="icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/86322b1947.js" crossorigin="anonymous"></script>
+  <!-- Barra -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="js/Compras/Logistica.js"></script>
+  <!------ JQUERY PARA USAR AJAX ----->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- css -->
+  <link rel="stylesheet" href="css/StyleLogistica.css">
+
+</head>
+
+<body>
+  <%- include ('../partials/navegacion.html') %>
+
+  <div class="card text-center">
+    <div class="card-header">
+      <!------------------------------ BUSCAR -------------------------------------->
+      <div class="form-row">
+
+        <div class="form-group col-md-1   ">
+          <input required type="text" id="Pedimento" class="form-control" placeholder="Pedimento..."
+            name="Pedimento" autocomplete="off" required>
+        </div>
+
+        <div class="form-group col-md-1">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-dark btn-sm"
+            onclick="Buscar()">Buscar</button>
+        </div>
+        <div class="form-group col-md-7">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+            onclick="modal()">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+
+ <div class="card-body">
+    <!------------------------------ TABLA -------------------------------------->
+    <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+        style="width:96%; height:650px; overflow: scroll;">
+        <table class="table table-condensed table-hover " id="TablaReporte">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Pedimento</th>
+                    <th>Origen</th>
+                    <th>Proveedor</th>
+                    <th>Factura</th>
+                    <th>Monto</th>
+                    <th>Cantidad</th>
+                    <th>OT</th>
+                    <th>OC</th>
+                    <th>Descripcion</th>
+                    <th>Diametro</th>
+                    <th>DiametroIn</th>
+                    <th>Largo</th>
+                    <th>LBS</th>
+                    <th>KG</th>
+                    <th>Colada</th>
+                    <th>Tarima</th>
+                    <th>FecheRegsitro</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!------ Primera tarjeta ----->
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+          aria-controls="collapseThree">
+          Componente - NMY33-RC-C7-EST-001-REV1
+        </button>
+      </h5>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="container">
+
+  </div>
+
+
+
+  <%- include ('../Compras/ModalLogistica.html') %>
+
+
+
+ 
+</body>
+
+</html>

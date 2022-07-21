@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+    <script src="js/Recursos/jspdf.min.js"></script>
+    <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+    <script type="text/javascript" src="js/Herramientas/Etiquetas.js"></script>
+</head>
+
+<body onload="modal()">
+    
+    <%- include ('../partials/navegacion.html')%>
+    <!-- Modal Sin elementos -->
+
+    <style>
+        /*
+Full screen Modal 
+*/
+        .modal-dialog-full-width {
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: none !important;
+
+        }
+
+        .modal-content-full-width {
+            height: auto !important;
+            min-height: 100% !important;
+            border-radius: 0 !important;
+            background-color: #ffffff !important
+        }
+
+        .modal-header-full-width {
+            border-bottom: 1px solid #ffffff !important;
+        }
+
+        .modal-footer-full-width {
+            border-top: 1px solid #ffffff !important;
+        }
+    </style>
+
+    <script>
+        function modal() {
+            $("#exampleModalPreview").modal();
+        }
+    </script>
+
+    <div class="container my-4">
+        <!-- Modal -->
+        <div class="modal fade right" id="exampleModalPreview" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+            <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+                <div class="modal-content-full-width modal-content ">
+                    <div class=" modal-header-full-width   modal-header text-center">
+                        <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Actualizar flujo
+                        </h1>
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close"
+                            onclick="Eliminar()">
+                            <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- card -->
+                            <div class="col-sm-6 p-1 shadow-lg">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox1" value="first_radio">
+                                                    Aluminio</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox2" value="first_radio">
+                                                    Bronce</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox3" value="first_radio">
+                                                    Latón</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox4" value="first_radio">
+                                                    Cobre</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox5" value="first_radio">
+                                                    Hierro</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox6" value="first_radio">
+                                                    Acero</label><br>
+                                            </div>
+                                            <div class="col-md-2 p-1">
+                                                <label></label><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- card -->
+                            <div class="col-sm-6 p-1 shadow-lg">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7" value="first_radio">
+                                                    Nylon</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7" value="first_radio">
+                                                    Delrin</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7" value="first_radio">
+                                                    Arnite</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7" value="first_radio">
+                                                    PVC</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7" value="first_radio">
+                                                    Teflón</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7" value="first_radio">
+                                                    Polietileno</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7"
+                                                        value="first_radio">Polipropileno</label><br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label><input type="radio" id="cbox7"
+                                                        value="first_radio">Policarbonato</label><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer-full-width  modal-footer">
+                        <button type="button" class="btn btn-danger btn-md btn-rounded"
+                            data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-md btn-rounded">Guardar cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

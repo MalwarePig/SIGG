@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>
+		GEMAK
+	</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<!------incluir cabezera navegacion----->
+
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.4.1.js"
+		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="js/Recursos/xlsxfullmin.js"></script>
+	<script type="text/javascript" src="js/Recursos/FileSaver.js"></script>
+	<script type="text/javascript" src="js/Produccion/ControlPlaner.js"></script>
+</head>
+
+<body>
+	<%- include ('../partials/navegacion.html')%>
+
+	<div class="card text-center">
+		<div class="card-header">
+			CONTROL PLANER
+		</div>
+		<div class="card-body">
+			<h5 class="card-title">IMPORTAR VISTA-PLANTA</h5>
+			<p class="card-text">Selecciona archivo de excel</p>
+			<!-- <a href="#" class="btn btn-primary">Go somewhere</a>-->
+			<input type="file" id="input-excel" />
+			<input type="button" id="button" class="btn btn-primary" value="Registrar" />
+		</div>
+	</div>
+	<!--Aqui se alimentara la tabla cargar del excel-->
+	<table id="wrapper"> </table>
+
+	<!--Aqui ejecuta el evento de lectura de excel-->
+	<script>
+		$('#input-excel').change(function (e) {
+			var reader = new FileReader();
+			reader.readAsArrayBuffer(e.target.files[0]);
+			reader.onload = function (e) {
+				var data = new Uint8Array(reader.result);
+				var wb = XLSX.read(data, { type: 'array' });
+				var htmlstr = XLSX.write(wb, { sheet: "VISTAPLANTA_DAT", type: 'binary', bookType: 'html' });//obtener tabla
+				//console.log(htmlstr);
+				//Find desired cell
+				var desired_cell =
+
+					$('#wrapper')[0].innerHTML += htmlstr;//insertar tabla en html
+			}
+		});
+	</script>
+
+	<script>
+		function agregarColumna() {
+			var CantidadColumn = 19; //Vista planta tiene 19 columnas
+			var table = document.getElementsByTagName("table")[0];
+			var rowCount = table.rows.length;
+			for (var i = 0; i < rowCount; i++) {
+				var row = table.rows[i]; row.insertCell(CantidadColumn);
+			}
+		}
+	</script>
+
+	<script>
+		$("#button").click(function () {//Ejecutar codigo al dar click en boton
+			var i = 0;//Contador para brincar la cabaezera y suar la referencia de indice
+			$('#wrapper tr').each(function () {//leer una tabla html    
+				var Tabla = {//CREAR UN OBJETO MATRIS
+					OT: $(this).find("td").eq(0).html(),
+					NoPARTE: $(this).find("td").eq(1).html(),//LEER LA TABLA
+					COLADA: $(this).find("td").eq(2).html(),
+					OD: $(this).find("td").eq(3).html(),
+					ID: $(this).find("td").eq(4).html(),
+					LG: $(this).find("td").eq(5).html(),
+					QTY: $(this).find("td").eq(6).html(),
+					SPEC: $(this).find("td").eq(7).html(),
+					UBICACIon: $(this).find("td").eq(8).html(),
+					PESO: $(this).find("td").eq(9).html(),
+					ENTRADA: $(this).find("td").eq(10).html(),
+					SALIDA: $(this).find("td").eq(10).html(),
+					Material_entregado: $(this).find("td").eq(10).html(),
+					STATUS: $(this).find("td").eq(10).html(),
+					SOBRAN: $(this).find("td").eq(10).html(),
+					ENTRADA: $(this).find("td").eq(10).html(),
+				}//fin de objeto}
+
+				if (i > 0 && ($(this).find("td").eq(1).html() !== '')) {//Iniciar despues de cabezera de tabla y OT sea diferente de Null
+					var indice = Object.keys(Tabla).length;//Cantidad de elementos dentro del objeto
+					console.log('indice' + i);
+
+					$.post("/postCplaner", // url
+						{ Tabla }, // data to be submit
+						function (Tabla, status) {// success callback
+							console.log(Tabla);
+						})
+				}
+				i++;
+			});//each para recorrer tabla
+
+			var elemento = document.getElementById("wrapper");
+			document.body.removeChild(elemento);
+			alert("Registrado en BD");
+		});
+	</script>
+
+</body>
+
+</html>

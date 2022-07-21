@@ -1,0 +1,24 @@
+//CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
+function GETPRODUCTS() {
+    var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
+    $.ajax({
+        url: '/BuscarHerramientas/' + Herramientas,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+         
+        } //Funcion success
+    }); //Ajax
+} //Evento clic
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+console.table(Linea)
+    $.post("/TransFlujo", // inicia la lista de ot en el flujo de produccion
+        {
+            Linea
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });   

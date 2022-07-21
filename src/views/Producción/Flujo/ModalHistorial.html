@@ -1,0 +1,132 @@
+<style>
+    /*
+Full screen Modal 
+*/
+    .modal-dialog-full-width {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+
+    }
+
+    .modal-content-full-width {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important;
+        background-color: #ffffff !important
+    }
+
+    .modal-header-full-width {
+        border-bottom: 1px solid #ffffff !important;
+    }
+
+    .modal-footer-full-width {
+        border-top: 1px solid #ffffff !important;
+    }
+</style>
+
+
+
+<div class="container my-4">
+    <!-- Modal -->
+    <div class="modal fade right" id="ModalHistorial" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+            <div class="modal-content-full-width modal-content ">
+                <div class=" modal-header-full-width   modal-header text-center">
+ 
+                    <h1 class="modal-title w-100" id="exampleModalPreviewLabel">Historial</h1>
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                        <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <input required type="text" id="OTHistorial" class="form-control" name="OTHistorial"
+                                    placeholder="OT...">
+
+                            </div>
+                            <div class="form-group col-md-2 ">
+                                <button type="button" id="LeerHistorial" name="LeerHistorial" class="btn btn-secondary "
+                                    onclick="LeerHistorial()">Buscar</button>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="inputAddress2" class="font-weight-bold">Total en procesos</label>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <input required type="text" id="TotalProd" class="form-control" name="TotalProd"
+                                    placeholder="Total de proceso...">
+                            </div>
+                            <div class="form-group col-md-1">
+                                
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="inputAddress2" class="font-weight-bold">Total en cola</label>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <input required type="text" id="TotalCola" class="form-control" name="TotalCola"
+                                    placeholder="Total de proceso...">
+                            </div>
+
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <div class="container-fluid shadow-lg p-1  bg-white rounded">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed table-hover" id="TablaHistorial">
+                                        <thead>
+                                            <tr>
+                                                <th>N°</th>
+                                                <th>OT</th>
+                                                <th>N° Parte</th>
+                                                <th>Cant. OT</th>
+                                                <th>Recibido</th>
+                                                <th>Enviados</th>
+                                                <th>Maquina</th>
+                                                <th>Planta</th>
+                                                <th>Servicios</th>
+                                                <th>Area</th>
+                                                <th>Origen</th>
+                                                <th>Registro</th>
+                                                <th>Aceptado</th>
+                                                <th>Terminado</th>
+                                                <th>vencimiento</th>
+                                                <th>Tiempo Prod.</th>
+                                                <th>Tiempo Fila</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Grafica" ></div>
+                </div>
+
+                <div class="modal-footer-full-width  modal-footer">
+                    <button type="button" class="btn btn-danger btn-md btn-rounded"
+                        data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-md btn-rounded"
+                        onclick="HistorialExcel()">Exportar</button>
+                </div>
+  
+            </div>
+        </div>
+    </div>
+</div>

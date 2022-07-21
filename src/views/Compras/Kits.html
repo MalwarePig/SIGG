@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="shortcut icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <link rel="icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/86322b1947.js" crossorigin="anonymous"></script>
+  <!-- Barra -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="js/Compras/Kits.js"></script> 
+  <!------ JQUERY PARA USAR AJAX ----->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- css -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <%- include ('../partials/navegacion.html') %>
+  <div class="card text-center">
+    <div class="card-header">
+      <!------------------------------ BUSCAR -------------------------------------->
+      <div class="form-row">
+        <div class="form-group col-md-2 p-2">
+          <input required type="text" id="NameKit" class="form-control" placeholder="Número de parte..."
+            name="NameKit" autocomplete="off" onkeypress="runScript(event)" value="648544">
+        </div>
+        <div class="form-group col-md-1 p-0">
+          <button type="button" id="GetKits" name="getProducts" class="btn btn-secondary" onclick="BuscarKits()">Buscar</button>
+        </div>
+
+        <div class="form-group col-md-5 p-0">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+              onclick="ExcelReporte()">Excel</button>
+      </div>
+
+ <!---
+        <div class="form-group col-md-1">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+            onclick="MostrarKits()">Mostrar Kits</button>
+        </div>
+
+        <div class="form-group col-md-2">
+          <button type="button" class="btn btn-secondary" onclick="BuscarKits()">BuscarKits</button>
+        </div>
+
+        <div class="form-group col-md-2">
+          <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+            onclick="MostrarSub()">MostrarSub</button>
+        </div>
+--->
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <!------ Colapso ----->
+  <div class="SpaceWork" id="accordion"></div>
+
+  <div id="Oculta" style="display: none">
+    <!------ =================================================== KITS ========================================================== ----->
+    <div class="card container-fluid shadow-lg p-3 mb-5 bg-dark rounded" style="width:96%; ; height:350px;"
+      id="cardPrincial">
+      <div class="card" style=" background-color:rgb( 241, 239, 252 );">
+        <div class="card-header" id="BtnPrincipal" data="ss">
+
+          <div class="form-row">
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">OT</label>
+              <input type="text" id="OT" class="form-control text-dark" name="OT" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress" class="font-weight-bold">Cliente</label>
+              <input type="text" id="Cliente" class="form-control text-dark" name="Cliente" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Rev</label>
+              <input type="text" id="Rev" class="form-control text-dark" name="Rev" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress" class="font-weight-bold">PO</label>
+              <input type="text" id="PO" class="form-control text-dark" name="PO" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Ens</label>
+              <input type="text" id="Ens" class="form-control text-dark" name="Ens" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Parte</label>
+              <input type="text" id="Parte" class="form-control text-dark" name="Parte" readonly
+                value="NMY33-RC-C7-EST-001-REV1">
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Cant. OT</label>
+              <input type="text" id="Cant" class="form-control text-dark" name="Cant" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Cant. Pendiente</label>
+              <input type="text" id="Pendiente" class="form-control text-dark" name="Pendiente" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress" class="font-weight-bold">Descripcion del Producto</label>
+              <input type="text" id="Descripcion" class="form-control text-dark" name="Descripcion" readonly
+                value="PIEZA PLACA INFERIOR DE ESTRUC">
+            </div>
+          </div>
+
+        </div>
+        <div id="collapsePrincipal" class="collapse bg-light" aria-labelledby="headingTwo">
+          <div class="card-body">
+            <!------ =============================================== COMPONENTES ====================================================== ----->
+            <!------ Colapso ----->
+            <div id="AccordionSub"></div>
+            <!------ =============================================== COMPONENTES ====================================================== ----->
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+
+
+    <!------ Componente 1 ----->
+    <div id="cardSub">
+      <br>
+      <div class="card">
+        <div class="card-header" id="Btn">
+          <div class="form-row">
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">OT</label>
+              <input type="text" id="S_OT" class="form-control text-dark" name="OT" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Cliente</label>
+              <input type="text" id="S_Cliente" class="form-control text-dark" name="Cliente" readonly
+                value="NEMAK MEXICO, SA">
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Rev</label>
+              <input type="text" id="S_Rev" class="form-control text-dark" name="Rev" readonly value="">
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">PO</label>
+              <input type="text" id="S_PO" class="form-control text-dark" name="PO" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Ens</label>
+              <input type="text" id="S_Ens" class="form-control text-dark" name="Ens" readonly>
+            </div>
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress" class="font-weight-bold">Parte</label>
+              <input type="text" id="S_Parte" class="form-control text-dark" name="Parte" readonly
+                value="NMY33-RC-C7-EST-001-REV1">
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Cant. OT</label>
+              <input type="text" id="S_Cant" class="form-control text-dark" name="Cant" readonly>
+            </div>
+
+            <div class="form-group col-md-1">
+              <label for="inputAddress" class="font-weight-bold">Cant. Pendiente</label>
+              <input type="text" id="S_Pendiente" class="form-control text-dark" name="Pendiente" readonly>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="inputAddress" class="font-weight-bold">Descripcion del Producto</label>
+              <input type="text" id="S_Descripcion" class="form-control text-dark" name="Descripcion" readonly
+                value="PIEZA PLACA INFERIOR DE ESTRUC">
+            </div>
+          </div>
+
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+          <div class="card-body">
+            <!------ SubComponente 1 ----->
+            <table class="table table-bordered table-hover" id="OTRegistros">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Reqs</th>
+                  <th>Cantidad</th>
+                  <th>Staus Material - CONSOP</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!------ ====== oculto ===== ----->
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+ 
+  </script>
+
+</body>
+
+</html>

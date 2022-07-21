@@ -1,0 +1,155 @@
+CREATE TABLE `materiales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Folio` varchar(15) DEFAULT NULL,
+  `Producto` varchar(200) DEFAULT NULL,
+  `Cantidad` int(11) DEFAULT (0),
+  `Estado` varchar(50) DEFAULT NULL,
+  `OT` varchar(50) DEFAULT NULL,
+  `Empleado` varchar(50) DEFAULT NULL,
+  `Turno` varchar(3) DEFAULT NULL,
+  `Maquina` varchar(30) DEFAULT NULL,
+  `Comentarios` varchar(250) DEFAULT NULL,
+  `Movimiento` varchar(20) DEFAULT NULL,
+  `Usuario` varchar(20) DEFAULT NULL,
+  `Almacen` varchar(50) DEFAULT NULL,
+  `Salida` datetime DEFAULT (now()),
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `materiales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Folio` varchar(15) DEFAULT NULL,
+
+  PRIMARY KEY (`id`)
+)
+
+
+CREATE TABLE `requisiciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Clave` varchar(15) DEFAULT NULL,
+  `Producto` varchar(200) DEFAULT NULL,
+  `CantidadReq` int(11) DEFAULT (0),
+   `OT` varchar(10) DEFAULT NULL,
+  `Comentarios` varchar(250) DEFAULT NULL,
+  `EmpleadoReq` varchar(50) DEFAULT NULL,
+  `Planta` varchar(50) DEFAULT NULL,
+  `Estatus` varchar(20) DEFAULT NULL,
+    `FechaReq` datetime DEFAULT (CURDATE()),
+  PRIMARY KEY (`id`)
+)
+
+
+select * from requisiciones
+
+
+CREATE TABLE `itemretorno` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Folio` varchar(15) DEFAULT NULL,
+  `Producto` varchar(200) DEFAULT NULL,
+  `Cantidad` int(11) DEFAULT (0),
+  `Estado` varchar(50) DEFAULT NULL,
+  `OT` varchar(50) DEFAULT NULL,
+  `Empleado` varchar(50) DEFAULT NULL,
+  `Turno` varchar(3) DEFAULT NULL,
+  `Maquina` varchar(30) DEFAULT NULL,
+  `Comentarios` varchar(250) DEFAULT NULL,
+  `Movimiento` varchar(20) DEFAULT NULL,
+  `Usuario` varchar(20) DEFAULT NULL,
+  `Almacen` varchar(50) DEFAULT NULL,
+  `Salida` datetime DEFAULT (now()),
+  PRIMARY KEY (`id`)
+)
+
+
+
+select * from folioalmacenRetorno
+select * from itemretorno
+
+select * from almacen
+select * from maquinas
+
+INSERT INTO maquinas(Nombre,Familia,)
+
+select * from itemprestado
+select * from itemprestado WHERE Maquina = 'DOOSAN NEW (24)' AND Devuelto < Entregado 
+
+
+call RestarAlmacen(5,'Producto_Prueba','Nuevo')
+
+CREATE TABLE `folioalmacenRetorno` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Folio` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
+select * from  folioalmacenRetorno
+
+
+
+ + " - " + 
+
+
+
+DELIMITER //
+CREATE  PROCEDURE `RetornarAlmacen`(IN Cantidad int, IN ProductoARetornar varchar(200),IN Condicion varchar(20),IN Maquinas varchar(50))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+SET @ActualNuevo := (SELECT Stock From almacen WHERE Producto = ProductoARetornar);
+SET @TotalNuevo := (@ActualNuevo + Cantidad);
+SET @ActualUsado := (SELECT StockUsado From almacen WHERE Producto = ProductoARetornar);
+SET @TotalUsado := (@ActualUsado + Cantidad);
+SET @ActualDevuelto := (SELECT Devuelto From itemprestado WHERE Producto = ProductoARetornar AND Maquina = Maquinas);
+SET @TotalDevuelto := (@ActualDevuelto + Cantidad);
+
+	IF (Condicion = 'Nuevo') 
+    THEN UPDATE almacen SET Stock = @TotalNuevo WHERE Producto = ProductoARetornar;
+    ELSE UPDATE almacen SET StockUsado = @TotalUsado WHERE Producto = ProductoARetornar;
+	END IF;
+    UPDATE itemprestado SET Devuelto = @TotalDevuelto WHERE Maquina = Maquinas;
+END
+
+
+select * from itemretorno
+select * from itemprestado
+call RetornarAlmacen(2,'Producto_Prueba','Nuevo','DOOSAN NEW (24)')
+
+select * from almacen
+select * from itemprestado
+select * from itemretorno
+
+DELIMITER //
+CREATE PROCEDURE `RestarAlmacen`(IN Cantidad int, IN ProductoARestar varchar(200),IN Condicion varchar(20))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+SET @ActualNuevo := (SELECT Stock From almacen WHERE Producto = ProductoARestar);
+SET @TotalNuevo := (@ActualNuevo - Cantidad);
+SET @ActualUsado := (SELECT StockUsado From almacen WHERE Producto = ProductoARestar);
+SET @TotalUsado := (@ActualUsado - Cantidad);
+
+	IF (Condicion = 'Nuevo') THEN UPDATE almacen SET Stock = @TotalNuevo WHERE Producto = ProductoARestar;
+    ELSE UPDATE almacen SET StockUsado = @TotalUsado WHERE Producto = ProductoARestar;
+      END IF;
+END
+DELIMITER ;
+
+
+ 
+SET SQL_SAFE_UPDATES = 0;
+/**********************************************************************************************************************************************************************************/
+DELIMITER //
+CREATE PROCEDURE IncrementarFolioRetornoAlmacen(in Nuevo varchar(20)
+)
+BEGIN
+ INSERT INTO folioalmacenRetorno(Folio)values(Nuevo);
+END;
+
+
+
+
+-----------------
+
+select * from itemretorno
+select * from  itemprestado
+
+

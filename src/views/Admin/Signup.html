@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Gemak Control</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<%- include ('../partials/head.html') %>
+	<!------incluir cabezera navegacion----->
+
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<!--<link rel="stylesheet" type="text/css" href="css/util.css">-->
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<!--===============================================================================================-->
+</head>
+
+<body>
+	<%- include ('../partials/navegacion.html')%>
+	<button class="tablink" onclick="openPage('Editar', this, 'gray')" id="defaultOpen">Lista</button>
+	<button class="tablink" onclick="openPage('Registrar', this,'gray' )">Registrar</button>
+
+	<div id="Registrar" class="tabcontent">
+		<!--======================================= Registro de usuarios ========================================================-->
+		<div class="limiter">
+			<div class="container-login100">
+				<div class="wrap-login100">
+					<div class="login100-form-title" style="background-image: url(images/gacklogin.jpg);">
+						<span class="login100-form-title-1">
+							Gemak Control
+						</span>
+					</div>
+
+					<form action="/AddUser" method="POST" class="login100-form validate-form">
+						<div class="wrap-input100 validate-input m-b-26" data-validate="Nombre requerido">
+							<span class="label-input100">Nómbre</span>
+							<input class="input100" type="text" name="Nombre" placeholder="Nombre de usuario" required
+								autocomplete="off">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-26" data-validate="Usuario requerido">
+							<span class="label-input100">Usuario</span>
+							<input class="input100" type="text" name="Usuario" placeholder="Usuario" required
+								autocomplete="off">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-20" data-validate="Contraseña requerida">
+							<span class="label-input100">Contraseña</span>
+							<input class="input100" type="password" name="Pass" placeholder="contraseña" required
+								autocomplete="off">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-30" id="Combos">
+							<span class="label-input100">Planta</span>
+							<select name="Planta" id="familia" class="form-control">
+								<option selected>Seleccionar...</option>
+								<option>Bravo</option>
+								<option>Morelos</option>
+							</select>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-30" id="Combos">
+							<span class="label-input100">Área</span>
+							<select name="Area" id="familia" class="form-control">
+								<option selected>Seleccionar...</option>
+								<option>Admin</option>
+								<option>Acabados</option>
+								<option>Almacen</option>
+								<option>Calidad</option>
+								<option>Compras</option>
+								<option>Embarques</option>
+								<option>Producción</option>
+								<option>Ventas</option>
+								<option>Tratamientos</option>
+								<option>Embarques</option>
+								<option>Invitado</option>
+							</select>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-30" id="Combos">
+							<span class="label-input100">Turno</span>
+							<select name="Turno" id="Turno" class="form-control">
+								<option selected>Seleccionar...</option>
+								<option>Dia</option>
+								<option>Tarde</option>
+								<option>Noche</option>
+							</select>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-30" id="Combos">
+							<span class="label-input100">Nivel</span>
+							<select name="Nivel" id="familia" class="form-control">
+								<option selected>Seleccionar...</option>
+								<option>Usuario</option>
+								<option>Admin</option>
+							</select>
+						</div>
+
+						<div class="container-login100-form-btn">
+							<button type="submit" class="login100-form-btn"> Registrar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!------------------------------ TABLA-------------------------------------->
+	<div id="Editar" class="tabcontent">
+		<div class="SpaceWork">
+			<table class="table table-bordered table-hover" id="Tabla">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>Nombre</th>
+						<th>Usuario</th>
+						<th>Contraseña</th>
+						<th>Planta</th>
+						<th>Area</th>
+						<th>Nivel</th>
+						<th>Turno</th>
+						<th>Acción</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if (data) { %>
+					<% for(var i = 0; i < data.length; i++) { %>
+					<tr>
+						<td id="id"><%= data[i].id %></td>
+						<td id="Nombre"><%= data[i].Nombre %></td>
+						<td id="Usuario"><%= data[i].usuario %></td>
+						<td id="Estatus"><%= data[i].pass %></td>
+						<td id="cantidad"><%= data[i].Planta %></td>
+						<td id="maquina"><%= data[i].Area %></td>
+						<td id="inicio"><%= data[i].Nivel   %></td>
+						<td id="Rfin"><%= data[i].Turno %></td>
+						<td>
+							<button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+								onclick="Eliminar('<%= data[i].id %>')">Eliminar</button>
+						</td>
+					</tr>
+					<% } %>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+
+	<script>
+		function openPage(pageName, elmnt, color) {
+			// Hide all elements with class="tabcontent" by default */
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+
+			// Remove the background color of all tablinks/buttons
+			tablinks = document.getElementsByClassName("tablink");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].style.backgroundColor = "";
+			}
+
+			// Show the specific tab content
+			document.getElementById(pageName).style.display = "block";
+
+			// Add the specific color to the button used to open the tab content
+			elmnt.style.backgroundColor = color;
+		}
+
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
+	</script>
+
+
+
+	<script>
+		function Eliminar(id) {
+			var data = {
+				id: id
+			}
+			console.table(data);
+			$.post("/EliminarUsuario", // url
+				{
+					data
+				}, // data to be submit
+				function (Estado, status) { // success callback
+					console.log(Estado + status);
+					if (Estado == true) {
+						 alert("Eliminado")
+					}
+				})
+		}
+	</script>
+
+</body>
+
+</html>

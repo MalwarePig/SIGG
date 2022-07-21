@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../partials/head.html') %>
+  <!------incluir cabezera navegacion----->
+
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body onload="Inicializar()">
+  <!-- ---------------------------------------------------------------------------- BARRA MENU -------------------------------------------------------------------------------->
+  <%- include ('../partials/navegacion.html')%>
+  <!-- ---------------------------------------------------------------------------- Formulario -------------------------------------------------------------------------------->
+  <div class="shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="card-body">
+      <form action="/update/<%= data.id %>" method="post">
+        <div class="form-row">
+          <div class="form-group col-md-2">
+
+            <label for="OT">OT</label>
+            <input required type="text" id="ot" class="form-control" value="<%= data.OT %>"
+              placeholder="#Orden de trabajo..." name="OT" maxlength="7">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="Parte">Numero de parte</label>
+            <input required type="text" id="Parte" class="form-control" value="<%= data.Parte %>"
+              placeholder="Número de parte" name="Parte">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="CantOt">Cantidad</label>
+            <input type="text" id="CantOt" class="form-control" value="<%= data.CantOt %>"
+              placeholder="cantidad de pza." name="CantOt">
+          </div>
+
+          <input id="txtFechaInicio" type="hidden" value="<%= data.FechaInicio %>">
+          <div class="form-group col-md-2">
+            <label for="IniFechaIniciocio">Fecha inicio</label>
+            <input required type="date" id="FechaInicio" class="form-control" name="FechaInicio">
+          </div>
+
+          <input id="txtFechaFin" type="hidden" value="<%= data.FechaProd %>">
+          <div class="form-group col-md-2">
+            <label for="FechaProd">Fecha Fin</label>
+            <input required type="date" id="FechaProd" class="form-control" name="FechaProd">
+          </div>
+
+          <input id="txtFechaVencimiento" type="hidden" value="<%= data.FechaVenc %>">
+          <div class="form-group col-md-2">
+            <label for="FechaVenc">Fecha Vencimiento</label>
+            <input required type="date" id="FechaVenc" class="form-control" name="FechaVenc">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputState">Familia</label>
+            <select id="familia" class="form-control">
+              <option selected>Seleccionar...</option>
+              <option>CENTROS DE MAQUINADO</option>
+              <option>TORNOS CNC</option>
+              <option>TORNOS GRANDES</option>
+            </select>
+          </div>
+
+          <input id="txtMáquinas" type="hidden" value="<%= data.Maquina%>">
+          <div class="form-group col-md-6">
+            <label for="inputState">Máquinas</label>
+            <select id="maquina" name="maquina" class="form-control">
+              <option value="Seleccionar...">Seleccionar...</option>
+              <option value="OKUMA L370-62">OKUMA L370-62</option>
+              <option value="OKUMA HERITAGE 69">OKUMA HERITAGE 69</option="0">
+              <option value="PUMA 700 XL-24">PUMA 700 XL-24</option>
+              <option value="HASS VF4-2">HASS VF4-2</option>
+              <option value="SL-20">SL-20</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-info">Editar</button>
+
+      </form>
+    </div>
+  </div>
+
+
+  <script>
+    function Inicializar() {
+      try {
+        var date = document.getElementById("txtFechaInicio").value;
+        document.getElementById("FechaInicio").defaultValue = FormtatoFechas(date);
+
+        var date = document.getElementById("txtFechaFin").value;
+        document.getElementById("FechaProd").defaultValue = FormtatoFechas(date);
+
+        var date = document.getElementById("txtFechaVencimiento").value;
+        document.getElementById("FechaVenc").defaultValue = FormtatoFechas(date);
+
+        setMaquina();
+        //document.ready = document.getElementById("maquina").text = 2;
+        //document.ready = document.getElementById("familia").text = 2;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    //setMaquina();//seleccionar maquina 
+
+    function setMaquina() {
+      var Maquina = document.getElementById("txtMáquinas").value; //obtener maquina de un txt
+      var indice = document.getElementById("maquina").options.length; //OBTENER TOTAL DE ELEMENTOS
+      console.log(indice);
+      for (var i = 0; i < indice; i++) {
+        var valor = document.getElementById("maquina").options[i].text; //OBTENER LOS VALORES DEL SELECT
+        console.log(valor);
+        if (Maquina == valor) {
+          document.ready = document.getElementById("maquina").value = valor; //setear la maquina en un indice
+        }
+      }
+    }
+
+
+
+    function FormtatoFechas(fecha) {
+      var today = new Date(fecha);
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1;
+      var yyyy = today.getFullYear();
+      if (dd < 10) {
+        dd = '0' + dd;
+      }
+      if (mm < 10) {
+        mm = '0' + mm;
+      }
+      var today = yyyy + '-' + mm + '-' + dd;
+      return today;
+    }
+  </script>
+
+</body>
+
+</html>

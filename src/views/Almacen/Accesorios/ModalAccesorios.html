@@ -1,0 +1,68 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalAccesorios"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo registro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="FormularioAccesorios">
+          <div class="form-group" >
+
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">OC-Gemak:</label>
+                <input type="text" class="form-control" id="Tor_OC">
+              </div>
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">OT:</label>
+                <input type="text" class="form-control" id="Tor_OT">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Producto:</label>
+                <input type="text" class="form-control" id="Tor_Producto">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">PO Cliente:</label>
+                <input type="text" class="form-control" id="Tor_PO">
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="form-row">
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">ENS:</label>
+                <input type="text" class="form-control" id="Tor_ENS">
+              </div>
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Cantidad:</label>
+                <input type="text" class="form-control" id="Tor_Cantidad">
+              </div>
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Ubicación:</label>
+                <input type="text" class="form-control" id="Tor_Ubicacion">
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" onclick="RegistrarAccesorio()" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

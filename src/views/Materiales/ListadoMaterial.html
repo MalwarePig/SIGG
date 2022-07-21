@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/Compras/Pronostico.js"></script>
+</head>
+
+<body>
+    <%- include ('../partials/navegacion.html') %>
+    <!------incluir navegacion Menu----->
+
+    <div class="card text-center">
+        <div class="card-header">
+ 
+          <div class="form-row">
+            <div class="form-group col-md-2">
+                <select required id="Almacen" name="Sal_Estatus" class="form-control">
+                  <option selected>Bravo</option>
+                  <option >Morelos</option>
+                </select>
+            </div>
+            
+            <div class="form-group col-md-1 ">
+                <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                    onclick="MostrarReporte()">Buscar</button>
+            </div>
+            
+
+            <div class="form-group col-md-5 ">
+              <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                 data-target="#RecoleccionExito" data-toggle="modal">Registrar</button>
+          </div>
+          </div>
+
+         
+
+          
+
+        </div>
+        <div class="card-body">
+
+            <!------------------------------ TABLA-------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+              <table class="table-bordered" id="Materiales">
+                <thead>
+                    <tr>
+                        <th>OT</th>
+                        <th>No. Parte</th>
+                        <th>Proveedor</th>
+                        <th>Colada</th>
+                        <th>OD</th>
+                        <th>ID</th>
+                        <th>LG</th>
+                        <th>QTY</th>
+                        <th>Spec</th>
+                        <th>Ubicación</th>
+                        <th>Peso</th>
+                        <th>Entrada</th>
+                       <!-- <th>Salida</th>
+                        <th>Entregado</th>
+                        <th>Status</th>
+                        <th>Sobrante</th>
+                        <th>OT usado</th>---->
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (data) { %>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                    <tr>
+                        <td id="OT"><%= data[i].OT %></td>
+                        <td id="NoParte" value="<%= data[i].NoParte %>"><button type="button" class="btn btn-link" id ="Button<%= i %>" value="<%= data[i].NoParte %>" onclick="MostrarOTs('<%= data[i].NoParte %>')"><%= data[i].NoParte %></button></td>
+                        <td id="Proveedor"><%= data[i].Proveedor %></td>
+                        <td id="Colada"><%= data[i].Colada %></td>
+                        <td id="OD"><%= data[i].OD %></td>
+                        <td id="InD"><%= data[i].InD %></td>
+                        <td id="LG"><%= data[i].LG %></td>
+                        <td id="QTY"><%= data[i].QTY %></td>
+                        <td id="SPEC"><%= data[i].SPEC %></td>
+                        <td id="Ubicacion"><%= data[i].Ubicacion %></td>
+                        <td id="PESO"><%= data[i].PESO %></td>
+                        <td id="Entrada"><%= data[i].Entrada %></td>
+                        <!-- <td id="Salida"><%= data[i].Salida %></td>
+                        <td id="Entregado"><%= data[i].Entregado %></td>
+                        <td id="Status"><%= data[i].Status %></td>
+                        <td id="Sobran"><%= data[i].Sobran %></td>
+                        <td id="Usado"><%= data[i].Usado %></td>---->
+                        <td id="Notas"><%= data[i].Notas %></td>
+                    </tr>
+                    <% } %>
+                    <% } %>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <!--Card-->
+    </div>
+
+ 
+    <div class="modal fade bd-example-modal-lg" id="AgregarNuevo" tabindex="-1" role="dialog" aria-labelledby="AgregarNuevo" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Completar registro</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-row">
+                  <div class="form-group col-md-5">
+                      <input type="text" id="OT" class="form-control" placeholder="OT..."
+                          name="OT" autocomplete="off" required>
+                  </div>
+
+                  <div class="form-group col-md-5">
+                      <input type="text" id="Cantidad" class="form-control" placeholder="Cantidad..."
+                          name="Cantidad" autocomplete="off" required>
+                  </div>
+
+                  <div class="form-group col-md-10">
+                      <input type="text" id="Comentario" class="form-control" placeholder="Comentarios..."
+                          name="Comentario" autocomplete="off" >
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limpiar()">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Guardar()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!-- Modal Listo-->
+    <div class="modal fade" id="Listo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+          Seleccionada herramienta por requerir.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+  <!-- JQUERY -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"> </script>
+ 
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+      $('#Materiales').DataTable({
+          language: {
+              processing: "Tratamiento en curso...",
+              search: "Buscar&nbsp;:",
+              lengthMenu: "Agrupar de _MENU_ items",
+              info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+              infoEmpty: "No existen datos.",
+              infoFiltered: "(filtrado de _MAX_ elementos en total)",
+              infoPostFix: "",
+              loadingRecords: "Cargando...",
+              zeroRecords: "No se encontraron datos con tu busqueda",
+              emptyTable: "No hay datos disponibles en la tabla.",
+              paginate: {
+                  first: "Primero",
+                  previous: "Anterior",
+                  next: "Siguiente",
+                  last: "Ultimo"
+              },
+              aria: {
+                  sortAscending: ": active para ordenar la columna en orden ascendente",
+                  sortDescending: ": active para ordenar la columna en orden descendente"
+              }
+          },
+          scrollY: 600,
+          lengthMenu: [ [10, 25, -1], [10, 25, "All"] ],
+      });
+  });
+</script>
+
+</body>
