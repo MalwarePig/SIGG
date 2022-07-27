@@ -756,17 +756,23 @@ Controller.ActualizarProducto = (req, res) => {
             var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
             var Categoria = Object.values(data)[0].Categoria; //obeter datos de un objeto Ubicacion
             var Familia = Object.values(data)[0].Familia; //obeter datos de un objeto Ubicacion
-
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo);
+            var Motivo = Object.values(data)[0].Motivo; //obeter datos de un objeto Ubicacion
+            var Nombre = Object.values(data)[0].Nombre; 
+            var NuevaCantidad = Object.values(data)[0].NuevaCantidad; 
+            var Planta = Object.values(data)[0].Planta; 
+            
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo+ "','" +Motivo+ "','" +Nombre+ "','" +NuevaCantidad+ "','" +Planta);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "','" + Categoria + "','" + Familia + "')", true, (err, rows, fields) => {
+                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "','" + Categoria + "','" + Familia 
+                + "','" +Motivo+"','"+Nombre+"',"+NuevaCantidad+",'"+Planta+"')", true, (err, rows, fields) => {
                     if (err) {
                         res.json(err);
                         console.log('Error al actualizar' + err);
                     } else {
                         console.log('Se actualizó herramienta de almacen');
+                        res.json(true)
                     }
                 });
             }
@@ -1836,15 +1842,14 @@ Controller.AjusteBasico = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body;
             var id = Object.values(data)[0].indice;
-            var Cantidad = Object.values(data)[0].Cantidad;
-            var Razon = Object.values(data)[0].Razon;
+            var Cantidad = Object.values(data)[0].Cantidad; 
             var Nombre = Object.values(data)[0].Nombre;
             var CantidadAnterior = Object.values(data)[0].CantidadAnterior;
             var Producto = Object.values(data)[0].Producto;
             var Planta = Object.values(data)[0].Planta;
-            console.log(id + " - " + Cantidad)
+            console.log(id + " - " + Cantidad+ Nombre + CantidadAnterior+Producto +Planta)
 
-            conn.query("call AjusteBasico("+id+",'"+Producto+"','"+Planta+"','"+Nombre+"','"+Razon+"',"+Cantidad + ","+CantidadAnterior+")", true, (err, rows, fields) => {
+            conn.query("call AjusteBasico("+id+",'"+Producto+"','"+Planta+"','"+Nombre+"',"+Cantidad + ","+CantidadAnterior+")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);

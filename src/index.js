@@ -8,6 +8,7 @@ const session = require('express-session');
 const OS = require("os");
 const fileupload = require('express-fileupload');//Subida de archivos
 
+
 //Configuracion Servidor
 app.set('port',process.env.PORT || 3000)//asignar puerto, si lo da el So que lo tome, sino el 3000
 app.set('views',path.join(__dirname, 'views'));
@@ -16,12 +17,12 @@ app.set('view engine', 'ejs');//motor de plantillas, permite ejecutar javascript
 
 //middlewares //Funciones que se ejecutan antes que lleguen a las rutas
 app.use(express.json());//Acceder a la informacion de jason
-app.use(morgan('dev'));//muestra los mensajes en consola de las cargas y peticiones
+app.use(morgan('dev'));//muestra los mensajes en consola de las cargas y peticiones.
 
 app.use(myConnection(mysql,{
-     host: '192.168.2.8',
-     //host:'localhost',
-     user: 'Soporte', 
+     //host: '192.168.2.8',
+     host:'localhost',
+     user: 'Soporte',
      password: 'Soporte1702861',
      //user: 'root',
      //password: '1702861',

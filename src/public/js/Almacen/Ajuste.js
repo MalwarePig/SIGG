@@ -58,7 +58,7 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input  type="text" id="Almacen' + i + '" class="form-control" value="' + Almacen + '" readonly></input>';
                             break;
                         case 4:
-                            newCell.innerHTML = '<input  type="text" id="StockNuevo' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input  type="text" readonly id="StockNuevo' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                             break;
                         case 5:
                             newCell.innerHTML = '<input  type="text" id="StockUsado' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
@@ -87,7 +87,7 @@ function GETPRODUCTS() {
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=Eliminar(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Eliminar producto"> <i class="fas fa-trash-alt"></i> </button>';
 
                         var newCell = newRow.insertCell(6); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-info" name="btn" onclick=Seleccion(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Actualizar producto"> <i class="fas fa-edit"></i> </button>';
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-info" name="btn" onclick=ModalAjuste(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Actualizar producto"> <i class="fas fa-edit"></i> </button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -102,9 +102,17 @@ function runScript(e) {
     }
 }
 
+
+function ModalAjuste(variable) {
+    $("#ModalAjuste").modal(); 
+    document.getElementById("FilaAjuste").value = variable;
+}
+
+
+
 //=========================================== Actualizar Seleccion =================================================//
-function Seleccion(variable) {
-    var indice = variable - 1;
+function Seleccion() {
+    var indice = document.getElementById("FilaAjuste").value - 1;
     Registro = document.getElementById("Herr_Encontradas");
 
     var id = document.getElementById("id" + indice).value; //Obtiene el valor de id
@@ -116,6 +124,9 @@ function Seleccion(variable) {
     var StockMaximo = document.getElementById("StockMaximo" + indice).value; //Obtiene el valor de Producto
     var Categoria = document.getElementById("Categoria" + indice).value; //Obtiene el valor de Producto
     var Familia = document.getElementById("Familia" + indice).value; //Obtiene el valor de Producto
+    var Motivo = document.getElementById("Motivo").value;
+    var NuevaCantidad = document.getElementById("NuevaCantidad").value;
+     
     //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
 
     var ObjetoTabla = {
@@ -127,7 +138,12 @@ function Seleccion(variable) {
         StockMinimo: StockMinimo,
         StockMaximo: StockMaximo,
         Categoria: Categoria,
-        Familia: Familia
+        Familia: Familia,
+        Motivo: Motivo,
+        Nombre: localStorage.getItem("Nombre"),
+        NuevaCantidad: NuevaCantidad,
+        Planta: localStorage.getItem("PlantaGeneral")
+
     }
 
     console.table(ObjetoTabla);
@@ -136,7 +152,12 @@ function Seleccion(variable) {
             ObjetoTabla
         }, // data to be submit
         function (objeto, estatus) { // success callback
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            console.log("objeto: " + objeto + "Estatus: " + estatus);
+            if(objeto == true){
+                $("#ModalAjuste").modal('toggle'); 
+                document.getElementById("Motivo").value = "";
+                document.getElementById("NuevaCantidad").value = "";
+            }
         });
     alert("Listo");
 }

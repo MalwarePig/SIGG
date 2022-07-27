@@ -100,11 +100,11 @@ function ModalEficiencia(fila) {
 }
 
 function ActualizarCantidad() { 
+ 
+    let CantidadAnterior = localStorage.getItem("CantidadAnterior")
 
-    let Razon = document.getElementById("Mod_Razon").value;
-    
-    if (Razon.length <= 0) {
-        alert("Se debe ingresar motivo de ajuste");
+    if (parseInt(document.getElementById("Mod_Cantidad").value) <= parseInt(CantidadAnterior)) {
+        alert("No se permite menor cantidad");
     } else {
 
         var ObjetoTabla = {
@@ -112,12 +112,10 @@ function ActualizarCantidad() {
             Producto: document.getElementById("Mod_Producto").value,
             Planta: localStorage.getItem("PlantaGeneral"),
             Cantidad: document.getElementById("Mod_Cantidad").value,
-            indice: document.getElementById("Mod_indice").value,
-            Razon: Razon,
+            indice: document.getElementById("Mod_indice").value, 
             Nombre: localStorage.getItem("Nombre"),
-            CantidadAnterior: localStorage.getItem("CantidadAnterior")
-        }
-
+            CantidadAnterior:CantidadAnterior
+        } 
         console.table(ObjetoTabla);
         $.post("/AjusteBasico", // url
             {

@@ -24,12 +24,10 @@ const CalidadController = require('../Controllers/CalidadController');
 var reinicio = router.get('/', (req, res) => {
 	//res.send('holoo');
 	res.render('Admin/Login.html');
-	
 });
 
 //Iniciar logueo
 router.post('/Login', UserController.login);
- 
 //Acceder formulario Registrar usuario
 
 //Iniciar logueo

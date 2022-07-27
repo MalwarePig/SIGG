@@ -35,7 +35,7 @@ function MostrarReporte() {
                 var Maquina = Herramientas[i].Maquina;
                 var Empleado = Herramientas[i].Empleado;
                 var Almacen = Herramientas[i].Almacen;
-                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM') ;
+                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
                 var Comentarios = Herramientas[i].Comentarios;
                 //Eliminar variable dentro del For
                 Arreglo = [Folio, Producto, Cantidad, Estado, OT,Maquina, Empleado, Almacen, Fecha,Comentarios];
@@ -76,7 +76,8 @@ function MostrarReporteHerramienta() {
                 var Maquina = Herramientas[i].Maquina;
                 var Empleado = Herramientas[i].Empleado;
                 var Almacen = Herramientas[i].Almacen;
-                var Fecha = Herramientas[i].Salida;
+                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+
                 //Eliminar variable dentro del For
                 Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha];
                 // inserta una fila al final de la tabla
