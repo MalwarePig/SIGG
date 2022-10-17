@@ -6,6 +6,8 @@ Controller.save = (req,res) => {
     const nombre = req.body.Planta;
     req.getConnection((err,conn) => {
 
+        console.log(data)
+
         conn.query('INSERT INTO usuarios set ?',[data], (err, ot) =>{
             res.redirect('/Signup');
         });

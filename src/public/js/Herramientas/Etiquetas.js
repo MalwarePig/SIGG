@@ -83,8 +83,7 @@ function PDF() {
     //doc.text("Planta: ", 220, 65);
     doc.setFontType("normal");
     doc.text(document.getElementById("Planta").value.toUpperCase() , 350, 65);
-*/
-
+*/ 
     doc.save(document.getElementById("OT").value + '.pdf');
 }
 

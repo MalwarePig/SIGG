@@ -1,12 +1,12 @@
 function InicarFechas() {
     let fechaInicial = new Date()
     //fechaInicial.setDate(fechaInicial.getDate() - 1);
-    document.getElementById("inicio").value= moment(fechaInicial).format('YYYY-MM-DD');
+    document.getElementById("inicio").value = moment(fechaInicial).format('YYYY-MM-DD');
 
     let fechaFinal = new Date()
     fechaFinal.setDate(fechaFinal.getDate() + 1);
-    document.getElementById("fin").value= moment(fechaFinal).format('YYYY-MM-DD');
-       
+    document.getElementById("fin").value = moment(fechaFinal).format('YYYY-MM-DD');
+
 }
 
 function MostrarReporte() {
@@ -38,7 +38,7 @@ function MostrarReporte() {
                 var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
                 var Comentarios = Herramientas[i].Comentarios;
                 //Eliminar variable dentro del For
-                Arreglo = [Folio, Producto, Cantidad, Estado, OT,Maquina, Empleado, Almacen, Fecha,Comentarios];
+                Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha, Comentarios];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -149,7 +149,7 @@ function ExcelReporte() {
         var Almacen = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
         var Comentarios = tabla.rows[j].cells[9].childNodes[0].nodeValue
-        var Fila = [Folio, Producto, Entregado, Estado, OT,Maquina, Empleado, Almacen, Fecha,Comentarios]
+        var Fila = [Folio, Producto, Entregado, Estado, OT, Maquina, Empleado, Almacen, Fecha, Comentarios]
         sheet_1_data.push(Fila);
     } //fin filas
 
@@ -173,16 +173,16 @@ function Transformer(variable) {
     }
     return Herramienta;
 }
- 
+
 //Clave,Producto,almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion
 function ExistenciasAlmacen() {
     $.ajax({
         url: '/ExistenciasAlmacenBasico/',
         success: function (Herramientas) {
             var TotalHerramientas = Herramientas.length;
-console.log(Herramientas)
-            var sheet_1_data = [['Clave','Producto','almacen','Stock','StockMin','StockMax','StockUsado']];
- 
+            console.log(Herramientas)
+            var sheet_1_data = [['Clave', 'Producto', 'almacen', 'Stock', 'StockMin', 'StockMax', 'StockUsado']];
+
             for (var i = 0; i < TotalHerramientas; i++) {
                 var Clave = Herramientas[i].Clave;
                 var Producto = Herramientas[i].Producto;
@@ -190,13 +190,13 @@ console.log(Herramientas)
                 var Stock = Herramientas[i].Stock;
                 var StockMin = Herramientas[i].StockMin;
                 var StockMax = Herramientas[i].StockMax;
-                var StockUsado = Herramientas[i].StockUsado; 
+                var StockUsado = Herramientas[i].StockUsado;
 
                 var Fila = [Clave, Producto, almacen, Stock, StockMin, StockMax, StockUsado];
- 
+
                 sheet_1_data.push(Fila);
             } //fin de for de filas
-          
+
             var opts = [{
                 sheetid: 'Hoja1',
                 header: false

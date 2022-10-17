@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+        <script type="text/javascript" src="js/Herramientas/EtiquetasDos.js"></script>
+</head>
+
+
+<body onload="modal()">
+    <%- include ('../partials/navegacion.html')%>
+
+        <!-- Modal Sin elementos -->
+        <!-- Modal -->
+        <div class="modal fade" id="ModalFormulario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nueva etiqueta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">P.N-REV:</label>
+                                <input type="text" class="form-control" id="PN" value="S-272838 AD">
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">DESC:</label>
+                                <textarea class="form-control" id="description" >shaft coupling, A962M MOTOR</textarea>
+                            </div> 
+                            <div class="form-group">
+                                <label for="PO" class="col-form-label">PO# / LINE#:</label>
+                                <input type="text" class="form-control" id="PO" value="S2310-67979 14.2">
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="REF" class="col-form-label">HEAT / REF:</label>
+                                <input type="text" class="form-control" id="REF" value="B65475">
+                            </div>
+                            <div class="form-group">
+                                <label for="LOT" class="col-form-label">SER / LOT:</label>
+                                <input type="text" class="form-control" id="LOT" value="FP96BH1419">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LOT" class="col-form-label">Copias:</label>
+                                <input type="text" class="form-control" id="Copias">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Limpiar</button>
+                        <button type="button" class="btn btn-info" onclick="PDF()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
