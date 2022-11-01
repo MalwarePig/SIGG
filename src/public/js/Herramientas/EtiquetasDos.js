@@ -1,13 +1,47 @@
+
+//Mostrar Tareas Activas
+var ListaTareas = []
+var TotalTareas = []
+function MostrarFormulario() {
+
+    var BotonEscondido = document.querySelector("#BotonEscondido"); 
+    BotonEscondido.setAttribute("Style","display: block");
+
+    //Limpiar Lista Maestra
+    var Lista = document.querySelector("#Contenedor");
+    while (Lista.firstChild) {
+        //The list is LIVE so it will re-index each call
+        Lista.removeChild(Lista.firstChild);
+    }
+
+    //Construir Lista Maestra con tarjetas
+    var ItemOriginal = document.querySelector("#Item-Borrador").innerHTML;
+
+ 
+    for (let index = 0; index < document.getElementById("Copias").value; index++) {
+        var Lista = document.querySelector("#Contenedor");
+
+        const div = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+        div.setAttribute("class", "form-row");
+        div.innerHTML = ItemOriginal;
+        Lista.appendChild(div); 
+
+        var REF = document.querySelector("#REF"); 
+        REF.id = 'REF' + index;
+
+        var LOT = document.querySelector("#LOT"); 
+        LOT.id = 'LOT' + index; 
+    }
+    Carga();
+}
+
+
 var img = new Image;
 function Carga() {
     img = new Image;
     img.src = 'images/LogoM.png';
 }
-
-function modal() {
-    $("#ModalFormulario").modal();
-    Carga();
-}
+ 
 
 function CargarImagen() {
     img = new Image;
@@ -25,17 +59,17 @@ function PDF() {
     let copias = document.getElementById("Copias").value;
     for (let index = 0; index < copias; index++) {
         if (index == 0) {
-            EscribirPDF(doc, 0);
+            EscribirPDF(doc, 0,index);
         } else {
             doc.addPage();
-            EscribirPDF(doc, 1);
+            EscribirPDF(doc, 1,index);
         }
     } 
     doc.save(document.getElementById("PN").value + '.pdf');
 }
 
 
-function EscribirPDF(doc, incrementa) {
+function EscribirPDF(doc, incrementa,index) {
     doc.addImage(img, 10, 28, 160, 45);
     //doc.addImage(img, 10, 28, 160, 45); //EJE X,Y  -  ANCHO Y ALTO MORELOS
     //doc.addImage(img, 10, 28,120, 45); //EJE X,Y  -  ANCHO Y ALTO Bravo
@@ -54,6 +88,19 @@ function EscribirPDF(doc, incrementa) {
     doc.setFontType("normal");
     doc.text(document.getElementById("description").value, 95, 125);
 
+
+
+
+    
+
+
+
+
+
+
+
+
+
     doc.setFontType("bold");
     doc.text("PO# / LINE#: ", 10, 150);
     doc.setFontType("normal");
@@ -62,7 +109,7 @@ function EscribirPDF(doc, incrementa) {
     doc.setFontType("bold");
     doc.text("HEAT / REF: ", 11, 175);
     doc.setFontType("normal");
-    doc.text(document.getElementById("REF").value, 120, 175);
+    doc.text(document.getElementById("REF"+index).value, 120, 175);
 
     doc.setFontType("bold");
     doc.text("SER / LOT: ", 23, 200);
@@ -107,4 +154,3 @@ function Consecutivo(Cadena, incrementa) {
 function isNum(val) {
     return !isNaN(val)
 }
-

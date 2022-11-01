@@ -23,7 +23,7 @@
     <%- include ('../partials/navegacion.html')%>
 
         <div class="SpaceWork">
-            <form>
+            <form id="FormularioPrincipal" name="FormularioPrincipal">
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="recipient-name" class="col-form-label">P.N-REV:</label>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="description" class="col-form-label">DESC:</label>
-                        <input class="form-control" id="description" value="shaft coupling, A962M MOTOR ">
+                        <input type="text" class="form-control" id="description" value="shaft coupling, A962M MOTOR ">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="PO" class="col-form-label">PO# / LINE#:</label>
@@ -42,31 +42,42 @@
                     <div class="col-md-1">
                         <label for="PO" class="col-form-label">Copias:</label>
                         <input type="text" class="form-control" id="Copias" value="5">
-                    </div> 
+                    </div>
                 </div>
 
-                <div class="form-row"> 
+                <div class="form-row">
                     <div class="col-md-1">
                         <button type="button" class="btn btn-secondary" onclick="MostrarFormulario()">Copias</button>
                     </div>
-                </div> 
+                </div>
             </form>
 
 
             <div class="SpaceWork">
-                <form id="Contenedor">
-
+                <form id="Contenedor" name="Contenedor">
                 </form>
-                <div class="form-row" style="display: none;" id="BotonEscondido"> 
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-secondary" onclick="PDF()">PDF</button>
+                <div class="form-row" style="display: none;" id="BotonEscondido">
+                    <div class="form-row">
+
+                        <div class="form-group col-md-1"> 
+                            <button type="button" class="btn btn-secondary" onclick="Reiniciar()">Reiniciar</button> 
+                        </div>
+                        
+                        <div class="form-group col-md-1"> 
+                            <button type="button" class="btn btn-dark" onclick="Limpiar()">Limpiar</button> 
+                        </div>
+
+                        <div class="form-group col-md-1">
+                            <button type="button" class="btn btn-danger" onclick="PDF()">PDF</button> 
+                        </div>
                     </div>
-                </div> 
+                    
+                </div>
             </div>
         </div>
 
-        <div style="display: none;"> 
-            <div class="form-row" id="Item-Borrador"> 
+        <div style="display: none;">
+            <div class="form-row" id="Item-Borrador">
                 <div class="form-group col-md-4">
                     <label for="REF" class="col-form-label">HEAT / REF:</label>
                     <input type="text" class="form-control" id="REF" value="B65475">
@@ -75,7 +86,7 @@
                     <label for="LOT" class="col-form-label">SER / LOT:</label>
                     <input type="text" class="form-control" id="LOT" value="FP96BH1419">
                 </div>
-            </div>  
+            </div>
         </div>
 
 </body>

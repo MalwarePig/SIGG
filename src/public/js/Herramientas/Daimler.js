@@ -4,8 +4,8 @@ var ListaTareas = []
 var TotalTareas = []
 function MostrarFormulario() {
 
-    var BotonEscondido = document.querySelector("#BotonEscondido"); 
-    BotonEscondido.setAttribute("Style","display: block");
+    var BotonEscondido = document.querySelector("#BotonEscondido");
+    BotonEscondido.setAttribute("Style", "display: block");
 
     //Limpiar Lista Maestra
     var Lista = document.querySelector("#Contenedor");
@@ -17,20 +17,20 @@ function MostrarFormulario() {
     //Construir Lista Maestra con tarjetas
     var ItemOriginal = document.querySelector("#Item-Borrador").innerHTML;
 
- 
+
     for (let index = 0; index < document.getElementById("Copias").value; index++) {
         var Lista = document.querySelector("#Contenedor");
 
         const div = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
         div.setAttribute("class", "form-row");
         div.innerHTML = ItemOriginal;
-        Lista.appendChild(div); 
+        Lista.appendChild(div);
 
-        var REF = document.querySelector("#REF"); 
+        var REF = document.querySelector("#REF");
         REF.id = 'REF' + index;
 
-        var LOT = document.querySelector("#LOT"); 
-        LOT.id = 'LOT' + index; 
+        var LOT = document.querySelector("#LOT");
+        LOT.id = 'LOT' + index;
     }
     Carga();
 }
@@ -41,7 +41,7 @@ function Carga() {
     img = new Image;
     img.src = 'images/LogoM.png';
 }
- 
+
 
 function CargarImagen() {
     img = new Image;
@@ -53,23 +53,23 @@ function CargarImagen() {
 
 function PDF() {
     CargarImagen();
-    var doc = new jsPDF('l', 'mm', [432, 279.5]); 
+    var doc = new jsPDF('l', 'mm', [432, 279.5]);
     localStorage.setItem('CadenaLOT', document.getElementById("LOT").value);
 
     let copias = document.getElementById("Copias").value;
     for (let index = 0; index < copias; index++) {
         if (index == 0) {
-            EscribirPDF(doc, 0,index);
+            EscribirPDF(doc, 0, index);
         } else {
             doc.addPage();
-            EscribirPDF(doc, 1,index);
+            EscribirPDF(doc, 1, index);
         }
-    } 
+    }
     doc.save(document.getElementById("PN").value + '.pdf');
 }
 
 
-function EscribirPDF(doc, incrementa,index) {
+function EscribirPDF(doc, incrementa, index) {
     doc.addImage(img, 10, 28, 160, 45);
     //doc.addImage(img, 10, 28, 160, 45); //EJE X,Y  -  ANCHO Y ALTO MORELOS
     //doc.addImage(img, 10, 28,120, 45); //EJE X,Y  -  ANCHO Y ALTO Bravo
@@ -82,31 +82,49 @@ function EscribirPDF(doc, incrementa,index) {
     doc.text(document.getElementById("PN").value, 95, 100);
 
     doc.text("QTY: 1", 260, 100);
-
     doc.setFontType("bold");
-    doc.text("DESC: ", 33, 125);
+
+    /**/
+    doc.text("DESC: ", 10, 125);
     doc.setFontType("normal");
-    doc.text(document.getElementById("description").value, 95, 125);
+    //doc.text(document.getElementById("description").value, 95, 125);
+
+
+
+    var loremipsum = document.getElementById("description").value;
+    if (loremipsum.length > 20) {
+        lines = doc.splitTextToSize(loremipsum, 350); //420 el ancho de la fila para el texto
+    } else {
+        lines = doc.splitTextToSize(loremipsum, 415); //420 el ancho de la fila para el texto
+    }
+    doc.text(72, 125, lines);
+
+
+
+
+
+
+
 
     doc.setFontType("bold");
-    doc.text("PO# / LINE#: ", 10, 150);
+    doc.text("PO# / LINE#: ", 10, 175);
     doc.setFontType("normal");
-    doc.text(document.getElementById("PO").value, 120, 150);
+    doc.text(document.getElementById("PO").value, 120, 175);
 
     doc.setFontType("bold");
-    doc.text("HEAT / REF: ", 11, 175);
+    doc.text("HEAT / REF: ", 10, 200);
     doc.setFontType("normal");
-    doc.text(document.getElementById("REF"+index).value, 120, 175);
+    doc.text(document.getElementById("REF" + index).value, 120, 200);
 
     doc.setFontType("bold");
-    doc.text("SER / LOT: ", 23, 200);
+    doc.text("SER / LOT: ", 10, 225);
     doc.setFontType("normal");
 
     let CadenaLOT = localStorage.getItem('CadenaLOT');
     let LOT = Consecutivo(CadenaLOT, incrementa).toString();
 
-    console.log("Esto es lot: " + typeof(LOT) + LOT)
-    doc.text(LOT, 120, 200);
+    console.log("Esto es lot: " + typeof (LOT) + LOT)
+    doc.text(LOT, 105, 225);
 
     doc.setLineWidth(0.5)//Grueso de linea
     doc.line(5, 25, 425, 25)//Puntos (x,y)(x,y) Horizontal superior
@@ -118,7 +136,7 @@ function EscribirPDF(doc, incrementa,index) {
 function Consecutivo(Cadena, incrementa) {
     let Arreglo = Cadena.split("").reverse();//Se voltea la cadena
     let NumeroConsecutivo = true;//Para solo obtener los primeros digitos(los ultimos)
- 
+
     let ArregloConsecutivo = [];
     let ArregloRestoCadena = [];
     for (let index = 0; index < Arreglo.length; index++) {
@@ -131,7 +149,7 @@ function Consecutivo(Cadena, incrementa) {
     }
 
     let nuemeroFinal = parseInt(ArregloConsecutivo.reverse().join('')) + incrementa;
-    let NuevaCadena = ArregloRestoCadena.reverse().join('') + nuemeroFinal; 
+    let NuevaCadena = ArregloRestoCadena.reverse().join('') + nuemeroFinal;
     console.log("funcion");
 
     localStorage.setItem('CadenaLOT', NuevaCadena);
@@ -140,4 +158,13 @@ function Consecutivo(Cadena, incrementa) {
 
 function isNum(val) {
     return !isNaN(val)
+}
+
+function Limpiar() {
+    $("form select").each(function () { this.selectedIndex = 0 });
+    $("form input[type=text] , form textarea").each(function () { this.value = '' });  
+}
+
+function Reiniciar() {
+    window.location.reload();
 }

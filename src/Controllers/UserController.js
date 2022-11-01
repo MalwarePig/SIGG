@@ -9,7 +9,12 @@ Controller.save = (req,res) => {
         console.log(data)
 
         conn.query('INSERT INTO usuarios set ?',[data], (err, ot) =>{
-            res.redirect('/Signup');
+            if(err){
+                console.log(err)
+            }else{
+                res.redirect('/Signup');
+            }
+            
         });
     })
    /* console.log(req.body);//se obtienen los datos del formulario a traves del req.body
