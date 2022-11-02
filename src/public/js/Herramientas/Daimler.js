@@ -121,7 +121,8 @@ function EscribirPDF(doc, incrementa, index) {
     doc.setFontType("normal");
 
     let CadenaLOT = localStorage.getItem('CadenaLOT');
-    let LOT = Consecutivo(CadenaLOT, incrementa).toString();
+    //let LOT = Consecutivo(CadenaLOT, incrementa).toString();
+    let LOT = document.getElementById("LOT"+index).value;
 
     console.log("Esto es lot: " + typeof (LOT) + LOT)
     doc.text(LOT, 105, 225);
