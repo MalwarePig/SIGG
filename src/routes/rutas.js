@@ -437,6 +437,34 @@ router.get('/wh_AjusteBasico', (req, res) => {
 //Actualiza informacion de producto
 router.post('/AjusteBasico', AlmacenController.AjusteBasico);
 
+//Abre pagina principal para editar
+router.get('/wh_Recolectar', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Recolectar/Recolectar.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+//Actualiza informacion de producto
+router.post('/RecolectarBasico', AlmacenController.RecolectarBasico);
+
+//Abre pagina principal para editar
+router.get('/ReporteRecolectarBasico', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Recolectar/wh_ReporteRecolectarBasico.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+router.get('/repRecolectarBasico/:parametros', AlmacenController.repRecolectarBasico);
+
+
 //====== Requisicion ========
 //Abre pagina principal para requerir
 router.get('/wh_Requisicion', (req, res) => {

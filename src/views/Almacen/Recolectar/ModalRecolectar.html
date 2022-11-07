@@ -1,27 +1,27 @@
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalAjusteBasico"
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalRecolectar"
   aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Ajuste</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Eficiencia</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
-        <form id="FormularioAjuste">
+        <form id="FormularioRecolectar">
           <div class="form-group">
 
             <div class="form-row">
               <div class="col-2">
                 <label for="recipient-name" class="col-form-label">Clave:</label>
-                <input type="text" class="form-control" id="Mod_Clave">
+                <input type="text" class="form-control" id="Mod_Clave" readonly>
               </div>
               <div class="col">
                 <label for="recipient-name" class="col-form-label">Producto:</label>
-                <input type="text" class="form-control" id="Mod_Producto">
+                <input type="text" class="form-control" id="Mod_Producto" readonly>
                 <input type="text" class="form-control" id="Mod_indice" style="display: none">
               </div>
             </div>
@@ -34,11 +34,22 @@
                 <input type="text" class="form-control" id="Mod_Almacen" readonly>
               </div>
               <div class="col">
-                <label for="recipient-name" class="col-form-label">Cantidad:</label>
-                <input type="number" class="form-control" id="Mod_Cantidad">
+                <label for="recipient-name" class="col-form-label">Cantidad actual:</label>
+                <input type="number" class="form-control" id="Mod_Cantidad" readonly>
               </div>
             </div> 
             <hr>
+
+            <div class="form-row">
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Cantidad a ingresar:</label>
+                <input type="text" class="form-control" id="Mod_Ingreso" onkeyup="Calcular()">
+              </div>
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Cantidad Final:</label>
+                <input type="number" class="form-control" id="Mod_CantidadTotal" readonly>
+              </div>
+            </div> 
  
           </div>
 

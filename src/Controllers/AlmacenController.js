@@ -16,7 +16,7 @@ Controller.search = (req, res) => {
             var Herramienta = Tranformer(Herra);
             const planta = "Almacen " + req.session.planta;
             const area = req.session.area;
-            console.log("Salida: " + Herramienta + " Planta: " + planta + " area: " + area);
+            
             if (area == 'Admin') {
                 console.log("Entre como admin")
                 conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '" + Herramienta + "'", (err, Herramientas) => {
@@ -2303,6 +2303,69 @@ Controller.ReporteOrdenados = (req, res) => {
                 res.json(data)
             });
 
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.RecolectarBasico = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const data = req.body;
+            var id = Object.values(data)[0].indice;  
+            var Nombre = Object.values(data)[0].Nombre;
+            var CantidadAnterior = Object.values(data)[0].CantidadAnterior;
+            var Producto = Object.values(data)[0].Producto;
+            var Planta = "Almacen " + Object.values(data)[0].Planta;
+            var Ingreso = Object.values(data)[0].Ingreso;
+            var CantidadFinal = Object.values(data)[0].CantidadFinal;
+
+
+            console.log(id + " - " + CantidadFinal+ Nombre + CantidadAnterior+Producto +Planta +Ingreso)
+
+            conn.query("call RecolectarBasico("+id+",'"+Producto+"','"+Planta+"','"+Nombre+"',"+CantidadAnterior + ","+Ingreso+","+CantidadFinal+")", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
+                } else {
+                    console.table(rows[0])
+                    res.json(true)
+                }
+            });
+ 
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//============================================================================================================================================================================================================================================
+///////// == REPORTE == ////////////////////////////// == REPORTE == ////////////////////////////// == REPORTE == ////////////////////////// == REPORTE == //////////////////// == REPORTE == ///////////////////// == REPORTE == ////////////
+//============================================================================================================================================================================================================================================
+
+Controller.repRecolectarBasico = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params; 
+            var fechaInicio = parametros.split('|')[0]; // Fecha inicial
+            var fechafin = parametros.split('|')[1]; // Fecha limite
+            var Almacen = "Almacen " + parametros.split('|')[2]; // Almacen
+
+            conn.query("SELECT * FROM HisRecoleccionBasica WHERE Planta = '" + Almacen + "' AND Fecha BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura' + err);
+                }
+                console.log(Herramientas);
+                res.json(Herramientas)
+            });
         });
     } else {
         res.render('Admin/Login.html');
