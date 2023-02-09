@@ -1319,11 +1319,11 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             var Categoria = parametros.split('|')[1]; // Fecha inicial
             var Familia = parametros.split('|')[2]; // Fecha limite
 
-            Almacen == 'Todo' ? Almacen = ' IS not null' : Almacen = " = 'Almacen " + Almacen + "'";
+            Almacen == 'Todo' ? Almacen = 'IS not null' : Almacen = " = 'Almacen " + Almacen + "'";
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 
-            let consulta = "SELECT id,Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Familia,Categoria,Cotizado FROM almacen WHERE Almacen" + Almacen + Categoria + Familia;
+            let consulta = "SELECT id,Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia;
 
             //console.log(consulta);
             conn.query(consulta, (err, Herramientas) => {
@@ -2027,13 +2027,35 @@ Controller.EliminarFamiliaAlmacen = (req, res) => {
     }
 };
 
+Controller.OcultarFamilia = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(data)
+            let id = Object.values(data)[0].ID;
+            console.log("Eliminar" + id)
+             
+            conn.query("call OcultarFamilia("+id+")", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
+                } else {
+                    console.table(rows[0])
+                    res.json(true)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 Controller.CambiarCotizacion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
             
-
             let id = Object.values(data)[0].id;
             let estado = Object.values(data)[0].estado;
             console.log(data)
@@ -2373,3 +2395,9 @@ Controller.repRecolectarBasico = (req, res) => {
 };
 
 module.exports = Controller;
+
+
+
+
+
+

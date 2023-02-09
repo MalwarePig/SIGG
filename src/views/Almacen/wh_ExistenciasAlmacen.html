@@ -75,6 +75,10 @@
                         <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
                             data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
                             title="Reporte ordenados"> <i class="fas fa-check-double"></i></button>
+
+                       <!--  <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
+                            data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
+                            title="Activar y desactivar familias"> <i class="fas fa-eye-slash"></i></button> -->
                     </div>
 
                 </div>
@@ -119,7 +123,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    
+
                     <hr>
 
                     <div class="form-row">
@@ -262,17 +266,19 @@
 
                     <div class="modal-body">
                         <div class="form-row">
-                             <div class="form-group col-md-3">
-                                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
-                                <input required type="date" id="Ord_inicio" class="form-control" name="Inicio" autocomplete="off">
-                            </div>
-            
                             <div class="form-group col-md-3">
-                                <label for="inputAddress2" class="font-weight-bold">Fecha Fin</label>
-                                <input required type="date" id="Ord_fin" class="form-control" name="vencimiento" autocomplete="off">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                                <input required type="date" id="Ord_inicio" class="form-control" name="Inicio"
+                                    autocomplete="off">
                             </div>
 
-                            
+                            <div class="form-group col-md-3">
+                                <label for="inputAddress2" class="font-weight-bold">Fecha Fin</label>
+                                <input required type="date" id="Ord_fin" class="form-control" name="vencimiento"
+                                    autocomplete="off">
+                            </div>
+
+
 
                             <div class="form-group col-md-1 p-4">
                                 <button type="button" id="Ord_Reporte" name="getProducts" class="btn btn-secondary "

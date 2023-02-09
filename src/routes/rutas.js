@@ -574,6 +574,7 @@ router.get('/getFamiliasAlmacenPlanta/:parametros', AlmacenController.getFamilia
 
 router.post('/EliminarCategoria/', AlmacenController.EliminarCategoria);
 router.post('/EliminarFamiliaAlmacen/', AlmacenController.EliminarFamiliaAlmacen);
+router.post('/OcultarFamilia/', AlmacenController.OcultarFamilia);
 //Modificar Cotizacion
 router.post('/CambiarCotizacion/', AlmacenController.CambiarCotizacion);
 router.get('/ReporteRequeridos/:parametros', AlmacenController.ReporteRequeridos);

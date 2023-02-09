@@ -315,7 +315,7 @@ function getCategoria() {
 
                     if (x == 0) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(1); //CREAR CELDA
-                        newCell.innerHTML = '<button id="Cat' + i + '" class="btn btn-warning" name="btn" onclick= EliminarCategoria("' + Arreglo[0] + '")> <i class="fas fa-user-slash"></i></button>';
+                        newCell.innerHTML = '<button id="Cat' + i + '" class="btn btn-danger" name="btn" onclick= EliminarCategoria("' + Arreglo[0] + '") data-toggle="tooltip" data-placement="top" title="Eliminar categoria"> <i class="fas fa-user-slash"></i></button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -344,11 +344,15 @@ function getFamilias() {
                 var id = data[i].id;
                 var Nombre = data[i].Nombre;
                 var Planta = data[i].Planta;
+                var VISIBLE = data[i].VISIBLE;
 
                 //Eliminar variable dentro del For
                 Arreglo = [id, Nombre, Planta]
-                DataFamilias.push(Arreglo)
 
+                if(VISIBLE == 1){//si esta activada se mostrara en la lista
+                    DataFamilias.push(Arreglo)
+                }
+            
                 var TablaAlmacen = document.getElementById('TablaFamilias').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -361,7 +365,8 @@ function getFamilias() {
                     newCell.appendChild(newText);
                     if (x == 1) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(2); //CREAR CELDA
-                        newCell.innerHTML = '<button id="Fam' + i + '" class="btn btn-warning" name="btn" onclick= EliminarFamilia("' + Arreglo[0] + '")> <i class="fas fa-user-slash"></i></button>';
+                        newCell.innerHTML = '<button id="Fam' + i + '" class="btn btn-danger" name="btn" onclick= EliminarFamilia("' + Arreglo[0] + '") data-toggle="tooltip" data-placement="top" title="Eliminar familia"> <i class="fas fa-user-slash"></i></button>'+
+                        '<button id="Fam' + i + '" class="btn btn-warning" name="btn" onclick= OcultarFamilia("' + Arreglo[0] + '") data-toggle="tooltip" data-placement="top" title="cambia la visibilidad familia"> <i class="fas fa-eye-slash"></i></button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -415,6 +420,24 @@ function EliminarFamilia(id) {
         });
 }
 
+
+function OcultarFamilia(id) {
+
+    console.log("SSSSS")
+    let data = {
+        ID: id
+    }
+    $.post("/OcultarFamilia", // url
+        {
+            data
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            console.log("objeto: " + objeto + "Estatus: " + estatus);
+            if (objeto == true) {
+                getFamilias();
+            }
+        });
+}
 
 
 function FiltroFamilia() {
