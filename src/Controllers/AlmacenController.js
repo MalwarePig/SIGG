@@ -1319,7 +1319,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             var Categoria = parametros.split('|')[1]; // Fecha inicial
             var Familia = parametros.split('|')[2]; // Fecha limite
 
-            Almacen == 'Todo' ? Almacen = 'IS not null' : Almacen = " = 'Almacen " + Almacen + "'";
+            Almacen == 'Todo' ? Almacen = ' IS not null' : Almacen = " = 'Almacen " + Almacen + "'";
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 

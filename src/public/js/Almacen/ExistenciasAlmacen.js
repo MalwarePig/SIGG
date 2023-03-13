@@ -78,6 +78,8 @@ function MostrarReporte() {
     var Almacen = document.getElementById("Almacen").value;
     var Familia = document.getElementById("Familia").value;
 
+    console.log("Categoria"+Categoria+ " Almacen"+Almacen + " Familia"+Familia)
+
     $.ajax({
         url: '/ExistenciaTotalAlmacen/' + Almacen + '|' + Categoria + '|' + Familia,
         success: function (Herramientas) {
@@ -348,11 +350,15 @@ function getFamilias() {
 
                 //Eliminar variable dentro del For
                 Arreglo = [id, Nombre, Planta]
+                var colorBoton = "";
 
-                if(VISIBLE == 1){//si esta activada se mostrara en la lista
+                if (VISIBLE == 1) {//si esta activada se mostrara en la lista
                     DataFamilias.push(Arreglo)
+                    colorBoton = "btn btn-success";
+                } else {
+                    colorBoton = "btn btn-warning";
                 }
-            
+
                 var TablaAlmacen = document.getElementById('TablaFamilias').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -363,20 +369,17 @@ function getFamilias() {
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[(x + 1)]);
                     newCell.appendChild(newText);
-                    if (x == 1) { //Si termina de registrar datos crear el boton
+                    if (x == 1) { //Si termina de registrar datos crear el boton 
                         var newCell = newRow.insertCell(2); //CREAR CELDA
-                        newCell.innerHTML = '<button id="Fam' + i + '" class="btn btn-danger" name="btn" onclick= EliminarFamilia("' + Arreglo[0] + '") data-toggle="tooltip" data-placement="top" title="Eliminar familia"> <i class="fas fa-user-slash"></i></button>'+
-                        '<button id="Fam' + i + '" class="btn btn-warning" name="btn" onclick= OcultarFamilia("' + Arreglo[0] + '") data-toggle="tooltip" data-placement="top" title="cambia la visibilidad familia"> <i class="fas fa-eye-slash"></i></button>';
+                        newCell.innerHTML = '<button id="Fam' + i + '" class="btn btn-danger" name="btn" onclick= EliminarFamilia("' + Arreglo[0] + '") data-toggle="tooltip" data-placement="top" title="Eliminar familia"> <i class="fas fa-user-slash"></i></button>' +
+                            '<button id="FamFind' + i + '" class="' + colorBoton + '" name="btn" onclick= OcultarFamilia("' + Arreglo[0] + '","FamFind' + i + '") data-toggle="tooltip" data-placement="top" title="cambia la visibilidad familia"> <i class="fas fa-eye-slash"></i></button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
-            console.table({
-                DataFamilias
-            })
+
             FiltroFamilia();
         } //Funcion success
     }); //Ajax
-
 } //Evento clic
 
 function CargarListasModal() {
@@ -404,7 +407,6 @@ function EliminarCategoria(Nombre) {
 }
 
 function EliminarFamilia(id) {
-
     let data = {
         ID: id
     }
@@ -420,10 +422,7 @@ function EliminarFamilia(id) {
         });
 }
 
-
-function OcultarFamilia(id) {
-
-    console.log("SSSSS")
+function OcultarFamilia(id, btnFamilia) {
     let data = {
         ID: id
     }
@@ -438,7 +437,6 @@ function OcultarFamilia(id) {
             }
         });
 }
-
 
 function FiltroFamilia() {
     console.clear();
@@ -481,15 +479,15 @@ function ReporteRequeridos() {
         url: '/ReporteRequeridos/'/*  + Req_inicio + '|' + Req_fin + '|' */ + Req_Almacen,
         success: function (data) {
 
-            var Almacen ='';
+            var Almacen = '';
             var sheet_1_data = [];
-            sheet_1_data.push(['Producto','Almacen','Stock'])
+            sheet_1_data.push(['Producto', 'Almacen', 'Stock'])
             for (var j = 0; j < data.length; j++) { //filas 
                 var Producto = data[j].Producto;
                 Almacen = data[j].Almacen;
                 var Stock = data[j].Stock;
 
-                var Fila = [Producto,Almacen,Stock]
+                var Fila = [Producto, Almacen, Stock]
                 sheet_1_data.push(Fila);
             } //fin filas
 
@@ -500,7 +498,7 @@ function ReporteRequeridos() {
                 sheetid: 'Sheet One',
                 header: true
             }];
-            var result = alasql('SELECT * INTO XLSX("Articulos Requeridos '+Almacen+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+            var result = alasql('SELECT * INTO XLSX("Articulos Requeridos ' + Almacen + '.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 
         } //Funcion success
     }); //Ajax
@@ -512,14 +510,14 @@ function ReporteRequeridos() {
 
 function ReporteOrdenados() {
     let Req_inicio = document.getElementById("Ord_inicio").value;
-    let Req_fin = document.getElementById("Ord_fin").value; 
+    let Req_fin = document.getElementById("Ord_fin").value;
     $.ajax({
         url: '/ReporteOrdenados/' + Req_inicio + '|' + Req_fin,
         success: function (data) {
 
-            var Almacen ='';
+            var Almacen = '';
             var sheet_1_data = [];
-            sheet_1_data.push(['Producto','Almacen','Stock','Cantidad ord','Folio','Factura','Fecha Ord','Estatus'])
+            sheet_1_data.push(['Producto', 'Almacen', 'Stock', 'Cantidad ord', 'Folio', 'Factura', 'Fecha Ord', 'Estatus'])
             for (var j = 0; j < data.length; j++) { //filas 
                 var Producto = data[j].Producto;
                 Almacen = data[j].Almacen;
@@ -530,7 +528,7 @@ function ReporteOrdenados() {
                 var FechaOrdenado = data[j].FechaOrdenado;
                 var Estatus = data[j].Estatus;
 
-                var Fila = [Producto,Almacen,Stock,Cantidad,Folio,Factura,FechaOrdenado,Estatus]
+                var Fila = [Producto, Almacen, Stock, Cantidad, Folio, Factura, FechaOrdenado, Estatus]
                 sheet_1_data.push(Fila);
             } //fin filas
 
@@ -541,7 +539,7 @@ function ReporteOrdenados() {
                 sheetid: 'Sheet One',
                 header: true
             }];
-            var result = alasql('SELECT * INTO XLSX("Articulos Ordenados '+Almacen+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+            var result = alasql('SELECT * INTO XLSX("Articulos Ordenados ' + Almacen + '.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 
         } //Funcion success
     }); //Ajax
