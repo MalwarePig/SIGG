@@ -1,90 +1,103 @@
-  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
   </script>
 
 <!--   -->
-  <nav>
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active" href="/home"><i class="fas fa-home"></i> Inicio</a>
-      </li>
+<nav>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="/home"><i class="fas fa-home"></i> Inicio</a>
+    </li>
 
-      <!-- PRODUCCION -->
+    <!-- PRODUCCION -->
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-          aria-expanded="false"><i class="fas fa-object-ungroup"></i> Producción</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/cPlaner">Altas</a>
-          <a class="dropdown-item" href="/Ordenes">Ordenes</a>
-          <a class="dropdown-item" href="/Planeacion">Maquinas</a> 
-         <!-- <a class="dropdown-item" href="/Maquinas">Maquinas</a> -->
-          <a class="dropdown-item" href="/Flujo">Flujo</a>       
-          <a class="dropdown-item" href="/Eficiencia">Eficiencia</a>
-          <a class="dropdown-item" href="/Materiales">Materiales</a>
-          <a class="dropdown-item" href="/PNC">PNC</a>
-          <a class="dropdown-item" href="/Vencidas" visibility: hidden>Vencidas</a>
-          <a class="dropdown-item" href="#" visibility: hidden>Reportes</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/Admin">Administración</a>
-        </div>
-      </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-object-ungroup"></i> Producción</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/cPlaner">Altas</a>
+        <a class="dropdown-item" href="/Ordenes">Ordenes</a>
+        <a class="dropdown-item" href="/Planeacion">Maquinas</a>
+        <!-- <a class="dropdown-item" href="/Maquinas">Maquinas</a> -->
+        <a class="dropdown-item" href="/Flujo">Flujo</a>
+        <a class="dropdown-item" href="/Eficiencia">Eficiencia</a>
+        <a class="dropdown-item" href="/Materiales">Materiales</a>
+        <a class="dropdown-item" href="/PNC">PNC</a>
+        <a class="dropdown-item" href="/Vencidas" visibility: hidden>Vencidas</a>
+        <a class="dropdown-item" href="#" visibility: hidden>Reportes</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/Admin">Administración</a>
+      </div>
+    </li>
 
-      <!-- ALMACEN -->
+    <!-- ALMACEN -->
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-          aria-expanded="false"><i class="fas fa-warehouse"></i> Almacen</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/wh_Salidas">Salidas</a>
-          <a class="dropdown-item" href="/wh_Retorno">Retornos</a>
-          <a class="dropdown-item" href="/wh_Recolectar">Recolectar</a>
-          <a class="dropdown-item" href="/wh_Intercambio">Transferencias</a>
-          <a class="dropdown-item" href="/wh_Reporte">Reporte</a>
-          <a class="dropdown-item" href="/wh_ReporteArticulo">Reporte articulo/OT</a>
-          <a class="dropdown-item" href="/wh_ReporteAjustes">Reporte ajustes</a>
-          <a class="dropdown-item" href="/wh_Accesorios">Accesorios</a>
-          <a class="dropdown-item" href="/wh_TrabajoInterno">Trabajo Interno</a>
-          <a class="dropdown-item" href="/wh_AjusteBasico">Ajuste Basico</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/wh_Requisicion">Requisición</a>
-          <a class="dropdown-item" href="/wh_Admin">Administración</a>
-        </div>
-      </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-warehouse"></i> Almacen</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/wh_Salidas">Salidas</a>
+        <a class="dropdown-item" href="/wh_Retorno">Retornos</a>
+        <a class="dropdown-item" href="/wh_SalidasGaveta">Salidas gaveta</a>
+        <a class="dropdown-item" href="/wh_Recolectar">Recolectar</a>
+        <a class="dropdown-item" href="/wh_Intercambio">Transferencias</a>
+        <a class="dropdown-item" href="/wh_Reporte">Reporte</a>
+        <a class="dropdown-item" href="/wh_ReporteArticulo">Reporte articulo/OT</a>
+        <a class="dropdown-item" href="/wh_ReporteAjustes">Reporte ajustes</a>
+        <!--  <a class="dropdown-item" href="/wh_Accesorios">Accesorios</a> -->
+        <!-- <a class="dropdown-item" href="/wh_TrabajoInterno">Trabajo Interno</a> -->
+        <a class="dropdown-item" href="/wh_AjusteBasico">Ajuste Basico</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/wh_Requisicion">Requisición</a>
+        <a class="dropdown-item" href="/wh_Admin">Administración</a>
+      </div>
+    </li>
 
-      <!-- EXTERNOS -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-          aria-expanded="false"><i class="fas fa-screwdriver"></i> Externo</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/Ex_Salidas">Salidas</a>
-          <a class="dropdown-item" href="/wh_Retorno">Retornos</a>
-          <a class="dropdown-item" href="/wh_Intercambio">Transferencias</a>
-          <a class="dropdown-item" href="/wh_Reporte">Reporte</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/wh_Admin">Administración</a>
-        </div>
-      </li>
+    <!-- Gaveta -->
 
-      <!-- CALIDAD -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-door-open"></i> Gaveta</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/GavetaDespacho">Salidas</a>
+        <a class="dropdown-item" href="/wh_Retorno">Retornos</a>
+      </div>
+    </li>
+ 
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-          aria-expanded="false"><i class="fas fa-eye"></i> Calidad</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/RegistroInspeccion"><i class="fas fa-edit"></i> Registro</a>
-          <a class="dropdown-item" href="/Inspeccion"><i class="fas fa-ruler"></i> Inspección</a>
-          <a class="dropdown-item" href="/ReporteInspeccion"><i class="fas fa-list-alt"></i> Reporte</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/AdminCalidad" disabled>Administración</a>
-        </div>
-      </li>
-      <!--   
+    <!-- EXTERNOS -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-screwdriver"></i> Externo</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/Ex_Salidas">Salidas</a>
+        <a class="dropdown-item" href="/wh_Retorno">Retornos</a>
+        <a class="dropdown-item" href="/wh_Intercambio">Transferencias</a>
+        <a class="dropdown-item" href="/wh_Reporte">Reporte</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/wh_Admin">Administración</a>
+      </div>
+    </li>
+
+    <!-- CALIDAD -->
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-eye"></i> Calidad</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/RegistroInspeccion"><i class="fas fa-edit"></i> Registro</a>
+        <a class="dropdown-item" href="/Inspeccion"><i class="fas fa-ruler"></i> Inspección</a>
+        <a class="dropdown-item" href="/ReporteInspeccion"><i class="fas fa-list-alt"></i> Reporte</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/AdminCalidad" disabled>Administración</a>
+      </div>
+    </li>
+    <!--   
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
           aria-expanded="false"><i class="fas fa-address-card"></i> CRM</a>
@@ -153,56 +166,55 @@
         </div>
       </li>
       -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-          aria-expanded="false"><i class="fas fa-briefcase"></i> Herramientas</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/Etiquetas">Etiquetas</a>
-          <a class="dropdown-item" href="/Etiqueta_dos">Dynadrill</a>
-          <a class="dropdown-item" href="/Cotizador">Cotizador</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/Impresoras">Impresoras</a>
-          <a class="dropdown-item" href="/Internet">Internet</a>
-          <a class="dropdown-item" href="#">MiPc</a>
-        </div>
-      </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-briefcase"></i> Herramientas</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/Etiquetas">Etiquetas</a>
+        <a class="dropdown-item" href="/Etiqueta_dos">Dynadrill</a>
+        <a class="dropdown-item" href="/Cotizador">Cotizador</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/Impresoras">Impresoras</a>
+        <a class="dropdown-item" href="/Internet">Internet</a>
+        <a class="dropdown-item" href="#">MiPc</a>
+      </div>
+    </li>
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-          aria-expanded="false"><i class="fas fa-portrait"></i> Nominas</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/RHPersonal"><i class="fas fa-address-card"></i> Listados</a>
-          <a class="dropdown-item" href="/FormularioAddEmp"><i class="fas fa-user-plus"></i> Registrar</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/CorreoNomina"><i class="fas fa-envelope"></i> Nómina</a>
-        </div>
-      </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false"><i class="fas fa-portrait"></i> Nominas</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/RHPersonal"><i class="fas fa-address-card"></i> Listados</a>
+        <a class="dropdown-item" href="/FormularioAddEmp"><i class="fas fa-user-plus"></i> Registrar</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/CorreoNomina"><i class="fas fa-envelope"></i> Nómina</a>
+      </div>
+    </li>
 
-      <li class="nav-item">
-        <a class="nav-link" href="/CrearTicket"><i class="fas fa-headset"></i>Soporte</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Peticiones" tabindex="-1" aria-disabled="true"><i class="fas fa-laptop-code"></i>
-          Desarrollo</a>
-      </li>
-      <li class="nav-item" visibility: hidden>
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-bug"></i> Pruebas</a>
-      </li>
-      <li class="nav-item" id="Oculto">
-        <a class="nav-link " href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-user"></i><span
-            id="Area"></span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link " href="/" tabindex="-1" aria-disabled="true"><i class="fas fa-sign-out-alt"></i> Salir</a>
-      </li> 
-    </ul>
-  </nav>
+    <li class="nav-item">
+      <a class="nav-link" href="/CrearTicket"><i class="fas fa-headset"></i>Soporte</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/Peticiones" tabindex="-1" aria-disabled="true"><i class="fas fa-laptop-code"></i>
+        Desarrollo</a>
+    </li>
+    <li class="nav-item" visibility: hidden>
+      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-bug"></i> Pruebas</a>
+    </li>
+    <li class="nav-item" id="Oculto">
+      <a class="nav-link " href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-user"></i><span
+          id="Area"></span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " href="/" tabindex="-1" aria-disabled="true"><i class="fas fa-sign-out-alt"></i> Salir</a>
+    </li>
+  </ul>
+</nav>
 
-  <script>
-    var usuario = localStorage.getItem('usuario');
-        var Area = localStorage.getItem('Area');
-        var Nodo = document.getElementById("Area");
-        var newText = document.createTextNode(usuario + "-" + Area);
-        Nodo.appendChild(newText);
-  </script>
- 
+<script>
+  var usuario = localStorage.getItem('usuario');
+  var Area = localStorage.getItem('Area');
+  var Nodo = document.getElementById("Area");
+  var newText = document.createTextNode(usuario + "-" + Area);
+  Nodo.appendChild(newText);
+</script>

@@ -303,6 +303,9 @@ router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
 //============================== Almacen Aajuste ==============================//
 router.get('/BuscarHerramientasAjuste/:Herra', AlmacenController.searchAjuste);
 
+//============================== Almacen Gaveta ==============================//
+
+
 
 //====== Tornilleria ========
 //Abre pagina principal para tornilleria
@@ -380,6 +383,23 @@ router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientas
 router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
 //Guarda la recoleccion en gaveta
 router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
+//============================== Almacen Gaveta Despacho (Oficina) ==============================//
+router.get('/GavetaDespacho', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_SalidasGaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+
+
+
+
+
+
+
 
 //====== Crear Herramienta ========
 //Abre pagina principal para editar
@@ -516,7 +536,6 @@ router.get('/wh_ReporteArticulo', (req, res) => {
 	}
 });
 
-
 //====== Reporte Herramienta ========
 //Abre pagina principal para requerir
 router.get('/ExistenciasAlmacen', (req, res) => {
@@ -544,15 +563,18 @@ router.get('/whCompras', (req, res) => {
 router.get('/ListaDeCotizaciones/', AlmacenController.ListaDeCotizaciones);
  
 router.post('/Ordenar/', AlmacenController.Ordenar);
+
 router.post('/CancelarOrden/', AlmacenController.CancelarOrden);
 
 router.post('/ActualizarOrdenar/', AlmacenController.ActualizarOrdenar);
+
 router.post('/CancelarOrdenados/', AlmacenController.CancelarOrdenados);
 
 //Busca Herramientas Ordenadas activadas
 router.get('/ListaDeOrdenes/', AlmacenController.ListaDeOrdenes);
 //Busca herramienta lista para recolectar
 router.get('/MostrarRecepcion/', AlmacenController.MostrarRecepcion);
+
 router.post('/RecolectarAlmacen/', AlmacenController.RecolectarAlmacen);
 
 //Busca Herramientas en Gaveta

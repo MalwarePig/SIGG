@@ -934,14 +934,33 @@ Controller.MostrarReporteHerramienta = (req, res) => {
             const {
                 Herramienta
             } = req.params;
-            var Articulo = Tranformer(Herramienta);
-            conn.query("SELECT * FROM itemprestado WHERE Producto LIKE '%" + Articulo + "%' OR OT = '"+Articulo+"' ORDER BY Salida Desc", (err, Herramientas) => {
-                if (err) {
-                    res.json("Error json: " + err);
-                    console.log('Error de lectura' + err);
-                }
-                res.json(Herramientas)
-            });
+            var Articulo = Tranformer(Herramienta.split('|')[0]);
+            var fechaInicio = Herramienta.split('|')[1]; // Fecha inicial
+            var fechafin = Herramienta.split('|')[2]; // Fecha limite
+
+            if (fechaInicio == null || fechaInicio == '') {
+                console.log("sin fecha " )
+                conn.query("SELECT * FROM itemprestado WHERE Producto LIKE '%" + Articulo + "%' OR OT = '"+Articulo+"' ORDER BY Salida Desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Herramientas)
+                });
+            }else{
+                console.log("con fecha " + fechaInicio + " - " + fechafin)
+                conn.query("SELECT * FROM itemprestado WHERE (Producto LIKE '%" + Articulo + "%' OR OT = '"+Articulo+"') AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    console.log(Herramientas);
+                    res.json(Herramientas)
+                });
+            }
+            
+
+            
         });
     } else {
         res.render('Admin/Login.html');
