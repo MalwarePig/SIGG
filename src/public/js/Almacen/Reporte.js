@@ -182,7 +182,7 @@ function Transformer(variable) {
     var Herramienta = "";
     for (var q = 0; q < variable.length; q++) {
         if (variable.charAt(q) == '/') {
-            Herramienta += '|';
+            Herramienta += '@';
         } else {
             Herramienta += variable.charAt(q);
         }

@@ -934,10 +934,13 @@ Controller.MostrarReporteHerramienta = (req, res) => {
             const {
                 Herramienta
             } = req.params;
-            var Articulo = Tranformer(Herramienta.split('|')[0]);
+
+            var Articulo = TranformerReporte(Herramienta.split('|')[0]);
             var fechaInicio = Herramienta.split('|')[1]; // Fecha inicial
             var fechafin = Herramienta.split('|')[2]; // Fecha limite
             var Almacen = Herramienta.split('|')[3]; // Fecha limite
+
+            console.log("Articulo: " + Articulo+ " con fecha " + fechaInicio + " y " + fechafin + "  es de " +Almacen)
 
             if (fechaInicio == null || fechaInicio == '') {
                 console.log("sin fecha " )
@@ -949,7 +952,7 @@ Controller.MostrarReporteHerramienta = (req, res) => {
                     res.json(Herramientas)
                 });
             }else{
-                console.log("con fecha " + fechaInicio + " - " + fechafin)
+                console.log("Articulo: " + Articulo+ " con fecha " + fechaInicio + " y " + fechafin + "  es de " +Almacen)
                 conn.query("SELECT * FROM itemprestado WHERE (Producto = '" + Articulo + "' OR OT = '"+Articulo+"') AND Almacen = '"+ Almacen +"' AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
@@ -1010,6 +1013,18 @@ function Tranformer(variable) {
     var Herramienta = "";
     for (var q = 0; q < variable.length; q++) {
         if (variable.charAt(q) == '|') {
+            Herramienta += '/';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
+    }
+    return Herramienta;
+}
+
+function TranformerReporte(variable) {
+    var Herramienta = "";
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '@') {
             Herramienta += '/';
         } else {
             Herramienta += variable.charAt(q);
