@@ -1,0 +1,56 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalHistorialAjusteBasico"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Reporte ajuste básico</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="Formulario">
+          <div class="form-group"> 
+            <div class="form-row">
+              <div class="col">
+                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                <input required type="date" id="inicio" class="form-control" name="Inicio" autocomplete="off">
+              </div>
+
+              <div class="col">
+                <label for="inputAddress2" class="font-weight-bold">Fecha Vencimiento</label>
+                <input required type="date" id="fin" class="form-control" name="vencimiento" autocomplete="off">
+              </div> 
+            </div>
+
+            <hr>
+ 
+            <div class="row justify-content-md-center">
+              <div class="col-md-auto">
+                <label for="recipient-name" class="col-form-label">Planta</label>
+                <select required id="N_Tipo" name="Area" class="form-control">
+                  <option value="Bravo" selected>Bravo</option>
+                  <option value="Morelos">Morelos</option>
+                </select>
+              </div>
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" onclick="ActualizarCantidad()" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>

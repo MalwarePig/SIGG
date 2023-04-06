@@ -99,6 +99,11 @@ function ModalEficiencia(fila) {
     $("#ModalAjusteBasico").modal();
 }
 
+function AbrirHistorial() {
+    console.log("git")
+    $("#ModalHistorialAjusteBasico").modal();
+}
+
 function ActualizarCantidad() { 
  
     let CantidadAnterior = localStorage.getItem("CantidadAnterior")

@@ -56,13 +56,21 @@ function MostrarReporte() {
 
 function MostrarReporteHerramienta() {
     var Herramienta = Transformer(document.getElementById("BHerramienta").value);
-
+    var Almacen = document.getElementById("Almacen").value;
+    
     var fechaInicio = document.getElementById("inicio").value;
     var fechafin = document.getElementById("fin").value;
 
+    /*Limpiar tabla*/ 
+    var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
+    var limite = TablaAlmacen.rows.length;
+    for (var i = 0; i < limite; i++) {
+        $("#Rows").remove(); //elimina los elementos con id Rows
+    }
+
     
         $.ajax({
-            url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin ,
+            url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
             success: function (Herramientas) {
                 var Arreglo = [];
                 //Limpiar tabla 
