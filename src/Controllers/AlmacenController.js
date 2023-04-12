@@ -13,10 +13,10 @@ Controller.search = (req, res) => {
             const {
                 Herra
             } = req.params;
-            var Herramienta = Tranformer(Herra);
+            var Herramienta = TranformerReporte(Herra);
             const planta = "Almacen " + req.session.planta;
             const area = req.session.area;
-            
+
             if (area == 'Admin') {
                 console.log("Entre como admin")
                 conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '" + Herramienta + "'", (err, Herramientas) => {
@@ -221,34 +221,34 @@ Controller.GuardarNota = (req, res) => {
                 let Planta = req.session.planta;
                 let Usuario = req.session.username;
 
-                let Almacen = 'Almacen ' +Planta;
+                let Almacen = 'Almacen ' + Planta;
 
 
-                conn.query("call DespachoAlmacen('"+Folio+"','"+Producto+"',"+Entregado+",'"+Estado+"','"+OT+"','"+OTEstatus+"','"+Maquina+"','" 
-                +Empleado+"','"+Parcial+"','"+Comentario+"','"+Turno+"','"+Movimiento+"','"+Planta+"','"+Usuario+"','"+Almacen+"');", true, (err, rows, fields) => {
-                    if (err) {
-                        console.log('Error al registrar folios' + err);
-                    }else{
-                        res.json(true);
-                    }
-                });
- 
-                //console.log("Indice: " + i + " Folio: " + Folio + " Producto " + Producto + " -Entregado " + Entregado + " -Estado " + Estado + " -OT " + OT + " -OTEstatus " + OTEstatus + " -Maquina " + Maquina + " -Empleado " + Empleado + " -Turno " + Turno + " -Comentario " + Comentario + " -Movimiento " + Movimiento + " -Planta " + Planta + " -Usuario " + Usuario)
-               /*  conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario, Parcial], (err, ot) => {
-                    if (err) {
-                        console.log('Error al registrar despacho de herramienta');
-                    }
-                    conn.query("call RestarAlmacen(" + Entregado + ",'" + Producto + "','" + Estado + "','Almacen " + Planta + "');", true, (err, rows, fields) => {
+                conn.query("call DespachoAlmacen('" + Folio + "','" + Producto + "'," + Entregado + ",'" + Estado + "','" + OT + "','" + OTEstatus + "','" + Maquina + "','"
+                    + Empleado + "','" + Parcial + "','" + Comentario + "','" + Turno + "','" + Movimiento + "','" + Planta + "','" + Usuario + "','" + Almacen + "');", true, (err, rows, fields) => {
                         if (err) {
-                            console.log('Error al descontar almacen' + err);
+                            console.log('Error al registrar folios' + err);
+                        } else {
+                            res.json(true);
                         }
-                        conn.query("call IncrementarFolioAlmacen('" + Folio + "');", true, (err, rows, fields) => {
-                            if (err) {
-                                console.log('Error al registrar folios' + err);
-                            }
-                        });
                     });
-                }); */
+
+                //console.log("Indice: " + i + " Folio: " + Folio + " Producto " + Producto + " -Entregado " + Entregado + " -Estado " + Estado + " -OT " + OT + " -OTEstatus " + OTEstatus + " -Maquina " + Maquina + " -Empleado " + Empleado + " -Turno " + Turno + " -Comentario " + Comentario + " -Movimiento " + Movimiento + " -Planta " + Planta + " -Usuario " + Usuario)
+                /*  conn.query('INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Entregado, Estado, OT, OTEstatus, Maquina, Empleado, Turno, Comentario, Movimiento, Planta, Usuario, Parcial], (err, ot) => {
+                     if (err) {
+                         console.log('Error al registrar despacho de herramienta');
+                     }
+                     conn.query("call RestarAlmacen(" + Entregado + ",'" + Producto + "','" + Estado + "','Almacen " + Planta + "');", true, (err, rows, fields) => {
+                         if (err) {
+                             console.log('Error al descontar almacen' + err);
+                         }
+                         conn.query("call IncrementarFolioAlmacen('" + Folio + "');", true, (err, rows, fields) => {
+                             if (err) {
+                                 console.log('Error al registrar folios' + err);
+                             }
+                         });
+                     });
+                 }); */
                 console.log("Sali " + i);
             }
         });
@@ -757,24 +757,24 @@ Controller.ActualizarProducto = (req, res) => {
             var Categoria = Object.values(data)[0].Categoria; //obeter datos de un objeto Ubicacion
             var Familia = Object.values(data)[0].Familia; //obeter datos de un objeto Ubicacion
             var Motivo = Object.values(data)[0].Motivo; //obeter datos de un objeto Ubicacion
-            var Nombre = Object.values(data)[0].Nombre; 
-            var NuevaCantidad = Object.values(data)[0].NuevaCantidad; 
-            var Planta = Object.values(data)[0].Planta; 
-            
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo+ "','" +Motivo+ "','" +Nombre+ "','" +NuevaCantidad+ "','" +Planta);
+            var Nombre = Object.values(data)[0].Nombre;
+            var NuevaCantidad = Object.values(data)[0].NuevaCantidad;
+            var Planta = Object.values(data)[0].Planta;
+
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "','" + Motivo + "','" + Nombre + "','" + NuevaCantidad + "','" + Planta);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "','" + Categoria + "','" + Familia 
-                + "','" +Motivo+"','"+Nombre+"',"+NuevaCantidad+",'"+Planta+"')", true, (err, rows, fields) => {
-                    if (err) {
-                        res.json(err);
-                        console.log('Error al actualizar' + err);
-                    } else {
-                        console.log('Se actualizó herramienta de almacen');
-                        res.json(true)
-                    }
-                });
+                conn.query("call ActualizarProducto(" + id + ",'" + Clave + "','" + Producto + "','" + StockNuevo + "','" + StockUsado + "','" + StockMinimo + "','" + StockMaximo + "','" + Categoria + "','" + Familia
+                    + "','" + Motivo + "','" + Nombre + "'," + NuevaCantidad + ",'" + Planta + "')", true, (err, rows, fields) => {
+                        if (err) {
+                            res.json(err);
+                            console.log('Error al actualizar' + err);
+                        } else {
+                            console.log('Se actualizó herramienta de almacen');
+                            res.json(true)
+                        }
+                    });
             }
         });
     } else {
@@ -792,16 +792,19 @@ Controller.EditarProducto = (req, res) => {
             var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Clave
             var Producto = Object.values(data)[0].Producto; //obeter datos de un objeto Producto
             var Ubicacion = Object.values(data)[0].Ubicacion; //obeter datos de un objeto Producto
+            var Proveedor = Object.values(data)[0].Proveedor; //obeter datos de un objeto Producto
+            var ProveedorSec = Object.values(data)[0].ProveedorSec; //obeter datos de un objeto ProveedorSec
+            var Precio = Object.values(data)[0].Precio; //obeter datos de un objeto ProveedorSec
 
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion);
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion + "','" + Proveedor + "','" + ProveedorSec);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "' WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + " WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
-                    res.json(Herramientas)
+                    res.json(true)
                 });
             }
         });
@@ -835,6 +838,62 @@ Controller.EliminarProducto = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+//============================================================================================================================================================================================================================================
+///////// == PROVEEDOR == ////////////////////////////// == PROVEEDOR == ////////////////////////////// == PROVEEDOR == ////////////////////////// == PROVEEDOR == //////////////////// == RETORNO == ///////////////////// == RETORNO == ////////////
+//============================================================================================================================================================================================================================================
+//Editar Producto
+Controller.RegistroProveedor = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var Proveedor = Object.values(data)[0].Proveedor; //obeter datos de un objeto id 
+
+            console.log("Proveedor " + Proveedor);
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("INSERT INTO Proveedores(Nombre)VALUE('" + Proveedor + "')", (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(true)
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+//Eliminar Producto
+Controller.EliminarProveedor = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+
+            console.log("id " + id);
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("DELETE FROM Proveedores WHERE id = " + id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    } else {
+                        res.json(true)
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
 //============================================================================================================================================================================================================================================
 ///////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////////// == RETORNO == ////////////////////////// == RETORNO == //////////////////// == RETORNO == ///////////////////// == RETORNO == ////////////
 //============================================================================================================================================================================================================================================
@@ -904,7 +963,7 @@ Controller.reporteAjustes = (req, res) => {
         req.getConnection((err, conn) => {
             const {
                 parametros
-            } = req.params; 
+            } = req.params;
             var fechaInicio = parametros.split('|')[0]; // Fecha inicial
             var fechafin = parametros.split('|')[1]; // Fecha limite
             var Almacen = parametros.split('|')[2]; // Almacen
@@ -917,6 +976,48 @@ Controller.reporteAjustes = (req, res) => {
                 console.log(Herramientas);
                 res.json(Herramientas)
             });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.reporteAjustesBasico = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var fechaInicio = parametros.split('|')[0]; // Fecha inicial
+            var fechafin = parametros.split('|')[1]; // Fecha limite
+            var Almacen = parametros.split('|')[2]; // Almacen
+            var BHerramienta = parametros.split('|')[3]; // Herramienta
+
+            console.log(BHerramienta + " " + Almacen)
+
+            if (BHerramienta == null || BHerramienta == '' || BHerramienta.length == 0) {
+                console.log("sin")
+                conn.query("SELECT * FROM ReporteAjusteBasico WHERE Almacen = '" + Almacen + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+
+                    res.json(Herramientas)
+                });
+            } else {
+                console.log("Producto: " + BHerramienta + " Almacen: " + Almacen + " fechaInicio: " + fechaInicio + " fechafin: " + fechafin)
+                conn.query("SELECT * FROM ReporteAjusteBasico WHERE Almacen = '" + Almacen + "' AND Producto = '" + BHerramienta + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    console.table(Herramientas)
+                    res.json(Herramientas)
+                });
+            }
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -940,20 +1041,20 @@ Controller.MostrarReporteHerramienta = (req, res) => {
             var fechafin = Herramienta.split('|')[2]; // Fecha limite
             var Almacen = Herramienta.split('|')[3]; // Fecha limite
 
-            console.log("Articulo: " + Articulo+ " con fecha " + fechaInicio + " y " + fechafin + "  es de " +Almacen)
+            console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
 
             if (fechaInicio == null || fechaInicio == '') {
-                console.log("sin fecha " )
-                conn.query("SELECT * FROM itemprestado WHERE (Producto = '" + Articulo + "' OR OT = '"+Articulo+"') AND Almacen = '"+ Almacen +"' ORDER BY Salida Desc", (err, Herramientas) => {
+                console.log("sin fecha ")
+                conn.query("SELECT * FROM itemprestado WHERE (Producto = '" + Articulo + "' OR OT = '" + Articulo + "') AND Almacen = '" + Almacen + "' ORDER BY Salida Desc", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
                     }
                     res.json(Herramientas)
                 });
-            }else{
-                console.log("Articulo: " + Articulo+ " con fecha " + fechaInicio + " y " + fechafin + "  es de " +Almacen)
-                conn.query("SELECT * FROM itemprestado WHERE (Producto = '" + Articulo + "' OR OT = '"+Articulo+"') AND Almacen = '"+ Almacen +"' AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc", (err, Herramientas) => {
+            } else {
+                console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+                conn.query("SELECT * FROM itemprestado WHERE (Producto = '" + Articulo + "' OR OT = '" + Articulo + "') AND Almacen = '" + Almacen + "' AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
@@ -962,9 +1063,9 @@ Controller.MostrarReporteHerramienta = (req, res) => {
                     res.json(Herramientas)
                 });
             }
-            
 
-            
+
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -1091,29 +1192,29 @@ Controller.GuardarIntercambio = (req, res) => {
             var Cantidad = "";
             var Estado = "";
             let Planta = "";
- 
-                Item = Object.values(data)[0][0]; //obeter datos de un objeto Item
-                Cantidad = Object.values(data)[0][1]; //obeter datos de un objeto Cantidad
-                Estado = Object.values(data)[0][2]; //obeter datos de un objeto Cantidad
-                Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
 
-                console.log(Item + "'," + Cantidad + ",'" + Planta + "','" + Estado )
-   
-                conn.query("call GuardarIntercambio('" + Item + "'," + Cantidad + ",'" + Planta + "','" + Estado + "')", true, (err, rows, fields) => {
-                    if (err) {
-                        console.log('Error al Recolectar' + err);
-                    } else {
-                        conn.query("call IntercambioActivo('" + Item + "','" + Planta + "')", true, (err, rows, fields) => {
-                            if (err) {
-                                console.log('Error al Recolectar' + err);
-                            } else {
-                                console.log(Item + "'," + Cantidad + ",'" + Planta + "','" + Estado )
-                            }
-                        });
-                    }
-                });
+            Item = Object.values(data)[0][0]; //obeter datos de un objeto Item
+            Cantidad = Object.values(data)[0][1]; //obeter datos de un objeto Cantidad
+            Estado = Object.values(data)[0][2]; //obeter datos de un objeto Cantidad
+            Planta = "Almacen " + req.session.planta; //obeter datos de un objeto Planta
 
-            
+            console.log(Item + "'," + Cantidad + ",'" + Planta + "','" + Estado)
+
+            conn.query("call GuardarIntercambio('" + Item + "'," + Cantidad + ",'" + Planta + "','" + Estado + "')", true, (err, rows, fields) => {
+                if (err) {
+                    console.log('Error al Recolectar' + err);
+                } else {
+                    conn.query("call IntercambioActivo('" + Item + "','" + Planta + "')", true, (err, rows, fields) => {
+                        if (err) {
+                            console.log('Error al Recolectar' + err);
+                        } else {
+                            console.log(Item + "'," + Cantidad + ",'" + Planta + "','" + Estado)
+                        }
+                    });
+                }
+            });
+
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -1321,18 +1422,18 @@ Controller.searchAjuste = (req, res) => {
 
 Controller.ExistenciasAlmacenBasico = (req, res) => {
     if (req.session.loggedin) {
-        req.getConnection((err, conn) => { 
-            let consulta = "SELECT Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado FROM almacen WHERE almacen != 'Gaveta' order by Almacen"; 
+        req.getConnection((err, conn) => {
+            let consulta = "SELECT Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado FROM almacen WHERE almacen != 'Gaveta' order by Almacen";
 
             conn.query(consulta, (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura' + err);
-                }else{
+                } else {
                     console.table(Herramientas.length)
                     res.json(Herramientas)
                 }
-               
+
             });
         });
     } else {
@@ -1512,14 +1613,14 @@ Controller.ImportarAccesorios = (req, res) => {
             let PO = Object.values(data)[0][0][4];
             for (var i = 0; i < limite; i++) {
                 let OCGemak = Object.values(data)[0][i][0];
-                let OT = Object.values(data)[0][i][1]; 
+                let OT = Object.values(data)[0][i][1];
                 let Producto = Object.values(data)[0][i][2]; //obeter datos de un objeto Ordenado
                 let PO = Object.values(data)[0][i][3];
-                let ENS = Object.values(data)[0][i][4]; 
-                let Cantidad = Object.values(data)[0][i][5]; 
+                let ENS = Object.values(data)[0][i][4];
+                let Cantidad = Object.values(data)[0][i][5];
                 let Ubicacion = Object.values(data)[0][i][6]; //obeter datos de un objeto Ordenado
-                
-                console.log("OC: " + OCGemak + " OT: " + OT + " Producto: " + Producto + " PoCliente" + PO + " Ensamble: " + ENS + " Cantidad: " +Cantidad  + " Ubicacion: " + Ubicacion );
+
+                console.log("OC: " + OCGemak + " OT: " + OT + " Producto: " + Producto + " PoCliente" + PO + " Ensamble: " + ENS + " Cantidad: " + Cantidad + " Ubicacion: " + Ubicacion);
 
                 conn.query('INSERT INTO accesorios(OCGemak, OT, Producto, POCliente, ENS, Cantidad)values(?,?,?,?,?,?)', [OCGemak, OT, Producto, PO, ENS, Cantidad], (err, ot) => {
                     if (err) {
@@ -1877,14 +1978,14 @@ Controller.AjusteBasico = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body;
             var id = Object.values(data)[0].indice;
-            var Cantidad = Object.values(data)[0].Cantidad; 
+            var Cantidad = Object.values(data)[0].Cantidad;
             var Nombre = Object.values(data)[0].Nombre;
             var CantidadAnterior = Object.values(data)[0].CantidadAnterior;
             var Producto = Object.values(data)[0].Producto;
             var Planta = Object.values(data)[0].Planta;
-            console.log(id + " - " + Cantidad+ Nombre + CantidadAnterior+Producto +Planta)
+            console.log(id + " - " + Cantidad + Nombre + CantidadAnterior + Producto + Planta)
 
-            conn.query("call AjusteBasico("+id+",'"+Producto+"','"+Planta+"','"+Nombre+"',"+Cantidad + ","+CantidadAnterior+")", true, (err, rows, fields) => {
+            conn.query("call AjusteBasico(" + id + ",'" + Producto + "','" + Planta + "','" + Nombre + "'," + Cantidad + "," + CantidadAnterior + ")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
@@ -1893,7 +1994,7 @@ Controller.AjusteBasico = (req, res) => {
                     res.json(true)
                 }
             });
- 
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -2001,7 +2102,7 @@ Controller.getFamiliasAlmacenPlanta = (req, res) => {
                 parametros
             } = req.params;
 
-            let consulta = "Select * from `categoriaalmacen` where Planta = '"+parametros+"' order by Nombre";
+            let consulta = "Select * from `categoriaalmacen` where Planta = '" + parametros + "' order by Nombre";
 
             console.log(consulta);
             conn.query(consulta, (err, data) => {
@@ -2069,8 +2170,8 @@ Controller.OcultarFamilia = (req, res) => {
             console.log(data)
             let id = Object.values(data)[0].ID;
             console.log("Eliminar" + id)
-             
-            conn.query("call OcultarFamilia("+id+")", true, (err, rows, fields) => {
+
+            conn.query("call OcultarFamilia(" + id + ")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
@@ -2090,15 +2191,15 @@ Controller.CambiarCotizacion = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            
+
             let id = Object.values(data)[0].id;
             let estado = Object.values(data)[0].estado;
             console.log(data)
             console.log(id)
             console.log(estado)
-            conn.query("UPDATE almacen SET Cotizado = "+estado+" WHERE id = "+id , (err, data) => {
+            conn.query("UPDATE almacen SET Cotizado = " + estado + " WHERE id = " + id, (err, data) => {
                 if (err) {
-                    console.log('Error de lectura '+err);
+                    console.log('Error de lectura ' + err);
                 }
                 console.table(data)
                 res.json(data)
@@ -2115,18 +2216,18 @@ Controller.CambiarCotizacion = (req, res) => {
 
 Controller.ListaDeCotizaciones = (req, res) => {
     if (req.session.loggedin) {
-        req.getConnection((err, conn) => { 
-            let consulta = "select * from almacen WHERE Cotizado = true AND Ordenado = false"; 
+        req.getConnection((err, conn) => {
+            let consulta = "select * from almacen WHERE Cotizado = true AND Ordenado = false";
 
             conn.query(consulta, (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura' + err);
-                }else{
+                } else {
                     console.table(Herramientas.length)
                     res.json(Herramientas)
                 }
-               
+
             });
         });
     } else {
@@ -2140,16 +2241,16 @@ Controller.Ordenar = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
- 
+
             let IndiceProducto = Object.values(data)[0].IndiceProducto;
             let Cantidad = Object.values(data)[0].Cantidad;
             let Folio = Object.values(data)[0].Folio;
-            console.log(IndiceProducto,Cantidad,Folio)
-            conn.query("INSERT INTO Ordenado(idAlmacen,Cantidad,Folio)VALUES(" + IndiceProducto + "," + Cantidad + ",'"+Folio+"')", (err, data) => {
+            console.log(IndiceProducto, Cantidad, Folio)
+            conn.query("INSERT INTO Ordenado(idAlmacen,Cantidad,Folio)VALUES(" + IndiceProducto + "," + Cantidad + ",'" + Folio + "')", (err, data) => {
                 if (err) {
                     console.log(err);
-                }else{
-                    conn.query("UPDATE almacen SET Ordenado = true WHERE id = "+IndiceProducto, (err, data) => {
+                } else {
+                    conn.query("UPDATE almacen SET Ordenado = true WHERE id = " + IndiceProducto, (err, data) => {
                         if (err) {
                             console.log(err);
                         }
@@ -2157,7 +2258,7 @@ Controller.Ordenar = (req, res) => {
                         res.json(data)
                         // res.json(Maquinas)
                     });
-                } 
+                }
             });
         });
     } else {
@@ -2170,15 +2271,15 @@ Controller.CancelarOrden = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
- 
-            let IndiceProducto = Object.values(data)[0].IndiceProducto; 
 
-            conn.query("UPDATE almacen Set Cotizado = false, Ordenado = false WHERE id = "+IndiceProducto, (err, data) => {
+            let IndiceProducto = Object.values(data)[0].IndiceProducto;
+
+            conn.query("UPDATE almacen Set Cotizado = false, Ordenado = false WHERE id = " + IndiceProducto, (err, data) => {
                 if (err) {
                     console.log(err);
-                }else{ 
+                } else {
                     res.json(data)
-                } 
+                }
             });
         });
     } else {
@@ -2191,12 +2292,12 @@ Controller.CancelarOrdenados = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
- 
-            let IndiceProducto = Object.values(data)[0].IndiceProducto; 
+
+            let IndiceProducto = Object.values(data)[0].IndiceProducto;
             let Producto = Object.values(data)[0].Producto;
             let Almacen = Object.values(data)[0].Almacen;
 
-            conn.query("call CancelarOrdenados("+IndiceProducto+",'"+Producto+"','"+Almacen+"')", true, (err, rows, fields) => {
+            conn.query("call CancelarOrdenados(" + IndiceProducto + ",'" + Producto + "','" + Almacen + "')", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
@@ -2205,7 +2306,7 @@ Controller.CancelarOrdenados = (req, res) => {
                     res.json(true)
                 }
             });
-             
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -2219,14 +2320,14 @@ Controller.ActualizarOrdenar = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
- 
+
             let IndiceOrden = Object.values(data)[0].IndiceProducto;
             let Recibido = Object.values(data)[0].Recibido;
             let Factura = Object.values(data)[0].Factura;
-             
-            console.log(IndiceOrden,Recibido,Factura) 
 
-            conn.query("call ActualizarOrdenar("+IndiceOrden+","+Recibido+",'"+Factura+"')", true, (err, rows, fields) => {
+            console.log(IndiceOrden, Recibido, Factura)
+
+            conn.query("call ActualizarOrdenar(" + IndiceOrden + "," + Recibido + ",'" + Factura + "')", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
@@ -2235,8 +2336,8 @@ Controller.ActualizarOrdenar = (req, res) => {
                     res.json(true)
                 }
             });
-            
-            
+
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -2246,8 +2347,8 @@ Controller.ActualizarOrdenar = (req, res) => {
 
 Controller.ListaDeOrdenes = (req, res) => {
     if (req.session.loggedin) {
-        req.getConnection((err, conn) => {  
- 
+        req.getConnection((err, conn) => {
+
 
             conn.query("call ListaDeOrdenes()", true, (err, rows, fields) => {
                 if (err) {
@@ -2266,7 +2367,7 @@ Controller.ListaDeOrdenes = (req, res) => {
 
 Controller.MostrarRecepcion = (req, res) => {
     if (req.session.loggedin) {
-        req.getConnection((err, conn) => {  
+        req.getConnection((err, conn) => {
             conn.query("call MostrarRecepcion()", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
@@ -2281,19 +2382,19 @@ Controller.MostrarRecepcion = (req, res) => {
         res.render('Admin/Login.html');
     }
 }
- 
+
 Controller.RecolectarAlmacen = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
- 
+
             let Recibido = Object.values(data)[0].Recibido;
             let idAlmacen = Object.values(data)[0].idAlmacen;
             let idOrdenado = Object.values(data)[0].idOrdenado;
             let idRecepcion = Object.values(data)[0].idRecepcion;
-              
-            console.log(Recibido+','+idAlmacen+','+idOrdenado)
-            conn.query("call RecolectarAlmacen("+Recibido+','+idAlmacen+','+idOrdenado+','+idRecepcion+")", true, (err, rows, fields) => {
+
+            console.log(Recibido + ',' + idAlmacen + ',' + idOrdenado)
+            conn.query("call RecolectarAlmacen(" + Recibido + ',' + idAlmacen + ',' + idOrdenado + ',' + idRecepcion + ")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
@@ -2320,15 +2421,15 @@ Controller.ReporteRequeridos = (req, res) => {
             const {
                 parametros
             } = req.params;
-          /*   var Req_inicio = parametros.split('|')[0]; // categoria o tipo de reporte
-            var Req_fin = parametros.split('|')[1]; // Fecha inicial */
+            /*   var Req_inicio = parametros.split('|')[0]; // categoria o tipo de reporte
+              var Req_fin = parametros.split('|')[1]; // Fecha inicial */
             var Req_Almacen = parametros.split('|')[0]; // Fecha limite 
 
-            conn.query("SELECT * from almacen WHERE Cotizado = true AND Almacen = '"+Req_Almacen+"'", (err, data) => {
+            conn.query("SELECT * from almacen WHERE Cotizado = true AND Almacen = '" + Req_Almacen + "'", (err, data) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
-                } 
+                }
                 res.json(data)
             });
         });
@@ -2351,11 +2452,11 @@ Controller.ReporteOrdenados = (req, res) => {
             var Req_inicio = parametros.split('|')[0]; // categoria o tipo de reporte
             var Req_fin = parametros.split('|')[1]; // Fecha inicial 
 
-            conn.query("SELECT o.id,a.Producto, a.Stock, a.Almacen, o.Cantidad,o.Folio,o.Factura,o.FechaOrdenado,o.Estatus  FROM almacen a, ordenado o WHERE a.id = o.idAlmacen AND o.Recibido < o.Cantidad AND o.FechaOrdenado BETWEEN '" + Req_inicio + "' AND '" + Req_fin+"'", (err, data) => {
+            conn.query("SELECT o.id,a.Producto, a.Stock, a.Almacen, o.Cantidad,o.Folio,o.Factura,o.FechaOrdenado,o.Estatus  FROM almacen a, ordenado o WHERE a.id = o.idAlmacen AND o.Recibido < o.Cantidad AND o.FechaOrdenado BETWEEN '" + Req_inicio + "' AND '" + Req_fin + "'", (err, data) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
-                } 
+                }
                 console.log(data);
                 res.json(data)
             });
@@ -2373,7 +2474,7 @@ Controller.RecolectarBasico = (req, res) => {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             const data = req.body;
-            var id = Object.values(data)[0].indice;  
+            var id = Object.values(data)[0].indice;
             var Nombre = Object.values(data)[0].Nombre;
             var CantidadAnterior = Object.values(data)[0].CantidadAnterior;
             var Producto = Object.values(data)[0].Producto;
@@ -2382,9 +2483,9 @@ Controller.RecolectarBasico = (req, res) => {
             var CantidadFinal = Object.values(data)[0].CantidadFinal;
 
 
-            console.log(id + " - " + CantidadFinal+ Nombre + CantidadAnterior+Producto +Planta +Ingreso)
+            console.log(id + " - " + CantidadFinal + Nombre + CantidadAnterior + Producto + Planta + Ingreso)
 
-            conn.query("call RecolectarBasico("+id+",'"+Producto+"','"+Planta+"','"+Nombre+"',"+CantidadAnterior + ","+Ingreso+","+CantidadFinal+")", true, (err, rows, fields) => {
+            conn.query("call RecolectarBasico(" + id + ",'" + Producto + "','" + Planta + "','" + Nombre + "'," + CantidadAnterior + "," + Ingreso + "," + CantidadFinal + ")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
@@ -2393,7 +2494,7 @@ Controller.RecolectarBasico = (req, res) => {
                     res.json(true)
                 }
             });
- 
+
         });
     } else {
         res.render('Admin/Login.html');
@@ -2410,7 +2511,7 @@ Controller.repRecolectarBasico = (req, res) => {
         req.getConnection((err, conn) => {
             const {
                 parametros
-            } = req.params; 
+            } = req.params;
             var fechaInicio = parametros.split('|')[0]; // Fecha inicial
             var fechafin = parametros.split('|')[1]; // Fecha limite
             var Almacen = "Almacen " + parametros.split('|')[2]; // Almacen
@@ -2428,6 +2529,28 @@ Controller.repRecolectarBasico = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+Controller.getProveedores = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            let consulta = "select * from Proveedores order by Nombre asc";
+
+            conn.query(consulta, (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura' + err);
+                } else {
+                    console.table(Herramientas.length)
+                    res.json(Herramientas)
+                }
+
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+}
 
 module.exports = Controller;
 

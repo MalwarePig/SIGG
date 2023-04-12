@@ -239,9 +239,5 @@ function CargarFamilias(indice) {
             }   
         } //Funcion success
     }); //Ajax
-
-
-    
-
-     
+ 
 }

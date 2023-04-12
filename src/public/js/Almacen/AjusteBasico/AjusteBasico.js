@@ -57,7 +57,7 @@ function Transformer(variable) {
     var Herramienta = "";
     for (var q = 0; q < variable.length; q++) {
         if (variable.charAt(q) == '/') {
-            Herramienta += '|';
+            Herramienta += '@';
         } else {
             Herramienta += variable.charAt(q);
         }
@@ -87,7 +87,7 @@ function ModalEficiencia(fila) {
     let Planta = tabla.rows[fila].cells[3].childNodes[0].nodeValue;
     let Cantidad = tabla.rows[fila].cells[4].childNodes[0].nodeValue;
     CantidadActual = Cantidad;
- 
+
     document.getElementById("Mod_Clave").value = Clave;
     document.getElementById("Mod_Producto").value = Producto;
     document.getElementById("Mod_Almacen").value = Planta;
@@ -95,7 +95,7 @@ function ModalEficiencia(fila) {
     document.getElementById("Mod_indice").value = indice;
     localStorage.setItem("CantidadAnterior", Cantidad);
 
-   
+
     $("#ModalAjusteBasico").modal();
 }
 
@@ -104,8 +104,8 @@ function AbrirHistorial() {
     $("#ModalHistorialAjusteBasico").modal();
 }
 
-function ActualizarCantidad() { 
- 
+function ActualizarCantidad() {
+
     let CantidadAnterior = localStorage.getItem("CantidadAnterior")
 
     if (parseInt(document.getElementById("Mod_Cantidad").value) <= parseInt(CantidadAnterior)) {
@@ -117,10 +117,10 @@ function ActualizarCantidad() {
             Producto: document.getElementById("Mod_Producto").value,
             Planta: localStorage.getItem("PlantaGeneral"),
             Cantidad: document.getElementById("Mod_Cantidad").value,
-            indice: document.getElementById("Mod_indice").value, 
+            indice: document.getElementById("Mod_indice").value,
             Nombre: localStorage.getItem("Nombre"),
-            CantidadAnterior:CantidadAnterior
-        } 
+            CantidadAnterior: CantidadAnterior
+        }
         console.table(ObjetoTabla);
         $.post("/AjusteBasico", // url
             {
@@ -134,5 +134,60 @@ function ActualizarCantidad() {
         $('#ModalEficiencia').modal('toggle');
         GETPRODUCTS();
     }
-
 }
+
+
+/**REPORTE AJUSTE BASICO */
+
+
+
+function MostrarReporteAjusteBasico() {
+
+    var BHerramienta = document.getElementById("RHerramienta").value;
+    var Almacen = document.getElementById("Planta").value;
+    var fechaInicio = document.getElementById("inicio").value;
+    var fechafin = document.getElementById("fin").value;
+    if (fechaInicio == null || fechaInicio == '') {
+        alert("Fecha no valida")
+    }else{
+        
+        $.ajax({
+            url: '/reporteAjustesBasico/' + fechaInicio + '|' + fechafin + '|' + Almacen + '|' + BHerramienta,
+            success: function (Herramientas) {
+                if (Herramientas.length > 0) {
+                    console.table(Herramientas)
+                    var total = Herramientas.length //Total de filas 
+                    var sheet_1_data = [];
+        
+                    sheet_1_data[0] = ["Responsable", "Producto", "Cantidad Actual", "Cantidad Anterior", "Fecha de ajuste"]
+                    for (var j = 0; j < total; j++) { //filas
+                        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+        
+                        var Responsable = Herramientas[j].Responsable;
+                        var Producto = Herramientas[j].Producto;
+                        var Actual = Herramientas[j].CantidadActual;
+                        var Anterior = Herramientas[j].CantidadAnterior;
+                        var Fecha = moment(Herramientas[j].FechaAjuste).format('DD-MM-YYYY');
+                        var Fila = [Responsable, Producto, Actual, Anterior, Fecha]
+                        sheet_1_data.push(Fila);
+                    } //fin filas
+        
+                    var opts = [{
+                        sheetid: 'Hoja1',
+                        header: false
+                    }];
+                    var result = alasql('SELECT * INTO XLSX("Reporte- '+moment().format("L")+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+                }else{
+                    alert("No hay registros")
+                }
+            } //Funcion success
+        }); //Ajax
+    }
+    
+}
+
+
+
+
+
+

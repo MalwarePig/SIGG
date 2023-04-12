@@ -10,93 +10,99 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%- include ('../../partials/head.html') %>
-    <!------incluir cabezera navegacion----->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 
-    <script type="text/javascript" src="js/Almacen/AjusteBasico/AjusteBasico.js"></script>
+        <script type="text/javascript" src="js/Almacen/AjusteBasico/AjusteBasico.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 </head>
 
 <body>
     <%- include ('../../partials/navegacion.html') %>
-    <!------incluir navegacion Menu----->
+        <!------incluir navegacion Menu----->
 
-    <div class="card text-center">
-        <div class="card-header">
-            <!------------------------------ BUSCAR -------------------------------------->
-            <div class="form-row">
-                <div class="form-group col-md-2">
-                    <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
-                        name="BHerramienta" autocomplete="off" onkeypress="runScript(event)" value="endmill">
-                </div>
-                <div class="form-group col-md-1">
-                    <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
-                        onclick="GETPRODUCTS()">Buscar</button>
-                </div>
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+                            name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
+                    </div>
 
-                <div class="form-group col-md-5">
-                    <button type="button" id="Historial" name="Historial" class="btn btn-info "
-                        onclick="AbrirHistorial()">Historial
-                    </button>
+                    <div class="form-group col-md-1">
+                        <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+                            onclick="GETPRODUCTS()">Buscar</button>
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <button type="button" id="Historial" name="Historial" class="btn btn-info "
+                            onclick="AbrirHistorial()">Historial
+                        </button>
+                    </div>
+
                 </div>
- 
             </div>
-        </div>
-        <div class="card-body">
-            <!------------------------------ TABLA -------------------------------------->
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
-                style="width:96%; height: 700px; overflow: scroll;">
-                <table class="table table-condensed table-hover" id="Herr_Encontradas">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th style="width: 9%">Clave</th>
-                            <th style="width: 30%">Producto</th>
-                            <th style="width: 7%">Planta</th>
-                            <th style="width: 6%">Nuevo</th>
-                            <th style="width: 6%">Usado</th>
-                            <th style="width: 6%">Minimo</th>
-                            <th style="width: 6%">Máximo</th>
-                            <th style="width: 9%">Categoria</th>
-                            <th style="width: 9%"> Familia </th>
-                            <th>Ajuste</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="card-body">
+                <!------------------------------ TABLA -------------------------------------->
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                    style="width:96%; height: 700px; overflow: scroll;">
+                    <table class="table table-condensed table-hover" id="Herr_Encontradas">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th style="width: 9%">Clave</th>
+                                <th style="width: 30%">Producto</th>
+                                <th style="width: 7%">Planta</th>
+                                <th style="width: 6%">Nuevo</th>
+                                <th style="width: 6%">Usado</th>
+                                <th style="width: 6%">Minimo</th>
+                                <th style="width: 6%">Máximo</th>
+                                <th style="width: 9%">Categoria</th>
+                                <th style="width: 9%"> Familia </th>
+                                <th>Ajuste</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade bd-example-modal-sm" id="ConfirmarEliminar" tabindex="-1" role="dialog"
-        aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <!--Header-->
-                <div class="modal-header">
-                    <h4 class="modal-title w-100" id="myModalLabel">Seguro de eliminar  </h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label class="font-weight-bold"><span id="ProductoSpan"></span></label>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal"
-                        onclick="ConfirmarEliminacion()">Confirmar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                         >Cancelar</button>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    
-    <%- include ('../../Almacen/AjusteBasico/ModalAjusteBasico.html') %>
-    <%- include ('../../Almacen/AjusteBasico/ModalHistorial.html') %>
-    
+        <div class="modal fade bd-example-modal-sm" id="ConfirmarEliminar" tabindex="-1" role="dialog"
+            aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <h4 class="modal-title w-100" id="myModalLabel">Seguro de eliminar </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="font-weight-bold"><span id="ProductoSpan"></span></label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"
+                            onclick="ConfirmarEliminacion()">Confirmar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <%- include ('../../Almacen/AjusteBasico/ModalAjusteBasico.html') %>
+            <%- include ('../../Almacen/AjusteBasico/ModalHistorial.html') %>
+
 </body>

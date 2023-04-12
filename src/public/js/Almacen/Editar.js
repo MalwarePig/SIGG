@@ -18,9 +18,12 @@ function GETPRODUCTS() {
                 var id = Herramientas[i].id;
                 var Clave = Herramientas[i].Clave;
                 var Producto = Herramientas[i].Producto;
+                var Precio = Herramientas[i].Precio;
                 var Ubicacion = Herramientas[i].Ubicacion;
+                var Proveedor = Herramientas[i].Proveedor;
+                var ProveedorSec = Herramientas[i].ProveedorSec || '-';
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto,Herramientas[i].Almacen, Ubicacion]
+                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Ubicacion, Proveedor, ProveedorSec]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -42,15 +45,28 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input type="text" id="Almacen' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 4:
+                            newCell.innerHTML = '<input required type="text" id="Precio' + i + '" class="form-control" placeholder="Precio.." value="' + Arreglo[x] + '"></input>';
+                            break;
+                        case 5:
                             newCell.innerHTML = '<input required type="text" id="Ubicacion' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '"></input>';
                             break;
+                        case 6:
+                            var Prov = Arreglo[x] || '-';
+                            newCell.innerHTML = '<select required id="Proveedor' + i + '" class="form-control" onFocus="CargarProveedor(' + i + ')">' +
+                                '<option value="' + Prov + '" selected disabled>' + Prov + '</option></select>';
+                            break;
+                        case 7:
+                            var ProvSec = Arreglo[x];
+                            newCell.innerHTML = '<select required id="ProveedorSec' + i + '" class="form-control" onFocus="CargarProveedorSec(' + i + ')">' +
+                                '<option value="' + ProvSec + '" selected disabled>' + ProvSec + '</option></select>';
+                            break;
+
                         default:
                             break;
-                            // code block
+                        // code block
                     }
-
-                    if (x == 4) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                    if (x == 7) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(8); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Actualizar </button>';
                     }
                 } //fin de for de columnas
@@ -73,12 +89,18 @@ function Seleccion(variable) {
     var Clave = document.getElementById("Clave" + indice).value; //Obtiene el valor de Clave
     var Producto = document.getElementById("Producto" + indice).value; //Obtiene el valor de Producto
     var Ubicacion = document.getElementById("Ubicacion" + indice).value; //Obtiene el valor de Ubicacion
+    var Proveedor = document.getElementById("Proveedor" + indice).value; //Obtiene el valor de Proveedor
+    var ProveedorSec = document.getElementById("ProveedorSec" + indice).value; //Obtiene el valor de Proveedor
+    var Precio = document.getElementById("Precio" + indice).value; //Obtiene el valor de Precio
 
     var ObjetoTabla = {
         id: id,
         Clave: Clave,
         Producto: Producto,
         Ubicacion: Ubicacion,
+        Proveedor: Proveedor,
+        ProveedorSec: ProveedorSec,
+        Precio: Precio
     }
 
     $.post("/EditarProducto", // url
@@ -86,7 +108,10 @@ function Seleccion(variable) {
             ObjetoTabla
         }, // data to be submit
         function (objeto, estatus) { // success callback
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            if (objeto == true) {
+                //alert("Cambios realizados")
+                $("#Cambios").modal();
+            }
         });
 }
 
@@ -101,4 +126,50 @@ function Tranformer(variable) {
         }
     }
     return Herramienta;
+}
+
+
+function CargarProveedor(indice) {
+    console.log("lista usada " + indice)
+    var listProveedor = document.getElementById("Proveedor" + indice);
+
+    $.ajax({
+        url: '/getProveedores',
+        success: function (data) {
+            console.log(data)
+            for (let i = listProveedor.options.length; i >= 0; i--) { //Borrar elementos option de select
+                listProveedor.remove(i);
+            }
+
+            for (var i = 0; i < data.length; i++) { //Agregar nuevos options del select 
+                var option = document.createElement("option");
+                option.text = data[i].Nombre;
+                option.value = data[i].Nombre;
+                listProveedor.add(option);
+            }
+        } //Funcion success
+    }); //Ajax
+}
+
+function CargarProveedorSec(indice) {
+    console.log("lista usada " + indice)
+    var listProveedor = document.getElementById("ProveedorSec" + indice);
+
+    $.ajax({
+        url: '/getProveedores',
+        success: function (data) {
+            console.log(data)
+            for (let i = listProveedor.options.length; i >= 0; i--) { //Borrar elementos option de select
+                listProveedor.remove(i);
+            }
+
+            for (var i = 0; i < data.length; i++) { //Agregar nuevos options del select 
+                var option = document.createElement("option");
+                option.text = data[i].Nombre;
+                option.value = data[i].Nombre;
+                listProveedor.add(option);
+            }
+        } //Funcion success
+    }); //Ajax
+
 }

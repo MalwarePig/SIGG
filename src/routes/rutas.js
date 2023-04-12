@@ -430,6 +430,27 @@ router.post('/ActualizarProducto', AlmacenController.ActualizarProducto);
 router.post('/EditarProducto', AlmacenController.EditarProducto);
 //Actualiza informacion de producto
 router.post('/EliminarProducto', AlmacenController.EliminarProducto);
+
+//Cargar lista de proveedores
+router.get('/getProveedores/', AlmacenController.getProveedores);
+
+//====== Tabla Proveedores ========
+//Abre pagina principal para editar
+router.get('/TablaProvedores', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Proveedores/wh_ProveedorNuevo.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+router.post('/RegistroProveedor', AlmacenController.RegistroProveedor);
+router.post('/EliminarProveedor', AlmacenController.EliminarProveedor);
+
+
+
 //====== Ajuste Inventario ========
 //Abre pagina principal para editar
 router.get('/AjusteInventario', (req, res) => {
@@ -609,6 +630,7 @@ router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);
 router.get('/TipoReporteHerramienta/:Herramienta', AlmacenController.MostrarReporteHerramienta);
 router.get('/ExistenciasAlmacen/', AlmacenController.ExistenciasAlmacen);
 router.get('/reporteAjustes/:parametros', AlmacenController.reporteAjustes);
+router.get('/reporteAjustesBasico/:parametros', AlmacenController.reporteAjustesBasico);
 //====== Intercambios ========
 //Abre pagina principal para recepcion
 router.get('/wh_Intercambio', AlmacenController.Intercambio);

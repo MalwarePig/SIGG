@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="shortcut icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <link rel="icon" href="/icon/Gemak.ico" type="image/x-icon">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
+  <!-- iconos -->
+  <script src="https://kit.fontawesome.com/86322b1947.js" crossorigin="anonymous"></script>
+  <!-- Barra -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <!------incluir cabezera navegacion----->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="js/Almacen/Proveedor/Proveedores.js"></script>
+
+  <!------ JQUERY PARA USAR AJAX ----->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- css -->
+  <link rel="stylesheet" href="css/StyleLogistica.css">
+
+</head>
+
+<body onload="CargarProveedorSec()">
+  <%- include ('../../partials/navegacion.html') %>
+
+    <div class="card text-center">
+      <div class="card-header">
+        <!------------------------------ BUSCAR -------------------------------------->
+        <div class="form-row"> 
+          <div class="form-group col-md-11">
+            <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+              onclick="modal()">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="card-body">
+      <!------------------------------ TABLA -------------------------------------->
+      <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+        style="width:40%; height:650px; overflow: scroll;">
+        <table class="table table-condensed table-hover" id="TablaProveedores">
+          <thead>
+            <tr>
+              <th class="font-weight-bold">Proveedor</th> 
+              <th style="width: 20%" class="font-weight-bold">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+ 
+
+
+
+    <%- include ('../Proveedores/ModalNuevoProveedor.html') %>
+
+      <!-- Modal Sin elementos -->
+      <div class="modal fade" id="Cambios" tabindex="-1" role="dialog" aria-labelledby="Cambios" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              Registro realizado!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Sin elementos -->
+      <div class="modal fade" id="ModalProveedorEliminado" tabindex="-1" role="dialog" aria-labelledby="Cambios" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              Proveedor eliminado!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+</body>
+
+</html>

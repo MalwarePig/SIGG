@@ -67,7 +67,6 @@ function MostrarReporteHerramienta() {
     for (var i = 0; i < limite; i++) {
         $("#Rows").remove(); //elimina los elementos con id Rows
     }
-
     
         $.ajax({
             url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
@@ -83,7 +82,7 @@ function MostrarReporteHerramienta() {
                 for (var i = 0; i < TotalHerramientas; i++) {
                     var Folio = Herramientas[i].Folio;
                     var Producto = Herramientas[i].Producto;
-                    var Cantidad = Herramientas[i].Entregado || Herramientas[i].Cantidad;
+                    var Cantidad =  Herramientas[i].Entregado.toString() || Herramientas[i].Cantidad;
                     var Estado = Herramientas[i].Estado;
                     var OT = Herramientas[i].OT || "-";
                     var Maquina = Herramientas[i].Maquina;

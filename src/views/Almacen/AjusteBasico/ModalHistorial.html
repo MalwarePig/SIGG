@@ -12,7 +12,28 @@
 
       <div class="modal-body">
         <form id="Formulario">
-          <div class="form-group"> 
+          <div class="form-group">
+            
+            <div class="form-row">
+              
+              <div class="form-group col">
+                <label for="recipient-name" class="col-form-label">Herramienta</label>
+                <input required type="text" id="RHerramienta" class="form-control" placeholder="Endmill..."
+                  name="BHerramienta" autocomplete="off">
+              </div>
+
+               
+                <div class="col ">
+                  <label for="recipient-name" class="col-form-label">Planta</label>
+                  <select required id="Planta" name="Area" class="form-control">
+                    <option value="Bravo" selected>Bravo</option>
+                    <option value="Morelos">Morelos</option>
+                  </select>
+                </div>
+              
+              <hr>
+            </div>
+
             <div class="form-row">
               <div class="col">
                 <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
@@ -22,21 +43,10 @@
               <div class="col">
                 <label for="inputAddress2" class="font-weight-bold">Fecha Vencimiento</label>
                 <input required type="date" id="fin" class="form-control" name="vencimiento" autocomplete="off">
-              </div> 
-            </div>
-
-            <hr>
- 
-            <div class="row justify-content-md-center">
-              <div class="col-md-auto">
-                <label for="recipient-name" class="col-form-label">Planta</label>
-                <select required id="N_Tipo" name="Area" class="form-control">
-                  <option value="Bravo" selected>Bravo</option>
-                  <option value="Morelos">Morelos</option>
-                </select>
               </div>
             </div>
 
+ 
 
           </div>
         </form>
@@ -45,7 +55,7 @@
 
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" onclick="ActualizarCantidad()" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-light" onclick="MostrarReporteAjusteBasico()" data-dismiss="modal">Exportar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
       </div>
 
