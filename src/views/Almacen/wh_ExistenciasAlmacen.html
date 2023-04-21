@@ -17,6 +17,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
         <!-- GENERAR EXCEL -->
         <script type="text/javascript" src="js/Almacen/ExistenciasAlmacen.js"></script>
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 </head>
 
 <body onload="CargarListasModal()">
@@ -76,7 +78,7 @@
                             data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
                             title="Reporte ordenados"> <i class="fas fa-check-double"></i></button>
 
-                       <!--  <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
+                        <!--  <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
                             data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
                             title="Activar y desactivar familias"> <i class="fas fa-eye-slash"></i></button> -->
                     </div>
@@ -92,6 +94,9 @@
                         <tr>
                             <th class="col-sm-1">Clave</th>
                             <th>Producto</th>
+                            <th>Proveedor</th>
+                            <th>Secundario</th>
+                            <th>Precio</th>
                             <th>Almacen</th>
                             <th>Stock</th>
                             <th>Min</th>

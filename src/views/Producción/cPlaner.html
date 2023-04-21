@@ -35,7 +35,7 @@
 			<p class="card-text">Selecciona archivo de excel</p>
 			<!-- <a href="#" class="btn btn-primary">Go somewhere</a>-->
 			<input type="file" id="input-excel" />
-			<input type="button" id="button" class="btn btn-primary" value="Registrar" />
+			<input type="button" id="button" class="btn btn-primary" value="Registrar" onclick="ImportarExcel()" />
 		</div>
 	</div>
 	<!--Aqui se alimentara la tabla cargar del excel-->
@@ -72,43 +72,7 @@
 
 	<script>
 		$("#button").click(function () {//Ejecutar codigo al dar click en boton
-			var i = 0;//Contador para brincar la cabaezera y suar la referencia de indice
-			$('#wrapper tr').each(function () {//leer una tabla html    
-				var Tabla = {//CREAR UN OBJETO MATRIS
-					OT: $(this).find("td").eq(0).html(),
-					NoPARTE: $(this).find("td").eq(1).html(),//LEER LA TABLA
-					COLADA: $(this).find("td").eq(2).html(),
-					OD: $(this).find("td").eq(3).html(),
-					ID: $(this).find("td").eq(4).html(),
-					LG: $(this).find("td").eq(5).html(),
-					QTY: $(this).find("td").eq(6).html(),
-					SPEC: $(this).find("td").eq(7).html(),
-					UBICACIon: $(this).find("td").eq(8).html(),
-					PESO: $(this).find("td").eq(9).html(),
-					ENTRADA: $(this).find("td").eq(10).html(),
-					SALIDA: $(this).find("td").eq(10).html(),
-					Material_entregado: $(this).find("td").eq(10).html(),
-					STATUS: $(this).find("td").eq(10).html(),
-					SOBRAN: $(this).find("td").eq(10).html(),
-					ENTRADA: $(this).find("td").eq(10).html(),
-				}//fin de objeto}
-
-				if (i > 0 && ($(this).find("td").eq(1).html() !== '')) {//Iniciar despues de cabezera de tabla y OT sea diferente de Null
-					var indice = Object.keys(Tabla).length;//Cantidad de elementos dentro del objeto
-					console.log('indice' + i);
-
-					$.post("/postCplaner", // url
-						{ Tabla }, // data to be submit
-						function (Tabla, status) {// success callback
-							console.log(Tabla);
-						})
-				}
-				i++;
-			});//each para recorrer tabla
-
-			var elemento = document.getElementById("wrapper");
-			document.body.removeChild(elemento);
-			alert("Registrado en BD");
+			
 		});
 	</script>
 

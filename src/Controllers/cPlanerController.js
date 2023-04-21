@@ -1,39 +1,37 @@
 const Controller = {};
 const express = require('express');//guardar express en una variable de servidor
+ 
 
-
-//llenado automatico por excel de Ordenes
-Controller.saveCP = (req,res) => {
-    const data = req.body;//TRAE TODO EL OBJETO
-    var TablaCP = {
-         Maquina : Object.values(data)[0],//obeter datos de un objeto
-         Estatus : Object.values(data)[1],//obeter datos de un objeto
-         OT : Object.values(data)[2],//obeter datos de un objeto
-         Parte : Object.values(data)[3],//obeter datos de un objeto
-         CantOt : Object.values(data)[4],//obeter datos de un objeto
-         FechaInicio : Object.values(data)[5],//obeter datos de un objeto
-         FechaVenc : Object.values(data)[6],//obeter datos de un objeto
-         FechaProd : Object.values(data)[7],//obeter datos de un objeto
-         Programa : Object.values(data)[8],//obeter datos de un objeto
-         Herramienta : Object.values(data)[9],//obeter datos de un objeto
-         Comentarios : Object.values(data)[10],//obeter datos de un objeto
-    }
-   
-    req.getConnection((err,conn) => {
-        conn.query('INSERT INTO controlplaner set ? ',[TablaCP],  (err, fields) =>{
-            if(err){
-                console.log(err);
-            }
-            console.log(fields);
-            //res.redirect('/cPlaner');
+Controller.saveCP = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const data = req.body;//TRAE TODO EL OBJETO
+            let longitud = Object.values(data)[0].length;
+        
+            for (let index = 0; index < longitud; index++) {
+                let Clave = Object.values(data)[0][index].Clave
+                let Producto = Object.values(data)[0][index].Producto
+                let Almacen = Object.values(data)[0][index].Almacen
+                let Min = Object.values(data)[0][index].Min
+                let Max = Object.values(data)[0][index].Max
+                let Proveedor = Object.values(data)[0][index].Proveedor
+                let Precio = Object.values(data)[0][index].Precio
+                console.log(Producto + "|"+Almacen+ "|"+Min+ "|"+Max+ "|"+Proveedor+ "|"+Precio)
+                conn.query("UPDATE Almacen SET StockMin = "+Min+", StockMax = "+Max+",Proveedor = '"+Proveedor+"',Precio = "+Precio+" WHERE Producto = '"+Producto+"' AND Almacen = '"+Almacen+"'", (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }else{
+                        console.log(Herramientas)
+                    }
+                    //res.json(Herramientas);
+                }); 
+            } 
         });
-    })
-    
-  console.log(req.body);//se obtienen los datos del formulario a traves del req.body
-    res.send('works');
-}
-
-
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 
 

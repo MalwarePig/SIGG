@@ -57,9 +57,8 @@ router.get('/cPlaner', function (request, response) {
 		});
 		//response.send('Welcome back, ' + request.session.username + '!');
 	} else {
-		reinicio;
-	}
-	response.end();
+		response.render('Admin/Login.html');
+	} 
 });
 
 router.get('/Planeacion', function (request, response) {
@@ -303,7 +302,7 @@ router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
 //============================== Almacen Aajuste ==============================//
 router.get('/BuscarHerramientasAjuste/:Herra', AlmacenController.searchAjuste);
 
-//============================== Almacen Gaveta ==============================//
+//============================== Almacen  ==============================//
 
 
 
@@ -392,15 +391,6 @@ router.get('/GavetaDespacho', (req, res) => {
 	}
 });
 
-
-
-
-
-
-
-
-
-
 //====== Crear Herramienta ========
 //Abre pagina principal para editar
 router.get('/wh_ProdNuevo', (req, res) => {
@@ -424,8 +414,11 @@ router.get('/wh_Editar', (req, res) => {
 	}
 });
 
+
 //Actualiza ajuste
 router.post('/ActualizarProducto', AlmacenController.ActualizarProducto);
+//Actualiza ajuste usados
+router.post('/ActualizarProductoUsado', AlmacenController.ActualizarProductoUsado);
 //Actualiza informacion de producto
 router.post('/EditarProducto', AlmacenController.EditarProducto);
 //Actualiza informacion de producto
@@ -488,6 +481,7 @@ router.get('/wh_Recolectar', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 });
+
 //Actualiza informacion de producto
 router.post('/RecolectarBasico', AlmacenController.RecolectarBasico);
 
@@ -496,12 +490,11 @@ router.get('/ReporteRecolectarBasico', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/Recolectar/wh_ReporteRecolectarBasico.html', {
 			title: 'Gemak'
-		});
+		});//
 	} else {
 		res.render('Admin/Login.html');
 	}
 });
-
 
 router.get('/repRecolectarBasico/:parametros', AlmacenController.repRecolectarBasico);
 
@@ -598,21 +591,21 @@ router.get('/MostrarRecepcion/', AlmacenController.MostrarRecepcion);
 
 router.post('/RecolectarAlmacen/', AlmacenController.RecolectarAlmacen);
 
-//Busca Herramientas en Gaveta
+//Busca Herramientas en 
 router.get('/ExistenciasAlmacenBasico/', AlmacenController.ExistenciasAlmacenBasico);
 
-//Busca Herramientas en Gaveta
+//Busca Herramientas en 
 router.get('/ExistenciaTotalAlmacen/:parametros', AlmacenController.ExistenciaTotalAlmacen);
 //Agregar Categorias
 router.post('/addCategoria/', AlmacenController.addCategoria);
 //Agregar Familias
 router.post('/addFamilia/', AlmacenController.addFamilia);
-//Busca Herramientas en Gaveta
+//Busca Herramientas en 
 router.get('/getCategoriaAlmacen/', AlmacenController.getCategoriaAlmacen);
-//Busca Herramientas en Gaveta
+//Busca Herramientas en 
 router.get('/getFamiliasAlmacen/', AlmacenController.getFamiliasAlmacen);
 
-//Busca Herramientas en Gaveta
+//Busca Herramientas en 
 router.get('/getFamiliasAlmacenPlanta/:parametros', AlmacenController.getFamiliasAlmacenPlanta);
 
 router.post('/EliminarCategoria/', AlmacenController.EliminarCategoria);

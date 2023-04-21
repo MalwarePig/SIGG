@@ -20,8 +20,8 @@ app.use(express.json());//Acceder a la informacion de jason
 app.use(morgan('dev'));//muestra los mensajes en consola de las cargas y peticiones.
 
 app.use(myConnection(mysql,{
-     host: '192.168.2.8',
-     //host:'localhost',
+     //host: '192.168.2.8',
+     host:'localhost',
      user: 'Soporte',
      password: 'Soporte1702861',
      //user: 'root',
@@ -40,7 +40,8 @@ app.use(session({
      cookie: {
           expires: 60 * 60 * 60000 //5 minutos de inactividad y se cierra la sesion
           }
-})); 
+}));
+
 /*
 var bodyParser = require('body-parser');
 app.use(bodyParser.json({limit: '50mb'}));

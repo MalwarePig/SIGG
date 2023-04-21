@@ -782,6 +782,31 @@ Controller.ActualizarProducto = (req, res) => {
     }
 };
 
+
+Controller.ActualizarProductoUsado = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id   var StockNuevo = Object.values(data)[0].StockNuevo; //obeter datos de un objeto Ubicacion
+            var StockUsado = Object.values(data)[0].StockUsado; //obeter datos de un objeto Ubicacion
+ 
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("UPDATE almacen SET StockUsado = "+StockUsado+" WHERE id = " + id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(true)
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 //Editar Producto
 Controller.EditarProducto = (req, res) => {
     if (req.session.loggedin) {
@@ -1459,7 +1484,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 
-            let consulta = "SELECT id,Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia;
+            let consulta = "SELECT id,Clave,Producto,Proveedor,ProveedorSec, Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia;
 
             //console.log(consulta);
             conn.query(consulta, (err, Herramientas) => {

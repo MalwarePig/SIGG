@@ -1,7 +1,8 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
+    var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
     $.ajax({
-        url: '/BuscarHerramientasAjuste/' + document.getElementById("BHerramienta").value + '',
+        url: '/BuscarHerramientasAjuste/' +  Herramientas,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -44,7 +45,10 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input  type="text" id="Clave' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                             break;
                         case 2:
-                            newCell.innerHTML = '<input  type="text" id="Producto' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+                            console.log(Arreglo[x])
+                            newCell.innerHTML = '<input type="text" id="Producto' + i + '" class="form-control"  readonly></input>';
+                            const Campo = document.getElementById('Producto'+i); //se renombra el id de la parte colapsador 
+                            Campo.value = Arreglo[x];
                             break;
                         case 3:
                             var Almacen = "";
@@ -88,6 +92,9 @@ function GETPRODUCTS() {
 
                         var newCell = newRow.insertCell(6); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-info" name="btn" onclick=ModalAjuste(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Actualizar producto"> <i class="fas fa-edit"></i> </button>';
+                       
+                        var newCell = newRow.insertCell(7); //CREAR CELDA
+                        newCell.innerHTML = '<button id="ActualizarUsados' + i + '" class="btn btn-success" name="btn" onclick=AjustarUsados(' + (i) + ') data-toggle="tooltip" data-placement="top" title="Actualiza stock usados"> <i class="fas fa-pen"></i></button>';     
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -157,6 +164,33 @@ function Seleccion() {
                 $("#ModalAjuste").modal('toggle'); 
                 document.getElementById("Motivo").value = "";
                 document.getElementById("NuevaCantidad").value = "";
+            }
+        });
+    alert("Listo");
+}
+
+//=========================================== Actualizar Seleccion Usado =================================================//
+function AjustarUsados(variable) {
+ 
+    var id = document.getElementById("id" + variable).value; //Obtiene el valor de id 
+    var StockUsado = document.getElementById("StockUsado" + variable).value; //Obtiene el valor de Producto 
+
+    //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
+
+    var ObjetoTabla = {
+        id: id, 
+        StockUsado: StockUsado, 
+    }
+
+    console.table(ObjetoTabla);
+    $.post("/ActualizarProductoUsado", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            console.log("objeto: " + objeto + "Estatus: " + estatus);
+            if(objeto == true){
+                GETPRODUCTS()
             }
         });
     alert("Listo");
@@ -240,4 +274,30 @@ function CargarFamilias(indice) {
         } //Funcion success
     }); //Ajax
  
+}
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Tranformer(variable) {
+    var Herramienta = "";
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '/') {
+            Herramienta += '|';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
+    }
+    return Herramienta;
+}
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function EscaparComillas(variable) {
+    var Herramienta = "";
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '"') {
+            Herramienta += '\"'
+        } else {
+            Herramienta += variable.charAt(q);
+        }
+    }
+    return Herramienta;
 }
