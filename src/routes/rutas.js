@@ -442,8 +442,6 @@ router.get('/TablaProvedores', (req, res) => {
 router.post('/RegistroProveedor', AlmacenController.RegistroProveedor);
 router.post('/EliminarProveedor', AlmacenController.EliminarProveedor);
 
-
-
 //====== Ajuste Inventario ========
 //Abre pagina principal para editar
 router.get('/AjusteInventario', (req, res) => {

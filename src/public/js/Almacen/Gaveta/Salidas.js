@@ -2,7 +2,7 @@
 function GETPRODUCTS() {
     var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
     $.ajax({
-        url: '/BuscarHerramientas/' + Herramientas,
+        url: '/BuscarHerramientasGav/' + Herramientas,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
