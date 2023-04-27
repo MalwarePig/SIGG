@@ -99,6 +99,8 @@ function MostrarReporte() {
                 var Clave = Herramientas[i].Clave || '-';
                 var Producto = Herramientas[i].Producto;
                 var Proveedor = Herramientas[i].Proveedor || "-";
+                var Moneda = Herramientas[i].Moneda || "-";
+                var TiempoEntrega = Herramientas[i].TiempoEntrega || "-";
                 var ProveedorSec = Herramientas[i].ProveedorSec || "-";
                 var Precio = Herramientas[i].Precio || "0";
                 var Planta = Herramientas[i].Almacen;
@@ -112,7 +114,7 @@ function MostrarReporte() {
                 var Cotizado = Herramientas[i].Cotizado;
                 //Eliminar variable dentro del For
 
-                Arreglo = [Clave, Producto,Proveedor, ProveedorSec,Precio, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Ubicacion, Categoria, Familia]
+                Arreglo = [Clave, Producto,Proveedor, ProveedorSec,Precio,Moneda,TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -221,22 +223,23 @@ function ExportarExcel() {
         var Proveedor = tabla.rows[j].cells[2].childNodes[0].nodeValue;
         var Secundario = tabla.rows[j].cells[3].childNodes[0].nodeValue;
         var Precio = tabla.rows[j].cells[4].childNodes[0].nodeValue;
-        var Almacen = tabla.rows[j].cells[5].childNodes[0].nodeValue;
-        var Stock = tabla.rows[j].cells[6].childNodes[0].nodeValue;
-        var StockMin = tabla.rows[j].cells[7].childNodes[0].nodeValue;
-        var StockMax = tabla.rows[j].cells[8].childNodes[0].nodeValue;
-        var StockUsado = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var Ubicacion = tabla.rows[j].cells[10].childNodes[0].nodeValue;
-        var Categoria = tabla.rows[j].cells[11].childNodes[0].nodeValue;
-        var Familia = tabla.rows[j].cells[12].childNodes[0].nodeValue;
-        var Fila = [Clave, Producto,Proveedor,Secundario,Precio, Almacen, Stock, StockMin, StockMax, StockUsado, Ubicacion, Categoria, Familia]
+        var Moneda = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+        var Entrega = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+        var Almacen = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+        var Stock = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+        var StockMin = tabla.rows[j].cells[9].childNodes[0].nodeValue;
+        var StockMax = tabla.rows[j].cells[10].childNodes[0].nodeValue;
+        var StockUsado = tabla.rows[j].cells[11].childNodes[0].nodeValue;
+        var Ubicacion = tabla.rows[j].cells[12].childNodes[0].nodeValue;
+        var Categoria = tabla.rows[j].cells[13].childNodes[0].nodeValue;
+        var Familia = tabla.rows[j].cells[14].childNodes[0].nodeValue;
+        var Fila = [Clave, Producto,Proveedor,Secundario,Precio,Moneda,	Entrega, Almacen, Stock, StockMin, StockMax, StockUsado, Ubicacion, Categoria, Familia]
         console.log((total - 1))
         sheet_1_data.push(Fila);
     } //fin filas
 
     var opts = [{
         sheetid: 'Hoja1',
-
     }];
     var result = alasql('SELECT * INTO XLSX("Existencias-'+moment().format('L')+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }

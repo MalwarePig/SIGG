@@ -116,16 +116,20 @@ function MostrarReporteHerramienta() {
 function ExcelArticulo() {
     var tabla = document.getElementById("TablaReporte");
     var total = tabla.rows.length //Total de filas
+    var Total = 0;
 
 
     var sheet_1_data = [];
     for (var j = 0; j <= total - 1; j++) { //filas
-        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-
-
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue; 
         var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
         var Entregado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        if(parseInt(Entregado)){
+            console.log(parseInt(Entregado))
+        Total = Total + parseInt(Entregado);
+        }
+        
         var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
         var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
         var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
@@ -135,6 +139,9 @@ function ExcelArticulo() {
         var Fila = [Folio, Producto, Entregado, Estado, OT, Maquina, Empleado, Almacen, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
+
+    var Fila = ["","Cantidad: ", Total, "", "", "", "", "", ""]
+    sheet_1_data.push(Fila);
 
 
     var opts = [{

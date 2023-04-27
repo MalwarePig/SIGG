@@ -17,8 +17,10 @@ Controller.saveCP = (req, res) => {
                 let Max = Object.values(data)[0][index].Max
                 let Proveedor = Object.values(data)[0][index].Proveedor
                 let Precio = Object.values(data)[0][index].Precio
-                console.log(Producto + "|"+Almacen+ "|"+Min+ "|"+Max+ "|"+Proveedor+ "|"+Precio)
-                conn.query("UPDATE Almacen SET StockMin = "+Min+", StockMax = "+Max+",Proveedor = '"+Proveedor+"',Precio = "+Precio+" WHERE Producto = '"+Producto+"' AND Almacen = '"+Almacen+"'", (err, Herramientas) => {
+                let Moneda = Object.values(data)[0][index].Moneda
+                let tEntrega = Object.values(data)[0][index].tEntrega
+                console.log(Producto + "|"+Almacen+ "|"+Min+ "|"+Max+ "|"+Proveedor+ "|"+Precio+ "|"+Moneda+ "|"+tEntrega)
+                conn.query("UPDATE Almacen SET StockMin = "+Min+", StockMax = "+Max+",Proveedor = '"+Proveedor+"',Precio = "+Precio+", Moneda ='"+Moneda+"',TiempoEntrega = '" +tEntrega +"' WHERE Producto = '"+Producto+"'", (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }else{
@@ -26,7 +28,7 @@ Controller.saveCP = (req, res) => {
                     }
                     //res.json(Herramientas);
                 }); 
-            } 
+            }
         });
     } else {
         res.render('Admin/Login.html');

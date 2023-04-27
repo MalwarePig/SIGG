@@ -1351,7 +1351,7 @@ Controller.BuscarHerramientasGav = (req, res) => {
                 Herra
             } = req.params;
             var Herramienta = Tranformer(Herra);
-            const planta = "Almacen " + req.session.planta;
+            const planta = "Gaveta " + req.session.planta;
             console.log("Salida: " + Herramienta + " Planta: " + planta);
             conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '%" + Herramienta + "%' AND Almacen = 'Gaveta'", (err, Herramientas) => {
                 if (err) {
@@ -1484,7 +1484,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 
-            let consulta = "SELECT id,Clave,Producto,Proveedor,ProveedorSec, Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia;
+            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia;
 
             //console.log(consulta);
             conn.query(consulta, (err, Herramientas) => {

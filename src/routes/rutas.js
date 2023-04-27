@@ -934,6 +934,7 @@ router.get('/FormularioAddEmp', (req, res) => {
 	}
 	res.end();
 });
+
 //Registrar empleado
 router.post('/RegistraEmeplado',  RHController.RegistrarEmpleado);
 //====== Abre modulo de correos ========

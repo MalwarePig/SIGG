@@ -55,6 +55,8 @@ function ImportarExcel() {
                 Max: $(this).find("td").eq(5).html(),
                 Proveedor: $(this).find("td").eq(8).html(),
                 Precio: $(this).find("td").eq(9).html(),
+                Moneda: $(this).find("td").eq(10).html(),
+                tEntrega: $(this).find("td").eq(11).html(),
             })//fin de objeto})  
         }
         i++;
