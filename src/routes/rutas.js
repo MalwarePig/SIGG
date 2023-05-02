@@ -550,6 +550,18 @@ router.get('/wh_ReporteArticulo', (req, res) => {
 
 //====== Reporte Herramienta ========
 //Abre pagina principal para requerir
+router.get('/wh_ReporteArticuloAdmin', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_ReporteArticuloAdmin.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
 router.get('/ExistenciasAlmacen', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/wh_ExistenciasAlmacen.html', {
@@ -619,6 +631,7 @@ router.get('/ReporteOrdenados/:parametros', AlmacenController.ReporteOrdenados);
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);
 router.get('/TipoReporteHerramienta/:Herramienta', AlmacenController.MostrarReporteHerramienta);
+router.get('/TipoReporteHerramientaAdmin/:Herramienta', AlmacenController.TipoReporteHerramientaAdmin);
 router.get('/ExistenciasAlmacen/', AlmacenController.ExistenciasAlmacen);
 router.get('/reporteAjustes/:parametros', AlmacenController.reporteAjustes);
 router.get('/reporteAjustesBasico/:parametros', AlmacenController.reporteAjustesBasico);
