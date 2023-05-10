@@ -11,9 +11,9 @@ $(function () {
     // GET PRODUCTS
     $('#getProducts').on('click', () => {
         //OBTENER FILTRO DE FAMILIA
-        console.log("Maquina: " + document.getElementById("Maquina").value);
+        console.log("Maquina: " + document.getElementById("BHerramienta").value);
         $.ajax({
-            url: '/BuscarHerrRetorno/' + document.getElementById("Maquina").value + '',
+            url: '/BuscarHerrRetorno/' + document.getElementById("BHerramienta").value + '',
             success: function (Herramientas) {
                 var Arreglo = [];
                 //Limpiar tabla 

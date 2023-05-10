@@ -395,7 +395,7 @@ Controller.searchRetorno = (req, res) => {
                 Maquina
             } = req.params;
 
-            conn.query("select * from itemprestado WHERE Maquina = '" + Maquina + "' AND Devuelto < Entregado", (err, Herramientas) => {
+            conn.query("select * from itemprestado WHERE(Producto LIKE '%" + Maquina + "%' OR OT = '" + Maquina + "') AND Devuelto < Entregado", (err, Herramientas) => {
                 if (err) {
                     console.log('Error de lectura' + err);
                 }
@@ -790,11 +790,11 @@ Controller.ActualizarProductoUsado = (req, res) => {
             console.log(Object.values(data)[0]);
             var id = Object.values(data)[0].id; //obeter datos de un objeto id   var StockNuevo = Object.values(data)[0].StockNuevo; //obeter datos de un objeto Ubicacion
             var StockUsado = Object.values(data)[0].StockUsado; //obeter datos de un objeto Ubicacion
- 
+
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET StockUsado = "+StockUsado+" WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + " WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
@@ -820,12 +820,13 @@ Controller.EditarProducto = (req, res) => {
             var Proveedor = Object.values(data)[0].Proveedor; //obeter datos de un objeto Producto
             var ProveedorSec = Object.values(data)[0].ProveedorSec; //obeter datos de un objeto ProveedorSec
             var Precio = Object.values(data)[0].Precio; //obeter datos de un objeto ProveedorSec
+            var Familia = Object.values(data)[0].Familia; //obeter datos de un objeto ProveedorSec
 
-            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion + "','" + Proveedor + "','" + ProveedorSec);
+            console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion + "','" + Proveedor + "','" + ProveedorSec + "',' " + Familia);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + " WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + ", Familia = '" + Familia + "' WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
@@ -1127,7 +1128,7 @@ Controller.TipoReporteHerramientaAdmin = (req, res) => {
                 });
             } else {
                 console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
-                conn.query("SELECT I.*,A.precio FROM itemprestado I, almacen A WHERE i.producto = A.producto AND (A.almacen = '"+Planta+"') AND (I.Producto like '%"+Articulo+"%' OR I.OT = '"+Articulo+"') AND I.Almacen = '"+Almacen+"' AND I.Salida BETWEEN '"+fechaInicio+"' and '"+fechafin+"'  ORDER BY I.Salida Desc", (err, Herramientas) => {
+                conn.query("SELECT I.*,A.precio FROM itemprestado I, almacen A WHERE i.producto = A.producto AND (A.almacen = '" + Planta + "') AND (I.Producto like '%" + Articulo + "%' OR I.OT = '" + Articulo + "') AND I.Almacen = '" + Almacen + "' AND I.Salida BETWEEN '" + fechaInicio + "' and '" + fechafin + "'  ORDER BY I.Salida Desc", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);

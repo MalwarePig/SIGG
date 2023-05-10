@@ -10,183 +10,169 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%- include ('../partials/head.html') %>
-    <!------incluir cabezera navegacion----->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 
-    <script type="text/javascript" src="js/Almacen/Retorno.js"></script>
+        <script type="text/javascript" src="js/Almacen/Retorno.js"></script>
 </head>
 
 <body onload="Folios()">
     <%- include ('../partials/navegacion.html') %>
-    <!------incluir navegacion Menu----->
+        <!------incluir navegacion Menu----->
 
-    <div class="card text-center">
-        <div class="card-header">
-            <!------------------------------ BUSCAR -------------------------------------->
-            <form action="/BuscarHerramienta" method="post">
-                <div class="form-row">
-                    <div class="form-group col-md-0">
-                        <label for="inputState" class="font-weight-bold">Familia</label>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <select required id="Familia" name="Ret_Familia" class="form-control" onchange="Maquinas()">
-                          <option value="a" selected disabled>seleccione la familia</option>
-                          <option value="CENTROS DE MAQUINADO" selected>CENTROS DE MAQUINADO</option>
-                          <option value="TORNOS CNC" selected>TORNOS CNC</option>
-                          <option value="TORNOS CONVENCIONALES" selected>TORNOS CONVENCIONALES</option>
-                          <option value="ACABADO" selected>ACABADO</option>
-                          <option value="CALIDAD" selected>CALIDAD</option>
-                          <option value="OTROS" selected>OTROS</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-0">
-                        <label for="inputState" class="font-weight-bold">Máquina</label>
-                      </div>
-                      <div class="form-group col-md-2">
-                        <select required id="Maquina" name="Ret_Maquina" class="form-control">
-                          <option value="" selected disabled>seleccione la máquina</option>
-                        </select>
-                      </div>
-          
-                    <div class="form-group col-md-1">
-                        <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary">Buscar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="card-body">
-            <!------------------------------ TABLA -------------------------------------->
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%; height:350px; overflow: scroll;">
-                <table class="table table-condensed table-hover" id="Herr_Encontradas">
-                    <thead>
-                        <tr>
-                            <th>Folio</th>
-                            <th>Herramienta</th>
-                            <th>Prestado</th>
-                            <th>Devuelto</th>
-                            <th>Estado</th>
-                            <th>OT</th>
-                            <th>Maquina</th>
-                            <th>Empleado</th>
-                            <th>Fecha</th>
-                            <th>Agregar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-                <form id="RegistroRetorno" name="RegistroRetorno">
-
-                    <div class="form-row">
-
-                        <div class="form-group col-md-3" style="display: none">
-                            <label for="inputAddress" class="font-weight-bold">Folio salida</label>
-                            <input required type="text" id="FolioAnterior" class="form-control text-dark"
-                                placeholder="Folio Anterior..." name="Ret_FolioAnterior" autocomplete="off" readonly>
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <label for="inputAddress" class="font-weight-bold">Descripción herramienta</label>
-                            <input required type="text" id="Producto" class="form-control text-dark"
-                                placeholder="Herramienta..." name="Ret_Herramienta" autocomplete="off" readonly required>
-                        </div>
-
-                        <div class="form-group col-md-1">
-                            <label for="inputAddress2" class="font-weight-bold">Cantidad</label>
-                            <input type="text" id="cantidad" class="form-control solo-numero"
-                                name="Ret_Cantidad" autocomplete="off" required>
-                        </div>
-
-                        <div class="form-group col-md-1" style="display: none">
-                            <label for="inputAddress2" class="font-weight-bold">OT</label>
-                            <input type="text" id="OT" class="form-control" name="Ret_OT"
-                                autocomplete="off" value="-">
-                        </div>
-
-                        <div class="form-group col-md-1">
-                            <label for="inputState" class="font-weight-bold">Estado</label>
-                            <select required id="Estado" name="Ret_Estado" class="form-control">
-                                <option value="Nuevo" selected>Nuevo</option>
-                                <option value="Usado">Usado</option>
-                                <option value="Scrap">Scrap</option>
-                                <option value="Quebrado">Quebrado</option>
-                                <option value="Afilado R">Afilado R</option>
-                            </select>
-                        </div>
-     
-                        <div class="form-group col-md-1">
-                            <label for="inputAddress2" class="font-weight-bold"># Empleado</label>
-                            <input type="text" id="Empleado" class="form-control" 
-                                name="Ret_Empleado" autocomplete="off" onkeypress="return Nombres(event)" required>
-                        </div>
-
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+                <form action="/BuscarHerramienta" method="post">
+                    <div class="form-row"> 
                         <div class="form-group col-md-2">
-                            <label for="inputAddress2" class="font-weight-bold">Nombre de empleado</label>
-                            <input type="text" id="Nombre" class="form-control"
-                                name="Ret_Nombre" autocomplete="off" required>
-                        </div>
-
-                        <div class="form-group col-md-2">
-                            <label for="inputAddress2" class="font-weight-bold">Comentario</label>
-                            <input type="text" id="Comentario" class="form-control" placeholder="Comentario"
-                                name="Ret_Comentario" autocomplete="off" value="N/A">
+                    
+                            <input required type="text" id="BHerramienta" class="form-control" placeholder="#Empleado / OT.."
+                              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
+                          </div>  
+                        <div class="form-group col-md-1">
+                            <button type="button" id="getProducts" name="getProducts"
+                                class="btn btn-secondary">Buscar</button>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-secondary" onclick="CrearNota()">Agregar</button>
                 </form>
-                <br>
-                <div style="width: 5%px;display: inline-block;">
-                    <input type="text" id="Folio" class="form-control" placeholder="Folio" name="Ret_Folio"
-                        autocomplete="off" required readonly>
-                </div>
             </div>
+            <div class="card-body">
+                <!------------------------------ TABLA -------------------------------------->
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                    style="width:96%; height:350px; overflow: scroll;">
+                    <table class="table table-condensed table-hover" id="Herr_Encontradas">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Herramienta</th>
+                                <th>Prestado</th>
+                                <th>Devuelto</th>
+                                <th>Estado</th>
+                                <th>OT</th>
+                                <th>Maquina</th>
+                                <th>Empleado</th>
+                                <th>Fecha</th>
+                                <th>Agregar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-                <table class="table table-condensed table-hover" id="Almacen">
-                    <thead class="thead-dark">
-                        <tr>                     
-                            <th>Folio</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Estado</th>
-                            <th>Empleado</th>
-                            <th>Maquina</th>
-                            <th>Comentario</th>
-                            <th>Folio Salida</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        </tbody>
+                    </table>
+                </div>
 
-                    </tbody>
-                </table>
-                <br><br>
-                <hr />
-                <button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal"
-                    data-toggle="modal">Registrar</button>
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                    <form id="RegistroRetorno" name="RegistroRetorno">
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md-3" style="display: none">
+                                <label for="inputAddress" class="font-weight-bold">Folio salida</label>
+                                <input required type="text" id="FolioAnterior" class="form-control text-dark"
+                                    placeholder="Folio Anterior..." name="Ret_FolioAnterior" autocomplete="off"
+                                    readonly>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="inputAddress" class="font-weight-bold">Descripción herramienta</label>
+                                <input required type="text" id="Producto" class="form-control text-dark"
+                                    placeholder="Herramienta..." name="Ret_Herramienta" autocomplete="off" readonly
+                                    required>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="inputAddress2" class="font-weight-bold">Cantidad</label>
+                                <input type="text" id="cantidad" class="form-control solo-numero" name="Ret_Cantidad"
+                                    autocomplete="off" required>
+                            </div>
+
+                            <div class="form-group col-md-1" style="display: none">
+                                <label for="inputAddress2" class="font-weight-bold">OT</label>
+                                <input type="text" id="OT" class="form-control" name="Ret_OT" autocomplete="off"
+                                    value="-">
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="inputState" class="font-weight-bold">Estado</label>
+                                <select required id="Estado" name="Ret_Estado" class="form-control">
+                                    <option value="Nuevo" selected>Nuevo</option>
+                                    <option value="Usado">Usado</option>
+                                    <option value="Scrap">Scrap</option>
+                                    <option value="Quebrado">Quebrado</option>
+                                    <option value="Afilado R">Afilado R</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-1">
+                                <label for="inputAddress2" class="font-weight-bold"># Empleado</label>
+                                <input type="text" id="Empleado" class="form-control" name="Ret_Empleado"
+                                    autocomplete="off" onkeypress="return Nombres(event)" required>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="inputAddress2" class="font-weight-bold">Nombre de empleado</label>
+                                <input type="text" id="Nombre" class="form-control" name="Ret_Nombre" autocomplete="off"
+                                    required>
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="inputAddress2" class="font-weight-bold">Comentario</label>
+                                <input type="text" id="Comentario" class="form-control" placeholder="Comentario"
+                                    name="Ret_Comentario" autocomplete="off" value="N/A">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-secondary" onclick="CrearNota()">Agregar</button>
+                    </form>
+                    <br>
+                    <div style="width: 5%px;display: inline-block;">
+                        <input type="text" id="Folio" class="form-control" placeholder="Folio" name="Ret_Folio"
+                            autocomplete="off" required readonly>
+                    </div>
+                </div>
+
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+                    <table class="table table-condensed table-hover" id="Almacen">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Folio</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Estado</th>
+                                <th>Empleado</th>
+                                <th>Maquina</th>
+                                <th>Comentario</th>
+                                <th>Folio Salida</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <hr />
+                    <button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal"
+                        data-toggle="modal">Registrar</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    Nota creada correctamente
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        Nota creada correctamente
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 </body>

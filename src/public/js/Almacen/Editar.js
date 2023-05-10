@@ -22,8 +22,9 @@ function GETPRODUCTS() {
                 var Ubicacion = Herramientas[i].Ubicacion;
                 var Proveedor = Herramientas[i].Proveedor;
                 var ProveedorSec = Herramientas[i].ProveedorSec || '-';
+                var Familia = Herramientas[i].Familia || '-';
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Ubicacion, Proveedor, ProveedorSec]
+                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Ubicacion, Proveedor, ProveedorSec,Familia]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -61,12 +62,18 @@ function GETPRODUCTS() {
                                 '<option value="' + ProvSec + '" selected disabled>' + ProvSec + '</option></select>';
                             break;
 
+                        case 8:
+                            var Familia = Arreglo[x];
+                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-control" onFocus="CargarFamilias(' + i + ')">' +
+                                '<option value="' + Familia + '" selected disabled>' + Familia + '</option></select>';
+                            break;
+
                         default:
                             break;
                         // code block
                     }
-                    if (x == 7) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(8); //CREAR CELDA
+                    if (x == 8) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(9); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Actualizar </button>';
                     }
                 } //fin de for de columnas
@@ -92,6 +99,7 @@ function Seleccion(variable) {
     var Proveedor = document.getElementById("Proveedor" + indice).value; //Obtiene el valor de Proveedor
     var ProveedorSec = document.getElementById("ProveedorSec" + indice).value; //Obtiene el valor de Proveedor
     var Precio = document.getElementById("Precio" + indice).value; //Obtiene el valor de Precio
+    var Familia = document.getElementById("Familia" + indice).value; //Obtiene el valor de Precio
 
     var ObjetoTabla = {
         id: id,
@@ -100,7 +108,8 @@ function Seleccion(variable) {
         Ubicacion: Ubicacion,
         Proveedor: Proveedor,
         ProveedorSec: ProveedorSec,
-        Precio: Precio
+        Precio: Precio,
+        Familia: Familia
     }
 
     $.post("/EditarProducto", // url
@@ -172,4 +181,26 @@ function CargarProveedorSec(indice) {
         } //Funcion success
     }); //Ajax
 
+}
+
+
+
+//=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
+function CargarFamilias(indice) {
+    var listMaquina = document.getElementById("Familia"+indice);
+    $.ajax({
+        url: '/ListaFamilias/',
+        success: function (maquinas) {
+            console.log(maquinas)
+            for (let i = listMaquina.options.length; i >= 1; i--) { //Borrar elementos option de select
+                listMaquina.remove(i);
+            }
+            for (var i = 0; i < maquinas.length; i++) { //Agregar nuevos options del select
+
+                var option = document.createElement("option");
+                option.text = maquinas[i].Familia;
+                listMaquina.add(option);
+            }
+        } //Funcion success
+    }); //Ajax
 }
