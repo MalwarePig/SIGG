@@ -1397,15 +1397,18 @@ Controller.BuscarHerramientasGav = (req, res) => {
             const {
                 Herra
             } = req.params;
-            var Herramienta = Tranformer(Herra);
-            const planta = "Gaveta " + req.session.planta;
+            var Herramienta = Tranformer(Herra);//req.session.planta
+            const planta = "BRAVO";
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave = '%" + Herramienta + "%' AND Almacen = 'Gaveta'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Gavetas WHERE Clave like '%" + Herramienta + "%' AND Planta = '"+planta+"'", (err, Herramientas) => {
                 if (err) {
 
                     console.log('Error de lectura ' + err);
+                }else{
+                    console.log(Herramientas);
+                    res.json(Herramientas);
                 }
-                res.json(Herramientas);
+                
             });
         });
     } else {

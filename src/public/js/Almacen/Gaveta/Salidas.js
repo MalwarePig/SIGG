@@ -15,13 +15,17 @@ function GETPRODUCTS() {
                 $("#Vacio").modal();
             }
             for (var i = 0; i < Herramientas.length; i++) {
-                var Clave = Herramientas[i].Clave;
-                var Producto = Herramientas[i].Producto;
-                var Stock = Herramientas[i].Stock;
-                var StockUsado = Herramientas[i].StockUsado;
-                var Ubicacion = Herramientas[i].Ubicacion;
-                //Eliminar variable dentro del For
-                Arreglo = [Clave, Producto, Stock, StockUsado, Ubicacion]
+                var id = Herramientas[i].id
+                var Clave = Herramientas[i].Clave
+                var Cantidad = Herramientas[i].Cantidad
+                var Familia = Herramientas[i].Familia
+                var Planta = Herramientas[i].Planta
+                var Marca = Herramientas[i].Marca
+                var Grado = Herramientas[i].Grado
+                var Tipo = Herramientas[i].Tipo
+                var Ubicacion = Herramientas[i].Ubicacion
+                //Eliminar variable dentro del For 
+                Arreglo = [id,Clave,Cantidad,Planta,Ubicacion, Familia,Grado,Tipo,Marca]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -33,8 +37,8 @@ function GETPRODUCTS() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 4) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                    if (x == 8) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(9); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                     }
                 } //fin de for de columnas
@@ -71,10 +75,10 @@ function Seleccion(variable) {
 function CrearNota() {
     let tabla = document.getElementById("Almacen");
     let total = tabla.rows.length //Total de filas
- 
-    if(total > 1){
+
+    if (total > 1) {
         alert("No se permiten más articulos")
-    }else{ 
+    } else {
         var Folio = document.getElementById("Folio").value; //Obtiene el valor de Clave
         var Producto = document.getElementById("Producto").value; //Obtiene el valor de Clave
         var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de Clave
@@ -87,14 +91,14 @@ function CrearNota() {
         var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
         var Parcial = document.getElementById("Parcial").value; //Obtiene el valor de Clave
         var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario];
-    
+
         var Condicion = true; //para campos vacios
         for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
             if (Arreglo[a].length == 0) {
                 Condicion = false; //si algun campo esta vacio cambia a falso
             }
         }
-    
+
         if (Condicion == true) { //si todos los campos estan llenos avanza
             var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
             // inserta una fila al final de la tabla
@@ -102,7 +106,7 @@ function CrearNota() {
             let indice = (TablaAlmacen.rows.length + 1);
             newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
             for (var x = 0; x < Arreglo.length; x++) {
-    
+
                 // inserta una celda en el indice 0
                 var newCell = newRow.insertCell(x);
                 // adjuntar el texto al nodo
