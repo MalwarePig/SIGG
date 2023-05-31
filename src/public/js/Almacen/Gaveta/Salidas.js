@@ -18,6 +18,7 @@ function GETPRODUCTS() {
                 var id = Herramientas[i].id
                 var Clave = Herramientas[i].Clave
                 var Cantidad = Herramientas[i].Cantidad
+                var CantidadUsados = Herramientas[i].CantidadUsados
                 var Familia = Herramientas[i].Familia
                 var Planta = Herramientas[i].Planta
                 var Marca = Herramientas[i].Marca
@@ -25,7 +26,7 @@ function GETPRODUCTS() {
                 var Tipo = Herramientas[i].Tipo
                 var Ubicacion = Herramientas[i].Ubicacion
                 //Eliminar variable dentro del For 
-                Arreglo = [id,Clave,Cantidad,Planta,Ubicacion, Familia,Grado,Tipo,Marca]
+                Arreglo = [id,Clave,Cantidad,CantidadUsados,Planta,Ubicacion,Familia,Grado,Tipo,Marca]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -37,8 +38,8 @@ function GETPRODUCTS() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 8) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(9); //CREAR CELDA
+                    if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                     }
                 } //fin de for de columnas
@@ -84,7 +85,7 @@ function CrearNota() {
         var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de Clave
         var Estatus = document.getElementById("Estatus").value; //Obtiene el valor de Clave
         var Estado = document.getElementById("Estado").value; //Obtiene el valor de Clave
-        var Ubicacion = document.getElementById("Ubicacion").value; //Obtiene el valor de Clave
+         
         var OT = document.getElementById("OT").value; //Obtiene el valor de Clave
         var Empleado = document.getElementById("Nombre").value; //Obtiene el valor de Clave
         var Maquina = document.getElementById("Maquina").value; //Obtiene el valor de Clave
@@ -112,8 +113,8 @@ function CrearNota() {
                 // adjuntar el texto al nodo
                 var newText = document.createTextNode(Arreglo[x]);
                 newCell.appendChild(newText);
-                if (x == 7) { //Si termina de registrar datos crear el boton
-                    var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
+                if (x == 9) { //Si termina de registrar datos crear el boton 
+                    var newCell = newRow.insertCell(10); //CREAR CELDA
                     newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
                 }
             }
@@ -151,7 +152,7 @@ function Nombres(e) {
             url: '/Num_Nomina',
             success: function (empleados) {
                 console.log(empleados)
-                let Nomina = document.getElementById("Empleado").value;
+                let Nomina = document.getElementById("Empleado").value.toUpperCase();
                 for (var i = 0; i < empleados.length; i++) {
                     if (Nomina == empleados[i].Nomina) {
                         document.getElementById("Nombre").value = empleados[i].Nombre;
@@ -228,7 +229,7 @@ function GuardarNota() {
     } //fin filas
 
     console.table(Arreglo);
-    $.post("/GuardarNota", // url
+    $.post("/GuardarNotaGaveta", // url
         {
             Arreglo
         }, // data to be submit

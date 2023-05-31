@@ -258,6 +258,50 @@ Controller.GuardarNota = (req, res) => {
 };
 
 
+
+
+Controller.GuardarNotaGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+
+            var limite = Object.values(data)[0].length;
+            console.log("Limite: " + limite);
+            for (var i = 0; i < limite; i++) {
+                let Folio = Object.values(data)[0][i][0]; //obeter datos de un objeto Folio
+                let Producto = Object.values(data)[0][i][1]; //obeter datos de un objeto Producto
+                let Entregado = Object.values(data)[0][i][2]; //obeter datos de un objeto Entregado
+                let Estado = Object.values(data)[0][i][3]; //obeter datos de un objeto Estado
+                let OT = Object.values(data)[0][i][4]; //obeter datos de un objeto OT
+                let OTEstatus = Object.values(data)[0][i][5]; //obeter datos de un objeto OT
+                let Maquina = Object.values(data)[0][i][6]; //obeter datos de un objeto Maquina
+                let Empleado = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
+                let Parcial = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
+                let Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+                let Movimiento = 'Salida';
+                let Planta = req.session.planta;
+                let Usuario = req.session.username;
+
+                let Almacen = 'Almacen ' + Planta; 
+
+                console.log(Empleado)
+
+                conn.query("call DespachoGaveta('" + Folio + "','" + Producto + "'," + Entregado + ",'" + Estado + "','" + OT + "','" + OTEstatus + "','" + Maquina + "','"
+                    + Empleado + "','" + Parcial + "','" + Comentario + "','" + Movimiento + "','" + Planta + "','" + Usuario + "','" + Almacen + "');", true, (err, rows, fields) => {
+                        if (err) {
+                            console.log('Error al registrar folios' + err);
+                        } else {
+                            res.json(true);
+                        }
+                    });  
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
 Controller.SavePreAudit = (req, res) => { //Guarda la auditoria diaria de cada almacen
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -395,7 +439,7 @@ Controller.searchRetorno = (req, res) => {
                 Maquina
             } = req.params;
 
-            conn.query("select * from itemprestado WHERE(Producto LIKE '%" + Maquina + "%' OR OT = '" + Maquina + "') AND Devuelto < Entregado", (err, Herramientas) => {
+            conn.query("select * from itemprestado WHERE(Empleado LIKE '%" + Maquina + "%' OR OT = '" + Maquina + "' OR Producto = '"+Maquina+"') AND Devuelto < Entregado", (err, Herramientas) => {
                 if (err) {
                     console.log('Error de lectura' + err);
                 }
@@ -444,13 +488,15 @@ Controller.GuardarNotaRetorno = (req, res) => {
                 let Maquina = Object.values(data)[0][i][5]; //[No se][indice de fila][indice de columna]
                 let Comentarios = Object.values(data)[0][i][6]; //[No se][indice de fila][indice de columna]
                 let FolioSalida = Object.values(data)[0][i][7]; //[No se][indice de fila][indice de columna]
+                let OT = Object.values(data)[0][i][8]; //[No se][indice de fila][indice de columna]
+                let CantidadSalida = Object.values(data)[0][i][9]; //[No se][indice de fila][indice de columna]
                 let Turno = req.session.turno; //obeter datos de un objeto Folio
                 let Movimiento = 'Retorno';
                 let Planta = req.session.planta;
                 let Usuario = req.session.username;
                 console.log("Producto : " + Producto + " Cantidad a retornar: " + Cantidad);
                 //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
-                conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen)values(?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
+                conn.query('INSERT INTO itemretorno(Folio,Producto,Cantidad,Estado,Empleado,Turno,Maquina,Comentarios,Movimiento,Usuario,Almacen,OT,Despachado)values(?,?,?,?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, Empleado, Turno, Maquina, Comentarios, Movimiento, Usuario, Planta,OT,CantidadSalida], (err, ot) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta');
                     }
@@ -1119,7 +1165,7 @@ Controller.TipoReporteHerramientaAdmin = (req, res) => {
 
             if (fechaInicio == null || fechaInicio == '') {
                 console.log("sin fecha ")
-                conn.query("SELECT * FROM itemprestado WHERE (Producto like '%" + Articulo + "%' OR OT = '" + Articulo + "') AND Almacen = '" + Almacen + "' ORDER BY Salida Desc", (err, Herramientas) => {
+                conn.query("SELECT I.*,A.precio FROM itemprestado I, almacen A WHERE i.producto = A.producto AND (A.almacen = '" + Planta + "' AND I.Almacen = '"+Almacen+"') AND (I.Producto like '%" + Articulo + "%' OR I.OT = '" + Articulo + "') ORDER BY i.Salida Desc", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
@@ -1398,9 +1444,9 @@ Controller.BuscarHerramientasGav = (req, res) => {
                 Herra
             } = req.params;
             var Herramienta = Tranformer(Herra);//req.session.planta
-            const planta = "BRAVO";
+            const planta = req.session.planta;
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM Gavetas WHERE Clave like '%" + Herramienta + "%' AND Planta = '"+planta+"'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Gavetas WHERE (Clave like '%" + Herramienta + "%') AND Planta = '"+planta+"'", (err, Herramientas) => {
                 if (err) {
 
                     console.log('Error de lectura ' + err);
@@ -2626,6 +2672,102 @@ Controller.getProveedores = (req, res) => {
         res.render('Admin/Login.html');
     }
 }
+
+
+Controller.BuscarHerrRetornoGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Param
+            } = req.params;
+
+            conn.query("select * from SalidaGaveta WHERE(Producto LIKE '%" + Param + "%' OR OT = '" + Param + "' OR Empleado like'%" + Param+"%') AND Devuelto < Entregado", (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura' + err);
+                }else{
+                    res.json(Herramientas)
+                }
+               
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.GuardarNotaRetornoGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            if (err) {
+                console.log("Conexion: " + err)
+            }
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data));
+            var limite = Object.values(data)[0].length;
+            for (var i = 0; i < limite; i++) {
+                let Folio = Object.values(data)[0][i][0]; //[No se][indice de fila][indice de columna]
+                let Producto = Object.values(data)[0][i][1]; //[No se][indice de fila][indice de columna]
+                let Cantidad = Object.values(data)[0][i][2]; //[No se][indice de fila][indice de columna]
+                let Estado = Object.values(data)[0][i][3]; //[No se][indice de fila][indice de columna]
+                let Empleado = Object.values(data)[0][i][4]; //[No se][indice de fila][indice de columna]
+                let Maquina = Object.values(data)[0][i][5]; //[No se][indice de fila][indice de columna]
+                let Comentarios = Object.values(data)[0][i][6]; //[No se][indice de fila][indice de columna]
+                let FolioSalida = Object.values(data)[0][i][7]; //[No se][indice de fila][indice de columna]
+                let Movimiento = 'Retorno';
+                let Planta = req.session.planta;
+                let Usuario = req.session.username;
+                //console.log("Producto : " + Producto + " Cantidad a retornar: " + Cantidad);
+                //console.log(Folio + " - " + Producto + " - " + Cantidad + " - " + Estado + " - " + OT + " - " + Maquina + " - " + Empleado + " - " + Turno + " - " + Comentarios + " - " + Movimiento + " - " + Planta + " - " + Usuario)
+                conn.query('INSERT INTO RetornoGaveta(Folio,Producto,Cantidad,Estado,Empleado,Maquina,Comentarios,Movimiento,Usuario,Planta)values(?,?,?,?,?,?,?,?,?,?)', [Folio, Producto, Cantidad, Estado, Empleado, Maquina, Comentarios, Movimiento, Usuario, Planta], (err, ot) => {
+                    if (err) {
+                        console.log('Error al registrar despacho de herramienta');
+                    }
+                    conn.query("call GavetaRetorno(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','" + Planta + "')", true, (err, rows, fields) => {
+                        if (err) {
+
+                            console.log('Error al descontar almacen' + err);
+                        } else {
+                            console.log('Se Resto del almacen' + Object.values(rows));
+                        }
+                        conn.query("call IncrementarFolioRetornoAlmacen('" + Folio + "');", true, (err, rows, fields) => {
+                            if (err) {
+                                console.log('Error al registrar folios' + err);
+                            } else {
+                                console.log('Se incremento folio');
+                            }
+                        });
+                    }); 
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.ExistenciasGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Maquina
+            } = req.params;
+            let Planta = req.session.planta;
+            conn.query("SELECT * FROM gavetas order by Planta,Clave", (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura' + err);
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 module.exports = Controller;
 

@@ -147,7 +147,7 @@ function Nombres(e) {
             url: '/Num_Nomina',
             success: function (empleados) {
                 console.log(empleados)
-                let Nomina = document.getElementById("Empleado").value;
+                let Nomina = document.getElementById("Empleado").value.toUpperCase();;
                 for (var i = 0; i < empleados.length; i++) {
                     if (Nomina == empleados[i].Nomina) {
                         document.getElementById("Nombre").value = empleados[i].Nombre;

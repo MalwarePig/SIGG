@@ -13,7 +13,7 @@ $(function () {
         //OBTENER FILTRO DE FAMILIA
         console.log("Maquina: " + document.getElementById("BHerramienta").value);
         $.ajax({
-            url: '/BuscarHerrRetorno/' + document.getElementById("BHerramienta").value + '',
+            url: '/BuscarHerrRetornoGaveta/' + document.getElementById("BHerramienta").value + '',
             success: function (Herramientas) {
                 var Arreglo = [];
                 //Limpiar tabla 
@@ -58,14 +58,14 @@ $(function () {
 }); //Funcion JQuery
 
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
-$(function () {
+/* $(function () {
     $(".solo-numero").keydown(function (event) {
         //alert(event.keyCode);
         if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !== 190 && event.keyCode !== 110 && event.keyCode !== 8 && event.keyCode !== 9) {
             return false;
         }
     });
-}); //Funcion JQuery
+}); //Funcion JQuery */
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
 function Maquinas() {
@@ -98,11 +98,10 @@ function Seleccion(variable) {
     OT = Registro.rows[variable].cells[5].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
     Maquina = Registro.rows[variable].cells[6].childNodes[0].nodeValue; //Obtiene el valor de Producto
     Empleado = Registro.rows[variable].cells[7].childNodes[0].nodeValue; //Obtiene el valor de Stock
- 
+
     document.RegistroRetorno.Ret_FolioAnterior.value = Folio;
     document.RegistroRetorno.Ret_Herramienta.value = Producto;
     document.RegistroRetorno.Ret_OT.value = OT;
-    document.RegistroRetorno.CantidadSalida.value = Cantidad;
     document.RegistroRetorno.Ret_Nombre.value = Empleado;
 }
 
@@ -117,7 +116,7 @@ function Nombres(e) {
         $.ajax({
             url: '/Num_Nomina',
             success: function (empleados) {
-                let Nomina = document.getElementById("Empleado").value.toUpperCase();
+                let Nomina = document.getElementById("Empleado").value.toUpperCase();;
                 for (var i = 0; i < empleados.length; i++) {
                     if (Nomina == empleados[i].Nomina) {
                         document.getElementById("Nombre").value = empleados[i].Nombre;
@@ -135,14 +134,11 @@ function CrearNota() {
         var FolioSalida = document.getElementById("FolioAnterior").value; //Obtiene el valor de Folio anterior que fue de salida
         var Folio = document.getElementById("Folio").value; //Obtiene el valor de Folio de retorno
         var Producto = document.getElementById("Producto").value; //Obtiene el valor de Producto
-        var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de cantidad a devolver
+        var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de cantidad
         var Estado = document.getElementById("Estado").value; //Obtiene el valor de Estado
         var Empleado = document.getElementById("Nombre").value; //Obtiene el valor de Nombre
-        var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de OT
-        var CantidadSalida = document.getElementById("CantidadSalida").value; //Obtiene el valor de OT
-        var OT = document.getElementById("OT").value; //Obtiene el valor de OT
-     
-        var Arreglo = [Folio, Producto, Cantidad, Estado, Empleado, Maquina, Comentario,FolioSalida,OT];
+        var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Comentario
+        var Arreglo = [Folio, Producto, Cantidad, Estado, Empleado, Maquina, Comentario,FolioSalida];
         var Condicion = true; //para campos vacios
         for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
             if (Arreglo[a].length == 0) {
@@ -161,8 +157,8 @@ function CrearNota() {
                 // adjuntar el texto al nodo
                 var newText = document.createTextNode(Arreglo[x]);
                 newCell.appendChild(newText);
-                if (x == 8) { //Si termina de registrar datos crear el boton
-                    var newCell = newRow.insertCell(9); //CREAR CELDA onclick="CrearNota()"
+                if (x == 7) { //Si termina de registrar datos crear el boton
+                    var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
                     newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
                 }
             }
@@ -199,8 +195,7 @@ function GuardarNota() {
     var Arreglo = [];
 
     for (var j = 1; j <= total - 1; j++) { //filas
-        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue; 
     
             var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
             var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
@@ -210,15 +205,13 @@ function GuardarNota() {
             var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
             var Comentario = tabla.rows[j].cells[6].childNodes[0].nodeValue;
             var FolioSalida = tabla.rows[j].cells[7].childNodes[0].nodeValue;
-            var OT = tabla.rows[j].cells[8].childNodes[0].nodeValue;
-            var CantidadSalida = document.getElementById("CantidadSalida").value;
-            var Tabla = [Folio,Producto,Cantidad,Estado,Empleado,Maquina,Comentario,FolioSalida,OT,CantidadSalida]
+            var Tabla = [Folio,Producto,Cantidad,Estado,Empleado,Maquina,Comentario,FolioSalida]
     
             Arreglo.push(Tabla);
         
     } //fin filas
 
-    $.post("/GuardarNotaRetorno", // url
+    $.post("/GuardarNotaRetornoGaveta", // url
             {
                 Arreglo
             }, // data to be submit

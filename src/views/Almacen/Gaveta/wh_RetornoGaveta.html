@@ -2,22 +2,23 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>
-        GEMAK
-    </title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%- include ('../partials/head.html') %>
-        <!------incluir cabezera navegacion----->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-
-        <script type="text/javascript" src="js/Almacen/Retorno.js"></script>
+  <meta charset="utf-8"> 
+  <meta http-equiv="x-ua-compatible" content="ie=edge"> 
+  <title> 
+    GEMAK 
+  </title> 
+  <meta name="description" content=""> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <%- include ('../../partials/head.html') %> 
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+     <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>  
+    <script type="text/javascript" src="js/Almacen/Gaveta/Retorno.js"></script> 
 </head>
 
-<body onload="Folios()">
-    <%- include ('../partials/navegacion.html') %>
+<body onload="Folios()"> 
+  <%- include ('../../partials/navegacion.html') %> 
         <!------incluir navegacion Menu----->
 
         <div class="card text-center">
@@ -27,8 +28,8 @@
                     <div class="form-row"> 
                         <div class="form-group col-md-2">
                     
-                            <input required type="text" id="BHerramienta" class="form-control" placeholder="Nombre empleado / OT.."
-                              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
+                            <input required type="text" id="BHerramienta" class="form-control" placeholder="Empleado/Herramienta/OT.."
+                              name="BHerramienta" autocomplete="off">
                           </div>  
                         <div class="form-group col-md-1">
                             <button type="button" id="getProducts" name="getProducts"
@@ -63,10 +64,8 @@
                 </div>
 
                 <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-                    <form id="RegistroRetorno" name="RegistroRetorno">
-
-                        <div class="form-row">
-
+                    <form id="RegistroRetorno" name="RegistroRetorno"> 
+                        <div class="form-row"> 
                             <div class="form-group col-md-3" style="display: none">
                                 <label for="inputAddress" class="font-weight-bold">Folio salida</label>
                                 <input required type="text" id="FolioAnterior" class="form-control text-dark"
@@ -92,17 +91,12 @@
                                 <input type="text" id="OT" class="form-control" name="Ret_OT" autocomplete="off"
                                     value="-">
                             </div>
-                            <div class="form-group col-md-1" style="display: none">
-                                <label for="inputAddress2" class="font-weight-bold">Cantidad Salida</label>
-                                <input type="text" id="CantidadSalida" class="form-control" name="CantidadSalida" autocomplete="off"
-                                    value="-">
-                            </div>
 
                             <div class="form-group col-md-1">
                                 <label for="inputState" class="font-weight-bold">Estado</label>
                                 <select required id="Estado" name="Ret_Estado" class="form-control">
-                                    <option value="Nuevo" selected>Nuevo</option>
-                                    <option value="Usado">Usado</option>
+                                    <option value="Nuevo" >Nuevo</option>
+                                    <option value="Usado" selected>Usado</option>
                                     <option value="Scrap">Scrap</option>
                                     <option value="Quebrado">Quebrado</option>
                                     <option value="Afilado R">Afilado R</option>
@@ -149,7 +143,6 @@
                                 <th>Maquina</th>
                                 <th>Comentario</th>
                                 <th>Folio Salida</th>
-                                <th>OT</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>

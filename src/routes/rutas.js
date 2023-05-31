@@ -287,6 +287,10 @@ router.get('/BuscarHerrRetorno/:Maquina', AlmacenController.searchRetorno);
 router.get('/FolioRetorno', AlmacenController.FolioRetorno);
 router.post('/GuardarNotaRetorno', AlmacenController.GuardarNotaRetorno);
 
+//====== Geveta ========
+router.post('/GuardarNotaGaveta', AlmacenController.GuardarNotaGaveta);
+router.get('/BuscarHerrRetornoGaveta/:Param', AlmacenController.BuscarHerrRetornoGaveta);
+router.post('/GuardarNotaRetornoGaveta', AlmacenController.GuardarNotaRetornoGaveta);
 //====== Recepción ========
 //Abre pagina principal para recepcion
 router.get('/wh_Recepcion', AlmacenController.MainRecepcion);
@@ -382,10 +386,32 @@ router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientas
 router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
 //Guarda la recoleccion en gaveta
 router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
+
+//Existencias Gaveta 
+router.get('/ExistenciasGaveta', AlmacenController.ExistenciasGaveta);
 //============================== Almacen Gaveta Despacho (Oficina) ==============================//
 router.get('/GavetaDespacho', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/Gaveta/wh_SalidasGaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+//============================== Almacen Gaveta Retorno (Oficina) ==============================//
+router.get('/GavetaRetorno', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_RetornoGaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//============================== Almacen ExistenciasGaveta (Oficina) ==============================//
+router.get('/ExistenciasGavetas', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_ExistenciaGaveta.html');
 	} else {
 		res.render('Admin/Login.html');
 	}

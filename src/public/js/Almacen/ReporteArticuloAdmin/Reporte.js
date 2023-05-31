@@ -6,7 +6,6 @@ function InicarFechas() {
     let fechaFinal = new Date()
     fechaFinal.setDate(fechaFinal.getDate() + 1);
     document.getElementById("fin").value = moment(fechaFinal).format('YYYY-MM-DD');
-
 }
 
 function MostrarReporte() {
@@ -14,6 +13,7 @@ function MostrarReporte() {
     var Almacen = document.getElementById("Almacen").value;
     var fechaInicio = document.getElementById("inicio").value;
     var fechafin = document.getElementById("fin").value;
+
     //alert(fechaInicio);
     $.ajax({
         url: '/TipoReporte/' + categoria + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
@@ -30,7 +30,6 @@ function MostrarReporte() {
                 var Folio = Herramientas[i].Folio;
                 var Producto = Herramientas[i].Producto;
                 var Cantidad = Herramientas[i].Entregado || Herramientas[i].Cantidad;
-                var Devuelto = Herramientas[i].Devuelto || "-";
                 var Estado = Herramientas[i].Estado;
                 var OT = Herramientas[i].OT || "-";
                 var Maquina = Herramientas[i].Maquina;
@@ -38,16 +37,8 @@ function MostrarReporte() {
                 var Almacen = Herramientas[i].Almacen;
                 var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
                 var Comentarios = Herramientas[i].Comentarios;
-                var Utilizado = Herramientas[i].Utilizado || "-";
-                var Despachado = Herramientas[i].Despachado | "-";
                 //Eliminar variable dentro del For
-                if (categoria == 'itemprestado') {
-                    Arreglo = [Folio, Producto, Cantidad,Devuelto,Utilizado, Estado, OT, Maquina, Empleado, Almacen, Fecha, Comentarios];
-                }else{
-                    Arreglo = [Folio, Producto, Despachado,Cantidad,Utilizado, Estado, OT, Maquina, Empleado, Almacen, Fecha, Comentarios];
-                }
-
-                
+                Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha, Comentarios];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
@@ -66,113 +57,152 @@ function MostrarReporte() {
 function MostrarReporteHerramienta() {
     var Herramienta = Transformer(document.getElementById("BHerramienta").value);
     var Almacen = document.getElementById("Almacen").value;
-    
+
     var fechaInicio = document.getElementById("inicio").value;
     var fechafin = document.getElementById("fin").value;
 
-    /*Limpiar tabla*/ 
+    /*Limpiar tabla*/
     var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
     var limite = TablaAlmacen.rows.length;
     for (var i = 0; i < limite; i++) {
         $("#Rows").remove(); //elimina los elementos con id Rows
     }
-    
-        $.ajax({
-            url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
-            success: function (Herramientas) {
-                var Arreglo = [];
-                //Limpiar tabla 
-                var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
-                var limite = TablaAlmacen.rows.length;
-                var TotalHerramientas = Herramientas.length;
-                for (var i = 0; i < limite; i++) {
-                    $("#Rows").remove(); //elimina los elementos con id Rows
-                }
-                for (var i = 0; i < TotalHerramientas; i++) {
-                    var Folio = Herramientas[i].Folio;
-                    var Producto = Herramientas[i].Producto;
-                    var Cantidad =  Herramientas[i].Entregado.toString() || Herramientas[i].Cantidad;
-                    var Estado = Herramientas[i].Estado;
-                    var OT = Herramientas[i].OT || "-";
-                    var Maquina = Herramientas[i].Maquina;
-                    var Empleado = Herramientas[i].Empleado;
-                    var Almacen = Herramientas[i].Almacen;
-                    var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
 
-                    //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha];
-                    // inserta una fila al final de la tabla
-                    var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-                    for (var x = 0; x < Arreglo.length; x++) {
-                        // inserta una celda en el indice 0
-                        var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                        // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
-                    } //fin de for de columnas
-                } //fin de for de filas
-            } //Funcion success
-        }); //Ajax 
+    $.ajax({
+        url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            var TotalHerramientas = Herramientas.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < TotalHerramientas; i++) {
+                var Folio = Herramientas[i].Folio;
+                var Producto = Herramientas[i].Producto;
+                var Cantidad = Herramientas[i].Entregado.toString() || Herramientas[i].Cantidad;
+                var Estado = Herramientas[i].Estado;
+                var OT = Herramientas[i].OT || "-";
+                var Maquina = Herramientas[i].Maquina;
+                var Empleado = Herramientas[i].Empleado;
+                var Almacen = Herramientas[i].Almacen;
+                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+
+                //Eliminar variable dentro del For
+                Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha];
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax 
 
 }
 
 function MostrarReporteHerramientaAdmin() {
     var Herramienta = Transformer(document.getElementById("BHerramienta").value);
     var Almacen = document.getElementById("Almacen").value;
-    
+
     var fechaInicio = document.getElementById("inicio").value;
     var fechafin = document.getElementById("fin").value;
 
-    /*Limpiar tabla*/ 
+    var PrecioTotal = 0;
+    var CantidadTotal = 0;
+
+    /*Limpiar tabla*/
     var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
     var limite = TablaAlmacen.rows.length;
     for (var i = 0; i < limite; i++) {
         $("#Rows").remove(); //elimina los elementos con id Rows
     }
-    
-        $.ajax({
-            url: '/TipoReporteHerramientaAdmin/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
-            success: function (Herramientas) {
-                var Arreglo = [];
-                //Limpiar tabla 
-                var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
-                var limite = TablaAlmacen.rows.length;
-                var TotalHerramientas = Herramientas.length;
-                for (var i = 0; i < limite; i++) {
-                    $("#Rows").remove(); //elimina los elementos con id Rows
-                }
-                for (var i = 0; i < TotalHerramientas; i++) {
-                    var Folio = Herramientas[i].Folio;
-                    var Producto = Herramientas[i].Producto;
-                    var Cantidad =  Herramientas[i].Entregado.toString() || Herramientas[i].Cantidad;
-                    var Precio = parseFloat(Herramientas[i].precio).toFixed(2).toString() || 0;
-                    var Estado = Herramientas[i].Estado;
-                    var OT = Herramientas[i].OT || "-";
-                    var Maquina = Herramientas[i].Maquina;
-                    var Empleado = Herramientas[i].Empleado;
-                    var Almacen = Herramientas[i].Almacen;
-                    var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
 
-                    //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Cantidad,Precio, Estado, OT, Maquina, Empleado, Almacen, Fecha];
-                    // inserta una fila al final de la tabla
-                    var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-                    for (var x = 0; x < Arreglo.length; x++) {
-                        // inserta una celda en el indice 0
-                        var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                        // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
-                    } //fin de for de columnas
-                } //fin de for de filas
-            } //Funcion success
-        }); //Ajax 
+    $.ajax({
+        url: '/TipoReporteHerramientaAdmin/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            var TotalHerramientas = Herramientas.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < TotalHerramientas; i++) {
+                var Folio = Herramientas[i].Folio;
+                var Producto = Herramientas[i].Producto;
+                var Cantidad = Herramientas[i].Entregado.toString() || Herramientas[i].Cantidad;
+                CantidadTotal = CantidadTotal + parseInt(Cantidad);
+                //var Precio = parseFloat(Herramientas[i].precio).toString() || 0;
+                var Precio = Herramientas[i].precio ? parseFloat(Herramientas[i].precio).toString() : 0;
+                PrecioTotal = PrecioTotal + parseFloat(Precio);
+                var Estado = Herramientas[i].Estado;
+                var OT = Herramientas[i].OT || "-";
+                var Maquina = Herramientas[i].Maquina;
+                var Empleado = Herramientas[i].Empleado;
+                var Almacen = Herramientas[i].Almacen;
+                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+
+                //Eliminar variable dentro del For
+                Arreglo = [Folio, Producto, Cantidad, Precio, Estado, OT, Maquina, Empleado, Almacen, Fecha];
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+                } //fin de for de columnas
+            } //fin de for de filas
+
+            //Fila de total
+            var newRow = TablaAlmacen.insertRow();
+            for (let index = 0; index < 4; index++) {
+                if(index == 1){
+                    var newCell = newRow.insertCell(index);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode("Total");
+                    newCell.appendChild(newText);
+                }else if(index == 2){
+                    var newCell = newRow.insertCell(index);
+                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                // adjuntar el texto al nodo
+                var newText = document.createTextNode(CantidadTotal);
+                newCell.appendChild(newText);
+                }else if(index == 3){
+                    var newCell = newRow.insertCell(index);
+                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                // adjuntar el texto al nodo
+                var newText = document.createTextNode(PrecioTotal);
+                newCell.appendChild(newText);
+                }else{
+                    var newCell = newRow.insertCell(index);
+                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                // adjuntar el texto al nodo
+                var newText = document.createTextNode("-");
+                newCell.appendChild(newText);
+                }
+                
+
+            }
+
+        } //Funcion success
+    }); //Ajax 
 
 }
 
- 
+
 
 function ExcelArticulo() {
     var tabla = document.getElementById("TablaReporte");
@@ -186,11 +216,11 @@ function ExcelArticulo() {
         var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
         var Entregado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
-        if(parseInt(Entregado)){
+        if (parseInt(Entregado)) {
             console.log(parseInt(Entregado))
-        Total = Total + parseInt(Entregado);
+            Total = Total + parseInt(Entregado);
         }
-        
+
         var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
         var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
         var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
@@ -201,7 +231,7 @@ function ExcelArticulo() {
         sheet_1_data.push(Fila);
     } //fin filas
 
-    var Fila = ["","Cantidad: ", Total, "", "", "", "", "", ""]
+    var Fila = ["", "Cantidad: ", Total, "", "", "", "", "", ""]
     sheet_1_data.push(Fila);
 
 
@@ -226,9 +256,9 @@ function ExcelArticuloAdmin() {
         var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
         var Entregado = tabla.rows[j].cells[2].childNodes[0].nodeValue;
-        if(parseInt(Entregado)){
+        if (parseInt(Entregado)) {
             console.log(parseInt(Entregado))
-        Total = Total + parseInt(Entregado);
+            Total = Total + parseInt(Entregado);
         }
         var Precio = tabla.rows[j].cells[3].childNodes[0].nodeValue;
         var Estado = tabla.rows[j].cells[4].childNodes[0].nodeValue;
@@ -237,11 +267,11 @@ function ExcelArticuloAdmin() {
         var Empleado = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Almacen = tabla.rows[j].cells[8].childNodes[0].nodeValue;
         var Fecha = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var Fila = [Folio, Producto, Entregado,Precio, Estado, OT, Maquina, Empleado, Almacen, Fecha]
+        var Fila = [Folio, Producto, Entregado, Precio, Estado, OT, Maquina, Empleado, Almacen, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
 
-    var Fila = ["","Cantidad: ", Total, "", "","", "", "", "", ""]
+    var Fila = ["", "Cantidad: ", Total, "", "", "", "", "", "", ""]
     sheet_1_data.push(Fila);
 
 
@@ -284,9 +314,8 @@ function ExcelReporte() {
         var Empleado = tabla.rows[j].cells[6].childNodes[0].nodeValue;
         var Almacen = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
-        var Utilizado = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var Comentarios = tabla.rows[j].cells[10].childNodes[0].nodeValue
-        var Fila = [Folio, Producto, Entregado, Estado, OT, Maquina, Empleado, Almacen, Fecha,Utilizado, Comentarios]
+        var Comentarios = tabla.rows[j].cells[9].childNodes[0].nodeValue
+        var Fila = [Folio, Producto, Entregado, Estado, OT, Maquina, Empleado, Almacen, Fecha, Comentarios]
         sheet_1_data.push(Fila);
     } //fin filas
 
@@ -341,4 +370,55 @@ function ExistenciasAlmacen() {
             var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
         } //Funcion success
     }); //Ajax
+}
+
+
+
+
+
+
+function ExistenciasGaveta() {
+
+
+    $.ajax({
+        url: '/ExistenciasGaveta/',
+        success: function (Herramientas) {
+            console.log(Herramientas)
+            var TotalFilas = Herramientas.length //Total de filas
+            var sheet_1_data = [];
+
+            var Encabezado = ["Clave","Familia","Planta","Marca","Grado","Tipo","Descripción","Medida Diametro","Parte","Ubicación","Cantidad Nuevo","Cantidad Usados","Comentarios","Link"]
+                sheet_1_data.push(Encabezado);
+
+            for (var i = 0; i < TotalFilas; i++) { //filas
+                //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue; 
+                var Clave = Herramientas[i].Clave;
+                var Familia = Herramientas[i].Familia;
+                var Planta = Herramientas[i].Planta; 
+                var Marca = Herramientas[i].Marca;
+                var Grado = Herramientas[i].Grado;
+                var Tipo = Herramientas[i].Tipo;
+                var Descripcion = Herramientas[i].Descripcion;
+                var MedidaDiametro = Herramientas[i].MedidaDiametro;
+                var Parte = Herramientas[i].Parte;
+                var Ubicacion = Herramientas[i].Ubicacion;
+                var Cantidad = Herramientas[i].Cantidad;
+                var CantidadUsados = Herramientas[i].CantidadUsados;
+                var Comentarios = Herramientas[i].Comentarios;
+                var Link = Herramientas[i].Link;
+                var Fila = [Clave,Familia,Planta,Marca,Grado,Tipo,Descripcion,MedidaDiametro,Parte,Ubicacion,Cantidad,CantidadUsados,Comentarios,Link]
+                sheet_1_data.push(Fila);
+            } //fin filas
+
+            var opts = [{
+                sheetid: 'Sheet One',
+                header: true
+            }];
+            var result = alasql('SELECT * INTO XLSX("Existencias Gaveta '+moment().add(1, 'days').calendar()+' .xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+
+        } //Funcion success
+    }); //Ajax 
+ 
+
+    
 }
