@@ -193,8 +193,6 @@ function MostrarReporteHerramientaAdmin() {
                 var newText = document.createTextNode("-");
                 newCell.appendChild(newText);
                 }
-                
-
             }
 
         } //Funcion success
@@ -249,9 +247,10 @@ function ExcelArticuloAdmin() {
     var total = tabla.rows.length //Total de filas
     var Total = 0;
 
-
+    console.log("Filas: " +total)
     var sheet_1_data = [];
-    for (var j = 0; j <= total - 1; j++) { //filas
+    for (var j = 0; j < total - 1; j++) { //filas
+        console.log("Indice: " +j)
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue; 
         var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;

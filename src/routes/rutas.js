@@ -307,9 +307,27 @@ router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
 router.get('/BuscarHerramientasAjuste/:Herra', AlmacenController.searchAjuste);
 
 //============================== Almacen  ==============================//
+//====== Tornilleria ========
+//Abre pagina principal para tornilleria
+router.get('/ReporteConsumos', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/ReporteConsumos/wh_ReporteConsumos.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
 
+//Muestra la lista de herramientas despachadas por almacen
+router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho);
+//Muestra el consumo por cada herramienta
+router.get('/SumaMensual/:parametros', AlmacenController.SumaMensual);
+//Muestra detalle de las herramienta
+router.get('/DetalleHerramienta/:parametros', AlmacenController.DetalleHerramienta);
 
-
+router.get('/TodoDespachos', AlmacenController.TodoDespachos);
 //====== Tornilleria ========
 //Abre pagina principal para tornilleria
 router.get('/wh_Accesorios', (req, res) => {

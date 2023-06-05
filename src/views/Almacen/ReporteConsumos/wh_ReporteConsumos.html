@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
+    <script type="text/javascript" src="js/Almacen/Reporteconsumos/Reporte.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body onload="ListarMeses()">
+    <%- include ('../../partials/navegacion.html') %>
+    <!------ incluir navegacion Menu ----->
+    <div class="card text-center">
+        <div class="card-header">
+            <!------------------------------ BUSCAR -------------------------------------->
+
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <label for="FechaInicio" class="font-weight-bold">Inicio</label>
+                    <select required id="FechaInicio" name="FechaInicio" class="form-control"> 
+                    </select>
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="FechaFin" class="font-weight-bold">Inicio</label>
+                    <select required id="FechaFin" name="FechaFin" class="form-control"> 
+                        <option value="1">1</option>
+                    </select>
+                </div>
+ 
+                <div class="form-group col-md-1">
+                    <label for="FechaFin" class="font-weight-bold">Fin</label>
+                    <select required id="Año" name="Año" class="form-control"> 
+                        <option value="1">1</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-1 p-4">
+                    <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                        onclick="ListadoDespacho()">Buscar</button>
+                </div>
+
+
+                <div class="form-group col-md-1 p-4">
+                    <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                        onclick="Sumar()">Calcular</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <!------------------------------ TABLA -------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+            style="width:96%; height:650px; overflow: scroll;">
+            <table class="table table-condensed table-hover " id="TablaReporte">
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Producto</th>
+                        <th>Despacho</th>
+                        <th>Devuelto</th>
+                        <th>Utilizado</th>
+                        <th>Estado Dpcho</th>
+                        <th>OT</th>
+                        <th>Maquina</th>
+                        <th>Empleado</th>
+                        <th>Almacen</th>
+                        <th>Fecha</th> 
+                        <th>Comentarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-5 ">
+ 
+            </div>
+            <div class="form-group col-md-1 ">
+                <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+                    onclick="ExcelReporte()">Excel</button>
+            </div>
+    
+            <div class="form-group col-md-1 ">
+                <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+                    onclick="ExistenciasAlmacen()">Existencias</button>
+            </div>
+        </div>
+    </div>
+ 
+
+
+
+ 
+</body>
