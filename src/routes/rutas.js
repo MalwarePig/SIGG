@@ -378,19 +378,28 @@ router.get('/CargaCapturasPendientesTI/', AlmacenController.CargaCapturasPendien
 
 //============================== Almacen Gaveta (Oficina) ==============================//
 //Abre pagina principal para editar
-/* router.get('/Desarrollo', (req, res) => {
+router.get('/AdminGaveta', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Almacen/wh_Gaveta.html');
+		res.render('Almacen/Gaveta/wh_Admin.html');
 	} else {
 		res.render('Admin/Login.html');
 	}
-}); */
+});
 
 //============================== Almacen Gaveta (Oficina) ==============================//
 //Abre pagina principal para editar
 router.get('/Gaveta', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/wh_Gaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Abre pagina principal para editar
+router.get('/wh_EditarGaveta', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_Editar.html');
 	} else {
 		res.render('Admin/Login.html');
 	}

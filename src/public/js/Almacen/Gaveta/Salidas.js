@@ -62,7 +62,7 @@ $(function () {
 function Seleccion(variable) {
     Registro = document.getElementById("Herr_Encontradas");
 
-    var Clave = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave
+    var id = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave 
     var Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
     var Stock = Registro.rows[variable].cells[2].childNodes[0].nodeValue; //Obtiene el valor de Stock
     var StockUsado = Registro.rows[variable].cells[3].childNodes[0].nodeValue; //Obtiene el valor de StockUsado
@@ -70,6 +70,7 @@ function Seleccion(variable) {
 
     document.RegistroSalida.Sal_Herramienta.value = Producto;
     document.RegistroSalida.Sal_Ubicación.value = Ubicacion;
+    document.RegistroSalida.Sal_id.value = id;
 }
 
 //=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//
@@ -80,6 +81,7 @@ function CrearNota() {
     if (total > 1) {
         alert("No se permiten más articulos")
     } else {
+        var id = document.getElementById("Sal_id").value; //Obtiene el valor de Clave
         var Folio = document.getElementById("Folio").value; //Obtiene el valor de Clave
         var Producto = document.getElementById("Producto").value; //Obtiene el valor de Clave
         var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de Clave
@@ -91,7 +93,7 @@ function CrearNota() {
         var Maquina = document.getElementById("Maquina").value; //Obtiene el valor de Clave
         var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
         var Parcial = document.getElementById("Parcial").value; //Obtiene el valor de Clave
-        var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario];
+        var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario,id];
 
         var Condicion = true; //para campos vacios
         for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
@@ -113,8 +115,8 @@ function CrearNota() {
                 // adjuntar el texto al nodo
                 var newText = document.createTextNode(Arreglo[x]);
                 newCell.appendChild(newText);
-                if (x == 9) { //Si termina de registrar datos crear el boton 
-                    var newCell = newRow.insertCell(10); //CREAR CELDA
+                if (x == 10) { //Si termina de registrar datos crear el boton 
+                    var newCell = newRow.insertCell(11); //CREAR CELDA
                     newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
                 }
             }
@@ -122,6 +124,7 @@ function CrearNota() {
             document.getElementById("Producto").value = "";
             document.getElementById("Ubicacion").value = "";
             document.getElementById("cantidad").value = "";
+            document.getElementById("Sal_id").value = "";
         }
     }
 }
@@ -224,7 +227,8 @@ function GuardarNota() {
         var Empleado = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Parcial = tabla.rows[j].cells[8].childNodes[0].nodeValue;
         var Comentario = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var Tabla = [Folio, Producto, Entregado, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario];
+        var id = tabla.rows[j].cells[10].childNodes[0].nodeValue;
+        var Tabla = [Folio, Producto, Entregado, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario,id];
         Arreglo.push(Tabla);
     } //fin filas
 

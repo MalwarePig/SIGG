@@ -1,7 +1,7 @@
 var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-function ListarMeses() {
-
+function ListarMeses() { 
+    ReporteConsumos( )
     const AnioActual = new Date();
     let Componentes = ['FechaInicio', 'FechaFin', 'Año'];
 
@@ -56,12 +56,13 @@ var FechaInicio = 0;
 var FechaFin = 0;
 var TotalMeses = 0;
 async function ListadoDespacho() {//Obtiene la lista de productos despachados
+    ModalAjuste( )
     //Meses del 0 - 11 JS & MSQL 1 - 12
     FechaInicio = parseInt(document.getElementById("FechaInicio").value) + 1;
     FechaFin = parseInt(document.getElementById("FechaFin").value) + 2;
     TotalMeses = (FechaFin) - FechaInicio;
 
-    alert("Primer Mes " + FechaInicio + " - " + FechaFin + " total = " + TotalMeses)
+    //alert("Primer Mes " + FechaInicio + " - " + FechaFin + " total = " + TotalMeses)
 
     let myPromise = new Promise(function (resolve, reject) {
 
@@ -168,7 +169,7 @@ async function DetalleHerramienta() {
     setTimeout(() => {
         //console.log(TablaConsumos)
         ExcelArticulo()
-    }, "4000");
+    }, "3000");
 }
 
 
@@ -209,39 +210,88 @@ function ExcelArticulo() {
             sheet_1_data.push(Encabezado);
         }
 
-        /* let Stock = TablaConsumos[index][13]
-        let StockMin = TablaConsumos[index][14]
-        let StockMax = TablaConsumos[index][15]
-        let Familia = TablaConsumos[index][16]
-        let Precio = TablaConsumos[index][17]
-        let Moneda = TablaConsumos[index][18]
-        let Proveedor = TablaConsumos[index][19]
-        var Fila = [Clave, Producto, Almacen, Stock, StockMin, StockMax, Familia, Precio, Moneda, Proveedor] */
+
         sheet_1_data.push(Fila);
     } //fin filas 
 
+    name(sheet_1_data)
 
-    var opts = [{
-        sheetid: 'Sheet One',
-        header: true
-    }];
 
-    var result = alasql('SELECT * INTO XLSX("ReporteArticulo.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+
 }
 
 
 
-
+/* 
 function name() {
- 
+
     $.ajax({
         url: '/TodoDespachos/',//Lista de herramientas y su almacen
         success: function (data) {
             resolve(data)
             for (let index = 0; index < array.length; index++) {
                 const element = array[index];
-                
-            } 
+
+            }
         }//Funcion success
     });//Ajax 
+} */
+
+
+function name(params) {
+
+    var Meses = []
+    var Detalle = []
+    var DetalleFinal = []
+    Formato = []
+
+    for (let f = 0; f < params.length; f++) {
+        Meses = [];
+        Detalle = [];
+        DetalleFinal = [];
+        for (let c = 0; c < params[0].length; c++) {
+            if (c > 1 && c < (2 + TotalMeses)) {
+                //console.log("fila: " + f + " columna: " + c + " Valor: "+params[f][c])
+                Meses.push(params[f][c])
+            } else if (c > TotalMeses && c < (params[0].length - 3)) {
+                //console.log("fila: " + f + " columna: " + c + " Valor: " + params[f][c])
+                Detalle.push(params[f][c])
+            } else if (c >= (params[0].length - 3)) {
+                DetalleFinal.push(params[f][c])
+            }    
+        }
+        Formato.push(Detalle.concat(Meses.concat(DetalleFinal)))
+    }
+    console.log(Formato)
+    var opts = [{
+        mode: 'edit', // edit | read
+        showToolbar: true,
+        showGrid: true,
+        showContextmenu: true
+    }];
+
+    var result = alasql('SELECT * INTO XLSX("Consumos '+moment().add(1, 'days').calendar()+'.xlsx",?) FROM ?', [opts, [Formato]]);
+   
+    setTimeout(() => {
+        //console.log(TablaConsumos)
+        redireccionar()
+    }, "2000");
+
+}
+
+
+//Cambia el estado de audotria del turno y reedirecciona a modulo de despacho
+function redireccionar() {
+    var pagina = "/ReporteConsumos";
+    location.href = pagina;
+}
+
+
+function ModalAjuste( ) {
+    $("#loading").modal();  
+}
+
+
+function ReporteConsumos( ) {
+    $("#ReporteConsumos").modal();  
 }

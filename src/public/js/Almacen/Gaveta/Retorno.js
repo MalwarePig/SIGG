@@ -33,8 +33,9 @@ $(function () {
                     var Maquina = Herramientas[i].Maquina;
                     var Empleado = Herramientas[i].Empleado;
                     var Salida = Fecha(Herramientas[i].Salida);
+                    var idProducto = Herramientas[i].idProducto
                     //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida];
+                    Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida,idProducto];
                     var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -46,8 +47,8 @@ $(function () {
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
 
-                        if (x == 4) { //Si termina de registrar datos crear el boton
-                            var newCell = newRow.insertCell(5); //CREAR CELDA
+                        if (x ==5) { //Si termina de registrar datos crear el boton
+                            var newCell = newRow.insertCell(6); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                         }
                     } //fin de for de columnas
@@ -98,11 +99,14 @@ function Seleccion(variable) {
     OT = Registro.rows[variable].cells[5].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
     Maquina = Registro.rows[variable].cells[6].childNodes[0].nodeValue; //Obtiene el valor de Producto
     Empleado = Registro.rows[variable].cells[7].childNodes[0].nodeValue; //Obtiene el valor de Stock
+    idHerramienta = Registro.rows[variable].cells[9].childNodes[0].nodeValue; //Obtiene el valor de Stock
+
 
     document.RegistroRetorno.Ret_FolioAnterior.value = Folio;
     document.RegistroRetorno.Ret_Herramienta.value = Producto;
     document.RegistroRetorno.Ret_OT.value = OT;
     document.RegistroRetorno.Ret_Nombre.value = Empleado;
+    document.RegistroRetorno.Ret_idHerramienta.value = idHerramienta;
 }
 
 //=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
@@ -138,7 +142,8 @@ function CrearNota() {
         var Estado = document.getElementById("Estado").value; //Obtiene el valor de Estado
         var Empleado = document.getElementById("Nombre").value; //Obtiene el valor de Nombre
         var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Comentario
-        var Arreglo = [Folio, Producto, Cantidad, Estado, Empleado, Maquina, Comentario,FolioSalida];
+        var idHerramienta = document.getElementById("idHerramienta").value; //Obtiene el valor de Comentario
+        var Arreglo = [Folio, Producto, Cantidad, Estado, Empleado, Maquina, Comentario,FolioSalida,idHerramienta];
         var Condicion = true; //para campos vacios
         for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
             if (Arreglo[a].length == 0) {
@@ -157,8 +162,8 @@ function CrearNota() {
                 // adjuntar el texto al nodo
                 var newText = document.createTextNode(Arreglo[x]);
                 newCell.appendChild(newText);
-                if (x == 7) { //Si termina de registrar datos crear el boton
-                    var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
+                if (x == 8) { //Si termina de registrar datos crear el boton
+                    var newCell = newRow.insertCell(9); //CREAR CELDA onclick="CrearNota()"
                     newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> Eliminar </button>';
                 }
             }
@@ -205,7 +210,8 @@ function GuardarNota() {
             var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
             var Comentario = tabla.rows[j].cells[6].childNodes[0].nodeValue;
             var FolioSalida = tabla.rows[j].cells[7].childNodes[0].nodeValue;
-            var Tabla = [Folio,Producto,Cantidad,Estado,Empleado,Maquina,Comentario,FolioSalida]
+            var idHerramienta = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+            var Tabla = [Folio,Producto,Cantidad,Estado,Empleado,Maquina,Comentario,FolioSalida,idHerramienta]
     
             Arreglo.push(Tabla);
         

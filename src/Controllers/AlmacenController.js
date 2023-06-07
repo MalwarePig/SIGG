@@ -278,16 +278,17 @@ Controller.GuardarNotaGaveta = (req, res) => {
                 let Empleado = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
                 let Parcial = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
                 let Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+                let idProducto = Object.values(data)[0][i][10]; //obeter datos de un objeto Comentario
                 let Movimiento = 'Salida';
                 let Planta = req.session.planta;
                 let Usuario = req.session.username;
 
                 let Almacen = 'Almacen ' + Planta;
 
-                console.log(Empleado)
+                console.log(idProducto)
 
                 conn.query("call DespachoGaveta('" + Folio + "','" + Producto + "'," + Entregado + ",'" + Estado + "','" + OT + "','" + OTEstatus + "','" + Maquina + "','"
-                    + Empleado + "','" + Parcial + "','" + Comentario + "','" + Movimiento + "','" + Planta + "','" + Usuario + "','" + Almacen + "');", true, (err, rows, fields) => {
+                    + Empleado + "','" + Parcial + "','" + Comentario + "','" + Movimiento + "','" + Planta + "','" + Usuario + "','" + Almacen + "',"+idProducto+");", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al registrar folios' + err);
                         } else {
@@ -1447,7 +1448,7 @@ Controller.BuscarHerramientasGav = (req, res) => {
             var Herramienta = Tranformer(Herra);//req.session.planta
             const planta = req.session.planta;
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM Gavetas WHERE (Clave like '%" + Herramienta + "%') AND Planta = '" + planta + "'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Gavetas WHERE Clave like '%" + Herramienta + "%' AND Planta = '" + planta + "'", (err, Herramientas) => {
                 if (err) {
 
                     console.log('Error de lectura ' + err);
@@ -1455,7 +1456,6 @@ Controller.BuscarHerramientasGav = (req, res) => {
                     console.log(Herramientas);
                     res.json(Herramientas);
                 }
-
             });
         });
     } else {
@@ -2683,7 +2683,7 @@ Controller.BuscarHerrRetornoGaveta = (req, res) => {
                 Param
             } = req.params;
 
-            conn.query("select * from SalidaGaveta WHERE(Producto LIKE '%" + Param + "%' OR OT = '" + Param + "' OR Empleado like'%" + Param + "%') AND Devuelto < Entregado", (err, Herramientas) => {
+            conn.query("select * from SalidaGaveta WHERE(Producto LIKE '%" + Param + "%' OR OT = '" + Param + "' OR Empleado like'%" + Param + "%') AND Devuelto < Entregado order by salida desc", (err, Herramientas) => {
                 if (err) {
                     console.log('Error de lectura' + err);
                 } else {
@@ -2717,6 +2717,7 @@ Controller.GuardarNotaRetornoGaveta = (req, res) => {
                 let Maquina = Object.values(data)[0][i][5]; //[No se][indice de fila][indice de columna]
                 let Comentarios = Object.values(data)[0][i][6]; //[No se][indice de fila][indice de columna]
                 let FolioSalida = Object.values(data)[0][i][7]; //[No se][indice de fila][indice de columna]
+                let idHerramienta = Object.values(data)[0][i][8]; //[No se][indice de fila][indice de columna]
                 let Movimiento = 'Retorno';
                 let Planta = req.session.planta;
                 let Usuario = req.session.username;
@@ -2726,7 +2727,7 @@ Controller.GuardarNotaRetornoGaveta = (req, res) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta');
                     }
-                    conn.query("call GavetaRetorno(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','" + Planta + "')", true, (err, rows, fields) => {
+                    conn.query("call GavetaRetorno(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','" + Planta + "',"+idHerramienta+")", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al descontar almacen' + err);
                         } else {
