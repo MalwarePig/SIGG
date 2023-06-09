@@ -375,8 +375,7 @@ router.get('/CargaCapturasEntregadoTI/', AlmacenController.CargaCapturasEntregad
 router.get('/CargaCapturasPendientesTI/', AlmacenController.CargaCapturasPendientesTI);
 
 
-
-//============================== Almacen Gaveta (Oficina) ==============================//
+//================================== MODULO DE GAVETAS =================================// 
 //Abre pagina principal para editar
 router.get('/AdminGaveta', (req, res) => {
 	if (req.session.loggedin) {
@@ -385,8 +384,53 @@ router.get('/AdminGaveta', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 });
+ 
 
-//============================== Almacen Gaveta (Oficina) ==============================//
+router.get('/GavetaRetorno', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_RetornoGaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+//Transfiere de gaveta almacen
+router.post('/DescontarGaveta', AlmacenController.DescontarGaveta);
+//Busca Herramientas en Gaveta
+router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientasGav);
+//Busca Herramientas en Gaveta por planta
+router.get('/BuscarHerramientasGavPlanta/:parametros', AlmacenController.BuscarHerramientasGavPlanta);
+//Busca Pendientes de recolectar en gaveta
+router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
+//Guarda la recoleccion en gaveta
+router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta); 
+//Existencias Gaveta 
+router.get('/ExistenciasGaveta', AlmacenController.ExistenciasGaveta);
+
+router.post('/addNuevoProducto', AlmacenController.NuevoProducto);
+
+//Guarda la recoleccion en gaveta
+router.post('/postAjusteGaveta', AlmacenController.postAjusteGaveta); 
+
+//============================== Almacen Gaveta Despacho (Oficina) ==============================//
+router.get('/GavetaDespacho', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_SalidasGaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Abre pagina principal para editar
+router.get('/wh_ProdNuevo', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/NuevoProducto/wh_ProdNuevo.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
 //Abre pagina principal para editar
 router.get('/Gaveta', (req, res) => {
 	if (req.session.loggedin) {
@@ -405,37 +449,6 @@ router.get('/wh_EditarGaveta', (req, res) => {
 	}
 });
 
-//Transfiere de gaveta almacen
-router.post('/DescontarGaveta', AlmacenController.DescontarGaveta);
-//Busca Herramientas en Gaveta
-router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientasGav);
-//Busca Pendientes de recolectar en gaveta
-router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
-//Guarda la recoleccion en gaveta
-router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
-
-//Existencias Gaveta 
-router.get('/ExistenciasGaveta', AlmacenController.ExistenciasGaveta);
-//============================== Almacen Gaveta Despacho (Oficina) ==============================//
-router.get('/GavetaDespacho', (req, res) => {
-	if (req.session.loggedin) {
-		res.render('Almacen/Gaveta/wh_SalidasGaveta.html');
-	} else {
-		res.render('Admin/Login.html');
-	}
-});
-
-
-//============================== Almacen Gaveta Retorno (Oficina) ==============================//
-router.get('/GavetaRetorno', (req, res) => {
-	if (req.session.loggedin) {
-		res.render('Almacen/Gaveta/wh_RetornoGaveta.html');
-	} else {
-		res.render('Admin/Login.html');
-	}
-});
-
-//============================== Almacen ExistenciasGaveta (Oficina) ==============================//
 router.get('/ExistenciasGavetas', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/Gaveta/wh_ExistenciaGaveta.html');
@@ -444,17 +457,18 @@ router.get('/ExistenciasGavetas', (req, res) => {
 	}
 });
 
-//====== Crear Herramienta ========
-//Abre pagina principal para editar
-router.get('/wh_ProdNuevo', (req, res) => {
+router.get('/AjusteGaveta', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Almacen/NuevoProducto/wh_ProdNuevo.html');
+		res.render('Almacen/Gaveta/wh_AjustesGaveta.html');
 	} else {
 		res.render('Admin/Login.html');
 	}
 });
 
-router.post('/addNuevoProducto', AlmacenController.NuevoProducto);
+//============================== Almacen  Gaveta (Oficina) ==============================//
+
+//====== Crear Herramienta ========
+
 //====== Editar Herramienta ========
 //Abre pagina principal para editar
 router.get('/wh_Editar', (req, res) => {

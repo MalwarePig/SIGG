@@ -1463,6 +1463,61 @@ Controller.BuscarHerramientasGav = (req, res) => {
     }
 };
 
+Controller.BuscarHerramientasGavPlanta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            console.log("parametros: " + parametros);
+            var Herramienta = parametros.split('|')[0]; 
+            var Planta = parametros.split('|')[1];  
+            console.log("Salida: " + Herramienta + " Planta: " + Planta);
+            conn.query("SELECT * FROM Gavetas WHERE Clave like '%" + Herramienta + "%' AND Planta = '" + Planta + "' order by Planta", (err, Herramientas) => {
+                if (err) {
+
+                    console.log('Error de lectura ' + err);
+                } else {
+                    console.log(Herramientas);
+                    res.json(Herramientas);
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+//Editar Producto
+Controller.postAjusteGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+            var Cantidad = Object.values(data)[0].Cantidad; //obeter datos de un objeto Clave
+            var CantidadUsados = Object.values(data)[0].CantidadUsados; //obeter datos de un objeto Producto
+ 
+             if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("UPDATE gavetas SET Cantidad = " + Cantidad + ", CantidadUsados = " + CantidadUsados + " WHERE id = " + id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }else{
+                        res.json(true)
+                    }
+                    
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 ///////// == GAVETA == ////////////////////////////// == GAVETA == ////////////////////////////// == GAVETA == ////////////////////////// == GAVETA == //////////////////// == GAVETA == ///////////////////// == GAVETA == ///////////////////////////////////////////////////////////////
 
