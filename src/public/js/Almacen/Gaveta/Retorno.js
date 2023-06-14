@@ -7,9 +7,7 @@ var Maquina = "";
 var Empleado = "";
 var Funcional = "";
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
-$(function () {
-    // GET PRODUCTS
-    $('#getProducts').on('click', () => {
+function GETPRODUCTS() {
         //OBTENER FILTRO DE FAMILIA
         console.log("Maquina: " + document.getElementById("BHerramienta").value);
         $.ajax({
@@ -33,9 +31,10 @@ $(function () {
                     var Maquina = Herramientas[i].Maquina;
                     var Empleado = Herramientas[i].Empleado;
                     var Salida = Fecha(Herramientas[i].Salida);
+                    var Comentarios = Herramientas[i].Comentarios;
                     var idProducto = Herramientas[i].idProducto
                     //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida,idProducto];
+                    Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida,Comentarios,idProducto];
                     var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -47,17 +46,15 @@ $(function () {
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
 
-                        if (x ==5) { //Si termina de registrar datos crear el boton
-                            var newCell = newRow.insertCell(6); //CREAR CELDA
+                        if (x ==6) { //Si termina de registrar datos crear el boton
+                            var newCell = newRow.insertCell(7); //CREAR CELDA
                             newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                         }
                     } //fin de for de columnas
                 } //fin de for de filas
             } //Funcion success
-        }); //Ajax
-    }); //Evento clic
-}); //Funcion JQuery
-
+        }); //Ajax 
+}
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
 /* $(function () {
     $(".solo-numero").keydown(function (event) {
@@ -99,7 +96,8 @@ function Seleccion(variable) {
     OT = Registro.rows[variable].cells[5].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
     Maquina = Registro.rows[variable].cells[6].childNodes[0].nodeValue; //Obtiene el valor de Producto
     Empleado = Registro.rows[variable].cells[7].childNodes[0].nodeValue; //Obtiene el valor de Stock
-    idHerramienta = Registro.rows[variable].cells[9].childNodes[0].nodeValue; //Obtiene el valor de Stock
+    idHerramienta = Registro.rows[variable].cells[10].childNodes[0].nodeValue; //Obtiene el valor de Stock
+    Comentarios = Registro.rows[variable].cells[9].childNodes[0].nodeValue; //Obtiene el valor de Stock
 
 
     document.RegistroRetorno.Ret_FolioAnterior.value = Folio;
@@ -107,6 +105,7 @@ function Seleccion(variable) {
     document.RegistroRetorno.Ret_OT.value = OT;
     document.RegistroRetorno.Ret_Nombre.value = Empleado;
     document.RegistroRetorno.Ret_idHerramienta.value = idHerramienta;
+    document.RegistroRetorno.Ret_Comentario.value = Comentarios;
 }
 
 //=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
@@ -254,3 +253,12 @@ function Fecha(parametro) {
         var today = dd + '/' + mm + '/' + yyyy;
         return today;
 }
+
+function runScript(e) {
+    if (e.keyCode == 13) {
+        GETPRODUCTS();
+    }
+}
+
+
+

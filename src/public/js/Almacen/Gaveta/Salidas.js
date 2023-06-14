@@ -25,8 +25,9 @@ function GETPRODUCTS() {
                 var Grado = Herramientas[i].Grado
                 var Tipo = Herramientas[i].Tipo
                 var Ubicacion = Herramientas[i].Ubicacion
+                var Comentario = Herramientas[i].Comentarios || "-"
                 //Eliminar variable dentro del For 
-                Arreglo = [id,Clave,Cantidad,CantidadUsados,Planta,Ubicacion,Familia,Grado,Tipo,Marca]
+                Arreglo = [id,Clave,Cantidad,CantidadUsados,Planta,Ubicacion,Familia,Grado,Tipo,Marca,Comentario]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -38,8 +39,8 @@ function GETPRODUCTS() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 9) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                    if (x == 10) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(11); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
                     }
                 } //fin de for de columnas
@@ -67,10 +68,12 @@ function Seleccion(variable) {
     var Stock = Registro.rows[variable].cells[2].childNodes[0].nodeValue; //Obtiene el valor de Stock
     var StockUsado = Registro.rows[variable].cells[3].childNodes[0].nodeValue; //Obtiene el valor de StockUsado
     var Ubicacion = Registro.rows[variable].cells[4].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
+    var Comentario = Registro.rows[variable].cells[10].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
 
     document.RegistroSalida.Sal_Herramienta.value = Producto;
     document.RegistroSalida.Sal_Ubicación.value = Ubicacion;
     document.RegistroSalida.Sal_id.value = id;
+    document.RegistroSalida.Sal_Comentario.value = Comentario;
 }
 
 //=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//

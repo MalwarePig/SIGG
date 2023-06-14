@@ -320,6 +320,25 @@ router.get('/ReporteConsumos', (req, res) => {
 	res.end();
 });
 
+
+//============================== Criticos  ==============================//
+//====== Tornilleria ========
+//Abre pagina principal para tornilleria
+router.get('/wh_Criticos', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/ReporteCritico/wh_Reporte.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+
+//Muestra la lista de herramientas despachadas por almacen
+router.get('/MinCritico/', AlmacenController.MinCritico);
+
 //Muestra la lista de herramientas despachadas por almacen
 router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho);
 //Muestra el consumo por cada herramienta
@@ -401,6 +420,8 @@ router.post('/DescontarGaveta', AlmacenController.DescontarGaveta);
 router.get('/BuscarHerramientasGav/:Herra', AlmacenController.BuscarHerramientasGav);
 //Busca Herramientas en Gaveta por planta
 router.get('/BuscarHerramientasGavPlanta/:parametros', AlmacenController.BuscarHerramientasGavPlanta);
+//Busca Herramientas en Gaveta por id
+router.get('/BuscarGavetaId/:parametros', AlmacenController.BuscarGavetaId);
 //Busca Pendientes de recolectar en gaveta
 router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
 //Guarda la recoleccion en gaveta
@@ -413,6 +434,9 @@ router.post('/addNuevoProducto', AlmacenController.NuevoProducto);
 //Guarda la recoleccion en gaveta
 router.post('/postAjusteGaveta', AlmacenController.postAjusteGaveta); 
 
+router.get('/ListaFamiliasGaveta', AlmacenController.ListaFamiliasGaveta); 
+//Guarda la recoleccion en gaveta
+router.post('/GuardarCambiosGaveta', AlmacenController.GuardarCambiosGaveta); 
 //============================== Almacen Gaveta Despacho (Oficina) ==============================//
 router.get('/GavetaDespacho', (req, res) => {
 	if (req.session.loggedin) {

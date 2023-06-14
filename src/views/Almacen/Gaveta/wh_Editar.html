@@ -9,73 +9,190 @@
     </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%- include ('../../partials/head.html') %> 
-    <!------incluir cabezera navegacion----->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <%- include ('../../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 
-    <script type="text/javascript" src="js/Almacen/Gaveta/Editar.js"></script>
+        <script type="text/javascript" src="js/Almacen/Gaveta/Editar.js"></script>
 </head>
 
-<body>
-    <%- include ('../../partials/navegacion.html') %> 
-    <!------incluir navegacion Menu----->
+<body onload="CargarFamilias()">
+    <%- include ('../../partials/navegacion.html') %>
+        <!------incluir navegacion Menu----->
 
-    <div class="card text-center">
-        <div class="card-header">
-            <!------------------------------ BUSCAR -------------------------------------->
-    
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+
                 <div class="form-row">
                     <div class="form-group col-md-2">
                         <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
                             name="BHerramienta" autocomplete="off" onkeypress="runScript(event)" value="cnmg">
                     </div>
                     <div class="form-group col-md-1">
-                        <button type="button" id="getProducts" name="getProducts"
-                            class="btn btn-secondary" onclick="GETPRODUCTS()">Buscar</button>
+                        <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
+                            onclick="GETPRODUCTS()">Buscar</button>
                     </div>
                 </div>
-        </div>
-        <div class="card-body">
-            <!------------------------------ TABLA -------------------------------------->
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
-                style="width:96%; height: 700px; overflow: scroll;">
-                <table class="table table-condensed table-hover" id="Herr_Encontradas">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Clave</th>
-                            <th>Producto</th>
-                            <th>Almacen</th>
-                            <th>Precios</th>
-                            <th>Ubicación</th>
-                            <th style="width: 20%">Proveedor</th>
-                            <th style="width: 20%">Proveedor sec</th>
-                            <th style="width: 20%">Familia</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            </div>
+            <div class="card-body">
+                <!------------------------------ TABLA -------------------------------------->
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                    style="width:96%; height: 700px; overflow: scroll;">
+                    <table class="table table-condensed table-hover" id="Herr_Encontradas">
+                        <thead>
+                            <tr>
+                                <!-- Clave,Familia,Marca, Grado, Tipo, Descripcion, MedidaDiametro, Parte, Ubicacion, Link, Comentario -->
 
-                    </tbody>
-                </table>
+                                <th style="width: 1%"></th>
+                                <th style="width: 20%">Clave</th>
+                                <th>Planta</th>
+                                <th>Familia</th>
+                                <th>Marca</th>
+                                <th>Grado</th>
+                                <th>Diametro</th>
+                                <th>Tipo</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+
+
+        <!-- Modal Sin elementos -->
+        <div class="modal fade" id="Cambios" tabindex="-1" role="dialog" aria-labelledby="Cambios" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        Cambios realizados!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Modal Sin elementos -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalFormulario"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Editar Herramienta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="Formulario">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">id:</label>
+                                        <input type="text" class="form-control" id="N_id" readonly>
+                                    </div> 
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Clave:</label>
+                                        <input type="text" class="form-control" id="N_Clave" readonly>
+                                    </div> 
+                                </div> 
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="inputState" class="font-weight-bold">Familia</label>
+                                        <select required id="N_Familia" name="Sal_Familia" class="form-control">
+                                            <option value="a" selected disabled>seleccione la familia</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Planta:</label>
+                                        <input type="text" class="form-control" id="N_Planta" readonly>
+                                    </div> 
+                                </div>
+
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Marca:</label>
+                                        <input type="text" class="form-control" id="N_Marca">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Grado:</label>
+                                        <input type="text" class="form-control" id="N_Grado">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Diametro:</label>
+                                        <input type="text" class="form-control" id="N_Diametro">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Tipo:</label>
+                                        <input type="text" class="form-control" id="N_Tipo">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Ubicacion:</label>
+                                        <input type="text" class="form-control" id="N_Ubicacion">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Parte:</label>
+                                        <input type="text" class="form-control" id="N_Parte">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Precio:</label>
+                                        <input type="text" class="form-control" id="N_Precio">
+                                    </div>
+                                </div> 
+
+                                
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Descripcion:</label>
+                                        <input type="text" class="form-control" id="N_Descripcion">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Link:</label>
+                                        <input type="text" class="form-control" id="N_Link">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Comentarios:</label>
+                                        <input type="text" class="form-control" id="N_Comentarios">
+                                    </div>
+                                </div>
  
 
-     <!-- Modal Sin elementos -->
-     <div class="modal fade" id="Cambios" tabindex="-1" role="dialog" aria-labelledby="Cambios"
-     aria-hidden="true">
-     <div class="modal-dialog" role="document">
-       <div class="modal-content">
-         <div class="modal-body">
-           Cambios realizados!
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-         </div>
-       </div>
-     </div>
-   </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" onclick="GuardarCambiosGaveta()">Guardar</button>
+                        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
 
 </body>

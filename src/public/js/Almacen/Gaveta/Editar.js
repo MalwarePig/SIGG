@@ -1,4 +1,4 @@
- 
+
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
     var variable = Tranformer(document.getElementById("BHerramienta").value); //Cambia el simbolo '/'
@@ -6,8 +6,6 @@ function GETPRODUCTS() {
         url: '/BuscarHerramientasGav/' + variable,
         success: function (Herramientas) {
             console.log(Herramientas)
-            
-            
             var Arreglo = [];
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
@@ -18,23 +16,20 @@ function GETPRODUCTS() {
             if (Herramientas.length == 0) {
                 $("#Vacio").modal();
             }
-          
+            /* Clave,Familia,Marca, Grado, Tipo, Descripcion, MedidaDiametro, Parte, Ubicacion, Link, Comentario */
+            /* Clave,Planta,Familia,Marca, Grado, MedidaDiametro, Tipo */
             for (var i = 0; i < Herramientas.length; i++) {
                 var id = Herramientas[i].id;
-                var Planta = Herramientas[i].Planta 
-                var Familia = Herramientas[i].Familia || '-';
                 var Clave = Herramientas[i].Clave || '-';
+                var Planta = Herramientas[i].Planta
+                var Familia = Herramientas[i].Familia || '-';
+
                 var Marca = Herramientas[i].Marca || '-';
                 var Grado = Herramientas[i].Grado || '-';
-                var Tipo = Herramientas[i].Tipo || '-';
-                var Descripcion = Herramientas[i].Descripcion || '-';
                 var MedidaDiametro = Herramientas[i].MedidaDiametro || '-';
-                var Parte = Herramientas[i].Parte || '-';
-                var Ubicacion = Herramientas[i].Ubicacion || '-';
-                var Link = Herramientas[i].Link || '-';
-                var Comentarios = Herramientas[i].Comentarios || '-'; 
+                var Tipo = Herramientas[i].Tipo || '-';
                 //Eliminar variable dentro del For
-                Arreglo = [id,Clave,Planta,Familia,Marca,Grado,Tipo,Descripcion,MedidaDiametro,Parte,Ubicacion,Link,Comentarios]
+                Arreglo = [id, Clave, Planta, Familia, Marca, Grado, MedidaDiametro, Tipo]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -47,44 +42,34 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input required type="text" id="id' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
                             break;
                         case 1:
-                            newCell.innerHTML = '<input required type="text" id="Clave' + i + '" class="form-control"  value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input required type="text" id="Clave' + i + '" class="form-control"  value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 2:
-                            newCell.innerHTML = '<input type="text" id="Producto' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input type="text" id="Planta' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 3:
-                            newCell.innerHTML = '<input type="text" id="Almacen' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+                            newCell.innerHTML = '<input type="text" id="Familia' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 4:
-                            newCell.innerHTML = '<input required type="text" id="Precio' + i + '" class="form-control" placeholder="Precio.." value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input required type="text" id="Marca' + i + '" class="form-control" placeholder="Precio.." value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 5:
-                            newCell.innerHTML = '<input required type="text" id="Ubicacion' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '"></input>';
+                            newCell.innerHTML = '<input required type="text" id="Grado' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 6:
-                            var Prov = Arreglo[x] || '-';
-                            newCell.innerHTML = '<select required id="Proveedor' + i + '" class="form-control" onFocus="CargarProveedor(' + i + ')">' +
-                                '<option value="' + Prov + '" selected disabled>' + Prov + '</option></select>';
+                            newCell.innerHTML = '<input required type="text" id="MedidaDiametro' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '" readonly></input>';
                             break;
                         case 7:
-                            var ProvSec = Arreglo[x];
-                            newCell.innerHTML = '<select required id="ProveedorSec' + i + '" class="form-control" onFocus="CargarProveedorSec(' + i + ')">' +
-                                '<option value="' + ProvSec + '" selected disabled>' + ProvSec + '</option></select>';
-                            break;
-
-                        case 8:
-                            var Familia = Arreglo[x];
-                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-control" onFocus="CargarFamilias(' + i + ')">' +
-                                '<option value="' + Familia + '" selected disabled>' + Familia + '</option></select>';
+                            newCell.innerHTML = '<input required type="text" id="Tipo' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '" readonly></input>';
                             break;
 
                         default:
                             break;
                         // code block
                     }
-                    if (x == 8) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(9); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Actualizar </button>';
+                    if (x == 7) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(8); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + i + ')> Ver </button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas  
@@ -100,38 +85,44 @@ function runScript(e) {
 }
 //=========================================== Actualizar Seleccion =================================================//
 function Seleccion(variable) {
-    var indice = variable - 1;
-    Registro = document.getElementById("Herr_Encontradas");
-    var id = document.getElementById("id" + indice).value; //Obtiene el valor de id
-    var Clave = document.getElementById("Clave" + indice).value; //Obtiene el valor de Clave
-    var Producto = document.getElementById("Producto" + indice).value; //Obtiene el valor de Producto
-    var Ubicacion = document.getElementById("Ubicacion" + indice).value; //Obtiene el valor de Ubicacion
-    var Proveedor = document.getElementById("Proveedor" + indice).value; //Obtiene el valor de Proveedor
-    var ProveedorSec = document.getElementById("ProveedorSec" + indice).value; //Obtiene el valor de Proveedor
-    var Precio = document.getElementById("Precio" + indice).value; //Obtiene el valor de Precio
-    var Familia = document.getElementById("Familia" + indice).value; //Obtiene el valor de Precio
+    var id = document.getElementById("id" + variable).value;
+    $.ajax({
+        url: '/BuscarGavetaId/' + id,
+        success: function (Herramientas) {
+            ModalFormulario()
+            console.log(Herramientas)
+            /*Clave,Familia,Marca, Grado, Tipo, Descripcion, MedidaDiametro, Parte, Ubicacion, Link, Comentario */
+            var Clave = Herramientas[0].Clave || '-';
+            var Planta = Herramientas[0].Planta
+            var Familia = Herramientas[0].Familia || '-';
+            SeleccionarFamiliaDefault(Familia);
+            var Marca = Herramientas[0].Marca || '-';
+            var Grado = Herramientas[0].Grado || '-';
+            var MedidaDiametro = Herramientas[0].MedidaDiametro || '-';
+            var Tipo = Herramientas[0].Tipo || '-';
+            var Descripcion = Herramientas[0].Descripcion || '-';
+            var Parte = Herramientas[0].Parte || '-';
+            var Ubicacion = Herramientas[0].Ubicacion || '-';
+            var Link = Herramientas[0].Link || '-';
+            var Comentario = Herramientas[0].Comentarios || '-';
+            var Precio = Herramientas[0].Precio || '-';
 
-    var ObjetoTabla = {
-        id: id,
-        Clave: Clave,
-        Producto: Producto,
-        Ubicacion: Ubicacion,
-        Proveedor: Proveedor,
-        ProveedorSec: ProveedorSec,
-        Precio: Precio,
-        Familia: Familia
-    }
+            document.getElementById("N_id").value = id;
+            document.getElementById("N_Clave").value = Clave;
+            document.getElementById("N_Planta").value = Planta;
+            document.getElementById("N_Marca").value = Marca;
+            document.getElementById("N_Grado").value = Grado;
+            document.getElementById("N_Diametro").value = MedidaDiametro;
+            document.getElementById("N_Tipo").value = Tipo;
+            document.getElementById("N_Descripcion").value = Descripcion;
+            document.getElementById("N_Parte").value = Parte;
+            document.getElementById("N_Ubicacion").value = Ubicacion;
+            document.getElementById("N_Link").value = Link;
+            document.getElementById("N_Comentarios").value = Comentario;
+            document.getElementById("N_Precio").value = Precio;
+        } //Funcion success
+    }); //Ajax
 
-    $.post("/EditarProducto", // url
-        {
-            ObjetoTabla
-        }, // data to be submit
-        function (objeto, estatus) { // success callback
-            if (objeto == true) {
-                //alert("Cambios realizados")
-                $("#Cambios").modal();
-            }
-        });
 }
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url
@@ -177,7 +168,6 @@ function CargarProveedorSec(indice) {
     $.ajax({
         url: '/getProveedores',
         success: function (data) {
-            console.log(data)
             for (let i = listProveedor.options.length; i >= 0; i--) { //Borrar elementos option de select
                 listProveedor.remove(i);
             }
@@ -196,21 +186,82 @@ function CargarProveedorSec(indice) {
 
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
-function CargarFamilias(indice) {
-    var listMaquina = document.getElementById("Familia"+indice);
+function CargarFamilias() {
+    var listFamilia = document.getElementById("N_Familia");
     $.ajax({
-        url: '/ListaFamilias/',
-        success: function (maquinas) {
-            console.log(maquinas)
-            for (let i = listMaquina.options.length; i >= 1; i--) { //Borrar elementos option de select
-                listMaquina.remove(i);
+        url: '/ListaFamiliasGaveta/',
+        success: function (Familia) {
+            console.log(Familia)
+            for (let i = listFamilia.options.length; i >= 1; i--) { //Borrar elementos option de select
+                listFamilia.remove(i);
             }
-            for (var i = 0; i < maquinas.length; i++) { //Agregar nuevos options del select
+            for (var i = 0; i < Familia.length; i++) { //Agregar nuevos options del select
 
                 var option = document.createElement("option");
-                option.text = maquinas[i].Familia;
-                listMaquina.add(option);
+                option.text = Familia[i].Familia;
+                listFamilia.add(option);
             }
+
         } //Funcion success
     }); //Ajax
+}
+
+
+function ModalFormulario() {
+    $("#ModalFormulario").modal();
+}
+
+function SeleccionarFamiliaDefault(data) {
+    var listFamilia = document.getElementById("N_Familia");
+    for (var i = 0; i < listFamilia.length; i++) { //Agregar nuevos options del select  
+        if (data == listFamilia.options[i].value) {
+            listFamilia.options[i].selected = true
+        }
+    }
+}
+
+function GuardarCambiosGaveta() {
+    id = document.getElementById("N_id").value;
+    Clave = document.getElementById("N_Clave").value;
+    Planta = document.getElementById("N_Planta").value;
+    Familia = document.getElementById("N_Familia").value;
+    Marca = document.getElementById("N_Marca").value;
+    Grado = document.getElementById("N_Grado").value;
+    MedidaDiametro = document.getElementById("N_Diametro").value;
+    Tipo = document.getElementById("N_Tipo").value;
+    Descripcion = document.getElementById("N_Descripcion").value;
+    Parte = document.getElementById("N_Parte").value;
+    Ubicacion = document.getElementById("N_Ubicacion").value;
+    Link = document.getElementById("N_Link").value;
+    Comentario = document.getElementById("N_Comentarios").value;
+    Precio = document.getElementById("N_Precio").value;
+
+    var ObjetoTabla = {
+        id: id,
+        Clave: Clave,
+        Planta: Planta,
+        Familia: Familia,
+        Marca: Marca,
+        Grado: Grado,
+        MedidaDiametro: MedidaDiametro,
+        Tipo: Tipo,
+        Descripcion: Descripcion,
+        Parte: Parte,
+        Ubicacion: Ubicacion,
+        Link: Link,
+        Comentario: Comentario,
+        Precio: Precio
+    }
+
+    $.post("/GuardarCambiosGaveta", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            if (objeto == true) {
+                //alert("Cambios realizados")
+                $("#Cambios").modal();
+                $('#ModalFormulario').modal('hide')
+            }
+        });
 }
