@@ -1520,18 +1520,22 @@ Controller.postAjusteGaveta = (req, res) => {
             var id = Object.values(data)[0].id; //obeter datos de un objeto id
             var Cantidad = Object.values(data)[0].Cantidad; //obeter datos de un objeto Clave
             var CantidadUsados = Object.values(data)[0].CantidadUsados; //obeter datos de un objeto Producto
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Producto
+            var Grado = Object.values(data)[0].Grado; //obeter datos de un objeto Producto  
+            let Planta = req.session.planta;
+            let Usuario = req.session.username;
 
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE gavetas SET Cantidad = " + Cantidad + ", CantidadUsados = " + CantidadUsados + " WHERE id = " + id, (err, Herramientas) => {
+                console.log(id + "'," + Clave + ",'" + Planta + "','" + Usuario+ "','" +Grado+ "','" +Cantidad)
+                conn.query("call AjusteGaveta(" + id +",'" + Clave + "','"+Grado+"','"+Planta+"',"+Cantidad+","+CantidadUsados+",'"+Usuario+"')", true, (err, rows, fields) => {
                     if (err) {
-                        console.log('Error de lectura' + err);
+                        console.log('Error al Recolectar' + err);
                     } else {
-                        res.json(true)
+                       res.json(true)
                     }
-
-                });
+                }); 
             }
         });
     } else {
@@ -1541,7 +1545,7 @@ Controller.postAjusteGaveta = (req, res) => {
 
 
 
-//Editar Producto
+//Editar Producto Gaveta
 Controller.GuardarCambiosGaveta = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -1580,6 +1584,50 @@ Controller.GuardarCambiosGaveta = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+//Crea Producto Gaveta
+Controller.GuardarNuevoGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]); 
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto id
+            var Planta = Object.values(data)[0].Planta; //obeter datos de un objeto id
+            var Familia = Object.values(data)[0].Familia;
+            var Marca = Object.values(data)[0].Marca;
+            var Grado = Object.values(data)[0].Grado;
+            var MedidaDiametro = Object.values(data)[0].MedidaDiametro;
+            var Tipo = Object.values(data)[0].Tipo;
+            var Descripcion = Object.values(data)[0].Descripcion;
+            var Parte = Object.values(data)[0].Parte;
+            var Ubicacion = Object.values(data)[0].Ubicacion;
+            var Link = Object.values(data)[0].Link;
+            var Comentario = Object.values(data)[0].Comentario;
+            var Precio = Object.values(data)[0].Precio;
+            var Nuevo = Object.values(data)[0].Nuevo; 
+            var Usado = Object.values(data)[0].Usado;
+
+
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("INSERT INTO gavetas (Clave,Planta,Familia,Marca,Grado,MedidaDiametro,Tipo,Descripcion,Parte,Ubicacion,Link,Comentarios,Precio,Cantidad,CantidadUsados)VALUES"+
+                "('"+Clave+"','"+Planta+"','"+Familia+"','"+Marca+"','"+Grado+"','"+MedidaDiametro+"','"+Tipo+"','"+Descripcion+"','"+Parte+"','"+Ubicacion+"','"+Link+"','"+Comentario+"',"+Precio+","+Nuevo+","+Usado+")"   , (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    } else {
+                        res.json(true)
+                    }
+
+                }); 
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 Controller.ListaFamiliasGaveta = (req, res) => {
     if (req.session.loggedin) {
@@ -3044,7 +3092,29 @@ Controller.TodoDespachos = (req, res) => {
 };
 
 
+Controller.reporteAjustesGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var fechaInicio = parametros.split('|')[0]; // Fecha inicial
+            var fechafin = parametros.split('|')[1]; // Fecha limite
+            var Almacen = parametros.split('|')[2]; // Almacen
 
+            conn.query("SELECT * FROM reporteajustebasicogaveta WHERE Almacen = '" + Almacen + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                console.log(Herramientas);
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 
 

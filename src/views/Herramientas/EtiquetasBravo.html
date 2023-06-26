@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+        <script type="text/javascript" src="js/Herramientas/EtiquetasBravo.js"></script>
+
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body onload="modal()">
+    <%- include ('../partials/navegacion.html')%>
+
+        <!-- Modal Sin elementos -->
+        <div class="modal fade bd-example-modal-lg" id="AsignadoExito" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Etiquetas embarque</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <form id="Etiqueta" name="Etiqueta">
+                                    <div class="form-row">
+                                        <div class="form-group col-md">
+                                            <label for="OC" class="font-weight-bold">OC:</label>
+                                            <input type="text" id="OC" class="form-control" placeholder="OC..."
+                                                name="OC" autocomplete="off" required value="4501586852_10">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="OT" class="font-weight-bold">OT:</label>
+                                            <input type="text" id="OT" class="form-control" placeholder="OT..."
+                                                name="OT" autocomplete="off" required value="83080">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md">
+                                            <label for="Cantidad" class="font-weight-bold">Cantidad:</label>
+                                            <input type="text" id="Cantidad" class="form-control"
+                                                placeholder="Cantidad..." name="Cantidad" autocomplete="off" required
+                                                value="1">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="Cantidad" class="font-weight-bold">#Parte:</label>
+                                            <input type="text" id="Parte" class="form-control" placeholder="N. Parte..."
+                                                name="Parte" autocomplete="off" required value="111386">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md">
+                                            <label for="Serie" class="font-weight-bold">Serie:</label>
+                                            <input type="text" id="Serie" class="form-control" placeholder="Serie..."
+                                                name="Serie" autocomplete="off" required value="111386">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="Serie" class="font-weight-bold">Fecha:</label>
+                                            <input type="text" id="Fecha" class="form-control" placeholder="Fecha..."
+                                                name="Fecha" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md">
+                                            <label for="Descripcion" class="font-weight-bold">Descripción:</label>
+                                            <input type="text" id="Descripcion" class="form-control"
+                                                placeholder="Descripcion..." name="Descripcion" autocomplete="off"
+                                                required
+                                                value="FLECHA_MB-HT-0016-2-M_S/D_PARA VENTILADOR_MB-HT-0016-2-M___HORNO TRATAMIENTO TE |No familia:07-Mecanico SubFamilia: 11-Trasmisiones Categoria: 047-Flechas Codigo Nemak. 07.11.047">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-body">
+                                <form id="Usuarios" name="Usuarios">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <input type="text" id="Usuario" class="form-control"
+                                                placeholder="Usuario..." name="Usuario" autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <input type="text" id="Planta" class="form-control" placeholder="Planta..."
+                                                name="Planta" autocomplete="off" required>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="radMorelos" value="option1" checked onclick="CargarImagen()">
+                                            <label class="form-check-label" for="inlineRadio1">Morelos</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="radBravo" value="option2" onclick="CargarImagen()">
+                                            <label class="form-check-label" for="inlineRadio2">Bravo</label>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" onclick="Limpiar()">Limpiar</button>
+                        <button type="button" class="btn btn-danger" onclick="PDF()">PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

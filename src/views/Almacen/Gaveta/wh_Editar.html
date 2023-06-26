@@ -33,6 +33,11 @@
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
                             onclick="GETPRODUCTS()">Buscar</button>
                     </div>
+
+                    <div class="form-group  col-md-6 btn-space">
+                        <button type="button" id="getProducts" name="getProducts" class="btn btn-success"
+                        data-toggle="modal" data-target="#ModalFormularioNuevo""><i class="fas fa-plus"></i> Crear producto</button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -80,7 +85,7 @@
 
 
 
-        <!-- Modal Sin elementos -->
+        <!-- Modal Editar -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalFormulario"
             aria-labelledby="myLargeModalLabel" aria-hidden="false">
             <div class="modal-dialog modal-lg">
@@ -194,5 +199,134 @@
                 </div>
             </div>
         </div>
+        
 
+
+
+        <!-- Modal Nuevo -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalFormularioNuevo"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Crear Herramienta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="Formulario">
+                            <div class="form-group">
+                                <div class="form-row"> 
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Clave:</label>
+                                        <input type="text" class="form-control" id="New_Clave">
+                                    </div> 
+                                </div> 
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="inputState" class="font-weight-bold">Familia</label>
+                                        <select required id="New_Familia" name="New_Familia" class="form-control">
+                                            <option value="a" selected disabled>seleccione la familia</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col"> 
+                                        <label for="inputState" class="font-weight-bold">Planta</label>
+                                        <select required id="New_Planta" name="New_Planta" class="form-control">
+                                            <option value="a" selected disabled>seleccione la familia</option>
+                                             <option value="BRAVO">Bravo</option>
+                                             <option value="MORELOS">Morelos</option>
+                                        </select>
+                                    </div> 
+                                </div>
+
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Cantidad Nuevo:</label>
+                                        <input type="text" class="form-control" id="New_Nuevo">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Cantidad Usados:</label>
+                                        <input type="text" class="form-control" id="New_Usados">
+                                    </div> 
+                                </div>
+                                
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Marca:</label>
+                                        <input type="text" class="form-control" id="New_Marca">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Grado:</label>
+                                        <input type="text" class="form-control" id="New_Grado">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Diametro:</label>
+                                        <input type="text" class="form-control" id="New_Diametro">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Tipo:</label>
+                                        <input type="text" class="form-control" id="New_Tipo">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Ubicacion:</label>
+                                        <input type="text" class="form-control" id="New_Ubicacion">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Parte:</label>
+                                        <input type="text" class="form-control" id="New_Parte">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Precio:</label>
+                                        <input type="text" class="form-control" id="New_Precio">
+                                    </div>
+                                </div> 
+
+                                
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Descripcion:</label>
+                                        <input type="text" class="form-control" id="New_Descripcion">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Link:</label>
+                                        <input type="text" class="form-control" id="New_Link">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Comentarios:</label>
+                                        <input type="text" class="form-control" id="New_Comentarios">
+                                    </div>
+                                </div>
+ 
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" onclick="GuardarNuevoGaveta()">Guardar</button>
+                        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
 </body>

@@ -188,20 +188,27 @@ function CargarProveedorSec(indice) {
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
 function CargarFamilias() {
     var listFamilia = document.getElementById("N_Familia");
+    var listMaquinaNew = document.getElementById("New_Familia");
     $.ajax({
         url: '/ListaFamiliasGaveta/',
         success: function (Familia) {
             console.log(Familia)
             for (let i = listFamilia.options.length; i >= 1; i--) { //Borrar elementos option de select
                 listFamilia.remove(i);
+                listMaquinaNew.remove(i);
             }
             for (var i = 0; i < Familia.length; i++) { //Agregar nuevos options del select
 
                 var option = document.createElement("option");
                 option.text = Familia[i].Familia;
                 listFamilia.add(option);
+                // listMaquinaNew.add(option);
             }
-
+            for (var i = 0; i < Familia.length; i++) { //Agregar nuevos options del select 
+                var option = document.createElement("option");
+                option.text = Familia[i].Familia;
+                listMaquinaNew.add(option);
+            }
         } //Funcion success
     }); //Ajax
 }
@@ -262,6 +269,56 @@ function GuardarCambiosGaveta() {
                 //alert("Cambios realizados")
                 $("#Cambios").modal();
                 $('#ModalFormulario').modal('hide')
+            }
+        });
+}
+
+
+function GuardarNuevoGaveta() {
+    Clave = document.getElementById("New_Clave").value;
+    Familia = document.getElementById("New_Familia").value;
+    Planta = document.getElementById("New_Planta").value;
+    Marca = document.getElementById("New_Marca").value;
+    Grado = document.getElementById("New_Grado").value;
+    MedidaDiametro = document.getElementById("New_Diametro").value;
+    Tipo = document.getElementById("New_Tipo").value;
+    Descripcion = document.getElementById("New_Descripcion").value;
+    Parte = document.getElementById("New_Parte").value;
+    Ubicacion = document.getElementById("New_Ubicacion").value;
+    Link = document.getElementById("New_Link").value;
+    Comentario = document.getElementById("New_Comentarios").value;
+    Precio = document.getElementById("New_Precio").value;
+    Nuevo = document.getElementById("New_Nuevo").value;
+    Usado = document.getElementById("New_Usados").value;
+
+
+    var ObjetoTabla = {
+        Clave: Clave,
+        Planta: Planta,
+        Familia: Familia,
+        Marca: Marca,
+        Grado: Grado,
+        MedidaDiametro: MedidaDiametro,
+        Tipo: Tipo,
+        Descripcion: Descripcion,
+        Parte: Parte,
+        Ubicacion: Ubicacion,
+        Link: Link,
+        Comentario: Comentario,
+        Precio: Precio,
+        Nuevo: Nuevo,
+        Usado: Usado 
+    }
+
+    $.post("/GuardarNuevoGaveta", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            if (objeto == true) {
+                //alert("Cambios realizados")
+                $("#Cambios").modal();
+                $('#ModalFormularioNuevo').modal('hide')
             }
         });
 }

@@ -437,6 +437,7 @@ router.post('/postAjusteGaveta', AlmacenController.postAjusteGaveta);
 router.get('/ListaFamiliasGaveta', AlmacenController.ListaFamiliasGaveta); 
 //Guarda la recoleccion en gaveta
 router.post('/GuardarCambiosGaveta', AlmacenController.GuardarCambiosGaveta); 
+router.post('/GuardarNuevoGaveta', AlmacenController.GuardarNuevoGaveta); 
 //============================== Almacen Gaveta Despacho (Oficina) ==============================//
 router.get('/GavetaDespacho', (req, res) => {
 	if (req.session.loggedin) {
@@ -484,6 +485,14 @@ router.get('/ExistenciasGavetas', (req, res) => {
 router.get('/AjusteGaveta', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/Gaveta/wh_AjustesGaveta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+router.get('/HistorialAjusteGaveta', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_ReporteAjustes.html');
 	} else {
 		res.render('Admin/Login.html');
 	}
@@ -559,6 +568,7 @@ router.get('/wh_AjusteBasico', (req, res) => {
 
 //Actualiza informacion de producto
 router.post('/AjusteBasico', AlmacenController.AjusteBasico);
+router.get('/reporteAjustesGaveta/:parametros', AlmacenController.reporteAjustesGaveta);
 
 //Abre pagina principal para editar
 router.get('/wh_Recolectar', (req, res) => {
@@ -914,6 +924,26 @@ router.get('/Etiqueta_dos', (req, res) => {
 		console.log(area);
 		if(area == 'Embarques'){
 			res.render('Herramientas/Daimler.html', {
+				title: 'Gemak'
+			});
+		}else{
+			console.log("No area");
+			res.redirect('/home');
+		}
+	} else {
+		console.log("No area 2");
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+//Acceder formulario de etiquetas embarque
+router.get('/EtiquetasBravo', (req, res) => {
+	if (req.session.loggedin) {
+		let area = req.session.area;
+		console.log(area);
+		if(area == 'Embarques'){
+			res.render('Herramientas/EtiquetasBravo.html', {
 				title: 'Gemak'
 			});
 		}else{
