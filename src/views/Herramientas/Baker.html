@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+        <!------para svg----->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.5/canvg.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.5/canvg.js"></script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/canvg.js"></script>
+           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/canvg.min.js"></script>
+           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/rgbcolor.js"></script>
+           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/canvg.min.js"></script> -->
+        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+        <script src="js/Recursos/JsBarcode.all.min.js"></script>
+        <script type="text/javascript" src="js/Herramientas/Baker.js"></script>
+
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body onload="modal()">
+    <%- include ('../partials/navegacion.html')%>
+
+        <section style="display: none">
+            <svg id="CodigoPN"></svg>
+        </section>
+        <section style="display: none">
+            <svg id="CodigoPO"></svg>
+        </section>
+        <section style="display: none">
+            <svg id="CodigoSerie"></svg>
+        </section>
+        <section style="display: none">
+            <svg id="CodigoFecha"></svg>
+        </section> 
+ 
+        <section style="display: none">
+            <img alt="" id="SalidaPN">
+        </section>
+
+        <section style="display: none">
+            <img alt="" id="SalidaPO">
+        </section>
+
+        <section style="display: none">
+            <img alt="" id="SalidaSerie">
+        </section>
+        <section style="display: none">
+            <img alt="" id="SalidaFecha">
+        </section>
+
+        <!-- Modal Sin elementos -->
+        <div class="modal fade bd-example-modal-lg" id="ModalBaker" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Etiquetas embarque</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <form id="Etiqueta" name="Etiqueta">
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md">
+                                            <label for="Cantidad" class="font-weight-bold">PN:</label>
+                                            <input type="text" id="PN" class="form-control" placeholder="..." name="PN"
+                                                autocomplete="off" required value="10211291">
+                                        </div>
+
+                                        <div class="form-group col-md">
+                                            <label for="Rev" class="font-weight-bold">Rev:</label>
+                                            <input type="text" id="Rev" class="form-control" placeholder="..."
+                                                name="Rev" autocomplete="off" required value="4508338465">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="PO" class="font-weight-bold">PO:</label>
+                                            <input type="text" id="PO" class="form-control" placeholder="..." name="PO"
+                                                autocomplete="off" required value="4508338465">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md">
+                                            <label for="Serie" class="font-weight-bold">Serie:</label>
+                                            <input type="text" id="Serie" class="form-control" placeholder="..."
+                                                name="Serie" autocomplete="off" required value="13969062">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="Serie" class="font-weight-bold">Fecha:</label>
+                                            <input type="text" id="Fecha" class="form-control" placeholder="Fecha..."
+                                                name="Fecha" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" onclick="Limpiar()">Limpiar</button>
+                        <button type="button" class="btn btn-danger" onclick="GenerarPDF()">PDF</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
+</body>
+
+</html>

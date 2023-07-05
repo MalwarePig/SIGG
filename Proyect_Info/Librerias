@@ -25,3 +25,5 @@ mkdir lib public routes views
 
 
 https://github.com/simonbengtsson/jsPDF-AutoTable // CrearPDF
+
+https://lindell.me/JsBarcode/ //Codigo de Barras etiquetas

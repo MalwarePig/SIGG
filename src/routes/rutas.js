@@ -938,6 +938,27 @@ router.get('/Etiqueta_dos', (req, res) => {
 });
 
 //Acceder formulario de etiquetas embarque
+router.get('/Etiqueta_Baker', (req, res) => {
+	if (req.session.loggedin) {
+		let area = req.session.area;
+		console.log(area);
+		if(area == 'Embarques'){
+			res.render('Herramientas/Baker.html', {
+				title: 'Gemak'
+			});
+		}else{
+			console.log("No area");
+			res.redirect('/home');
+		}
+	} else {
+		console.log("No area 2");
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+
+//Acceder formulario de etiquetas embarque
 router.get('/EtiquetasBravo', (req, res) => {
 	if (req.session.loggedin) {
 		let area = req.session.area;

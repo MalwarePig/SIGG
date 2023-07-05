@@ -1532,6 +1532,7 @@ Controller.postAjusteGaveta = (req, res) => {
                 conn.query("call AjusteGaveta(" + id +",'" + Clave + "','"+Grado+"','"+Planta+"',"+Cantidad+","+CantidadUsados+",'"+Usuario+"')", true, (err, rows, fields) => {
                     if (err) {
                         console.log('Error al Recolectar' + err);
+                        console.log( err);
                     } else {
                        res.json(true)
                     }

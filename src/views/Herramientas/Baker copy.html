@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+        <!------para svg----->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.5/canvg.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.5/canvg.js"></script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/canvg.js"></script>
+           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/canvg.min.js"></script>
+           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/rgbcolor.js"></script>
+           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.0/canvg.min.js"></script> -->
+        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+        <script src="js/Recursos/JsBarcode.all.min.js"></script>
+        <script type="text/javascript" src="js/Herramientas/Baker.js"></script>
+
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body onload="modal()">
+    <%- include ('../partials/navegacion.html')%>
+
+        <div id="DivCodigoPN">
+            <svg id="CodigoPN"></svg>
+        </div>
+
+        <div id="DivCodigoPO">
+            <svg id="CodigoPO"></svg>
+        </div>
+
+        <div id="DivCodigoSerie">
+            <svg id="CodigoSerie"></svg>
+        </div>
+
+        <div id="DivCodigoFecha">
+            <svg id="CodigoFecha"></svg>
+        </div>
+
+
+
+
+        <script>
+            JsBarcode("#CodigoPN", "10211291", {
+                format: "CODE128",
+                lineColor: "#000000",
+                width: 4,
+                height: 40,
+                displayValue: true,
+                fontOptions: "bold",
+                fontSize: 24
+            });
+        </script>
+
+
+
+
+<h1>How to convert SVG to PNG with JavaScript</h1>
+<section>
+  <h2>Input SVG image</h2>
+  <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" id="input">
+    <circle cx="120" cy="120" r="90" fill="#888888" />
+  </svg>
+</section>
+<section>
+  <h2>Output PNG image</h2>
+  <img alt="" id="output">
+</section>
+
+        <script>
+            main()
+
+            function main() {
+                const input = document.querySelector('#input')
+                const output = document.querySelector('#output')
+
+                const svgData = new XMLSerializer().serializeToString(input)
+                const svgDataBase64 = btoa(unescape(encodeURIComponent(svgData)))
+                const svgDataUrl = `data:image/svg+xml;charset=utf-8;base64,${svgDataBase64}`
+
+                // console.log(svgData)
+                // console.log(encodeURIComponent(svgData))
+                // console.log(unescape(encodeURIComponent(svgData)))
+                // console.log(btoa(unescape(encodeURIComponent(svgData))))
+
+                const image = new Image()
+
+                image.addEventListener('load', () => {
+                    const width = input.getAttribute('width')
+                    const height = input.getAttribute('height')
+                    const canvas = document.createElement('canvas')
+
+                    canvas.setAttribute('width', width)
+                    canvas.setAttribute('height', height)
+
+                    const context = canvas.getContext('2d')
+                    context.drawImage(image, 0, 0, width, height)
+
+                    const dataUrl = canvas.toDataURL('image/png')
+                    output.src = dataUrl
+                })
+
+                image.src = svgDataUrl
+            }
+        </script>
+
+
+
+
+
+
+
+
+
+
+        <!-- 
+        <div id="content">
+            <img src="images/Gaveta.png" alt="foto">
+        </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Modal Sin elementos -->
+        <div class="modal fade bd-example-modal-lg" id="ModalBaker" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Etiquetas embarque</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <form id="Etiqueta" name="Etiqueta">
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md">
+                                            <label for="Cantidad" class="font-weight-bold">PN:</label>
+                                            <input type="text" id="Parte" class="form-control" placeholder="..."
+                                                name="Parte" autocomplete="off" required value="10211291">
+                                        </div>
+
+                                        <div class="form-group col-md">
+                                            <label for="OC" class="font-weight-bold">Rev:</label>
+                                            <input type="text" id="OC" class="form-control" placeholder="..." name="OC"
+                                                autocomplete="off" required value="4508338465">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="OT" class="font-weight-bold">PO:</label>
+                                            <input type="text" id="OT" class="form-control" placeholder="..." name="OT"
+                                                autocomplete="off" required value="4508338465">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md">
+                                            <label for="Serie" class="font-weight-bold">Serie:</label>
+                                            <input type="text" id="Serie" class="form-control" placeholder="..."
+                                                name="Serie" autocomplete="off" required value="13969062">
+                                        </div>
+                                        <div class="form-group col-md">
+                                            <label for="Serie" class="font-weight-bold">Fecha:</label>
+                                            <input type="text" id="Fecha" class="form-control" placeholder="Fecha..."
+                                                name="Fecha" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" onclick="Limpiar()">Limpiar</button>
+                        <button type="button" class="btn btn-danger" onclick="PDF()">PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
