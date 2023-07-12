@@ -62,18 +62,24 @@ $(function () {
 //=========================================== EVENTO CLIC SOBRE LA TABLA DE BUSQUEDA PARA SELECCIONAR HERRAMIENTA =================================================//
 function Seleccion(variable) {
     Registro = document.getElementById("Herr_Encontradas");
-
-    var id = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave 
-    var Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
-    var Stock = Registro.rows[variable].cells[2].childNodes[0].nodeValue; //Obtiene el valor de Stock
-    var StockUsado = Registro.rows[variable].cells[3].childNodes[0].nodeValue; //Obtiene el valor de StockUsado
-    var Ubicacion = Registro.rows[variable].cells[4].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
-    var Comentario = Registro.rows[variable].cells[10].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
-
-    document.RegistroSalida.Sal_Herramienta.value = Producto;
-    document.RegistroSalida.Sal_Ubicación.value = Ubicacion;
-    document.RegistroSalida.Sal_id.value = id;
-    document.RegistroSalida.Sal_Comentario.value = Comentario;
+    let PlantaTabla = Registro.rows[variable].cells[4].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
+    let PlantaSesion = localStorage.getItem("PlantaGeneral").toUpperCase()
+    if(PlantaTabla.toUpperCase() == PlantaSesion){
+        var id = Registro.rows[variable].cells[0].childNodes[0].nodeValue; //Obtiene el valor de Clave 
+        var Producto = Registro.rows[variable].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
+        var Stock = Registro.rows[variable].cells[2].childNodes[0].nodeValue; //Obtiene el valor de Stock
+        var StockUsado = Registro.rows[variable].cells[3].childNodes[0].nodeValue; //Obtiene el valor de StockUsado
+        var Ubicacion = Registro.rows[variable].cells[4].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
+        var Comentario = Registro.rows[variable].cells[10].childNodes[0].nodeValue; //Obtiene el valor de Ubicacion
+    
+        document.RegistroSalida.Sal_Herramienta.value = Producto;
+        document.RegistroSalida.Sal_Ubicación.value = Ubicacion;
+        document.RegistroSalida.Sal_id.value = id;
+        document.RegistroSalida.Sal_Comentario.value = Comentario;
+    }else{
+        $("#HerramientaAjena").modal();
+    }
+    
 }
 
 //=========================================== EVENTO CLIC SOBRE BOTON EN FORMULARIO PARA CREAR LA NOTA DE SALIDA =================================================//

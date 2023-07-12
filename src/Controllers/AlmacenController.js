@@ -1448,7 +1448,7 @@ Controller.BuscarHerramientasGav = (req, res) => {
             var Herramienta = Tranformer(Herra);//req.session.planta
             const planta = req.session.planta;
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM Gavetas WHERE Clave like '%" + Herramienta + "%' AND Planta = '" + planta + "'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Gavetas WHERE Clave like '%" + Herramienta + "%'", (err, Herramientas) => {
                 if (err) {
 
                     console.log('Error de lectura ' + err);
@@ -1524,6 +1524,7 @@ Controller.postAjusteGaveta = (req, res) => {
             var Grado = Object.values(data)[0].Grado; //obeter datos de un objeto Producto  
             let Planta = req.session.planta;
             let Usuario = req.session.username;
+            console.log("Grado: " + Grado)
 
             if (err) {
                 console.log("Conexion: " + err)
@@ -1621,6 +1622,32 @@ Controller.GuardarNuevoGaveta = (req, res) => {
                         res.json(true)
                     }
 
+                }); 
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//Crea Producto Gaveta
+Controller.EliminarGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]); 
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("delete from gavetas where id ="+id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    } else {
+                        res.json(true)
+                    }
                 }); 
             }
         });

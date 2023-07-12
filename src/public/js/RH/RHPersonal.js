@@ -54,9 +54,9 @@ function MostrarPersonal() {
 
                     if (x == 5) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(6); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-warning" name="btn" onclick= Seleccion(' + (i + 1) + ')> 🔃 </button>' +
-                            '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=EliminarEmpleado(' + (i + 1) + ')> - </button>' +
-                            '<button id="' + i + '" class="btn btn-success" name="btn" onclick=ActivarEmpleado(' + (i + 1) + ')> + </button>';
+                        newCell.innerHTML = '<button data-toggle="tooltip" data-placement="top" title="Guardar cambios" id="' + i + '" class="btn btn-warning" name="btn" onclick= Seleccion(' + (i + 1) + ')> <i class="fas fa-edit"></i> </button>' +
+                            '<button data-toggle="tooltip" data-placement="top" title="Desactivar envio de nomina" id="' + i + '" class="btn btn-danger" name="btn" onclick=EliminarEmpleado(' + (i + 1) + ')> <i class="fas fa-window-close"></i> </button>' +
+                            '<button data-toggle="tooltip" data-placement="top" title="Activar envio de nomina" id="' + i + '" class="btn btn-success" name="btn" onclick=ActivarEmpleado(' + (i + 1) + ')> <i class="fas fa-envelope"></i> </button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas

@@ -56,7 +56,7 @@ var FechaInicio = 0;
 var FechaFin = 0;
 var TotalMeses = 0;
 async function ListadoDespacho() {//Obtiene la lista de productos despachados
-    ModalAjuste( )
+    ModalAjuste()
     //Meses del 0 - 11 JS & MSQL 1 - 12
     FechaInicio = parseInt(document.getElementById("FechaInicio").value) + 1;
     FechaFin = parseInt(document.getElementById("FechaFin").value) + 2;

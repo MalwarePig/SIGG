@@ -386,7 +386,7 @@ function ExistenciasGaveta() {
             var TotalFilas = Herramientas.length //Total de filas
             var sheet_1_data = [];
 
-            var Encabezado = ["Clave","Familia","Planta","Marca","Grado","Tipo","Descripción","Medida Diametro","Parte","Ubicación","Cantidad Nuevo","Cantidad Usados","Comentarios","Link"]
+            var Encabezado = ["Clave","Familia","Planta","Marca","Grado","Tipo","Descripción","Medida Diametro","Parte","Ubicación","Cantidad Nuevo","Cantidad Usados","Comentarios","Link","Precios"]
                 sheet_1_data.push(Encabezado);
 
             for (var i = 0; i < TotalFilas; i++) { //filas
@@ -405,7 +405,8 @@ function ExistenciasGaveta() {
                 var CantidadUsados = Herramientas[i].CantidadUsados;
                 var Comentarios = Herramientas[i].Comentarios;
                 var Link = Herramientas[i].Link;
-                var Fila = [Clave,Familia,Planta,Marca,Grado,Tipo,Descripcion,MedidaDiametro,Parte,Ubicacion,Cantidad,CantidadUsados,Comentarios,Link]
+                var Precio = Herramientas[i].Precio || "0";
+                var Fila = [Clave,Familia,Planta,Marca,Grado,Tipo,Descripcion,MedidaDiametro,Parte,Ubicacion,Cantidad,CantidadUsados,Comentarios,Link,Precio]
                 sheet_1_data.push(Fila);
             } //fin filas
 

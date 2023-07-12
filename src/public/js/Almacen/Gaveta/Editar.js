@@ -122,7 +122,6 @@ function Seleccion(variable) {
             document.getElementById("N_Precio").value = Precio;
         } //Funcion success
     }); //Ajax
-
 }
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url
@@ -180,7 +179,6 @@ function CargarProveedorSec(indice) {
             }
         } //Funcion success
     }); //Ajax
-
 }
 
 
@@ -198,7 +196,6 @@ function CargarFamilias() {
                 listMaquinaNew.remove(i);
             }
             for (var i = 0; i < Familia.length; i++) { //Agregar nuevos options del select
-
                 var option = document.createElement("option");
                 option.text = Familia[i].Familia;
                 listFamilia.add(option);
@@ -291,7 +288,6 @@ function GuardarNuevoGaveta() {
     Nuevo = document.getElementById("New_Nuevo").value;
     Usado = document.getElementById("New_Usados").value;
 
-
     var ObjetoTabla = {
         Clave: Clave,
         Planta: Planta,
@@ -307,7 +303,7 @@ function GuardarNuevoGaveta() {
         Comentario: Comentario,
         Precio: Precio,
         Nuevo: Nuevo,
-        Usado: Usado 
+        Usado: Usado
     }
 
     $.post("/GuardarNuevoGaveta", // url
@@ -321,4 +317,27 @@ function GuardarNuevoGaveta() {
                 $('#ModalFormularioNuevo').modal('hide')
             }
         });
+}
+
+var idEliminarGaveta = ""
+function TomarIdEliminar() {
+    idEliminarGaveta = document.getElementById("N_id").value;
+}
+
+function EliminarGaveta() {
+    var ObjetoTabla = {
+        id: idEliminarGaveta, 
+    }
+
+    $.post("/EliminarGaveta", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            if (objeto == true) {
+                //alert("Cambios realizados") 
+                $('#ModalEliminar').modal('hide')
+                GETPRODUCTS()
+            }
+        }); 
 }

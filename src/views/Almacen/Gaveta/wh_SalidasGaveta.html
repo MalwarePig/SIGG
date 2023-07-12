@@ -43,7 +43,7 @@
           <table class="table table-condensed table-hover" id="Herr_Encontradas">
             <thead>
               <tr>
-                <th></th>
+                <th>#</th>
                 <th>Clave</th>
                 <th>Cantidad Nuevo</th>
                 <th>Cantidad Usado</th>
@@ -250,7 +250,7 @@
             No se encontraron elementos con ese nombre.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Cerrar</button>
           </div>
         </div>
       </div>
@@ -265,13 +265,26 @@
             Recolección exitosa.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Cerrar</button>
           </div>
         </div>
       </div>
     </div>
 
-
+    <!-- Modal Herramienta Ajena -->
+    <div class="modal fade" id="HerramientaAjena" tabindex="-1" role="dialog" aria-labelledby="HerramientaAjena"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            Herramienta ajena a su planta.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <%- include ('../../Almacen/ModalRequerido.html') %>
 

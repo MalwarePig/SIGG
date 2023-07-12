@@ -1,0 +1,3 @@
+<!-- Cierra Modal anterior y abre uno nuevo -->
+<button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" data-toggle="modal"
+    data-target="#ModalEliminar">Eliminar</button>

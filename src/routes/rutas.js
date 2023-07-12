@@ -438,6 +438,7 @@ router.get('/ListaFamiliasGaveta', AlmacenController.ListaFamiliasGaveta);
 //Guarda la recoleccion en gaveta
 router.post('/GuardarCambiosGaveta', AlmacenController.GuardarCambiosGaveta); 
 router.post('/GuardarNuevoGaveta', AlmacenController.GuardarNuevoGaveta); 
+router.post('/EliminarGaveta', AlmacenController.EliminarGaveta); 
 //============================== Almacen Gaveta Despacho (Oficina) ==============================//
 router.get('/GavetaDespacho', (req, res) => {
 	if (req.session.loggedin) {

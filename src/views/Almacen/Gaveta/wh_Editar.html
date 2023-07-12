@@ -36,7 +36,8 @@
 
                     <div class="form-group  col-md-6 btn-space">
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-success"
-                        data-toggle="modal" data-target="#ModalFormularioNuevo""><i class="fas fa-plus"></i> Crear producto</button>
+                            data-toggle="modal" data-target="#ModalFormularioNuevo""><i class=" fas fa-plus"></i> Crear
+                            producto</button>
                     </div>
                 </div>
             </div>
@@ -94,8 +95,8 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Editar Herramienta</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
 
                     <div class="modal-body">
@@ -105,12 +106,12 @@
                                     <div class="col">
                                         <label for="recipient-name" class="col-form-label">id:</label>
                                         <input type="text" class="form-control" id="N_id" readonly>
-                                    </div> 
+                                    </div>
                                     <div class="col">
                                         <label for="recipient-name" class="col-form-label">Clave:</label>
                                         <input type="text" class="form-control" id="N_Clave">
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-row">
                                     <div class="col">
@@ -123,7 +124,7 @@
                                     <div class="col">
                                         <label for="recipient-name" class="col-form-label">Planta:</label>
                                         <input type="text" class="form-control" id="N_Planta" readonly>
-                                    </div> 
+                                    </div>
                                 </div>
 
                                 <hr>
@@ -160,9 +161,9 @@
                                         <label for="recipient-name" class="col-form-label">Precio:</label>
                                         <input type="text" class="form-control" id="N_Precio">
                                     </div>
-                                </div> 
+                                </div>
 
-                                
+
                                 <hr>
                                 <div class="form-row">
                                     <div class="col">
@@ -184,13 +185,15 @@
                                         <input type="text" class="form-control" id="N_Comentarios">
                                     </div>
                                 </div>
- 
+
 
                             </div>
                         </form>
                     </div>
 
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#ModalEliminar"
+                        onclick="TomarIdEliminar()">Eliminar</button>
                         <button type="button" class="btn btn-light" onclick="GuardarCambiosGaveta()">Guardar</button>
                         <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
                     </div>
@@ -199,7 +202,7 @@
                 </div>
             </div>
         </div>
-        
+
 
 
 
@@ -212,19 +215,19 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Crear Herramienta</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
 
                     <div class="modal-body">
                         <form id="Formulario">
                             <div class="form-group">
-                                <div class="form-row"> 
+                                <div class="form-row">
                                     <div class="col">
                                         <label for="recipient-name" class="col-form-label">Clave:</label>
                                         <input type="text" class="form-control" id="New_Clave">
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-row">
                                     <div class="col">
@@ -234,14 +237,14 @@
                                         </select>
                                     </div>
 
-                                    <div class="col"> 
+                                    <div class="col">
                                         <label for="inputState" class="font-weight-bold">Planta</label>
                                         <select required id="New_Planta" name="New_Planta" class="form-control">
                                             <option value="a" selected disabled>seleccione la familia</option>
-                                             <option value="BRAVO">Bravo</option>
-                                             <option value="MORELOS">Morelos</option>
+                                            <option value="BRAVO">Bravo</option>
+                                            <option value="MORELOS">Morelos</option>
                                         </select>
-                                    </div> 
+                                    </div>
                                 </div>
 
                                 <hr>
@@ -253,9 +256,9 @@
                                     <div class="col">
                                         <label for="recipient-name" class="col-form-label">Cantidad Usados:</label>
                                         <input type="text" class="form-control" id="New_Usados">
-                                    </div> 
+                                    </div>
                                 </div>
-                                
+
                                 <hr>
                                 <div class="form-row">
                                     <div class="col">
@@ -290,9 +293,8 @@
                                         <label for="recipient-name" class="col-form-label">Precio:</label>
                                         <input type="text" class="form-control" id="New_Precio">
                                     </div>
-                                </div> 
-
-                                
+                                </div>
+ 
                                 <hr>
                                 <div class="form-row">
                                     <div class="col">
@@ -313,9 +315,7 @@
                                         <label for="recipient-name" class="col-form-label">Comentarios:</label>
                                         <input type="text" class="form-control" id="New_Comentarios">
                                     </div>
-                                </div>
- 
-
+                                </div> 
                             </div>
                         </form>
                     </div>
@@ -326,6 +326,31 @@
                     </div>
 
 
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Modal Eliminar-->
+        <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="ModalEliminar"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cuidado!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Se eliminara permanentemente 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="EliminarGaveta()">Aceptar</button>
+                    </div>
                 </div>
             </div>
         </div>
