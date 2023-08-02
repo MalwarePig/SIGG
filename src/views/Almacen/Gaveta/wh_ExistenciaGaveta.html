@@ -18,12 +18,123 @@
         <!-- GENERAR EXCEL -->
         <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-        <script type="text/javascript" src="js/Almacen/ReporteArticuloAdmin/Reporte.js"></script>
+        <script type="text/javascript" src="js/Almacen/Gaveta/ReporteExistencias.js"></script>
 </head>
 
 <body onload="ExistenciasGaveta()">
     <%- include ('../../partials/navegacion.html') %> 
         <!------incluir navegacion Menu----->
 
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+    
+                <div class="form-row">
+                     
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!------------------------------ TABLA -------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                style="width:96%; height:650px;  ">
+                <table class="table table-condensed table-hover " id="TablaReporte">
+                    <thead>
+                        <tr>
+                            <th>Clave</th> 
+                            <th>Familia</th>
+                            <th>Planta</th>
+                            <th>Marca</th>
+                            <th>Grado</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Medida Diametro</th>
+                            <th>Parte</th>
+                            <th>Ubicación</th>
+                            <th>Cantidad Nuevo</th> 
+                            <th>Cantidad Usados</th>
+                            <th>Comentarios</th>
+                            <th>Precios</th>
+                            <th>Link</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
 
+        
+
+  <!-- DATATABLES -->
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  <!-- BOOTSTRAP -->
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
+  <!-- loader -->
+  <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="loader"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loader -->
+<style>
+    .loader {
+        position: relative;
+        text-align: center;
+        margin: 15px auto 35px auto;
+        z-index: 9999;
+        display: block;
+        width: 80px;
+        height: 80px;
+        border: 10px solid rgba(0, 0, 0, .3);
+        border-radius: 50%;
+        border-top-color: #000;
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes spin {
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+
+    /** MODAL STYLING **/
+
+    .modal-content {
+        border-radius: 0px;
+        box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-backdrop.show {
+        opacity: 0.75;
+    }
+
+    #output {
+        padding: 25px 15px;
+        background: #222;
+        border: 1px solid #222;
+        max-width: 350px;
+        margin: 35px auto;
+        font-family: 'Roboto', sans-serif !important;
+    }
+</style>
 </body>

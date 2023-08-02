@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script type="text/javascript" src="js/Almacen/Reporteconsumos/ReporteMensualConsumo.js"></script>
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body onload="ListarMeses()">
+    <%- include ('../../partials/navegacion.html') %>
+        <!------ incluir navegacion Menu ----->
+         
+
+
+        <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" id="ReporteConsumos"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Reporte de consumo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="Formulario">
+                            <div class="form-group">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="FechaInicio" class="font-weight-bold">Inicio</label>
+                                        <select required id="FechaInicio" name="FechaInicio" class="form-control">
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
+                                    </div>
+                                </div>
+ 
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="FechaFin" class="font-weight-bold">Año</label>
+                                        <select required id="Año" name="Año" class="form-control">
+                                            
+                                        </select>
+                                    </div>
+                                </div> 
+
+                                <div class="form-row">
+                                    <div class="form-group col-md">
+                                        <label for="FechaFin" class="font-weight-bold">Planta</label>
+                                        <select required id="Planta" name="Planta" class="form-control">
+                                            <option value="Bravo">Bravo</option>
+                                            <option value="Morelos">Morelos</option>
+                                        </select>
+                                    </div>
+                                </div> 
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                         
+                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="ListadoDespacho()">Descargar</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- loader -->
+        <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loader"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loader -->
+        <style>
+            .loader {
+                position: relative;
+                text-align: center;
+                margin: 15px auto 35px auto;
+                z-index: 9999;
+                display: block;
+                width: 80px;
+                height: 80px;
+                border: 10px solid rgba(0, 0, 0, .3);
+                border-radius: 50%;
+                border-top-color: #000;
+                animation: spin 1s ease-in-out infinite;
+                -webkit-animation: spin 1s ease-in-out infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+            @-webkit-keyframes spin {
+                to {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+
+            /** MODAL STYLING **/
+
+            .modal-content {
+                border-radius: 0px;
+                box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+            }
+
+            .modal-backdrop.show {
+                opacity: 0.75;
+            }
+
+            #output {
+                padding: 25px 15px;
+                background: #222;
+                border: 1px solid #222;
+                max-width: 350px;
+                margin: 35px auto;
+                font-family: 'Roboto', sans-serif !important;
+            }
+        </style>
+
+</body>

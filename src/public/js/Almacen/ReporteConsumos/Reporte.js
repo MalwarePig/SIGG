@@ -42,7 +42,6 @@ function ListarMeses() {
                     //alert((AnioActual.getMonth()+1))// meses del 0 a 11
                     option.selected = true;
                 }
-
                 Componente.add(option);
             }
         }
@@ -71,7 +70,7 @@ async function ListadoDespacho() {//Obtiene la lista de productos despachados
         let ParametroFin = Año + '-0' + (FechaFin) + '-01'
         /*  alert("Alert: " + ParametroInicio + " - " + ParametroFin) */
         /*********************************° Estructura °*********************************/
-
+        //Listado de herraminetas prestadas en rango de
         $.ajax({
             url: '/ListadoDespacho/' + ParametroInicio + '|' + ParametroFin,
             success: function (Herramientas) {
@@ -209,8 +208,6 @@ function ExcelArticulo() {
             Encabezado.push('Clave', 'Producto', 'Almacen', 'Stock', 'StockMin', 'StockMax', 'Familia', 'Precio', 'Moneda', 'Proveedor')
             sheet_1_data.push(Encabezado);
         }
-
-
         sheet_1_data.push(Fila);
     } //fin filas 
 

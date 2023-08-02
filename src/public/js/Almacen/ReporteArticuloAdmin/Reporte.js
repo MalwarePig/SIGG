@@ -168,30 +168,30 @@ function MostrarReporteHerramientaAdmin() {
             //Fila de total
             var newRow = TablaAlmacen.insertRow();
             for (let index = 0; index < 4; index++) {
-                if(index == 1){
+                if (index == 1) {
                     var newCell = newRow.insertCell(index);
                     newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode("Total");
                     newCell.appendChild(newText);
-                }else if(index == 2){
+                } else if (index == 2) {
                     var newCell = newRow.insertCell(index);
-                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                // adjuntar el texto al nodo
-                var newText = document.createTextNode(CantidadTotal);
-                newCell.appendChild(newText);
-                }else if(index == 3){
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(CantidadTotal);
+                    newCell.appendChild(newText);
+                } else if (index == 3) {
                     var newCell = newRow.insertCell(index);
-                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                // adjuntar el texto al nodo
-                var newText = document.createTextNode(PrecioTotal);
-                newCell.appendChild(newText);
-                }else{
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(PrecioTotal);
+                    newCell.appendChild(newText);
+                } else {
                     var newCell = newRow.insertCell(index);
-                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                // adjuntar el texto al nodo
-                var newText = document.createTextNode("-");
-                newCell.appendChild(newText);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode("-");
+                    newCell.appendChild(newText);
                 }
             }
 
@@ -247,10 +247,10 @@ function ExcelArticuloAdmin() {
     var total = tabla.rows.length //Total de filas
     var Total = 0;
 
-    console.log("Filas: " +total)
+    console.log("Filas: " + total)
     var sheet_1_data = [];
     for (var j = 0; j < total - 1; j++) { //filas
-        console.log("Indice: " +j)
+        console.log("Indice: " + j)
         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue; 
         var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
         var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
@@ -373,52 +373,3 @@ function ExistenciasAlmacen() {
 
 
 
-
-
-
-function ExistenciasGaveta() {
-
-
-    $.ajax({
-        url: '/ExistenciasGaveta/',
-        success: function (Herramientas) {
-            console.log(Herramientas)
-            var TotalFilas = Herramientas.length //Total de filas
-            var sheet_1_data = [];
-
-            var Encabezado = ["Clave","Familia","Planta","Marca","Grado","Tipo","Descripción","Medida Diametro","Parte","Ubicación","Cantidad Nuevo","Cantidad Usados","Comentarios","Link","Precios"]
-                sheet_1_data.push(Encabezado);
-
-            for (var i = 0; i < TotalFilas; i++) { //filas
-                //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue; 
-                var Clave = Herramientas[i].Clave;
-                var Familia = Herramientas[i].Familia;
-                var Planta = Herramientas[i].Planta; 
-                var Marca = Herramientas[i].Marca;
-                var Grado = Herramientas[i].Grado;
-                var Tipo = Herramientas[i].Tipo;
-                var Descripcion = Herramientas[i].Descripcion;
-                var MedidaDiametro = Herramientas[i].MedidaDiametro;
-                var Parte = Herramientas[i].Parte;
-                var Ubicacion = Herramientas[i].Ubicacion;
-                var Cantidad = Herramientas[i].Cantidad;
-                var CantidadUsados = Herramientas[i].CantidadUsados;
-                var Comentarios = Herramientas[i].Comentarios;
-                var Link = Herramientas[i].Link;
-                var Precio = Herramientas[i].Precio || "0";
-                var Fila = [Clave,Familia,Planta,Marca,Grado,Tipo,Descripcion,MedidaDiametro,Parte,Ubicacion,Cantidad,CantidadUsados,Comentarios,Link,Precio]
-                sheet_1_data.push(Fila);
-            } //fin filas
-
-            var opts = [{
-                sheetid: 'Sheet One',
-                header: true
-            }];
-            var result = alasql('SELECT * INTO XLSX("Existencias Gaveta '+moment().add(1, 'days').calendar()+' .xlsx",?) FROM ?', [opts, [sheet_1_data]]);
-
-        } //Funcion success
-    }); //Ajax 
- 
-
-    
-}

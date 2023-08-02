@@ -35,11 +35,11 @@ function MostrarReporte() {
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     if (x == 6) {
-                        newCell.style.backgroundColor="#ff5e5e" 
+                        newCell.style.backgroundColor="#ffc432" 
                     }else if (x == 7) {
                         newCell.style.backgroundColor="#96ffb9" 
                     }else if (x == 4) {
-                        newCell.style.backgroundColor="#ffc432" 
+                        newCell.style.backgroundColor="#ff5e5e" 
                     }
                     newCell.appendChild(newText);
                 } //fin de for de columnas
@@ -47,7 +47,8 @@ function MostrarReporte() {
         } //Funcion success
     }); //Ajax
 }
- 
+  
+
 function ExcelReporte() {
     var tabla = document.getElementById("TablaReporte");
     var total = tabla.rows.length //Total de filas 

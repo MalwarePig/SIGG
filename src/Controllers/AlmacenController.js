@@ -518,7 +518,6 @@ Controller.GuardarNotaRetorno = (req, res) => {
                     });
                 });
             }
-
         });
     } else {
         res.render('Admin/Login.html');
@@ -1800,7 +1799,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 
-            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia;
+            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia + " order by almacen";
 
             //console.log(consulta);
             conn.query(consulta, (err, Herramientas) => {
@@ -3019,6 +3018,35 @@ Controller.ListadoDespacho = (req, res) => {
 };
 
 
+Controller.ListadoDespacho = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var Mes = parametros.split('|')[0]; // Fecha inicial
+            var ano = parametros.split('|')[1]; // Fecha limite
+            var Planta = parametros.split('|')[2]; // Fecha limite
+            var Almacen = "Almacen " +Planta
+
+
+            conn.query("call ListadoDespacho(" + Mes +","+ano+",'"+Planta+"','"+Almacen+"')", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al actualizar accesorio ' + err);
+                } else {
+                    //console.table(rows) 
+                    res.json(rows)
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
 
 Controller.MinCritico = (req, res) => {
     if (req.session.loggedin) {
@@ -3026,7 +3054,7 @@ Controller.MinCritico = (req, res) => {
             const {
                 parametros
             } = req.params; 
-            conn.query("SELECT * FROM Almacen WHERE Stock < ((10*StockMin)/100) order by almacen", (err, Herramientas) => {
+            conn.query("SELECT * FROM Almacen WHERE Stock <= StockMin order by almacen", (err, Herramientas) => {
                 if (err) {
                     res.json(err);
                     console.log('Error ListadoDespacho');
