@@ -1,22 +1,21 @@
 body {
-font-family : 'Lato', sans-serif;
-background :    #ffffff; 
-}
-body p {
-color : #000000;
-font-family : "Lato", sans-serif;
-font-size : 13px;
-letter-spacing : 1px;
-}
-body h1, h2, h3, h4, h5, h6 {
-color : #000000;
-font-family : "Lato", sans-serif;
-font-size : 16px;
-text-transform : capitalize;
-font-weight : 800;
-text-transform : uppercase;
-}
-
+  font-family : 'Lato', sans-serif; 
+  }
+  
+  body p {
+  color : #000000;
+  font-family : "Lato", sans-serif;
+  font-size : 13px;
+  letter-spacing : 1px;
+  }
+  body h1, h2, h3, h4, h5, h6 {
+  color : #000000;
+  font-family : "Lato", sans-serif;
+  font-size : 16px;
+  text-transform : capitalize;
+  font-weight : 800;
+  text-transform : uppercase;
+  }
  
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 #Formulario{

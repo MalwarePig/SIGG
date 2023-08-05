@@ -349,6 +349,17 @@ router.get('/DetalleHerramienta/:parametros', AlmacenController.DetalleHerramien
 
 router.get('/TodoDespachos', AlmacenController.TodoDespachos);
 
+//====== DashBoard ========
+var reinicio = router.get('/DashboardAlmacen', (req, res) => {
+	//res.send('holoo');
+	res.render('Almacen/DashboardAlmacen.html');
+});
+//Cargar TareasAbiertas vistas por el servidor
+router.get('/DashboardStatus/:Argumento', AlmacenController.DashboardStatus);
+//Cargar TareasAbiertas vistas por el servidor
+router.get('/TopDespachos/', AlmacenController.TopDespachos);
+
+
 //====== Tornilleria ========
 //Abre pagina principal para tornilleria
 router.get('/wh_Accesorios', (req, res) => {

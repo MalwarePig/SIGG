@@ -3179,6 +3179,57 @@ Controller.reporteAjustesGaveta = (req, res) => {
 
 
 
+Controller.DashboardStatus = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+
+            //console.log("SELECT SUM(Utilizado), Producto FROM itemprestado WHERE Producto = '"+Producto+"' AND MONTH(Salida) = "+Mes)
+
+            conn.query("call DashboardStatus()", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
+                } else {
+                    console.table(rows[0])
+                    res.json(rows[0])
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+Controller.TopDespachos = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+
+            //console.log("SELECT SUM(Utilizado), Producto FROM itemprestado WHERE Producto = '"+Producto+"' AND MONTH(Salida) = "+Mes)
+
+            conn.query("call TopDespachos()", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
+                } else {
+                    console.table(rows[0])
+                    res.json(rows[0])
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 module.exports = Controller;
 

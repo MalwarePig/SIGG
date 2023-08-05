@@ -9,7 +9,7 @@
 
 <!--   -->
 <nav>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs shadow-sm p-3 mb-4 bg-body-tertiary rounded">
     <li class="nav-item">
       <a class="nav-link active" href="/home"><i class="fas fa-home"></i> Inicio</a>
     </li>
@@ -33,6 +33,12 @@
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="/Admin">Administración</a>
       </div>
+    </li>
+
+      <!-- ALMACEN -->
+    <li class="nav-item">
+      <a class="nav-link" href="/DashboardAlmacen" tabindex="-1" aria-disabled="true"><i class="fas fa-th-large"></i>
+        Dashboard</a>
     </li>
 
     <!-- ALMACEN -->
@@ -202,12 +208,16 @@
       <a class="nav-link" href="/CrearTicket"><i class="fas fa-headset"></i>Soporte</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/ReporteConsumos" tabindex="-1" aria-disabled="true"><i class="fas fa-laptop-code"></i>
+      <a class="nav-link" href="/DashboardAlmacen" tabindex="-1" aria-disabled="true"><i class="fas fa-laptop-code"></i>
         Desarrollo</a>
     </li>
     <li class="nav-item" visibility: hidden>
       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-bug"></i> Pruebas</a>
     </li>
+
+    
+
+
     <li class="nav-item" id="Oculto">
       <a class="nav-link " href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-user"></i><span
           id="Area"></span></a>
@@ -215,6 +225,17 @@
     <li class="nav-item">
       <a class="nav-link " href="/" tabindex="-1" aria-disabled="true"><i class="fas fa-sign-out-alt"></i> Salir</a>
     </li>
+
+    <!-- <li class="nav-item">
+      <div class="form-check mt-2 form-switch  ">
+        <label class="form-check-labels" for="lightSwitch">
+          <i class="fas fa-moon"></i>
+        </label>
+        <input class="form-check-input p-2" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked
+          onclick="myFunction()" />
+      </div>
+    </li> -->
+
   </ul>
 </nav>
 
@@ -224,4 +245,24 @@
   var Nodo = document.getElementById("Area");
   var newText = document.createTextNode(usuario + "-" + Area);
   Nodo.appendChild(newText);
+</script>
+
+
+<!-- DARK MODE -->
+<script>
+  function myFunction() {
+    var element = document.body;
+    element.dataset.bsTheme =
+      element.dataset.bsTheme == "light" ? "dark" : "light";
+  }
+
+ /*  function stepFunction(event) {
+    debugger;
+    var element = document.getElementsByClassName("collapse");
+    for (var i = 0; i < element.length; i++) {
+      if (element[i] !== event.target.ariaControls) {
+        element[i].classList.remove("show");
+      }
+    }
+  } */
 </script>
