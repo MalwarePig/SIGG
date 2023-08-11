@@ -1,9 +1,12 @@
 
 function ExistenciasGaveta() {
-    $("#loading").modal();
+    var miModal = new bootstrap.Modal(document.getElementById('loading')); 
+    miModal.show();
+    
+    //$("#loading").modal();
     Consulta()
     setTimeout(() => { 
-        $('#loading').modal('hide')
+        miModal.hide();
     }, 2500);
 
     

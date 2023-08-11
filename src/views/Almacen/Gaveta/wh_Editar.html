@@ -232,14 +232,14 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <label for="inputState" class="font-weight-bold">Familia</label>
-                                        <select required id="New_Familia" name="New_Familia" class="form-control">
+                                        <select required id="New_Familia" name="New_Familia" class="form-select">
                                             <option value="a" selected disabled>seleccione la familia</option>
                                         </select>
                                     </div>
 
                                     <div class="col">
                                         <label for="inputState" class="font-weight-bold">Planta</label>
-                                        <select required id="New_Planta" name="New_Planta" class="form-control">
+                                        <select required id="New_Planta" name="New_Planta" class="form-select">
                                             <option value="a" selected disabled>seleccione la familia</option>
                                             <option value="BRAVO">Bravo</option>
                                             <option value="MORELOS">Morelos</option>
@@ -321,7 +321,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" onclick="GuardarNuevoGaveta()">Guardar</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal" onclick="GuardarNuevoGaveta()">Guardar</button> 
                         <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
                     </div>
 

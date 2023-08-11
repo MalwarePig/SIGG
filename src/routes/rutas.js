@@ -733,6 +733,8 @@ router.get('/ExistenciasAlmacenBasico/', AlmacenController.ExistenciasAlmacenBas
 
 //Busca Herramientas en 
 router.get('/ExistenciaTotalAlmacen/:parametros', AlmacenController.ExistenciaTotalAlmacen);
+
+router.get('/MostrarOcultos/', AlmacenController.MostrarOcultos);
 //Agregar Categorias
 router.post('/addCategoria/', AlmacenController.addCategoria);
 //Agregar Familias
@@ -752,8 +754,8 @@ router.post('/OcultarFamilia/', AlmacenController.OcultarFamilia);
 router.post('/CambiarCotizacion/', AlmacenController.CambiarCotizacion);
 router.get('/ReporteRequeridos/:parametros', AlmacenController.ReporteRequeridos);
 router.get('/ReporteOrdenados/:parametros', AlmacenController.ReporteOrdenados);
-
-
+router.post('/RegistrarOC/', AlmacenController.RegistrarOC);
+router.get('/OrdenProductoBuscar/:parametros', AlmacenController.OrdenProductoBuscar);
 
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporte/:parametros', AlmacenController.MostrarReporte);

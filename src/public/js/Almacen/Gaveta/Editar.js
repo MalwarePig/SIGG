@@ -272,6 +272,7 @@ function GuardarCambiosGaveta() {
 
 
 function GuardarNuevoGaveta() {
+    console.log(1)
     Clave = document.getElementById("New_Clave").value;
     Familia = document.getElementById("New_Familia").value;
     Planta = document.getElementById("New_Planta").value;
@@ -285,8 +286,8 @@ function GuardarNuevoGaveta() {
     Link = document.getElementById("New_Link").value;
     Comentario = document.getElementById("New_Comentarios").value;
     Precio = document.getElementById("New_Precio").value;
-    Nuevo = document.getElementById("New_Nuevo").value;
-    Usado = document.getElementById("New_Usados").value;
+    Nuevo = document.getElementById("New_Nuevo").value || 0;
+    Usado = document.getElementById("New_Usados").value || 0;
 
     var ObjetoTabla = {
         Clave: Clave,
@@ -312,11 +313,22 @@ function GuardarNuevoGaveta() {
         }, // data to be submit
         function (objeto, estatus) { // success callback
             if (objeto == true) {
-                //alert("Cambios realizados")
+                var miModal = new bootstrap.Modal(document.getElementById('Cambios'));
+                miModal.show();
+
+               
+/* 
+
                 $("#Cambios").modal();
-                $('#ModalFormularioNuevo').modal('hide')
+                $('#ModalFormularioNuevo').modal('hide') */
             }
         });
+}
+
+function CerrarModal(){
+    
+    var miModals = new bootstrap.Modal(document.getElementById('ModalFormularioNuevo'));
+    miModals.hide();
 }
 
 var idEliminarGaveta = ""
@@ -326,7 +338,7 @@ function TomarIdEliminar() {
 
 function EliminarGaveta() {
     var ObjetoTabla = {
-        id: idEliminarGaveta, 
+        id: idEliminarGaveta,
     }
 
     $.post("/EliminarGaveta", // url
@@ -339,5 +351,5 @@ function EliminarGaveta() {
                 $('#ModalEliminar').modal('hide')
                 GETPRODUCTS()
             }
-        }); 
+        });
 }

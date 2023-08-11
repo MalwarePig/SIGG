@@ -25,14 +25,14 @@
     <%- include ('../partials/navegacion.html') %>
         <!------ incluir navegacion Menu ----->
         <div class="card text-center">
-            <div class="card-header">
+            <div class="card-header ">
                 <!------------------------------ BUSCAR -------------------------------------->
 
                 <div class="form-row">
 
                     <div class="form-group col-md-1">
                         <label for="inputState" class="font-weight-bold">Almacen</label>
-                        <select required id="Almacen" name="Sal_Estatus" class="form-control" onfocus="FiltroFamilia()"
+                        <select required id="Almacen" name="Sal_Estatus" class="form-select" onfocus="FiltroFamilia()"
                             onchange="FiltroFamilia()">
                             <option value="Todo" selected>Todo</option>
                         </select>
@@ -40,7 +40,7 @@
 
                     <div class="form-group col-md-1">
                         <label for="inputState" class="font-weight-bold">Categoria</label>
-                        <select required id="Categoria" name="Categoria" class="form-control"
+                        <select required id="Categoria" name="Categoria" class="form-select"
                             onfocus="CargarCategorias()">
                             <option value="Todo" selected>Todo</option>
                         </select>
@@ -48,7 +48,7 @@
 
                     <div class="form-group col-md-1">
                         <label for="inputState" class="font-weight-bold">Familia</label>
-                        <select required id="Familia" name="Familia" class="form-control">
+                        <select required id="Familia" name="Familia" class="form-select">
                             <option value="Todo" selected>Todo</option>
                         </select>
                     </div>
@@ -60,23 +60,27 @@
 
                     <div class="col m-4 text-center">
                         <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
-                            onclick="ExportarExcel()" data-toggle="tooltip" data-placement="top" title="Excel"><i
-                                class="fas fa-file-csv"></i></button>
+                            onclick="ExportarExcel()" data-toggle="tooltip" data-placement="top"
+                            title="Exportar a Excel"><i class="fa-solid fa-file-csv"></i></button>
 
-                        <button type="button" id="Excel" name="Excel" class="btn btn-info btn-lg"
-                            onclick="ModalListas()" data-toggle="tooltip" data-placement="top" title="Listas"><i
-                                class="far fa-list-alt"></i></button>
+                        <button type="button" id="Excel" name="Excel" class="btn btn-info btn-lg" data-toggle="modal"
+                            data-target="#ModalListas" data-toggle="tooltip" data-placement="top"
+                            title="Producto suspendido"><i class="fa-solid fa-rectangle-list"></i></button>
 
-                        <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg"><a
-                                href="/whCompras"><i class="fas fa-dollar-sign"></i></a></button>
+                        <!--     <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg"><a
+                                href="/whCompras"><i class="fas fa-dollar-sign"></i></a></button> -->
 
-                        <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
+                        <!-- <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
                             data-target="#ModalRequerido" data-toggle="tooltip" data-placement="top"
-                            title="Reporte requerido"> <i class="fas fa-cart-plus"></i></button>
+                            title="Reporte requerido"> <i class="fas fa-cart-plus"></i></button> -->
+
+                        <button type="button" id="Excel" name="Excel" class="btn btn-danger btn-lg"
+                            data-toggle="tooltip" data-placement="top" title="Mostrar ocultos"><i
+                                class="fa-solid fa-eye-slash" onclick="MostrarOcultos()"></i></button>
 
                         <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
                             data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
-                            title="Reporte ordenados"> <i class="fas fa-check-double"></i></button>
+                            title="Reporte ordenados"> <i class="fa-solid fa-list-check"></i></button>
 
                         <!--  <button type="button" id="Excel" name="Excel" class="btn btn-dark btn-lg" data-toggle="modal"
                             data-target="#ModalOrdenados" data-toggle="tooltip" data-placement="top"
@@ -117,6 +121,8 @@
         </div>
 
 
+
+
         <!--ModalRecoleccion-->
         <div class="modal fade bd-example-modal-lg" id="ModalListas" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -132,7 +138,7 @@
 
                     <hr>
 
-                    <div class="form-row">
+                    <div class="form-row mb-2">
                         <div class="col-4 ml-3">
                             <input type="text" id="newCategoria" class="form-control solo-numero"
                                 placeholder="Nueva Categoria" name="newCategoria" autocomplete="off">
@@ -162,14 +168,14 @@
                     </div>
 
                     <hr>
-                    <div class="form-row">
+                    <div class="form-row mb-2">
                         <div class="col-4  ml-3">
                             <input type="text" id="newFamilia" class="form-control solo-numero"
                                 placeholder="Nueva familia" name="Cantidad" autocomplete="off" required>
                         </div>
 
                         <div class="col">
-                            <select required id="AlmacenAdd" name="AlmacenAdd" class="form-control">
+                            <select required id="AlmacenAdd" name="AlmacenAdd" class="form-select">
                                 <option value="Todo" selected disabled>Selecciona almacen</option>
                                 <option value="Bravo">Bravo</option>
                                 <option value="Morelos">Morelos</option>
@@ -205,13 +211,13 @@
                 </div>
             </div>
         </div>
-
-
         <!-- DATATABLES -->
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
         <!-- BOOTSTRAP -->
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+
 
 
 
@@ -267,37 +273,95 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Reporte Ordenado</h5>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal"
+                            onclick="LimpiarModalOrdenes()">&times;</button>
                     </div>
 
                     <div class="modal-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
-                                <input required type="date" id="Ord_inicio" class="form-control" name="Inicio"
-                                    autocomplete="off">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="ProductoBuscar" class="col-form-label">Producto</label>
+                            </div>
+                            <div class="col-md-9 col-sm-5">
+                                <input type="text" id="ProductoBuscar" class="form-control"
+                                    aria-describedby="passwordHelpInline">
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label for="inputAddress2" class="font-weight-bold">Fecha Fin</label>
-                                <input required type="date" id="Ord_fin" class="form-control" name="vencimiento"
-                                    autocomplete="off">
-                            </div>
-
-
-
-                            <div class="form-group col-md-1 p-4">
-                                <button type="button" id="Ord_Reporte" name="getProducts" class="btn btn-secondary "
-                                    onclick="ReporteOrdenados()">Descargar</button>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-dark" onclick="MostrarOrdenes()"> <i
+                                        class="fa-solid fa-magnifying-glass"></i>
+                                </button>
                             </div>
                         </div>
-                    </div>
 
+                        <div class="row mx-4 align-items-center mt-4 ">
+                            <table
+                                class="table table-striped table-hover  table-bordered table-sm border-secundary text-center "
+                                id="TablaOrdenados">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">O.C.</th>
+                                        <th scope="col">Fecha creación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="LimpiarModalOrdenes()">Cerrar</button>
                     </div>
-
                 </div>
             </div>
         </div>
+
+
+
+
+        <!-- Modales -->
+        <!-- Modal registro exitoso -->
+        <div class="modal" trigger="ModalFormulario" tabindex="-1" id="ModalFormulario">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-dark">NUEVA REQUERIMIENTO</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-secundary">Llenar formulario</p>
+
+                        <form class="row g-3" id="FormMateria">
+                            <div class="col-md-12">
+                                <label for="Producto" class="form-label">Producto</label>
+                                <input required type="text" id="Producto" class="form-control" name="Producto">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="Cantidad" class="form-label">Cantidad</label>
+                                <input required type="number" id="Cantidad" class="form-control" name="Cantidad">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="OC" class="form-label">O.C.</label>
+                                <input required type="text" id="OC" class="form-control" name="OC">
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            onclick="RegistrarOC()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 </body>

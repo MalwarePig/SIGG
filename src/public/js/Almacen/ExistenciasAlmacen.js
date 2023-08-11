@@ -1,5 +1,6 @@
 var DataFamilias = [];
 var DataCategorias = [];
+var HerramientasConsultadas = [];
 
 function CargarAlmacen() {
     var listPlantas = document.getElementById("Almacen");
@@ -78,11 +79,12 @@ function MostrarReporte() {
     var Almacen = document.getElementById("Almacen").value;
     var Familia = document.getElementById("Familia").value;
 
-    console.log("Categoria"+Categoria+ " Almacen"+Almacen + " Familia"+Familia)
+    /* console.log("Categoria" + Categoria + " Almacen" + Almacen + " Familia" + Familia) */
 
     $.ajax({
         url: '/ExistenciaTotalAlmacen/' + Almacen + '|' + Categoria + '|' + Familia,
         success: function (Herramientas) {
+            HerramientasConsultadas = Herramientas;
             //console.table(Herramientas)
             var Arreglo = [];
             //Limpiar tabla 
@@ -114,7 +116,7 @@ function MostrarReporte() {
                 var Cotizado = Herramientas[i].Cotizado;
                 //Eliminar variable dentro del For
 
-                Arreglo = [Clave, Producto,Proveedor, ProveedorSec,Precio,Moneda,TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
+                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -123,11 +125,17 @@ function MostrarReporte() {
                     // inserta una celda en el indice 0
                     var newCell = newRow.insertCell(x);
                     newRow.setAttribute("id", "Rows" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
+
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
                     if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario" onclick=Seleccion(' + i + ')> Selección </button>';
+                    }
+
+                    /* if (x == 9) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(10); //CREAR CELDA 
                         let selector;
 
@@ -149,48 +157,105 @@ function MostrarReporte() {
 
                         newCell.innerHTML = selector
 
-                    }
+                    } */
                 } //fin de for de columnas
             } //fin de for de filas
 
         } //Funcion success
-    }); //Ajax
-
-
-    /* 
-        $("#TablaReporte").dataTable().fnDestroy();
-        setTimeout(function () {
-            $('#TablaReporte').DataTable({
-                language: {
-                    processing: "Tratamiento en curso...",
-                    search: "Buscar&nbsp;:",
-                    lengthMenu: "Agrupar por _MENU_  ",
-                    info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
-                    infoEmpty: "No existen datos.",
-                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
-                    infoPostFix: "",
-                    loadingRecords: "Cargando...",
-                    zeroRecords: "No se encontraron datos con tu busqueda",
-                    emptyTable: "No hay datos disponibles en la tabla.",
-                    paginate: {
-                        first: "Primero",
-                        previous: "Anterior",
-                        next: "Siguiente",
-                        last: "Ultimo"
-                    },
-                    aria: {
-                        sortAscending: ": active para ordenar la columna en orden ascendente",
-                        sortDescending: ": active para ordenar la columna en orden descendente"
-                    }
-                },
-                scrollY: 400,
-                lengthMenu: [
-                    [10, 25, -1],
-                    [10, 25, "All"]
-                ],
-            });
-        }, 1000);  */
+    }); //Ajax 
 }
+
+
+function Seleccion(params) {
+    console.log(HerramientasConsultadas[params].Producto)
+    document.getElementById("Producto").value = HerramientasConsultadas[params].Producto
+}
+
+function RegistrarOC() {
+    let data = {
+        Producto: document.getElementById("Producto").value,
+        Cantidad: document.getElementById("Cantidad").value,
+        OC: document.getElementById("OC").value
+    }
+
+    $.post("/RegistrarOC", // url
+        {
+            data
+        }, // data to be submit
+        function (respuesta, estatus) { // success callback
+            if (respuesta) {
+                alert("Registrado correctamente")
+            } else {
+                alert("Error al registrar")
+            }
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
+}
+
+
+
+
+function MostrarOrdenes() {
+    var ProductoBuscar = document.getElementById("ProductoBuscar").value;
+
+    $.ajax({
+        url: '/OrdenProductoBuscar/' + ProductoBuscar,
+        success: function (Herramientas) {
+            HerramientasConsultadas = Herramientas;
+            if (Herramientas.length == 0) {
+                alert("No hay registros")
+            }
+            //console.table(Herramientas)
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('TablaOrdenados').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            var TotalHerramientas = Herramientas.length;
+
+            for (var i = 0; i < limite; i++) {
+                $("#RowsO" + i).remove(); //elimina los elementos con id Rows
+            }
+
+            for (var i = 0; i < Herramientas.length; i++) {
+                var id = Herramientas[i].id;
+                var Producto = Herramientas[i].Producto || '-';
+                var Cantidad = Herramientas[i].Cantidad; FechaRegistro
+                var OC = Herramientas[i].OC || "-";
+                var FechaRegistro = moment(Herramientas[i].FechaRegistro).format('DD-MM-YYYY');
+
+                Arreglo = [Producto, Cantidad, OC, FechaRegistro]
+                var TablaAlmacen = document.getElementById('TablaOrdenados').getElementsByTagName('tbody')[0];
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "RowsO" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
+
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+
+                } //fin de for de columnas
+            } //fin de for de filas
+
+        } //Funcion success
+    }); //Ajax 
+
+}
+
+function LimpiarModalOrdenes() {
+    document.getElementById("ProductoBuscar").value = '';
+ 
+    var TablaAlmacen = document.getElementById('TablaOrdenados').getElementsByTagName('tbody')[0];
+    var limite = TablaAlmacen.rows.length; 
+    for (var i = 0; i < limite; i++) {
+        $("#RowsO" + i).remove(); //elimina los elementos con id Rows
+    }
+}
+
+
 
 
 function CambiarCotizacion(id) {
@@ -233,7 +298,7 @@ function ExportarExcel() {
         var Ubicacion = tabla.rows[j].cells[12].childNodes[0].nodeValue;
         var Categoria = tabla.rows[j].cells[13].childNodes[0].nodeValue;
         var Familia = tabla.rows[j].cells[14].childNodes[0].nodeValue;
-        var Fila = [Clave, Producto,Proveedor,Secundario,Precio,Moneda,	Entrega, Almacen, Stock, StockMin, StockMax, StockUsado, Ubicacion, Categoria, Familia]
+        var Fila = [Clave, Producto, Proveedor, Secundario, Precio, Moneda, Entrega, Almacen, Stock, StockMin, StockMax, StockUsado, Ubicacion, Categoria, Familia]
         console.log((total - 1))
         sheet_1_data.push(Fila);
     } //fin filas
@@ -241,13 +306,11 @@ function ExportarExcel() {
     var opts = [{
         sheetid: 'Hoja1',
     }];
-    var result = alasql('SELECT * INTO XLSX("Existencias-'+moment().format('L')+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+    var result = alasql('SELECT * INTO XLSX("Existencias-' + moment().format('L') + '.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }
 
 
-function ModalListas() {
-    $("#ModalListas").modal();
-}
+ 
 
 function addCategoria() {
     let Nombre = document.getElementById("newCategoria").value;
@@ -551,9 +614,97 @@ function ReporteOrdenados() {
             var result = alasql('SELECT * INTO XLSX("Articulos Ordenados ' + Almacen + '.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 
         } //Funcion success
-    }); //Ajax
-
-
-
+    }); //Ajax  
 }
 
+function MostrarOcultos() {
+    var Categoria = document.getElementById("Categoria").value;
+    var Almacen = document.getElementById("Almacen").value;
+    var Familia = document.getElementById("Familia").value;
+
+    /* console.log("Categoria" + Categoria + " Almacen" + Almacen + " Familia" + Familia) */
+
+    $.ajax({
+        url: '/MostrarOcultos/' ,
+        success: function (Herramientas) {
+            HerramientasConsultadas = Herramientas;
+            //console.table(Herramientas)
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            var TotalHerramientas = Herramientas.length;
+
+            for (var i = 0; i < limite; i++) {
+                $("#Rows" + i).remove(); //elimina los elementos con id Rows
+            }
+
+            for (var i = 0; i < Herramientas.length; i++) {
+                var id = Herramientas[i].id;
+                var Clave = Herramientas[i].Clave || '-';
+                var Producto = Herramientas[i].Producto;
+                var Proveedor = Herramientas[i].Proveedor || "-";
+                var Moneda = Herramientas[i].Moneda || "-";
+                var TiempoEntrega = Herramientas[i].TiempoEntrega || "-";
+                var ProveedorSec = Herramientas[i].ProveedorSec || "-";
+                var Precio = Herramientas[i].Precio || "0";
+                var Planta = Herramientas[i].Almacen;
+                var StockNuevo = Herramientas[i].Stock;
+                var StockUsado = Herramientas[i].StockUsado;
+                var StockMinimo = Herramientas[i].StockMin;
+                var StockMaximo = Herramientas[i].StockMax;
+                var Ubicacion = Herramientas[i].Ubicacion;
+                var Categoria = Herramientas[i].Categoria;
+                var Familia = Herramientas[i].Familia;
+                var Cotizado = Herramientas[i].Cotizado;
+                //Eliminar variable dentro del For
+
+                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
+                var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    newRow.setAttribute("class", "table-danger"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+
+                    if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                        newCell.innerHTML = '-';
+                    }
+
+                    /* if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA 
+                        let selector;
+
+                        if (Herramientas[i].Cotizado == 1 || Herramientas[i].Cotizado == true) {
+                            selector = `     
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1${Herramientas[i].id}"  onchange="CambiarCotizacion('${Herramientas[i].id}')" checked>
+                                <label class="custom-control-label" for="customSwitch1${Herramientas[i].id}"> </label>
+                            </div> 
+                            `
+                        } else {
+                            selector = `     
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1${Herramientas[i].id}" onchange="CambiarCotizacion('${Herramientas[i].id}')">
+                                <label class="custom-control-label" for="customSwitch1${Herramientas[i].id}"> </label>
+                            </div> 
+                            `
+                        }
+
+                        newCell.innerHTML = selector
+
+                    } */
+                } //fin de for de columnas
+            } //fin de for de filas
+
+        } //Funcion success
+    }); //Ajax 
+}

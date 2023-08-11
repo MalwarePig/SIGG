@@ -13,8 +13,11 @@ function GETPRODUCTS() {
             for (var i = 0; i < limite; i++) {
                 $("#Rows" + i).remove(); //elimina los elementos con id Rows
             }
-            if (Herramientas.length == 0) {
-                $("#Vacio").modal();
+            if (Herramientas.length == 0) { 
+                var myModal = new bootstrap.Modal(document.getElementById('Vacio'), {
+                    keyboard: false
+                  })
+                  myModal.show()
             }
             for (var i = 0; i < Herramientas.length; i++) {
                 var id = Herramientas[i].id;
@@ -135,7 +138,11 @@ function EscaparComillas(variable) {
 
 
 function ModalAjuste() {
-    $("#ConfirmarEliminar").modal();  
+    var myModal = new bootstrap.Modal(document.getElementById('ConfirmarEliminar'), {
+        keyboard: false
+      })
+      myModal.show()
+ 
 }
 
 

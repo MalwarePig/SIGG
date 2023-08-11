@@ -1614,7 +1614,7 @@ Controller.GuardarNuevoGaveta = (req, res) => {
                 console.log("Conexion: " + err)
             } else {
                 conn.query("INSERT INTO gavetas (Clave,Planta,Familia,Marca,Grado,MedidaDiametro,Tipo,Descripcion,Parte,Ubicacion,Link,Comentarios,Precio,Cantidad,CantidadUsados)VALUES"+
-                "('"+Clave+"','"+Planta+"','"+Familia+"','"+Marca+"','"+Grado+"','"+MedidaDiametro+"','"+Tipo+"','"+Descripcion+"','"+Parte+"','"+Ubicacion+"','"+Link+"','"+Comentario+"',"+Precio+","+Nuevo+","+Usado+")"   , (err, Herramientas) => {
+                "('"+Clave+"','"+Planta+"','"+Familia+"','"+Marca+"','"+Grado+"','"+MedidaDiametro+"','"+Tipo+"','"+Descripcion+"','"+Parte+"','"+Ubicacion+"','"+Link+"','"+Comentario+"','"+Precio+"',"+Nuevo+","+Usado+")"   , (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     } else {
@@ -1816,6 +1816,54 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
     }
 };
 
+
+Controller.MostrarOcultos = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            
+            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 0 order by almacen";
+
+            //console.log(consulta);
+            conn.query(consulta, (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura' + err);
+                }
+                console.table(Herramientas.length)
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.OrdenProductoBuscar = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var Almacen = parametros  
+            //console.log(consulta);
+            conn.query("SELECT * FROM OrdenCompra WHERE  Producto = '"+parametros+"'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura' + err);
+                }
+                console.table(Herramientas.length)
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 
 
@@ -2544,6 +2592,32 @@ Controller.CambiarCotizacion = (req, res) => {
                 console.table(data)
                 res.json(data)
                 // res.json(Maquinas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.RegistrarOC = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+
+            let Producto = Object.values(data)[0].Producto;
+            let Cantidad = Object.values(data)[0].Cantidad;
+            let OC = Object.values(data)[0].OC;
+            console.log(Producto)
+            console.log(Cantidad)
+            console.log(OC)
+            conn.query("INSERT INTO OrdenCompra(Producto,Cantidad,OC)VALUES('"+Producto+"','"+Cantidad+"','"+OC+"')", (err, data) => {
+                if (err) {
+                    console.log('Error de lectura ' + err);
+                    res.json(false)
+                }else{
+                    res.json(true)
+                }   
             });
         });
     } else {

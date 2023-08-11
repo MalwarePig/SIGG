@@ -3,7 +3,13 @@ function ModalNuevaInspeccion() {
     Familias(); //carga las familias al iniciar el modal
 
     document.getElementById("N_FechaRegistro").value = moment().format('DD/MM/YYYY HH:mm');
-    $("#ModalRegistroInspeccion").modal();
+
+    var myModal = new bootstrap.Modal(document.getElementById('ModalRegistroInspeccion'), {
+        keyboard: false
+      })
+      myModal.show()
+
+    //$("#ModalRegistroInspeccion").modal();
 }
 
 function CargarInicial() {
@@ -212,7 +218,14 @@ function EliminarTrabajoIn(fila) {
     //se inserta el valor al nodo
 
     Nodo.appendChild(newText);
-    $("#ConfirmarEliminar").modal();
+
+    var myModal = new bootstrap.Modal(document.getElementById('ConfirmarEliminar'), {
+        keyboard: false
+      })
+      
+      myModal.show()
+
+    //$("#ConfirmarEliminar").modal();
 }
 
 

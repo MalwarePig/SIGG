@@ -96,12 +96,21 @@ function ModalEficiencia(fila) {
     localStorage.setItem("CantidadAnterior", Cantidad);
 
 
-    $("#ModalAjusteBasico").modal();
+    var myModal = new bootstrap.Modal(document.getElementById('ModalAjusteBasico'), {
+        keyboard: false
+    })
+    myModal.show()
+
+    //$("#ModalAjusteBasico").modal();
 }
 
 function AbrirHistorial() {
-    console.log("git")
-    $("#ModalHistorialAjusteBasico").modal();
+    var myModal = new bootstrap.Modal(document.getElementById('ModalHistorialAjusteBasico'), {
+        keyboard: false
+    })
+    myModal.show()
+
+    //$("#ModalHistorialAjusteBasico").modal();
 }
 
 function ActualizarCantidad() {
@@ -131,7 +140,12 @@ function ActualizarCantidad() {
             });
 
         $('#FormularioAjuste')[0].reset();
-        $('#ModalEficiencia').modal('toggle');
+        
+        var myModal = new bootstrap.Modal(document.getElementById('ModalEficiencia'), {
+            keyboard: false
+        })
+        myModal.show()
+       // $('#ModalEficiencia').modal('toggle');
         GETPRODUCTS();
     }
 }
@@ -149,8 +163,8 @@ function MostrarReporteAjusteBasico() {
     var fechafin = document.getElementById("fin").value;
     if (fechaInicio == null || fechaInicio == '') {
         alert("Fecha no valida")
-    }else{
-        
+    } else {
+
         $.ajax({
             url: '/reporteAjustesBasico/' + fechaInicio + '|' + fechafin + '|' + Almacen + '|' + BHerramienta,
             success: function (Herramientas) {
@@ -158,11 +172,11 @@ function MostrarReporteAjusteBasico() {
                     console.table(Herramientas)
                     var total = Herramientas.length //Total de filas 
                     var sheet_1_data = [];
-        
+
                     sheet_1_data[0] = ["Responsable", "Producto", "Cantidad Actual", "Cantidad Anterior", "Fecha de ajuste"]
                     for (var j = 0; j < total; j++) { //filas
                         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
-        
+
                         var Responsable = Herramientas[j].Responsable;
                         var Producto = Herramientas[j].Producto;
                         var Actual = Herramientas[j].CantidadActual;
@@ -171,19 +185,19 @@ function MostrarReporteAjusteBasico() {
                         var Fila = [Responsable, Producto, Actual, Anterior, Fecha]
                         sheet_1_data.push(Fila);
                     } //fin filas
-        
+
                     var opts = [{
                         sheetid: 'Hoja1',
                         header: false
                     }];
-                    var result = alasql('SELECT * INTO XLSX("Reporte- '+moment().format("L")+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
-                }else{
+                    var result = alasql('SELECT * INTO XLSX("Reporte- ' + moment().format("L") + '.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+                } else {
                     alert("No hay registros")
                 }
             } //Funcion success
         }); //Ajax
     }
-    
+
 }
 
 
