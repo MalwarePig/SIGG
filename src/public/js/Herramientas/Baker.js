@@ -4,7 +4,14 @@ imgSerie = new Image;
 imgFecha = new Image;
 function modal() {
     document.getElementById("Fecha").value = moment().format('DD-MM-YY')
-    $("#ModalBaker").modal();
+
+    var myModal = new bootstrap.Modal(document.getElementById('ModalBaker'), {
+        keyboard: false
+      })
+      
+      myModal.show()
+    
+     
     //CargarImagen()
 }
 

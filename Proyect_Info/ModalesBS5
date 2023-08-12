@@ -1,0 +1,7 @@
+ var myModal = new bootstrap.Modal(document.getElementById('ConfirmarEliminar'), {
+        keyboard: false
+      })
+      
+      myModal.show()
+
+      

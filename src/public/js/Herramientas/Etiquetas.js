@@ -11,7 +11,13 @@ function Carga(){
 img.src = 'images/LogoB.png'; */
 
 function modal() {
-    $("#AsignadoExito").modal();
+    var myModal = new bootstrap.Modal(document.getElementById('AsignadoExito'), {
+        keyboard: false
+      })
+      
+      myModal.show()
+
+    //$("#AsignadoExito").modal();
     Carga();
 }
 
