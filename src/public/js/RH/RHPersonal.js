@@ -49,7 +49,7 @@ function MostrarPersonal() {
                             break;
                         default:
                             break;
-                            // code block
+                        // code block
                     }
 
                     if (x == 5) { //Si termina de registrar datos crear el boton
@@ -73,8 +73,12 @@ function runScript(e) {
 //=========================================== Actualizar Seleccion =================================================//
 function Seleccion(variable) {
     localStorage.setItem('EmpleadoEditar', variable);
+    var myModal = new bootstrap.Modal(document.getElementById('PreguntaEditar'), {
+        keyboard: false
+    })
 
-    $("#PreguntaEditar").modal();
+    myModal.show()
+
 }
 
 function ConfirmarEdicion() {
@@ -103,7 +107,13 @@ function ConfirmarEdicion() {
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + " Estatus: " + estatus + typeof (objeto));
             if (objeto == true) {
-                $("#ModalEditarEmpleado").modal();
+                MostrarPersonal()
+                var myModal = new bootstrap.Modal(document.getElementById('ModalEditarEmpleado'), {
+                    keyboard: false
+                })
+            
+                myModal.show() 
+                
             }
         });
 }
@@ -111,7 +121,11 @@ function ConfirmarEdicion() {
 //=========================================== Actualizar Seleccion =================================================//
 function EliminarEmpleado(variable) {
     localStorage.setItem('EmpleadoEliminar', variable);
-    $("#PreguntaEliminar").modal();
+    var myModal = new bootstrap.Modal(document.getElementById('PreguntaEliminar'), {
+        keyboard: false
+    })
+
+    myModal.show()  
 }
 
 function ConfirmarEliminacion() {
@@ -129,7 +143,12 @@ function ConfirmarEliminacion() {
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + " Estatus: " + estatus + typeof (objeto));
             if (objeto == true) {
-                $("#ModalEditarEmpleado").modal();
+                MostrarPersonal()
+                var myModal = new bootstrap.Modal(document.getElementById('ModalEditarEmpleado'), {
+                    keyboard: false
+                })
+            
+                myModal.show()  
             }
         });
 }
@@ -137,7 +156,11 @@ function ConfirmarEliminacion() {
 //=========================================== Actualizar Seleccion =================================================//
 function ActivarEmpleado(variable) {
     localStorage.setItem('EmpleadoActivar', variable);
-    $("#PreguntaActivar").modal();
+    var myModal = new bootstrap.Modal(document.getElementById('PreguntaActivar'), {
+        keyboard: false
+    })
+
+    myModal.show()   
 }
 
 function ConfirmarActivacion() {
@@ -155,7 +178,12 @@ function ConfirmarActivacion() {
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + " Estatus: " + estatus + typeof (objeto));
             if (objeto == true) {
-                $("#ModalEditarEmpleado").modal();
+                MostrarPersonal()
+                var myModal = new bootstrap.Modal(document.getElementById('ModalEditarEmpleado'), {
+                    keyboard: false
+                })
+            
+                myModal.show() 
             }
         });
 }
@@ -188,7 +216,11 @@ function RegistraEmeplado() {
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + "Estatus: " + estatus);
             if (objeto == true) {
-                $("#ModalCrearEmpleado").modal();
+                var myModal = new bootstrap.Modal(document.getElementById('ModalCrearEmpleado'), {
+                    keyboard: false
+                })
+            
+                myModal.show()  
                 document.getElementById("RNombre").value = "";
                 document.getElementById("RNomina").value = "";
                 document.getElementById("RCorreo").value = "";
@@ -246,7 +278,7 @@ function PrepararEnvio() {
                             break;
                         default:
                             break;
-                            // code block
+                        // code block
                     }
 
                     if (x == 3) { //Si termina de registrar datos crear el boton
@@ -335,7 +367,7 @@ function EjecutarEnvio() {
     let curp = PersonalSucces[Indice].curp;
     let fila = PersonalSucces[Indice].fila;
     let IndicePlanta = "";
-    (planta === 'Morelos') ? IndicePlanta = "E2": IndicePlanta = "E1";
+    (planta === 'Morelos') ? IndicePlanta = "E2" : IndicePlanta = "E1";
 
     let ObjetoTabla = {
         Nombre: nombre,
