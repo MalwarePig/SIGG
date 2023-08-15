@@ -13,8 +13,12 @@ function GETPRODUCTS() {
             for (var i = 0; i < limite; i++) {
                 $("#Rows").remove(); //elimina los elementos con id Rows
             }
-            if (Herramientas.length == 0) {
-                $("#Vacio").modal();
+            if (Herramientas.length == 0) { 
+                var myModal = new bootstrap.Modal(document.getElementById('Vacio'), {
+                    keyboard: false
+                })
+
+                myModal.show()
             }
             /* Clave,Familia,Marca, Grado, Tipo, Descripcion, MedidaDiametro, Parte, Ubicacion, Link, Comentario */
             /* Clave,Planta,Familia,Marca, Grado, MedidaDiametro, Tipo */
@@ -211,8 +215,12 @@ function CargarFamilias() {
 }
 
 
-function ModalFormulario() {
-    $("#ModalFormulario").modal();
+function ModalFormulario() { 
+    var myModal = new bootstrap.Modal(document.getElementById('ModalFormulario'), {
+        keyboard: false
+    })
+
+    myModal.show()
 }
 
 function SeleccionarFamiliaDefault(data) {
@@ -264,8 +272,18 @@ function GuardarCambiosGaveta() {
         function (objeto, estatus) { // success callback
             if (objeto == true) {
                 //alert("Cambios realizados")
-                $("#Cambios").modal();
-                $('#ModalFormulario').modal('hide')
+                var myModal = new bootstrap.Modal(document.getElementById('Cambios'), {
+                    keyboard: false
+                })
+            
+                myModal.show() 
+
+                var myModal = new bootstrap.Modal(document.getElementById('ModalFormulario'), {
+                    keyboard: false
+                })
+            
+                myModal.hide() 
+ 
             }
         });
 }
@@ -316,17 +334,17 @@ function GuardarNuevoGaveta() {
                 var miModal = new bootstrap.Modal(document.getElementById('Cambios'));
                 miModal.show();
 
-               
-/* 
 
-                $("#Cambios").modal();
-                $('#ModalFormularioNuevo').modal('hide') */
+                /* 
+                
+                                $("#Cambios").modal();
+                                $('#ModalFormularioNuevo').modal('hide') */
             }
         });
 }
 
-function CerrarModal(){
-    
+function CerrarModal() {
+
     var miModals = new bootstrap.Modal(document.getElementById('ModalFormularioNuevo'));
     miModals.hide();
 }
@@ -348,7 +366,11 @@ function EliminarGaveta() {
         function (objeto, estatus) { // success callback
             if (objeto == true) {
                 //alert("Cambios realizados") 
-                $('#ModalEliminar').modal('hide')
+                var myModal = new bootstrap.Modal(document.getElementById('ModalEliminar'), {
+                    keyboard: false
+                  })
+                   
+                  myModal.hide()  
                 GETPRODUCTS()
             }
         });

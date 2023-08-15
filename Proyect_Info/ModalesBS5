@@ -4,4 +4,6 @@
       
       myModal.show()
 
+      myModal.hide() 
+
       
