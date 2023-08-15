@@ -97,7 +97,7 @@ function MostrarReporte() {
             }
 
             for (var i = 0; i < Herramientas.length; i++) {
-                var id = Herramientas[i].id;
+                var idH = Herramientas[i].id;
                 var Clave = Herramientas[i].Clave || '-';
                 var Producto = Herramientas[i].Producto;
                 var Proveedor = Herramientas[i].Proveedor || "-";
@@ -114,9 +114,10 @@ function MostrarReporte() {
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
                 var Cotizado = Herramientas[i].Cotizado;
+                var OC = Herramientas[i].OC || "-";
                 //Eliminar variable dentro del For
 
-                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
+                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia,OC]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -130,8 +131,8 @@ function MostrarReporte() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 9) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                    if (x == 10) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(11); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario" onclick=Seleccion(' + i + ')> Selección </button>';
                     }
 
@@ -169,13 +170,15 @@ function MostrarReporte() {
 function Seleccion(params) {
     console.log(HerramientasConsultadas[params].Producto)
     document.getElementById("Producto").value = HerramientasConsultadas[params].Producto
+    document.getElementById("Identificador").value = HerramientasConsultadas[params].id
 }
 
 function RegistrarOC() {
     let data = {
         Producto: document.getElementById("Producto").value,
         Cantidad: document.getElementById("Cantidad").value,
-        OC: document.getElementById("OC").value
+        OC: document.getElementById("OC").value,
+        Identificador: document.getElementById("Identificador").value
     }
 
     $.post("/RegistrarOC", // url
@@ -657,9 +660,10 @@ function MostrarOcultos() {
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
                 var Cotizado = Herramientas[i].Cotizado;
+                var OC = Herramientas[i].OC || "-";
                 //Eliminar variable dentro del For
 
-                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
+                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia,OC]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -674,8 +678,8 @@ function MostrarOcultos() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 9) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                    if (x == 10) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(11); //CREAR CELDA
                         newCell.innerHTML = '-';
                     }
 

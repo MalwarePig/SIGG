@@ -1799,7 +1799,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 
-            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia + " order by almacen";
+            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado,OC FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia + " order by almacen";
 
             //console.log(consulta);
             conn.query(consulta, (err, Herramientas) => {
@@ -2608,16 +2608,20 @@ Controller.RegistrarOC = (req, res) => {
             let Producto = Object.values(data)[0].Producto;
             let Cantidad = Object.values(data)[0].Cantidad;
             let OC = Object.values(data)[0].OC;
+            let Identificador = Object.values(data)[0].Identificador;
             console.log(Producto)
             console.log(Cantidad)
-            console.log(OC)
-            conn.query("INSERT INTO OrdenCompra(Producto,Cantidad,OC)VALUES('"+Producto+"','"+Cantidad+"','"+OC+"')", (err, data) => {
+            console.log(OC) 
+            console.log(Identificador) 
+
+
+            conn.query("call RegistrarOC('" + Producto + "','"+OC+"',"+Cantidad+","+Identificador+")", true, (err, rows, fields) => {
                 if (err) {
-                    console.log('Error de lectura ' + err);
-                    res.json(false)
-                }else{
+                    res.json(err);
+                    console.log('Error al actualizar accesorio' + err);
+                } else { 
                     res.json(true)
-                }   
+                }
             });
         });
     } else {
