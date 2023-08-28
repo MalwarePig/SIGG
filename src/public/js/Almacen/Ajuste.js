@@ -2,7 +2,7 @@
 function GETPRODUCTS() {
     var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
     $.ajax({
-        url: '/BuscarHerramientasAjuste/' +  Herramientas,
+        url: '/BuscarHerramientasAjuste/' + Herramientas,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -12,7 +12,11 @@ function GETPRODUCTS() {
                 $("#Rows" + i).remove(); //elimina los elementos con id Rows
             }
             if (Herramientas.length == 0) {
-                $("#Vacio").modal();
+                var myModal = new bootstrap.Modal(document.getElementById('Vacio'), {
+                    keyboard: false
+                })
+
+                myModal.show()
             }
             for (var i = 0; i < Herramientas.length; i++) {
                 var id = Herramientas[i].id;
@@ -47,7 +51,7 @@ function GETPRODUCTS() {
                         case 2:
                             console.log(Arreglo[x])
                             newCell.innerHTML = '<input type="text" id="Producto' + i + '" class="form-control"  readonly></input>';
-                            const Campo = document.getElementById('Producto'+i); //se renombra el id de la parte colapsador 
+                            const Campo = document.getElementById('Producto' + i); //se renombra el id de la parte colapsador 
                             Campo.value = Arreglo[x];
                             break;
                         case 3:
@@ -74,15 +78,15 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input  type="text" id="StockMaximo' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                             break;
                         case 8:
-                           // newCell.innerHTML = '<input  type="text" id="Categoria' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
-                           let cat = Arreglo[x] || '-';
-                            newCell.innerHTML = '<select required id="Categoria' + i + '" class="form-control" onFocus=CargarCategorias(' + i + ')>'+
-                            '<option value="'+cat+'" selected disabled>'+Arreglo[x]+'</option></select>';
+                            // newCell.innerHTML = '<input  type="text" id="Categoria' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
+                            let cat = Arreglo[x] || '-';
+                            newCell.innerHTML = '<select required id="Categoria' + i + '" class="form-control" onFocus=CargarCategorias(' + i + ')>' +
+                                '<option value="' + cat + '" selected disabled>' + Arreglo[x] + '</option></select>';
                             break;
                         case 9:
                             var fam = Arreglo[x] || '-';
-                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-control" onFocus="CargarFamilias(' + i + ')">'+
-                            '<option value="'+fam+'" selected disabled>'+Arreglo[x]+'</option></select>';
+                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-control" onFocus="CargarFamilias(' + i + ')">' +
+                                '<option value="' + fam + '" selected disabled>' + Arreglo[x] + '</option></select>';
                             break;
                     }
 
@@ -92,9 +96,9 @@ function GETPRODUCTS() {
 
                         var newCell = newRow.insertCell(6); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-info" name="btn" onclick=ModalAjuste(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Actualizar producto"> <i class="fas fa-edit"></i> </button>';
-                       
+
                         var newCell = newRow.insertCell(7); //CREAR CELDA
-                        newCell.innerHTML = '<button id="ActualizarUsados' + i + '" class="btn btn-success" name="btn" onclick=AjustarUsados(' + (i) + ') data-toggle="tooltip" data-placement="top" title="Actualiza stock usados"> <i class="fas fa-pen"></i></button>';     
+                        newCell.innerHTML = '<button id="ActualizarUsados' + i + '" class="btn btn-success" name="btn" onclick=AjustarUsados(' + (i) + ') data-toggle="tooltip" data-placement="top" title="Actualiza stock usados"> <i class="fas fa-pen"></i></button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -111,7 +115,11 @@ function runScript(e) {
 
 
 function ModalAjuste(variable) {
-    $("#ModalAjuste").modal(); 
+    var myModal = new bootstrap.Modal(document.getElementById('ModalAjuste'), {
+        keyboard: false
+    })
+
+    myModal.show()
     document.getElementById("FilaAjuste").value = variable;
 }
 
@@ -133,7 +141,7 @@ function Seleccion() {
     var Familia = document.getElementById("Familia" + indice).value; //Obtiene el valor de Producto
     var Motivo = document.getElementById("Motivo").value;
     var NuevaCantidad = document.getElementById("NuevaCantidad").value;
-     
+
     //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
 
     var ObjetoTabla = {
@@ -160,8 +168,12 @@ function Seleccion() {
         }, // data to be submit
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + "Estatus: " + estatus);
-            if(objeto == true){
-                $("#ModalAjuste").modal('toggle'); 
+            if (objeto == true) {
+                var myModal = new bootstrap.Modal(document.getElementById('ModalAjuste'), {
+                    keyboard: false
+                })
+
+                myModal.hide()
                 document.getElementById("Motivo").value = "";
                 document.getElementById("NuevaCantidad").value = "";
             }
@@ -171,15 +183,15 @@ function Seleccion() {
 
 //=========================================== Actualizar Seleccion Usado =================================================//
 function AjustarUsados(variable) {
- 
+
     var id = document.getElementById("id" + variable).value; //Obtiene el valor de id 
     var StockUsado = document.getElementById("StockUsado" + variable).value; //Obtiene el valor de Producto 
 
     //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
 
     var ObjetoTabla = {
-        id: id, 
-        StockUsado: StockUsado, 
+        id: id,
+        StockUsado: StockUsado,
     }
 
     console.table(ObjetoTabla);
@@ -189,7 +201,7 @@ function AjustarUsados(variable) {
         }, // data to be submit
         function (objeto, estatus) { // success callback
             console.log("objeto: " + objeto + "Estatus: " + estatus);
-            if(objeto == true){
+            if (objeto == true) {
                 GETPRODUCTS()
             }
         });
@@ -210,10 +222,15 @@ function Eliminar(variable) {
     //se crea texto para el nodo
     var newText = document.createTextNode(Producto);
     //se inserta el valor al nodo
-    
+
     Nodo.appendChild(newText);
-    $("#ConfirmarEliminar").modal();
-    
+
+    var myModal = new bootstrap.Modal(document.getElementById('ConfirmarEliminar'), {
+        keyboard: false
+    })
+
+    myModal.show()
+
 }
 
 //=========================================== Eliminar Selección =================================================//
@@ -237,8 +254,8 @@ function ConfirmarEliminacion() {
 }
 
 function CargarCategorias(indice) {
-    var listCategoria = document.getElementById("Categoria"+indice);
-    let Categorias = ['A','B','C'];
+    var listCategoria = document.getElementById("Categoria" + indice);
+    let Categorias = ['A', 'B', 'C'];
     for (let i = listCategoria.options.length; i >= 0; i--) { //Borrar elementos option de select
         listCategoria.remove(i);
     }
@@ -252,14 +269,14 @@ function CargarCategorias(indice) {
 }
 
 function CargarFamilias(indice) {
-    var listFamilia = document.getElementById("Familia"+indice);
-    let FamiliasMorelos = ['Torno','Centro maquinado','Endmills','Machuelos','Rimas','Brocas','Produccion','Seguridad','Embarque','Acabado','Mantenimiento','ULINE','Otros']
-    let FamiliasBravo = ['John Deere','Nidec','Nidec ACEM','Tornos Ch ACME','Tornos','Centro maquinado','Machuelos','Endmills','Rimas','Brocas','Produccion','Embarque','Seguridad','Acabado','Mantenimiento']
+    var listFamilia = document.getElementById("Familia" + indice);
+    let FamiliasMorelos = ['Torno', 'Centro maquinado', 'Endmills', 'Machuelos', 'Rimas', 'Brocas', 'Produccion', 'Seguridad', 'Embarque', 'Acabado', 'Mantenimiento', 'ULINE', 'Otros']
+    let FamiliasBravo = ['John Deere', 'Nidec', 'Nidec ACEM', 'Tornos Ch ACME', 'Tornos', 'Centro maquinado', 'Machuelos', 'Endmills', 'Rimas', 'Brocas', 'Produccion', 'Embarque', 'Seguridad', 'Acabado', 'Mantenimiento']
     let PlantaSeleccionada = "";
     document.getElementById("radMorelos").checked == true ? PlantaSeleccionada = "Morelos" : PlantaSeleccionada = "Bravo";
 
     $.ajax({
-        url: '/getFamiliasAlmacenPlanta/'+PlantaSeleccionada,
+        url: '/getFamiliasAlmacenPlanta/' + PlantaSeleccionada,
         success: function (data) {
             console.log(data)
             for (let i = listFamilia.options.length; i >= 0; i--) { //Borrar elementos option de select
@@ -270,10 +287,10 @@ function CargarFamilias(indice) {
                 var option = document.createElement("option");
                 option.text = PlantaSeleccionada == 'Morelos' ? data[i].Nombre : data[i].Nombre;
                 listFamilia.add(option);
-            }   
+            }
         } //Funcion success
     }); //Ajax
- 
+
 }
 
 //Intercambiar el diagonal por otro simbolo para no tener problemas con el url

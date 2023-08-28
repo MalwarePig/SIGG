@@ -340,8 +340,7 @@ router.get('/wh_Criticos', (req, res) => {
 router.get('/MinCritico/', AlmacenController.MinCritico);
 
 //Muestra la lista de herramientas despachadas por almacen
-router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho);
-router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho);
+router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho); 
 //Muestra el consumo por cada herramienta
 router.get('/SumaMensual/:parametros', AlmacenController.SumaMensual);
 //Muestra detalle de las herramienta

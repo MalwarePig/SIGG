@@ -3072,7 +3072,7 @@ Controller.ExistenciasGaveta = (req, res) => {
 ///////// == REPORTE == ////////////////////////////// == REPORTE == ////////////////////////////// == REPORTE == ////////////////////////// == REPORTE == //////////////////// == REPORTE == ///////////////////// == REPORTE == ////////////
 //============================================================================================================================================================================================================================================
 
-Controller.ListadoDespacho = (req, res) => {
+/* Controller.ListadoDespacho = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const {
@@ -3093,7 +3093,7 @@ Controller.ListadoDespacho = (req, res) => {
     } else {
         res.render('Admin/Login.html');
     }
-};
+}; */
 
 
 Controller.ListadoDespacho = (req, res) => {
