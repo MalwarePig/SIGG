@@ -186,12 +186,17 @@ function AjustarUsados(variable) {
 
     var id = document.getElementById("id" + variable).value; //Obtiene el valor de id 
     var StockUsado = document.getElementById("StockUsado" + variable).value; //Obtiene el valor de Producto 
+    var StockMinimo = document.getElementById("StockMinimo" + variable).value; //Obtiene el valor de Producto 
+    var StockMaximo = document.getElementById("StockMaximo" + variable).value; //Obtiene el valor de Producto 
 
     //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
 
     var ObjetoTabla = {
         id: id,
         StockUsado: StockUsado,
+        StockMinimo: StockMinimo,
+        StockMaximo: StockMaximo
+
     }
 
     console.table(ObjetoTabla);

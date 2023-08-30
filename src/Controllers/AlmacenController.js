@@ -836,11 +836,14 @@ Controller.ActualizarProductoUsado = (req, res) => {
             console.log(Object.values(data)[0]);
             var id = Object.values(data)[0].id; //obeter datos de un objeto id   var StockNuevo = Object.values(data)[0].StockNuevo; //obeter datos de un objeto Ubicacion
             var StockUsado = Object.values(data)[0].StockUsado; //obeter datos de un objeto Ubicacion
+            var StockMinimo = Object.values(data)[0].StockMinimo; //obeter datos de un objeto Ubicacion
+            var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
 
+            
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + " WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + ",StockMin = "+StockMinimo+ ", StockMax= "+StockMaximo + " WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
