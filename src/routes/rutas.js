@@ -1211,6 +1211,64 @@ router.get('/Ex_Salidas', (req, res) => {
 
 
 
+//============================== Almacen Herramienta Despacho ==============================//
+router.get('/HerramientaDespacho', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/wh_Salidas.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//====== Despacho ========
+router.get('/BuscarHerramental/:Clave', AlmacenController.BuscarHerramental);
+router.post('/GuardarNotaHerramienta', AlmacenController.GuardarNotaHerramienta);
+//====== Retorno ========
+router.get('/BuscarDespachoUnico/:Clave', AlmacenController.BuscarDespachoUnico);
+router.post('/GuardarRetornoHerramienta', AlmacenController.GuardarRetornoHerramienta);
+
+
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
+router.get('/wh_ReporteHerramental', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/wh_Reporte.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+//Muestra reporte de entradas y salidas de herramienta
+router.get('/TipoReporteHerramental/:parametros', AlmacenController.TipoReporteHerramental);
+//================================== MODULO DE Herramental =================================// 
+//Abre pagina principal para editar
+router.get('/AdminHerramental', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/wh_Admin.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Abre pagina principal para editar
+router.get('/wh_EditarHerramental', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/wh_Editar.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Busca Herramientas en Herramental por id
+router.get('/BuscarHerramentalID/:parametros', AlmacenController.BuscarHerramentalID);
+router.post('/GuardarCambiosHerramental', AlmacenController.GuardarCambiosHerramental); 
+router.post('/EliminarHerramental', AlmacenController.EliminarHerramental); 
+router.post('/GuardarNuevoHerramental', AlmacenController.GuardarNuevoHerramental); 
+
+
 
 
 

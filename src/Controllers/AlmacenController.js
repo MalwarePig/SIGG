@@ -839,11 +839,11 @@ Controller.ActualizarProductoUsado = (req, res) => {
             var StockMinimo = Object.values(data)[0].StockMinimo; //obeter datos de un objeto Ubicacion
             var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
 
-            
+
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + ",StockMin = "+StockMinimo+ ", StockMax= "+StockMaximo + " WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + ",StockMin = " + StockMinimo + ", StockMax= " + StockMaximo + " WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
@@ -1531,15 +1531,15 @@ Controller.postAjusteGaveta = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                console.log(id + "'," + Clave + ",'" + Planta + "','" + Usuario+ "','" +Grado+ "','" +Cantidad)
-                conn.query("call AjusteGaveta(" + id +",'" + Clave + "','"+Grado+"','"+Planta+"',"+Cantidad+","+CantidadUsados+",'"+Usuario+"')", true, (err, rows, fields) => {
+                console.log(id + "'," + Clave + ",'" + Planta + "','" + Usuario + "','" + Grado + "','" + Cantidad)
+                conn.query("call AjusteGaveta(" + id + ",'" + Clave + "','" + Grado + "','" + Planta + "'," + Cantidad + "," + CantidadUsados + ",'" + Usuario + "')", true, (err, rows, fields) => {
                     if (err) {
                         console.log('Error al Recolectar' + err);
-                        console.log( err);
+                        console.log(err);
                     } else {
-                       res.json(true)
+                        res.json(true)
                     }
-                }); 
+                });
             }
         });
     } else {
@@ -1573,15 +1573,15 @@ Controller.GuardarCambiosGaveta = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE gavetas SET Clave= '"+Clave+"',Planta='"+Planta+"',Familia='"+Familia+"',Marca='"+Marca+"',Grado='"+Grado+"',MedidaDiametro='"+MedidaDiametro+
-                "',Tipo='"+Tipo+"',Descripcion='"+Descripcion+"',Parte='"+Parte+"',Ubicacion='"+Ubicacion+"',Link='"+Link+"',Comentarios='"+Comentario+"',Precio='"+Precio+"' WHERE id = " + id, (err, Herramientas) => {
-                    if (err) {
-                        console.log('Error de lectura' + err);
-                    } else {
-                        res.json(true)
-                    }
+                conn.query("UPDATE gavetas SET Clave= '" + Clave + "',Planta='" + Planta + "',Familia='" + Familia + "',Marca='" + Marca + "',Grado='" + Grado + "',MedidaDiametro='" + MedidaDiametro +
+                    "',Tipo='" + Tipo + "',Descripcion='" + Descripcion + "',Parte='" + Parte + "',Ubicacion='" + Ubicacion + "',Link='" + Link + "',Comentarios='" + Comentario + "',Precio='" + Precio + "' WHERE id = " + id, (err, Herramientas) => {
+                        if (err) {
+                            console.log('Error de lectura' + err);
+                        } else {
+                            res.json(true)
+                        }
 
-                });
+                    });
             }
         });
     } else {
@@ -1595,7 +1595,7 @@ Controller.GuardarNuevoGaveta = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            console.log(Object.values(data)[0]); 
+            console.log(Object.values(data)[0]);
             var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto id
             var Planta = Object.values(data)[0].Planta; //obeter datos de un objeto id
             var Familia = Object.values(data)[0].Familia;
@@ -1609,22 +1609,22 @@ Controller.GuardarNuevoGaveta = (req, res) => {
             var Link = Object.values(data)[0].Link;
             var Comentario = Object.values(data)[0].Comentario;
             var Precio = Object.values(data)[0].Precio;
-            var Nuevo = Object.values(data)[0].Nuevo; 
+            var Nuevo = Object.values(data)[0].Nuevo;
             var Usado = Object.values(data)[0].Usado;
 
 
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("INSERT INTO gavetas (Clave,Planta,Familia,Marca,Grado,MedidaDiametro,Tipo,Descripcion,Parte,Ubicacion,Link,Comentarios,Precio,Cantidad,CantidadUsados)VALUES"+
-                "('"+Clave+"','"+Planta+"','"+Familia+"','"+Marca+"','"+Grado+"','"+MedidaDiametro+"','"+Tipo+"','"+Descripcion+"','"+Parte+"','"+Ubicacion+"','"+Link+"','"+Comentario+"','"+Precio+"',"+Nuevo+","+Usado+")"   , (err, Herramientas) => {
-                    if (err) {
-                        console.log('Error de lectura' + err);
-                    } else {
-                        res.json(true)
-                    }
+                conn.query("INSERT INTO gavetas (Clave,Planta,Familia,Marca,Grado,MedidaDiametro,Tipo,Descripcion,Parte,Ubicacion,Link,Comentarios,Precio,Cantidad,CantidadUsados)VALUES" +
+                    "('" + Clave + "','" + Planta + "','" + Familia + "','" + Marca + "','" + Grado + "','" + MedidaDiametro + "','" + Tipo + "','" + Descripcion + "','" + Parte + "','" + Ubicacion + "','" + Link + "','" + Comentario + "','" + Precio + "'," + Nuevo + "," + Usado + ")", (err, Herramientas) => {
+                        if (err) {
+                            console.log('Error de lectura' + err);
+                        } else {
+                            res.json(true)
+                        }
 
-                }); 
+                    });
             }
         });
     } else {
@@ -1638,19 +1638,19 @@ Controller.EliminarGaveta = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
             const data = req.body; //TRAE TODO EL OBJETO
-            console.log(Object.values(data)[0]); 
+            console.log(Object.values(data)[0]);
             var id = Object.values(data)[0].id; //obeter datos de un objeto id
 
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("delete from gavetas where id ="+id, (err, Herramientas) => {
+                conn.query("delete from gavetas where id =" + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     } else {
                         res.json(true)
                     }
-                }); 
+                });
             }
         });
     } else {
@@ -1826,7 +1826,7 @@ Controller.MostrarOcultos = (req, res) => {
             const {
                 parametros
             } = req.params;
-            
+
             let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado FROM almacen WHERE VISIBLE = 0 order by almacen";
 
             //console.log(consulta);
@@ -1852,9 +1852,9 @@ Controller.OrdenProductoBuscar = (req, res) => {
             const {
                 parametros
             } = req.params;
-            var Almacen = parametros  
+            var Almacen = parametros
             //console.log(consulta);
-            conn.query("SELECT * FROM OrdenCompra WHERE  Producto = '"+parametros+"'", (err, Herramientas) => {
+            conn.query("SELECT * FROM OrdenCompra WHERE  Producto = '" + parametros + "'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura' + err);
@@ -2614,15 +2614,15 @@ Controller.RegistrarOC = (req, res) => {
             let Identificador = Object.values(data)[0].Identificador;
             console.log(Producto)
             console.log(Cantidad)
-            console.log(OC) 
-            console.log(Identificador) 
+            console.log(OC)
+            console.log(Identificador)
 
 
-            conn.query("call RegistrarOC('" + Producto + "','"+OC+"',"+Cantidad+","+Identificador+")", true, (err, rows, fields) => {
+            conn.query("call RegistrarOC('" + Producto + "','" + OC + "'," + Cantidad + "," + Identificador + ")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);
-                } else { 
+                } else {
                     res.json(true)
                 }
             });
@@ -3026,7 +3026,7 @@ Controller.GuardarNotaRetornoGaveta = (req, res) => {
                     if (err) {
                         console.log('Error al registrar despacho de herramienta');
                     }
-                    conn.query("call GavetaRetorno(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','" + Planta + "'," + idHerramienta + ",'"+Comentarios+"')", true, (err, rows, fields) => {
+                    conn.query("call GavetaRetorno(" + Cantidad + ",'" + Producto + "','" + Estado + "','" + Maquina + "','" + FolioSalida + "','" + Planta + "'," + idHerramienta + ",'" + Comentarios + "')", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al descontar almacen' + err);
                         } else {
@@ -3108,10 +3108,10 @@ Controller.ListadoDespacho = (req, res) => {
             var Mes = parametros.split('|')[0]; // Fecha inicial
             var ano = parametros.split('|')[1]; // Fecha limite
             var Planta = parametros.split('|')[2]; // Fecha limite
-            var Almacen = "Almacen " +Planta
+            var Almacen = "Almacen " + Planta
 
 
-            conn.query("call ListadoDespacho(" + Mes +","+ano+",'"+Planta+"','"+Almacen+"')", true, (err, rows, fields) => {
+            conn.query("call ListadoDespacho(" + Mes + "," + ano + ",'" + Planta + "','" + Almacen + "')", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio ' + err);
@@ -3134,7 +3134,7 @@ Controller.MinCritico = (req, res) => {
         req.getConnection((err, conn) => {
             const {
                 parametros
-            } = req.params; 
+            } = req.params;
             conn.query("SELECT * FROM Almacen WHERE Stock <= StockMin order by almacen", (err, Herramientas) => {
                 if (err) {
                     res.json(err);
@@ -3310,6 +3310,289 @@ Controller.TopDespachos = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+
+///////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////// == SALIDA == //////////////////// == SALIDA == ///////////////////// == SALIDA == ///////////////////////////////////////////////////////////////
+Controller.BuscarHerramental = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Clave
+            } = req.params;
+
+            conn.query("SELECT * FROM Herramienta WHERE Clave like '%" + Clave + "%' or Descripcion like '%"+Clave+"%'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+Controller.GuardarNotaHerramienta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+
+            var limite = Object.values(data)[0].length;
+            console.log("Limite: " + limite);
+            for (var i = 0; i < limite; i++) {
+                let idH = Object.values(data)[0][i][0]; //obeter datos de un objeto Folio
+                let Planta = Object.values(data)[0][i][1]; //obeter datos de un objeto Producto
+                let Clave = Object.values(data)[0][i][2]; //obeter datos de un objeto Entregado
+                let Estado = Object.values(data)[0][i][3]; //obeter datos de un objeto Estado
+                let OT = Object.values(data)[0][i][4]; //obeter datos de un objeto OT
+                let Nomina = Object.values(data)[0][i][5]; //obeter datos de un objeto OT
+                let Empleado = Object.values(data)[0][i][6]; //obeter datos de un objeto Maquina
+                let Familia = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
+                let Maquina = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
+                let Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+
+                let Movimiento = 'Despacho';
+                let Usuario = req.session.username;
+
+                conn.query("call SPDespachoHerramienta('" + idH + "','" + Planta + "','" + Clave + "','" + Estado + "','" + OT + "','" + Nomina + "','" + Empleado + "','"
+                    + Familia + "','" + Maquina + "','" + Comentario + "','" + Movimiento + "','" + Usuario + "');", true, (err, rows, fields) => {
+                        if (err) {
+                            console.log('Error al registrar folios' + err);
+                        } else {
+                            res.json(true);
+                        }
+                    });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+///////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////// == SALIDA == //////////////////// == SALIDA == ///////////////////// == SALIDA == ///////////////////////////////////////////////////////////////
+Controller.BuscarDespachoUnico = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Clave
+            } = req.params;
+
+            conn.query("SELECT * FROM DespachoHerramienta WHERE idHerramienta = " + Clave, (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+Controller.GuardarRetornoHerramienta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+
+            var limite = Object.values(data)[0].length;
+            console.log("Limite: " + limite);
+            for (var i = 0; i < limite; i++) {
+                let R_id = Object.values(data)[0][i][0]; //obeter datos de un objeto Folio
+                let R_Planta = Object.values(data)[0][i][1]; //obeter datos de un objeto Producto
+                let R_Clave = Object.values(data)[0][i][2]; //obeter datos de un objeto Entregado
+                let R_OT = Object.values(data)[0][i][3]; //obeter datos de un objeto Estado
+                let R_Maquina = Object.values(data)[0][i][4]; //obeter datos de un objeto OT
+                let R_Fecha = Object.values(data)[0][i][5]; //obeter datos de un objeto OT
+                let R_Estado = Object.values(data)[0][i][6]; //obeter datos de un objeto Maquina
+                let R_Nomina = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
+                let R_Empleado = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
+                let R_Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+
+                let Movimiento = 'Retorno';
+                let Usuario = req.session.username;
+
+                conn.query("call SPRetornoHerramienta('" + R_id + "','" + R_Planta + "','" + R_Clave + "','" + R_Estado + "','" + R_OT + "','" + R_Nomina + "','" + R_Empleado + "','"
+                    + R_Maquina + "','" + R_Comentario + "','" + Movimiento + "','" + Usuario + "');", true, (err, rows, fields) => {
+                        if (err) {
+                            console.log('Error al registrar folios' + err);
+                        } else {
+                            res.json(true);
+                        }
+                    });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+Controller.TipoReporteHerramental = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var categoria = parametros.split('|')[0]; // categoria o tipo de reporte
+            var fechaInicio = parametros.split('|')[1]; // Fecha inicial
+            var fechafin = parametros.split('|')[2]; // Fecha limite
+            var Almacen = parametros.split('|')[3]; // Almacen
+            console.log("SELECT * FROM " + categoria + " WHERE Planta = '" + Almacen + "' AND Fecha BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'")
+
+            conn.query("SELECT * FROM " + categoria + " WHERE Planta = '" + Almacen + "' AND Fecha BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.BuscarHerramentalID = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            console.log("parametros: " + parametros);
+            conn.query("SELECT * FROM Herramienta WHERE id = " + parametros, (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura ' + err);
+                } else {
+                    console.log(Herramientas);
+                    res.json(Herramientas);
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+//Editar Herramental
+Controller.GuardarCambiosHerramental = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO 
+
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto id
+            var Descripcion = Object.values(data)[0].Descripcion; //obeter datos de un objeto id
+            var Planta = Object.values(data)[0].Planta;
+            var Diametro = Object.values(data)[0].Diametro;
+            var Caracteristicas = Object.values(data)[0].Caracteristicas;
+            var Codigo = Object.values(data)[0].Codigo;
+            var Inserto = Object.values(data)[0].Inserto;
+            var Marca = Object.values(data)[0].Marca;
+            var Seat = Object.values(data)[0].Seat;
+            var Clamp = Object.values(data)[0].Clamp;
+            var Screw = Object.values(data)[0].Screw;
+            var Comentario = Object.values(data)[0].Comentario;
+
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("UPDATE Herramienta SET Clave= '" + Clave + "',Planta='" + Planta + "',Descripcion='" + Descripcion + "',Diametro='" + Diametro + "',Caracteristicas='" + Caracteristicas + "',Codigo='" + Codigo +
+                    "',Inserto='" + Inserto + "',Marca='" + Marca + "',Seat='" + Seat + "',Clamp='" + Clamp + "',Screw='" + Screw + "',Comentario='" + Comentario + "' WHERE id = " + id, (err, Herramientas) => {
+                        if (err) {
+                            console.log('Error de lectura' + err);
+                        } else {
+                            res.json(true)
+                        }
+
+                    });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//Crea Producto Gaveta
+Controller.EliminarHerramental = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("delete from Herramienta where id =" + id, (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    } else {
+                        res.json(true)
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+//Crea Producto Herramental
+Controller.GuardarNuevoHerramental = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto id
+            var Descripcion = Object.values(data)[0].Descripcion; //obeter datos de un objeto id
+            var Planta = Object.values(data)[0].Planta;
+            var Diametro = Object.values(data)[0].Diametro;
+            var Caracteristicas = Object.values(data)[0].Caracteristicas;
+            var Codigo = Object.values(data)[0].Codigo;
+            var Inserto = Object.values(data)[0].Inserto;
+            var Marca = Object.values(data)[0].Marca;
+            var Seat = Object.values(data)[0].Seat;
+            var Clamp = Object.values(data)[0].Clamp;
+            var Screw = Object.values(data)[0].Screw;
+            var Comentario = Object.values(data)[0].Comentario;
+
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("INSERT INTO Herramienta (Clave,Descripcion,Planta,Diametro,Caracteristicas,Codigo,Inserto,Marca,Seat,Clamp,Screw,Comentario)VALUES" +
+                    "('" + Clave + "','" + Descripcion + "','" + Planta + "','" + Diametro + "','" + Caracteristicas + "','" + Codigo + "','" + Inserto + "','" + Marca + "','" + Seat + "','" + Clamp + "','" + Screw + "','" + Comentario + "')", (err, Herramientas) => {
+                        if (err) {
+                            res.json(false)
+                            console.log('Error de lectura' + err);
+                        } else {
+                            res.json(true)
+                        }
+                    });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 
 module.exports = Controller;

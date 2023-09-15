@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+
+    <script type="text/javascript" src="js/Almacen/Herramientas/Despacho.js"></script>
+</head>
+
+<body onload="Familias()">
+  <%- include ('../../partials/navegacion.html') %>
+    <!------incluir navegacion Menu----->
+
+    <div class="card text-center">
+      <div class="card-header">
+        <!------------------------------ BUSCAR -------------------------------------->
+        <div class="d-flex flex-row justify-content-center ">
+          <div class="p-2 bd-highlight">
+            <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)" value="be" autofocus="autofocus">
+          </div>
+          <div class="p-2 align-self-center">
+            <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="BuscarHerramental()"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <!------------------------------ TABLA -------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+          style="width:96%; height:350px; overflow: scroll;">
+          <table class="table table-condensed table-hover" id="Herr_Encontradas">
+            <thead>
+              <tr>
+                <th>indice</th>
+                <th>Planta</th>
+                <th>Clave H</th>
+                <th>Descripción</th>
+                <th>Diametro</th>
+                <th>Caracteristicas</th>
+                <th>Código</th>
+                <th>Comentario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+          <form id="RegistroSalida" name="RegistroSalida">
+
+            <div class="form-row">
+
+              <div style="width: 5% px; display: none;">
+                <input type="text" id="id" class="form-control" placeholder="Folio" name="id" autocomplete="off"
+                  readonly>
+              </div>
+
+              <div class="col-1">
+                <label for="Planta" class="col-form-label">Planta:</label>
+                <input type="text" class="form-control" id="Planta" readonly>
+              </div>
+
+              <div class="col-2">
+                <label for="Clave" class="col-form-label">Clave herramienta:</label>
+                <input type="text" class="form-control" id="Clave" readonly>
+              </div>
+
+             <!--  <div class="col-1">
+                <label for="Clave" class="col-form-label">Fecha despacho:</label>
+                <input type="text" class="form-control" id="Fecha" readonly>
+              </div> -->
+
+              <div class="col-4">
+                <label for="Descripcion" class="col-form-label">Descripción:</label>
+                <input type="text" class="form-control" id="Descripcion" readonly>
+              </div>
+
+            <!--   <div class="col-md-1">
+                <label for="Disponibilidad" class="col-form-label">Disponibilidad:</label>
+                <input type="text" class="form-control" id="Disponibilidad" readonly>
+              </div> -->
+
+              <div class="col-md-1">
+                <label for="Diametro" class="col-form-label">Diametro:</label>
+                <input type="text" class="form-control" id="Diametro" readonly>
+              </div>
+
+              <div class="col-md-2">
+                <label for="Caracteristicas" class="col-form-label">Caracteristicas:</label>
+                <input type="text" class="form-control" id="Caracteristicas" readonly>
+              </div>
+
+              <div class="col-md-2">
+                <label for="Codigo" class="col-form-label">Código:</label>
+                <input type="text" class="form-control" id="Codigo" readonly>
+              </div>
+
+              <div class="col-md-1">
+                <label for="Estado" class="col-form-label">Estado:</label>
+                <select required id="Estado" name="Estado" class="form-select" onchange="Maquinas()">
+                  <option value="Optimo" selected>Optimo</option>
+                  <option value="Dañado">Dañado</option>
+                </select>
+              </div>
+
+              <div class="col-md-1">
+                <label for="OT" class="col-form-label">OT:</label>
+                <input type="text" class="form-control" id="OT">
+              </div>
+
+              <div class="col-md-1">
+                <label for="recipient-name" class="col-form-label">Nómina:</label>
+                <input type="text" class="form-control" id="Nomina" onkeypress="return Nombres(event,'Nomina','Empleado')"
+                  required>
+              </div>
+
+              <div class="col-2">
+                <label for="recipient-name" class="col-form-label">Empleado:</label>
+                <input type="text" class="form-control" id="Empleado">
+              </div>
+
+              <div class="col-2 mt-1">
+                <label for="inputState" class="col-form-labe">Familia</label>
+                <select required id="Familia" name="Familia" class="form-select" onchange="Maquinas()">
+                  <option value="a" selected disabled>seleccione la familia</option>
+                </select>
+              </div>
+
+              <div class="col-2 mt-1">
+                <label for="inputState" class="col-form-labe">Máquina</label>
+                <select required id="Maquina" name="Sal_Maquina" class="form-select">
+                  <option value="" selected disabled>seleccione la máquina</option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label for="recipient-name" class="col-form-label">Comentario de estado:</label>
+                <input type="text" class="form-control" id="N_Notas">
+              </div>
+
+            </div>
+          </form>
+
+          <div class="row mt-4 row justify-content-center">
+            <div class="col">
+              <button type="submit" class="btn btn-secondary " onclick="CrearNota()">Agregar</button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+          <table class="table table-condensed table-hover" id="TablaNota">
+            <thead class="thead-dark">
+              <tr>
+                <th>id</th>
+                <th>Planta</th>
+                <th>Clave herramienta</th>
+                <th>Estado</th>
+                <th>OT</th>
+                <th>Nómina</th>
+                <th>Empleado</th>
+                <th>Familia</th>
+                <th>Máquina</th>
+                <th>Comentario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+          <br><br>
+          <hr />
+          <button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal"
+            data-toggle="modal">Registrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalExito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Correcto!</h5>
+            
+          </div>
+          <div class="modal-body">
+            Se creo despacho con exito!
+          </div>
+           
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalFallo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Error!</h5> 
+          </div>
+          <div class="modal-body">
+            Ocurrio algun problema en la operación!
+          </div>
+           
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="ModalExitoRetorno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Correcto!</h5>
+            
+          </div>
+          <div class="modal-body">
+            Retorno con exito!
+          </div>
+           
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="modal fade" id="ModalRetorno" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-lg"  role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h3>Retornar herramienta</h3>
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <form id="Formulario">
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="col">
+
+                    <div style="width: 5% px; display: none;">
+                      <input type="text" id="R_id" class="form-control" placeholder="Folio" name="id" autocomplete="off"
+                        readonly>
+                    </div>
+
+                    <label for="R_Planta" class="col-form-label">Planta:</label>
+                    <input type="text" class="form-control" id="R_Planta" readonly>
+                  </div>
+
+                  <div class="col">
+                    <label for="R_Clave" class="col-form-label">Clave:</label>
+                    <input type="text" class="form-control" id="R_Clave" readonly>
+                  </div>
+
+                  <div class="col"> 
+                    <label for="R_OT" class="col-form-label">OT:</label>
+                    <input type="text" class="form-control" id="R_OT" readonly>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="form-row">  
+                  <div class="col">
+                    <label for="R_Maquina" class="col-form-label">Maquina:</label>
+                    <input type="text" class="form-control" id="R_Maquina" readonly>
+                  </div>
+
+                  <div class="col">
+                    <label for="R_Fecha" class="col-form-label">Fecha:</label>
+                    <input type="text" class="form-control" id="R_Fecha" readonly>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="form-row">
+                  <div class="col"> 
+                    <label for="R_Estado" class="col-form-labe">Estado</label>
+                    <select required id="R_Estado" name="R_Estado" class="form-select">
+                      <option value="" selected disabled>Estado retorno</option>
+                      <option value="Optimo">Optimo</option>
+                      <option value="Dañado">Dañado</option>
+                    </select>
+                  </div>
+
+                  <div class="col">
+                    <label for="R_Nomina" class="col-form-label">Nomina:</label>
+                    <input type="text" class="form-control" id="R_Nomina" onkeypress="return Nombres(event,'R_Nomina','R_Empleado')">
+                  </div>
+
+                  <div class="col">
+                    <label for="R_Empleado" class="col-form-label">Empleado:</label>
+                    <input type="text" class="form-control" id="R_Empleado">
+                  </div>
+                </div> 
+                
+
+                <hr>
+                <div class="form-row">  
+                  <div class="col">
+                    <label for="R_Comentario" class="col-form-label">Comentario:</label>
+                    <input type="text" class="form-control" id="R_Comentario">
+                  </div> 
+                </div> 
+
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="RetornarHerramienta()" data-bs-dismiss="modal">Retornar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+
+</body>
