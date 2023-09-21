@@ -3321,8 +3321,9 @@ Controller.BuscarHerramental = (req, res) => {
             const {
                 Clave
             } = req.params;
+            let planta =  req.session.planta;
 
-            conn.query("SELECT * FROM Herramienta WHERE Clave like '%" + Clave + "%' or Descripcion like '%"+Clave+"%'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Herramienta WHERE Clave like '%" + Clave + "%' or Descripcion like '%"+Clave+"%' and Planta = '"+planta+"'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -3594,6 +3595,72 @@ Controller.GuardarNuevoHerramental = (req, res) => {
 };
 
 
+Controller.EstadoActualHerramental = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var Almacen = parametros.split('|')[0]; // Almacen
+            var categoria = parametros.split('|')[1]; // categoria o tipo de reporte 
+           
+
+            if (Almacen == 'Todo' && categoria == 'Completo') {//Almacen Completo
+                conn.query("SELECT * FROM Herramienta", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas)
+                });
+            }else if (Almacen == 'Todo' && categoria == 'Almacen') {//Herramienta ambas plantas en almacen
+                conn.query("SELECT * FROM Herramienta where Cantidad = 1", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas)
+                });
+            } else if (Almacen == 'Todo' && categoria == 'Maquina') {//Herramienta ambas plantas en maquinas
+                conn.query("SELECT * FROM Herramienta where Cantidad = 0", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas)
+                });
+            }else if (Almacen != 'Todo' && categoria == 'Completo') {//Herramienta 1 planta Completa
+                conn.query("SELECT * FROM Herramienta where Planta = '"+Almacen+"'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas)
+                });
+            }else if (Almacen != 'Todo' && categoria == 'Almacen') {//Herramienta 1 planta en almacen
+                conn.query("SELECT * FROM Herramienta where Cantidad = 1 AND Planta = '"+Almacen+"'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas)
+                });
+            }else if (Almacen != 'Todo' && categoria == 'Maquina') {//Herramienta 1 planta en Maquina
+                conn.query("SELECT * FROM Herramienta where Cantidad = 0 AND Planta = '"+Almacen+"'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas)
+                });
+            }else{
+                res.json([0])
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 module.exports = Controller;
 

@@ -1,15 +1,13 @@
 
 function ExistenciasGaveta() {
-    var miModal = new bootstrap.Modal(document.getElementById('loading')); 
+    var miModal = new bootstrap.Modal(document.getElementById('exampleModalToggle')); 
     miModal.show();
     
     //$("#loading").modal();
     Consulta()
-    setTimeout(() => { 
+   /*  setTimeout(() => { 
         miModal.hide();
-    }, 2500);
-
-    
+    }, 2500);   */ 
 }
 
 function Consulta() {
