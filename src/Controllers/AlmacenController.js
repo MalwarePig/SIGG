@@ -3606,7 +3606,7 @@ Controller.EstadoActualHerramental = (req, res) => {
 
 
             if (Almacen == 'Todo' && categoria == 'Completo') {//Almacen Completo
-                conn.query("SELECT * FROM Herramienta", (err, Herramientas) => {
+                conn.query("SELECT * FROM Herramienta order by Maquina", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
@@ -3622,7 +3622,7 @@ Controller.EstadoActualHerramental = (req, res) => {
                     res.json(Herramientas)
                 });
             } else if (Almacen == 'Todo' && categoria == 'Maquina') {//Herramienta ambas plantas en maquinas
-                conn.query("SELECT * FROM Herramienta where Cantidad = 0", (err, Herramientas) => {
+                conn.query("SELECT * FROM Herramienta where Cantidad = 0 order by Maquina", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
@@ -3630,7 +3630,7 @@ Controller.EstadoActualHerramental = (req, res) => {
                     res.json(Herramientas)
                 });
             } else if (Almacen != 'Todo' && categoria == 'Completo') {//Herramienta 1 planta Completa
-                conn.query("SELECT * FROM Herramienta where Planta = '" + Almacen + "'", (err, Herramientas) => {
+                conn.query("SELECT * FROM Herramienta where Planta = '" + Almacen + "' order by Maquina", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
@@ -3646,7 +3646,7 @@ Controller.EstadoActualHerramental = (req, res) => {
                     res.json(Herramientas)
                 });
             } else if (Almacen != 'Todo' && categoria == 'Maquina') {//Herramienta 1 planta en Maquina
-                conn.query("SELECT * FROM Herramienta where Cantidad = 0 AND Planta = '" + Almacen + "'", (err, Herramientas) => {
+                conn.query("SELECT * FROM Herramienta where Cantidad = 0 AND Planta = '" + Almacen + "' order by Maquina", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
