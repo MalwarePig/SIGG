@@ -1289,7 +1289,7 @@ router.get('/EstadoActualHerramental/:parametros', AlmacenController.EstadoActua
 //Abre pagina principal para requerir
 router.get('/Danados', (req, res) => {
 	if (req.session.loggedin) {
-		res.render('Almacen/Herramienta/ReporteDañados.html', {
+		res.render('Almacen/Herramienta/ReporteDanados.html', {
 			title: 'Gemak'
 		});
 	} else {
