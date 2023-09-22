@@ -16,7 +16,7 @@
         <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
         <!-- GENERAR EXCEL -->
-        <script type="text/javascript" src="js/Almacen/Herramientas/Reporte.js"></script>
+        <script type="text/javascript" src="js/Almacen/Herramientas/Dañados.js"></script>
 
         <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
@@ -29,6 +29,18 @@
             <div class="card-header">
                 <!------------------------------ BUSCAR -------------------------------------->
                 <div class="d-flex flex-row justify-content-center ">
+
+                    <div class="p-2 bd-highlight">
+                        <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
+                        <input required type="date" id="inicio" class="form-control" name="Inicio" autocomplete="off">
+                    </div>
+
+                    <div class="p-2 bd-highlight">
+                        <label for="inputAddress2" class="font-weight-bold">Fecha limite</label>
+                        <input required type="date" id="fin" class="form-control" name="vencimiento" autocomplete="off">
+                    </div>
+
+
                     <div class="p-2 bd-highlight">
                         <label for="inputState" class="font-weight-bold">Planta</label>
                         <select required id="Almacen" name="Sal_Estatus" class="form-select">
@@ -36,15 +48,7 @@
                             <option>Bravo</option>
                             <option>Morelos</option>
                         </select>
-                    </div>
-                    <div class="p-2 bd-highlight">
-                        <label for="inputState" class="font-weight-bold">Categoria</label>
-                        <select required id="Categoria" name="Categoria" class="form-select">
-                            <option value="Completo" selected>Completo</option>
-                            <option value="Almacen">Almacen</option>
-                            <option value="Maquina">Maquina</option>
-                        </select>
-                    </div>
+                    </div> 
                     <div class="p-2 align-self-center mt-4">
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
                             onclick="MostrarReporte()"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
@@ -59,20 +63,15 @@
                 <table class="table table-condensed table-hover fs-10" id="TablaReporte">
                     <thead>
                         <th>Planta</th>
-                        <th>Clave H</th>
-                        <th>Descripción</th>
-                        <th>Diametro</th>
-                        <th>Caracteristicas</th>
-                        <th>Código</th>
-                        <th>Inserto</th>
-                        <th>Marca</th>
-                        <th>Seat</th>
-                        <th>Clamp</th>
-                        <th>Screw</th>
+                        <th>Clave</th>
                         <th>Estado</th>
-                        <th>Comentario</th>
+                        <th>OT</th>
+                        <th>Nomina</th>
                         <th>Empleado</th>
+                        <th>Familia</th>
                         <th>Maquina</th>
+                        <th>Comentario</th>
+                        <th>Fecha</th>
                     </thead>
                     <tbody>
 

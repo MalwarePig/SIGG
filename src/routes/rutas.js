@@ -1285,6 +1285,21 @@ router.get('/wh_EstadoActual', (req, res) => {
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/EstadoActualHerramental/:parametros', AlmacenController.EstadoActualHerramental);
 
+//====== Reporte Daños ========
+//Abre pagina principal para requerir
+router.get('/Danados', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/ReporteDañados.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Muestra reporte de entradas y salidas de herramienta
+router.get('/HerramentalDano/:parametros', AlmacenController.HerramentalDano);
+
 
 module.exports = router;
 

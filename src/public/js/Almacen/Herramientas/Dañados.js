@@ -1,10 +1,14 @@
 
 function MostrarReporte() {
     var Almacen = document.getElementById("Almacen").value;
-    var categoria = document.getElementById("Categoria").value;
+ 
+    var fechaInicio = document.getElementById("inicio").value;
+    var fechafin = document.getElementById("fin").value;
+
+ 
     //alert(fechaInicio);
     $.ajax({
-        url: '/EstadoActualHerramental/' + Almacen + '|' + categoria,
+        url: '/HerramentalDano/' + Almacen + '|' + fechaInicio + '|' + fechafin,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -17,41 +21,25 @@ function MostrarReporte() {
             for (var i = 0; i < TotalHerramientas; i++) {
                 var Planta = Herramientas[i].Planta;
                 var Clave = Herramientas[i].Clave;
-                var Descripcion = Herramientas[i].Descripcion || "-";
-                var Diametro = Herramientas[i].Diametro || "-";
-                var Caracteristicas = Herramientas[i].Caracteristicas || "-";
-                var Codigo = Herramientas[i].Codigo || "-";
-                var Inserto = Herramientas[i].Inserto || "-";
-                var Marca = Herramientas[i].Marca || "-";
-                var Seat = Herramientas[i].Seat || "-";
-                var Clamp = Herramientas[i].Clamp || "-";
-                var Screw = Herramientas[i].Screw || "-";
-                var Estado = Herramientas[i].Estado || "-";
-                var Comentario = Herramientas[i].Comentario || "-";
+                var Estado = Herramientas[i].Estado || Herramientas[i].Cantidad;
+                var OT = Herramientas[i].OT || "-";
+                var Nomina = Herramientas[i].Nomina;
                 var Empleado = Herramientas[i].Empleado || "-";
+                var Familia = Herramientas[i].Familia || "-";
                 var Maquina = Herramientas[i].Maquina || "-";
-                var Cantidad = Herramientas[i].Cantidad || "-";
-
-                Arreglo = [Planta, Clave, Descripcion, Diametro, Caracteristicas, Codigo, Inserto, Marca, Seat, Clamp, Screw, Estado, Comentario, Empleado, Maquina, Cantidad];
+                var Comentario = Herramientas[i].Comentario;
+                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+                Arreglo = [Planta,Clave,Estado,OT,Nomina,Empleado,Familia,Maquina,Comentario,Fecha]; 
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
-                    if (x < 15) {//Evitar el ultimo valor del arreglo
-                        // inserta una celda en el indice 0
-                        var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                        // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
-
-                        if (Arreglo[15] == 1) {//Colorear
-                            newCell.style.backgroundColor = "#b7efb2 "
-                        } else {
-                            newCell.style.backgroundColor = "#ff5e5e"
-                        }
-                    }
-
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
                 } //fin de for de columnas
             } //fin de for de filas
         } //Funcion success
