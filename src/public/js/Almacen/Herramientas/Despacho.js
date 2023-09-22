@@ -91,7 +91,7 @@ function Seleccion(variable) {
 
 
 //=========================================== BUSCAR TRABAJADORES POR NUMERO DE NOMINA =================================================//
-function Nombres(e,Nom,param) {
+function Nombres(e, Nom, param) {
     if (e.keyCode == 13) {
         $.ajax({
             url: '/Num_Nomina',
@@ -199,6 +199,11 @@ function CrearNota() {
     }
 }
 
+//=========================================== ELIMINAR FILA DE REGISTRO EN NOTAS =================================================//
+function EliminarFila(index) {
+    $("#fila" + index).remove();
+}
+
 function GuardarNota() {
     var tabla = document.getElementById("TablaNota");
     var total = tabla.rows.length //Total de filas
@@ -279,12 +284,17 @@ function ModalRetorno(param) {
     $.ajax({
         url: '/BuscarDespachoUnico/' + param,
         success: function (Herramientas) {
+
+            //Obtener Fecha exacta sacando minutos
+            let fecha = new Date(Herramientas[0].Fecha)
+            fecha.setMinutes(fecha.getMinutes() + fecha.getTimezoneOffset())
+
             document.getElementById("R_id").value = param
             document.getElementById("R_Planta").value = Herramientas[0].Planta
             document.getElementById("R_Clave").value = Herramientas[0].Clave
             document.getElementById("R_OT").value = Herramientas[0].OT
             document.getElementById("R_Maquina").value = Herramientas[0].Maquina
-            document.getElementById("R_Fecha").value = moment(Herramientas[0].Fecha).format('DD-MM-YYYY');
+            document.getElementById("R_Fecha").value = moment(fecha).format('DD-MM-YYYY');
             document.getElementById("R_Estado").value = Herramientas[0].Estado
             document.getElementById("R_Nomina").value = Herramientas[0].Nomina
             document.getElementById("R_Empleado").value = Herramientas[0].Empleado
@@ -308,7 +318,7 @@ function RetornarHerramienta() {
 
     var Arreglo = [];
     Arreglo.push(Tabla)
-  
+
     $.post("/GuardarRetornoHerramienta", // url
         {
             Arreglo

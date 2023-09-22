@@ -3385,7 +3385,7 @@ Controller.BuscarDespachoUnico = (req, res) => {
                 Clave
             } = req.params;
 
-            conn.query("SELECT * FROM DespachoHerramienta WHERE idHerramienta = " + Clave, (err, Herramientas) => {
+            conn.query("SELECT * FROM DespachoHerramienta WHERE idHerramienta = " + Clave + " ORDER by id DESC LIMIT 1", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');

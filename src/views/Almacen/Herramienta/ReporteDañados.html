@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script type="text/javascript" src="js/Almacen/Herramientas/Reporte.js"></script>
+
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+</head>
+
+<body>
+    <%- include ('../../partials/navegacion.html') %>
+        <!------ incluir navegacion Menu ----->
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+                <div class="d-flex flex-row justify-content-center ">
+                    <div class="p-2 bd-highlight">
+                        <label for="inputState" class="font-weight-bold">Planta</label>
+                        <select required id="Almacen" name="Sal_Estatus" class="form-select">
+                            <option selected>Todo</option>
+                            <option>Bravo</option>
+                            <option>Morelos</option>
+                        </select>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <label for="inputState" class="font-weight-bold">Categoria</label>
+                        <select required id="Categoria" name="Categoria" class="form-select">
+                            <option value="Completo" selected>Completo</option>
+                            <option value="Almacen">Almacen</option>
+                            <option value="Maquina">Maquina</option>
+                        </select>
+                    </div>
+                    <div class="p-2 align-self-center mt-4">
+                        <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                            onclick="MostrarReporte()"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!------------------------------ TABLA -------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded tabla-contenedor"
+                style="width:96%; height:650px; overflow: scroll;">
+                <table class="table table-condensed table-hover fs-10" id="TablaReporte">
+                    <thead>
+                        <th>Planta</th>
+                        <th>Clave H</th>
+                        <th>Descripción</th>
+                        <th>Diametro</th>
+                        <th>Caracteristicas</th>
+                        <th>Código</th>
+                        <th>Inserto</th>
+                        <th>Marca</th>
+                        <th>Seat</th>
+                        <th>Clamp</th>
+                        <th>Screw</th>
+                        <th>Estado</th>
+                        <th>Comentario</th>
+                        <th>Empleado</th>
+                        <th>Maquina</th>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex flex-row justify-content-center ">
+                <div class="p-2 align-self-center">
+                    <button type="button" id="getProducts" name="getProducts" class="btn btn-success "
+                        onclick="ExcelReporteAvanzado()"><i class="fa-solid fa-file-excel"></i> Exportar</button>
+                </div>
+            </div>
+        </div>
+</body>
+
