@@ -116,9 +116,6 @@ function Contar() {
         }
         Doc.push(Fila);
     }
-     
-
-
     console.log(Encabezado);
 
     console.log(Doc);
@@ -134,7 +131,7 @@ function ExcelReporteAvanzado() {
     var filaEncabezado = tabla.getElementsByTagName("thead")[0].getElementsByTagName("tr")[0];
     // Contar el número de columnas
     var numeroDeColumnas = filaEncabezado.getElementsByTagName("th").length;
- 
+
     let Doc = []
     var Fila = [] 
 
@@ -152,3 +149,11 @@ function ExcelReporteAvanzado() {
     }];
     var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [Doc]]);
 }
+
+
+
+
+
+
+
+

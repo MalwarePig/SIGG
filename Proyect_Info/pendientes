@@ -1,8 +1,5 @@
-Formato ruta
-PROMESA/AÑO/1. Administración/1. Ordenes de Compra/1. NOMBREOBRA
-
-Formato pdf
-OC" "+[campo nombre]+" "+año+" "provedor
-
-//BD
-PROMESA/Proveedores/Proveedores.xmlx
+Esta pendientes:
+-Reporte de existencia, donde se podrá ver todo lo disponible (en rojo lo  prestado)
+-reporte de prestadas : las prestadas, quien las saco y que fecha para darles seguimiento 
+-reporte de herramienta dañada : toda la herramienta que se retorno como dañada y que salio de circulación 
+- formato  de herramienta dañada: el formato que hacen actualmente, saldría de aquí, para juntar firmas y que quede aquí el registro  y no solo en los papeles que se nos pierden
