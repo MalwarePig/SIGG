@@ -3364,11 +3364,10 @@ Controller.GuardarNotaHerramienta = (req, res) => {
                     + Familia + "','" + Maquina + "','" + Comentario + "','" + Movimiento + "','" + Usuario + "');", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al registrar folios' + err);
-                        } else {
-                            res.json(true);
-                        }
+                        } 
                     });
             }
+            res.json(true);
         });
     } else {
         res.render('Admin/Login.html');

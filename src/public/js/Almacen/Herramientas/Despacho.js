@@ -154,46 +154,42 @@ function CrearNota() {
     let tabla = document.getElementById("TablaNota");
     let total = tabla.rows.length //Total de filas
 
-    if (total > 1) {
-        alert("No se permiten más articulos")
-    } else {
-        var id = document.getElementById("id").value
-        var Planta = document.getElementById("Planta").value
-        var Clave = document.getElementById("Clave").value
-        var Estado = document.getElementById("Estado").value
-        var OT = document.getElementById("OT").value
-        var Nomina = document.getElementById("Nomina").value
-        var Empleado = document.getElementById("Empleado").value
-        var Familia = document.getElementById("Familia").value
-        var Maquina = document.getElementById("Maquina").value
-        var Comentario = document.getElementById("N_Notas").value
+    var id = document.getElementById("id").value
+    var Planta = document.getElementById("Planta").value
+    var Clave = document.getElementById("Clave").value
+    var Estado = document.getElementById("Estado").value
+    var OT = document.getElementById("OT").value
+    var Nomina = document.getElementById("Nomina").value
+    var Empleado = document.getElementById("Empleado").value
+    var Familia = document.getElementById("Familia").value
+    var Maquina = document.getElementById("Maquina").value
+    var Comentario = document.getElementById("N_Notas").value
 
-        var Arreglo = [id, Planta, Clave, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario];
+    var Arreglo = [id, Planta, Clave, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario];
 
-        var Condicion = true; //para campos vacios
-        for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
-            if (Arreglo[a].length == 0) {
-                Condicion = false; //si algun campo esta vacio cambia a falso
-            }
+    var Condicion = true; //para campos vacios
+    for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
+        if (Arreglo[a].length == 0) {
+            Condicion = false; //si algun campo esta vacio cambia a falso
         }
+    }
 
-        if (Condicion == true) { //si todos los campos estan llenos avanza
-            var TablaAlmacen = document.getElementById('TablaNota').getElementsByTagName('tbody')[0];
-            // inserta una fila al final de la tabla
-            var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-            let indice = (TablaAlmacen.rows.length + 1);
-            newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
-            for (var x = 0; x < Arreglo.length; x++) {
+    if (Condicion == true) { //si todos los campos estan llenos avanza
+        var TablaAlmacen = document.getElementById('TablaNota').getElementsByTagName('tbody')[0];
+        // inserta una fila al final de la tabla
+        var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+        let indice = (TablaAlmacen.rows.length + 1);
+        newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
+        for (var x = 0; x < Arreglo.length; x++) {
 
-                // inserta una celda en el indice 0
-                var newCell = newRow.insertCell(x);
-                // adjuntar el texto al nodo
-                var newText = document.createTextNode(Arreglo[x]);
-                newCell.appendChild(newText);
-                if (x == 7) { //Si termina de registrar datos crear el boton
-                    var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
-                    newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
-                }
+            // inserta una celda en el indice 0
+            var newCell = newRow.insertCell(x);
+            // adjuntar el texto al nodo
+            var newText = document.createTextNode(Arreglo[x]);
+            newCell.appendChild(newText);
+            if (x == 7) { //Si termina de registrar datos crear el boton
+                var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
+                newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
             }
         }
     }
