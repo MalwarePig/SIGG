@@ -1297,9 +1297,19 @@ router.get('/Danados', (req, res) => {
 	}
 });
 
+//Abre pagina principal para requerir
+router.get('/ReporteD', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/ReporteDanados.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/HerramentalDano/:parametros', AlmacenController.HerramentalDano);
-
 
 module.exports = router;
 
