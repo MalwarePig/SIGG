@@ -17,13 +17,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
         <!-- GENERAR EXCEL -->
         <script type="text/javascript" src="js/Almacen/Herramientas/Danados.js"></script>
-
+        <script type="text/javascript" src="js/Almacen/Herramientas/PDF.js"></script>
         <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+        <!-- GENERAR PDF -->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
 </head>
 
-<body>
+<body onload="InicarFechas()">
     <%- include ('../../partials/navegacion.html') %>
+ 
         <!------ incluir navegacion Menu ----->
         <div class="card text-center">
             <div class="card-header">
@@ -48,7 +52,7 @@
                             <option>Bravo</option>
                             <option>Morelos</option>
                         </select>
-                    </div> 
+                    </div>
                     <div class="p-2 align-self-center mt-4">
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
                             onclick="MostrarReporte()"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
@@ -71,7 +75,7 @@
                         <th>Familia</th>
                         <th>Maquina</th>
                         <th>Comentario</th>
-                        <th>Fecha</th>
+                        <th>Fecha daño</th> 
                     </thead>
                     <tbody>
 
@@ -86,5 +90,127 @@
                 </div>
             </div>
         </div>
-</body>
 
+
+
+        <!-- Modal Nuevo -->
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="ModalFormularioDanos"
+            aria-labelledby="myLargeModalLabel" aria-hidden="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">RERPORTE HERRAMIENTA DAÑADA</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="Formulario">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="New_Clave" class="col-form-label">Clave:</label>
+                                        <input type="text" class="form-control" id="New_Clave" readonly>
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="New_Planta" class="col-form-label">Planta:</label>
+                                        <input type="text" class="form-control" id="New_Planta" readonly>
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="New_OT" class="col-form-label">OT:</label>
+                                        <input type="text" class="form-control" id="New_OT" readonly>
+                                    </div>
+                                    <div class="col">
+                                        <label for="New_OT" class="col-form-label">Fecha:</label>
+                                        <input type="text" class="form-control" id="fechaModal" readonly>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col-2">
+                                        <label for="FechaN" class="col-form-label">Fecha nuevo:</label>
+                                        <input type="text" class="form-control" id="FechaN">
+                                    </div>
+                                    <div class="col">
+                                        <label for="Descripcion" class="col-form-label">Descripción:</label>
+                                        <input type="text" class="form-control" id="New_Descripcion">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-row">
+                                    <div class="col-2"> 
+                                        <label for="SelectNegligencia" class="col-form-label">¿Negligencia? </label>
+                                        <select required id="SelectNegligencia" name="SelectNegligencia" class="form-select">
+                                            <option selected>No</option>
+                                            <option>Si</option>
+                                        </select> 
+                                    </div>
+                                    <div class="col">
+                                        <label for="Descripcion" class="col-form-label">Descripción del daño:</label>
+                                        <input type="text" class="form-control" id="New_Negligencia">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <label for="Diametro" class="col-form-label fw-bold">Causante:</label>
+                                <div class="form-row">
+                                    <div class="col-2">
+                                        <label for="Nomina" class="col-form-label">Nomina:</label>
+                                        <input type="text" class="form-control" id="New_nomina"
+                                            onkeypress="return Nombres(event,'New_nomina','New_Nombre')">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Nombre:</label>
+                                        <input type="text" class="form-control" id="New_Nombre">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <label for="New_nominaResponsable" class="col-form-label fw-bold">Responsable de
+                                    Almacen/Herramentista</label>
+                                <div class="form-row">
+                                    <div class="col-2">
+                                        <label for="Nomina" class="col-form-label">Nomina:</label>
+                                        <input type="text" class="form-control" id="New_nominaResponsable"
+                                            onkeypress="return Nombres(event,'New_nominaResponsable','New_NombreResponsable')">
+                                    </div>
+                                    <div class="col">
+                                        <label for="recipient-name" class="col-form-label">Nombre:</label>
+                                        <input type="text" class="form-control" id="New_NombreResponsable">
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <label for="New_nominaProgramacion" class="col-form-label fw-bold">Coordinador de Programación/Procesos</label>
+                                <div class="form-row"> 
+                                    <div class="col"> 
+                                        <select required id="New_NombreProgramacion" name="New_NombreProgramacion" class="form-select">
+                                            <option selected>Aaron Balderas</option>
+                                            <option>David Coronado</option>
+                                        </select> 
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+ 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success " data-bs-dismiss="modal" aria-label="Close" onclick="RegistrarPDF()"><i
+                                class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
+                    </div>
+ 
+                </div>
+            </div>
+        </div>
+
+
+         
+
+
+    
+</body>

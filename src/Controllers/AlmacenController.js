@@ -3323,7 +3323,7 @@ Controller.BuscarHerramental = (req, res) => {
             } = req.params;
             let planta = req.session.planta;
 
-            conn.query("SELECT * FROM Herramienta WHERE (Clave like '%" + Clave + "%' or Descripcion like '%" + Clave + "%') and Planta = '" + planta + "'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Herramienta WHERE (Clave like '%" + Clave + "%' or Descripcion like '%" + Clave + "%') and (Planta = '" + planta + "' ) AND Estado != 'Dañado'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -3364,7 +3364,7 @@ Controller.GuardarNotaHerramienta = (req, res) => {
                     + Familia + "','" + Maquina + "','" + Comentario + "','" + Movimiento + "','" + Usuario + "');", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al registrar folios' + err);
-                        } 
+                        }
                     });
             }
             res.json(true);
@@ -3487,6 +3487,26 @@ Controller.BuscarHerramentalID = (req, res) => {
     }
 };
 
+Controller.HerramentalClave = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            console.log("parametros: " + parametros);
+            conn.query("SELECT * FROM Herramienta WHERE Clave = '" + parametros + "'", (err, Herramientas) => {
+                if (err) {
+                    console.log('Error de lectura ' + err);
+                } else {
+                    console.log(Herramientas);
+                    res.json(Herramientas);
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 
 //Editar Herramental
@@ -3671,26 +3691,88 @@ Controller.HerramentalDano = (req, res) => {
             var inicio = parametros.split('|')[1]; // categoria o tipo de reporte 
             var Fin = parametros.split('|')[2]; // categoria o tipo de reporte 
 
-            if(Planta == 'Todo'){
-                conn.query("SELECT * FROM RetornoHerramental where Estado = 'Dañado' AND Fecha BETWEEN '"+inicio+"' AND '" + Fin+"'", (err, Herramientas) => {
+            if (Planta == 'Todo') {
+                conn.query("SELECT * FROM RetornoHerramental where Estado = 'Dañado' AND Fecha BETWEEN '" + inicio + "' AND '" + Fin + "'", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
-                    }else{ 
+                    } else {
                         res.json(Herramientas)
                     }
                 });
-            }else{
-                conn.query("SELECT * FROM RetornoHerramental where Planta = '"+Planta+"' AND Estado = 'Dañado' AND Fecha BETWEEN '"+inicio+"' AND '" + Fin+"'", (err, Herramientas) => {
+            } else {
+                conn.query("SELECT * FROM RetornoHerramental where Planta = '" + Planta + "' AND Estado = 'Dañado' AND Fecha BETWEEN '" + inicio + "' AND '" + Fin + "'", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
-                    }else{ 
+                    } else {
                         res.json(Herramientas)
                     }
                 });
             }
-            
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.GuardarPDFDanado = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const data = req.body;
+
+            var Clave = Object.values(data)[0].Clave;
+            var Planta = Object.values(data)[0].Planta;
+            var OT = Object.values(data)[0].OT;
+            var Fecha = Object.values(data)[0].Fecha;
+            var Descripcion = Object.values(data)[0].Descripcion;
+            var Comentario = Object.values(data)[0].Comentario;
+            var Causante = Object.values(data)[0].Causante;
+            var ResponsableH = Object.values(data)[0].ResponsableH;
+            var ResponsableP = Object.values(data)[0].ResponsableP;
+            var SelectNegligencia = Object.values(data)[0].SelectNegligencia;
+            var PDFDano = 1;
+            console.log(Fecha + " - " + Clave + Causante + ResponsableP)
+ 
+
+            conn.query("call GuardarPDFDanado('" + Clave + "','" + Planta + "','" + OT + "','" + Descripcion + "','" + Comentario + "','" + Causante + "','" + ResponsableH + "','" + ResponsableP + "'," + PDFDano + ",'"+SelectNegligencia+"')", true, (err, rows, fields) => {
+                if (err) {
+                    res.json(err);
+                    console.log('Error al actualizar notas' + err);
+                } else {
+                    res.json(true);
+                    console.log('Se actualizó notas');
+                }
+            }); 
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
+
+Controller.HistorialReportesDaños = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+
+            conn.query("SELECT * FROM PDFHerramientaDanada where Clave = '"+parametros+"' ORDER by id DESC LIMIT 1", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                } else {
+                    console.log(Herramientas);
+                    res.json(Herramientas)
+                }
+            }); 
         });
     } else {
         res.render('Admin/Login.html');

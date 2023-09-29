@@ -35,9 +35,9 @@ function MostrarReporte() {
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
                     if (x == 6) {
-                        newCell.style.backgroundColor="#ffc432" 
+                        newCell.style.backgroundColor="#ffc432"//amarillo 
                     }else if (x == 7) {
-                        newCell.style.backgroundColor="#96ffb9" 
+                        newCell.style.backgroundColor="#96ffb9" //verde
                     }else if (x == 4) {
                         newCell.style.backgroundColor="#ff5e5e" 
                     }

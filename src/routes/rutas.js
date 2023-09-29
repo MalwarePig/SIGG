@@ -1264,6 +1264,7 @@ router.get('/wh_EditarHerramental', (req, res) => {
 
 //Busca Herramientas en Herramental por id
 router.get('/BuscarHerramentalID/:parametros', AlmacenController.BuscarHerramentalID);
+router.get('/HerramentalClave/:parametros', AlmacenController.HerramentalClave);
 router.post('/GuardarCambiosHerramental', AlmacenController.GuardarCambiosHerramental); 
 router.post('/EliminarHerramental', AlmacenController.EliminarHerramental); 
 router.post('/GuardarNuevoHerramental', AlmacenController.GuardarNuevoHerramental); 
@@ -1310,6 +1311,9 @@ router.get('/ReporteD', (req, res) => {
 
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/HerramentalDano/:parametros', AlmacenController.HerramentalDano);
+router.post('/GuardarPDFDanado', AlmacenController.GuardarPDFDanado); 
+
+router.get('/HistorialReportesDanos/:parametros', AlmacenController.HistorialReportesDaños);
 
 module.exports = router;
 
