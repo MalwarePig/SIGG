@@ -3323,7 +3323,7 @@ Controller.BuscarHerramental = (req, res) => {
             } = req.params;
             let planta = req.session.planta;
 
-            conn.query("SELECT * FROM Herramienta WHERE (Clave like '%" + Clave + "%' or Descripcion like '%" + Clave + "%') and (Planta = '" + planta + "' ) AND Estado != 'Dañado'", (err, Herramientas) => {
+            conn.query("SELECT * FROM Herramienta WHERE (Clave like '%" + Clave + "%' or Descripcion like '%" + Clave + "%') and (Planta = '" + planta + "' ) AND (Estado != 'Dañado'  or Estado is null)", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
