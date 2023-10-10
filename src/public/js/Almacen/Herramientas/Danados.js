@@ -474,3 +474,14 @@ function HistorialReporte(params) {
         } //Funcion success
     }); //Ajax
 }
+
+
+
+
+
+
+
+
+
+
+

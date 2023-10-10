@@ -29,9 +29,9 @@
           <div class="p-2 bd-highlight">
             <label for="Planta" class="col-form-label">Clave / Descripción:</label>
           </div>
-          <div class="p-2 bd-highlight"> 
+          <div class="p-2 bd-highlight">
             <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
-              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)"  autofocus="autofocus">
+              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)" autofocus="autofocus">
           </div>
           <div class="p-2 align-self-center">
             <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="BuscarHerramental()"><i
@@ -83,7 +83,7 @@
                 <input type="text" class="form-control" id="Clave" readonly>
               </div>
 
-             <!--  <div class="col-1">
+              <!--  <div class="col-1">
                 <label for="Clave" class="col-form-label">Fecha despacho:</label>
                 <input type="text" class="form-control" id="Fecha" readonly>
               </div> -->
@@ -93,7 +93,7 @@
                 <input type="text" class="form-control" id="Descripcion" readonly>
               </div>
 
-            <!--   <div class="col-md-1">
+              <!--   <div class="col-md-1">
                 <label for="Disponibilidad" class="col-form-label">Disponibilidad:</label>
                 <input type="text" class="form-control" id="Disponibilidad" readonly>
               </div> -->
@@ -129,8 +129,8 @@
 
               <div class="col-md-1">
                 <label for="recipient-name" class="col-form-label">Nómina:</label>
-                <input type="text" class="form-control" id="Nomina" onkeypress="return Nombres(event,'Nomina','Empleado')"
-                  required>
+                <input type="text" class="form-control" id="Nomina"
+                  onkeypress="return Nombres(event,'Nomina','Empleado')" required>
               </div>
 
               <div class="col-2">
@@ -183,6 +183,7 @@
                 <th>Familia</th>
                 <th>Máquina</th>
                 <th>Comentario</th>
+                <th>Descripción</th>
                 <th>Acción</th>
               </tr>
             </thead>
@@ -204,12 +205,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Correcto!</h5>
-            
+
           </div>
           <div class="modal-body">
             Se creo despacho con exito!
           </div>
-           
+
         </div>
       </div>
     </div>
@@ -219,12 +220,12 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Error!</h5> 
+            <h5 class="modal-title" id="exampleModalLabel">Error!</h5>
           </div>
           <div class="modal-body">
             Ocurrio algun problema en la operación!
           </div>
-           
+
         </div>
       </div>
     </div>
@@ -234,24 +235,24 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Correcto!</h5>
-            
+
           </div>
           <div class="modal-body">
             Retorno con exito!
           </div>
-           
+
         </div>
       </div>
     </div>
 
 
 
-    <div class="modal fade" id="ModalRetorno" tabindex="-1" role="dialog"
-      aria-labelledby="myLargeModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog modal-lg"  role="document">
+    <div class="modal fade" id="ModalRetorno" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+      aria-hidden="false" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h3>Retornar herramienta</h3>
+            <h3>Retornar herramienta</h3>
 
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -276,7 +277,7 @@
                     <input type="text" class="form-control" id="R_Clave" readonly>
                   </div>
 
-                  <div class="col"> 
+                  <div class="col">
                     <label for="R_OT" class="col-form-label">OT:</label>
                     <input type="text" class="form-control" id="R_OT" readonly>
                   </div>
@@ -284,7 +285,7 @@
 
                 <hr>
 
-                <div class="form-row">  
+                <div class="form-row">
                   <div class="col">
                     <label for="R_Maquina" class="col-form-label">Maquina:</label>
                     <input type="text" class="form-control" id="R_Maquina" readonly>
@@ -299,7 +300,7 @@
                 <hr>
 
                 <div class="form-row">
-                  <div class="col"> 
+                  <div class="col">
                     <label for="R_Estado" class="col-form-labe">Estado</label>
                     <select required id="R_Estado" name="R_Estado" class="form-select">
                       <option value="" selected disabled>Estado retorno</option>
@@ -311,34 +312,36 @@
 
                   <div class="col">
                     <label for="R_Nomina" class="col-form-label">Nomina:</label>
-                    <input type="text" class="form-control" id="R_Nomina" onkeypress="return Nombres(event,'R_Nomina','R_Empleado')">
+                    <input type="text" class="form-control" id="R_Nomina"
+                      onkeypress="return Nombres(event,'R_Nomina','R_Empleado')">
                   </div>
 
                   <div class="col">
                     <label for="R_Empleado" class="col-form-label">Empleado:</label>
                     <input type="text" class="form-control" id="R_Empleado">
                   </div>
-                </div> 
-                
+                </div>
+
 
                 <hr>
-                <div class="form-row">  
+                <div class="form-row">
                   <div class="col">
                     <label for="R_Comentario" class="col-form-label">Comentario:</label>
                     <input type="text" class="form-control" id="R_Comentario">
-                  </div> 
-                </div> 
+                  </div>
+                </div>
 
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" onclick="RetornarHerramienta()" data-bs-dismiss="modal">Retornar</button>
+            <button type="button" class="btn btn-primary" onclick="RetornarHerramienta()"
+              data-bs-dismiss="modal">Retornar</button>
           </div>
         </div>
       </div>
     </div>
- 
+
 
 </body>

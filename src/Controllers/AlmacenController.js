@@ -3356,12 +3356,13 @@ Controller.GuardarNotaHerramienta = (req, res) => {
                 let Familia = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
                 let Maquina = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
                 let Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+                let Descripcion = Object.values(data)[0][i][10]; //obeter datos de un objeto Comentario
 
                 let Movimiento = 'Despacho';
                 let Usuario = req.session.username;
 
                 conn.query("call SPDespachoHerramienta('" + idH + "','" + Planta + "','" + Clave + "','" + Estado + "','" + OT + "','" + Nomina + "','" + Empleado + "','"
-                    + Familia + "','" + Maquina + "','" + Comentario + "','" + Movimiento + "','" + Usuario + "');", true, (err, rows, fields) => {
+                    + Familia + "','" + Maquina + "','" + Comentario + "','" + Movimiento + "','" + Usuario + "','"+Descripcion+"');", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al registrar folios' + err);
                         }
@@ -3465,6 +3466,29 @@ Controller.TipoReporteHerramental = (req, res) => {
     }
 };
 
+
+Controller.TipoReporteHerramentalFiltro = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            var categoria = parametros.split('|')[0]; // categoria o tipo de reporte
+            var Argumento = parametros.split('|')[1]; // Fecha inicial 
+            var Almacen = parametros.split('|')[2]; // Almacen 
+
+            conn.query("SELECT * FROM " + categoria + " WHERE Planta = '" + Almacen + "' AND (Clave like '%"+Argumento+"%' OR Nomina like '%"+Argumento+"%' OR Descripcion like '%"+Argumento+"%')", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas)
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 Controller.BuscarHerramentalID = (req, res) => {
     if (req.session.loggedin) {

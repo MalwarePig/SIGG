@@ -50,6 +50,8 @@ function MostrarReporte() {
                     newCell.appendChild(newText);
                 } //fin de for de columnas
             } //fin de for de filas
+            TablaInteligente('TablaReporte'); 
+            CerrarModalLoading()
         } //Funcion success
     }); //Ajax
 } 
@@ -85,3 +87,99 @@ function ExcelReporte() {
 }
 
 
+
+function MostrarReporteFiltrado() {
+    var categoria = document.getElementById("CategoriaF").value;
+    var Almacen = document.getElementById("AlmacenF").value;
+    var Argumento = document.getElementById("BHerramienta").value; 
+    //alert(fechaInicio);
+    $.ajax({
+        url: '/MostrarReporteFiltrado/' + categoria + '|' + Argumento + '|' + Almacen,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            var TotalHerramientas = Herramientas.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < TotalHerramientas; i++) {
+                var Planta = Herramientas[i].Planta;
+                var Clave = Herramientas[i].Clave;
+                var Estado = Herramientas[i].Estado || Herramientas[i].Cantidad;
+                var OT = Herramientas[i].OT || "-";
+                var Nomina = Herramientas[i].Nomina;
+                var Empleado = Herramientas[i].Empleado || "-";
+                var Familia = Herramientas[i].Familia || "-";
+                var Maquina = Herramientas[i].Maquina || "-";
+                var Comentario = Herramientas[i].Comentario;
+                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+                Arreglo = [Planta,Clave,Estado,OT,Nomina,Empleado,Familia,Maquina,Comentario,Fecha]; 
+
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
+                } //fin de for de columnas
+            } //fin de for de filas
+            TablaInteligente('TablaReporte'); 
+            CerrarModalLoading()
+        } //Funcion success
+    }); //Ajax
+} 
+
+
+
+function TablaInteligente(params) {
+    $("#" + params).dataTable().fnDestroy();
+    setTimeout(function () {
+        $('#' + params).DataTable({
+            language: {
+                processing: "Tratamiento en curso...",
+                search: "Buscar&nbsp;:",
+                lengthMenu: "Agrupar por _MENU_  ",
+                info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                infoEmpty: "No existen datos.",
+                infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron datos con tu busqueda",
+                emptyTable: "No hay datos disponibles en la tabla.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                aria: {
+                    sortAscending: ": active para ordenar la columna en orden ascendente",
+                    sortDescending: ": active para ordenar la columna en orden descendente"
+                }
+            },
+            scrollY: 400,
+            lengthMenu: [
+                [10, 25, -1],
+                [10, 25, "All"]
+            ],
+        });
+    },1700);
+}
+
+
+
+function CerrarModalLoading() {
+    var miModal = new bootstrap.Modal(document.getElementById('loading')); 
+    miModal.show();
+    
+    //$("#loading").modal();
+ 
+    setTimeout(() => { 
+        miModal.hide();
+    }, 2500);
+}

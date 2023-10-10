@@ -1243,6 +1243,9 @@ router.get('/wh_ReporteHerramental', (req, res) => {
 
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporteHerramental/:parametros', AlmacenController.TipoReporteHerramental);
+
+//Muestra reporte de entradas y salidas de herramienta
+router.get('/MostrarReporteFiltrado/:parametros', AlmacenController.TipoReporteHerramentalFiltro);
 //================================== MODULO DE Herramental =================================// 
 //Abre pagina principal para editar
 router.get('/AdminHerramental', (req, res) => {

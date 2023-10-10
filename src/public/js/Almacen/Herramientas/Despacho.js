@@ -157,6 +157,7 @@ function CrearNota() {
     var id = document.getElementById("id").value
     var Planta = document.getElementById("Planta").value
     var Clave = document.getElementById("Clave").value
+    var Descripcion = document.getElementById("Descripcion").value
     var Estado = document.getElementById("Estado").value
     var OT = document.getElementById("OT").value
     var Nomina = document.getElementById("Nomina").value
@@ -165,7 +166,7 @@ function CrearNota() {
     var Maquina = document.getElementById("Maquina").value
     var Comentario = document.getElementById("N_Notas").value
 
-    var Arreglo = [id, Planta, Clave, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario];
+    var Arreglo = [id, Planta, Clave, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario,Descripcion];
 
     var Condicion = true; //para campos vacios
     for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
@@ -187,8 +188,8 @@ function CrearNota() {
             // adjuntar el texto al nodo
             var newText = document.createTextNode(Arreglo[x]);
             newCell.appendChild(newText);
-            if (x == 7) { //Si termina de registrar datos crear el boton
-                var newCell = newRow.insertCell(8); //CREAR CELDA onclick="CrearNota()"
+            if (x == 8) { //Si termina de registrar datos crear el boton
+                var newCell = newRow.insertCell(9); //CREAR CELDA onclick="CrearNota()"
                 newCell.innerHTML = '<button id="' + x + '" class="btn btn-danger" name="btn" onclick="EliminarFila(' + indice + ')"> <i class="far fa-minus-square"></i> </button>';
             }
         }
@@ -218,7 +219,8 @@ function GuardarNota() {
         var Familia = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var Maquina = tabla.rows[j].cells[8].childNodes[0].nodeValue;
         var Comentario = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var Tabla = [id, Planta, Clave, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario];
+        var Descripcion = tabla.rows[j].cells[10].childNodes[0].nodeValue;
+        var Tabla = [id, Planta, Clave, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario,Descripcion];
         Arreglo.push(Tabla);
     } //fin filas
 
