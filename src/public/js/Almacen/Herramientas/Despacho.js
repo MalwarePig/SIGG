@@ -297,6 +297,7 @@ function ModalRetorno(param) {
             document.getElementById("R_Nomina").value = Herramientas[0].Nomina
             document.getElementById("R_Empleado").value = Herramientas[0].Empleado
             document.getElementById("R_Comentario").value = Herramientas[0].Comentario
+            document.getElementById("R_Descripcion").value = Herramientas[0].Descripcion
         } //Funcion success
     }); //Ajax
 } //Evento clic
@@ -312,7 +313,8 @@ function RetornarHerramienta() {
     let R_Nomina = document.getElementById("R_Nomina").value
     let R_Empleado = document.getElementById("R_Empleado").value
     let R_Comentario = document.getElementById("R_Comentario").value
-    let Tabla = [R_id, R_Planta, R_Clave, R_OT, R_Maquina, R_Fecha, R_Estado, R_Nomina, R_Empleado, R_Comentario]
+    let R_Descripcion = document.getElementById("R_Descripcion").value
+    let Tabla = [R_id, R_Planta, R_Clave, R_OT, R_Maquina, R_Fecha, R_Estado, R_Nomina, R_Empleado, R_Comentario,R_Descripcion]
 
     var Arreglo = [];
     Arreglo.push(Tabla)

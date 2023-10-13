@@ -3419,12 +3419,13 @@ Controller.GuardarRetornoHerramienta = (req, res) => {
                 let R_Nomina = Object.values(data)[0][i][7]; //obeter datos de un objeto Empleado
                 let R_Empleado = Object.values(data)[0][i][8]; //obeter datos de un objeto Comentario
                 let R_Comentario = Object.values(data)[0][i][9]; //obeter datos de un objeto Comentario
+                let R_Descripcion = Object.values(data)[0][i][10]; //obeter datos de un objeto Comentario
 
                 let Movimiento = 'Retorno';
                 let Usuario = req.session.username;
 
                 conn.query("call SPRetornoHerramienta('" + R_id + "','" + R_Planta + "','" + R_Clave + "','" + R_Estado + "','" + R_OT + "','" + R_Nomina + "','" + R_Empleado + "','"
-                    + R_Maquina + "','" + R_Comentario + "','" + Movimiento + "','" + Usuario + "');", true, (err, rows, fields) => {
+                    + R_Maquina + "','" + R_Comentario + "','" + Movimiento + "','" + Usuario + "','"+R_Descripcion+"');", true, (err, rows, fields) => {
                         if (err) {
                             console.log('Error al registrar folios' + err);
                         } else {
