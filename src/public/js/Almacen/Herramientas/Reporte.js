@@ -1,16 +1,20 @@
-
+var data;
 function MostrarReporte() {
     var Almacen = document.getElementById("Almacen").value;
     var categoria = document.getElementById("Categoria").value;
+    LimpiarTabla()
     //alert(fechaInicio);
     $.ajax({
         url: '/EstadoActualHerramental/' + Almacen + '|' + categoria,
         success: function (Herramientas) {
+            data = Herramientas;
             var Arreglo = [];
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
             var TotalHerramientas = Herramientas.length;
+          
+            $("#TablaReporte").dataTable().fnDestroy();
             for (var i = 0; i < limite; i++) {
                 $("#Rows").remove(); //elimina los elementos con id Rows
             }
@@ -20,6 +24,8 @@ function MostrarReporte() {
                 var Descripcion = Herramientas[i].Descripcion || "-";
                 var Diametro = Herramientas[i].Diametro || "-";
                 var Caracteristicas = Herramientas[i].Caracteristicas || "-";
+                var Empleado = Herramientas[i].Empleado || "-";
+                var Maquina = Herramientas[i].Maquina || "-";
                 var Codigo = Herramientas[i].Codigo || "-";
                 var Inserto = Herramientas[i].Inserto || "-";
                 var Marca = Herramientas[i].Marca || "-";
@@ -28,11 +34,10 @@ function MostrarReporte() {
                 var Screw = Herramientas[i].Screw || "-";
                 var Estado = Herramientas[i].Estado || "-";
                 var Comentario = Herramientas[i].Comentario || "-";
-                var Empleado = Herramientas[i].Empleado || "-";
-                var Maquina = Herramientas[i].Maquina || "-";
+                
                 var Cantidad = Herramientas[i].Cantidad || "-";
 
-                Arreglo = [Planta, Clave, Descripcion, Diametro, Caracteristicas, Codigo, Inserto, Marca, Seat, Clamp, Screw, Estado, Comentario, Empleado, Maquina, Cantidad];
+                Arreglo = [Planta, Clave, Descripcion, Diametro, Caracteristicas,Empleado, Maquina, Codigo, Inserto, Marca, Seat, Clamp, Screw, Estado, Comentario,  Cantidad];
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -54,6 +59,8 @@ function MostrarReporte() {
 
                 } //fin de for de columnas
             } //fin de for de filas
+            TablaInteligente('TablaReporte');
+            CerrarModalLoading()
         } //Funcion success
     }); //Ajax
 }
@@ -107,11 +114,11 @@ function Contar() {
     for (let index = 0; index < numeroDeColumnas; index++) {
         Encabezado.push(filaEncabezado.getElementsByTagName("th")[index].innerText)
     }
-   //Doc.push(Encabezado)
+    //Doc.push(Encabezado)
 
-    for (let Fil = 0; Fil < numeroDeColumnas; Fil++) { 
+    for (let Fil = 0; Fil < numeroDeColumnas; Fil++) {
         Fila = []
-        for (var Col = 0;Col < numeroDeColumnas; Col++) { //filas 
+        for (var Col = 0; Col < numeroDeColumnas; Col++) { //filas 
             Fila.push(tabla.rows[Fil].cells[Col].childNodes[0].nodeValue);
         }
         Doc.push(Fila);
@@ -126,18 +133,18 @@ function ExcelReporteAvanzado() {
     // Obtener una referencia a la tabla
     var tabla = document.getElementById("TablaReporte");
     //Total de filas
-    var totalFilas = tabla.rows.length; 
+    var totalFilas = tabla.rows.length;
     // Acceder a la primera fila de la tabla (fila de encabezado)
     var filaEncabezado = tabla.getElementsByTagName("thead")[0].getElementsByTagName("tr")[0];
     // Contar el número de columnas
     var numeroDeColumnas = filaEncabezado.getElementsByTagName("th").length;
 
     let Doc = []
-    var Fila = [] 
+    var Fila = []
 
-    for (let Fil = 0; Fil < totalFilas; Fil++) { 
+    for (let Fil = 0; Fil < totalFilas; Fil++) {
         Fila = []
-        for (var Col = 0;Col < numeroDeColumnas; Col++) { //filas 
+        for (var Col = 0; Col < numeroDeColumnas; Col++) { //filas 
             Fila.push(tabla.rows[Fil].cells[Col].childNodes[0].nodeValue);
         }
         Doc.push(Fila);
@@ -155,5 +162,90 @@ function ExcelReporteAvanzado() {
 
 
 
+function CerrarModalLoading() {
+    var miModal = new bootstrap.Modal(document.getElementById('loading'));
+    miModal.show();
+
+    //$("#loading").modal();
+
+    setTimeout(() => {
+        miModal.hide();
+    }, 2500);
+}
 
 
+function TablaInteligente(params) {
+    setTimeout(function () { 
+        let table = new DataTable("#TablaReporte", {
+            language: {
+                responsive: true,
+                paging: false,
+                searching: false,
+                retrieve: true,
+                processing: "Tratamiento en curso...",
+                search: "Buscar&nbsp;:",
+                lengthMenu: "Agrupar por _MENU_  ",
+                info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                infoEmpty: "No existen datos.",
+                infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron datos con tu busqueda",
+                emptyTable: "No hay datos disponibles en la tabla.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                aria: {
+                    sortAscending: ": active para ordenar la columna en orden ascendente",
+                    sortDescending: ": active para ordenar la columna en orden descendente"
+                }
+            },
+            scrollY: 400,
+            lengthMenu: [
+                [10, 25, -1],
+                [10, 25, "All"]
+            ],
+        });
+
+
+
+
+        /* $('#' + params).DataTable({
+            language: {
+                responsive: true,
+                processing: "Tratamiento en curso...",
+                search: "Buscar&nbsp;:",
+                lengthMenu: "Agrupar por _MENU_  ",
+                info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                infoEmpty: "No existen datos.",
+                infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron datos con tu busqueda",
+                emptyTable: "No hay datos disponibles en la tabla.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                aria: {
+                    sortAscending: ": active para ordenar la columna en orden ascendente",
+                    sortDescending: ": active para ordenar la columna en orden descendente"
+                }
+            },
+            scrollY: 400,
+            lengthMenu: [
+                [10, 25, -1],
+                [10, 25, "All"]
+            ],
+        }); */
+    }, 2000);
+}
+
+function LimpiarTabla() {
+    $("#TablaReporte").dataTable().fnDestroy();
+}

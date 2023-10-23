@@ -11,6 +11,7 @@ function ExistenciasGaveta() {
 }
 
 function Consulta() {
+    LimpiarTabla()
     $.ajax({
         url: '/ExistenciasGaveta/',
         success: function (Herramientas) {
@@ -137,4 +138,9 @@ function TablaInteligente(params) {
         });
     },1700);
 
+}
+
+
+function LimpiarTabla() {
+    $("#TablaReporte").dataTable().fnDestroy();
 }

@@ -48,7 +48,7 @@
                     <div class="p-2 align-self-center mt-4">
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
                             onclick="MostrarReporte()"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
@@ -63,6 +63,8 @@
                         <th>Descripción</th>
                         <th>Diametro</th>
                         <th>Caracteristicas</th>
+                        <th>Empleado</th>
+                        <th>Maquina</th>
                         <th>Código</th>
                         <th>Inserto</th>
                         <th>Marca</th>
@@ -70,9 +72,7 @@
                         <th>Clamp</th>
                         <th>Screw</th>
                         <th>Estado</th>
-                        <th>Comentario</th>
-                        <th>Empleado</th>
-                        <th>Maquina</th>
+                        <th>Comentario</th> 
                     </thead>
                     <tbody>
 
@@ -80,12 +80,97 @@
                 </table>
             </div>
 
-            <div class="d-flex flex-row justify-content-center ">
+           <!--  <div class="d-flex flex-row justify-content-center ">
                 <div class="p-2 align-self-center">
                     <button type="button" id="getProducts" name="getProducts" class="btn btn-success "
                         onclick="ExcelReporteAvanzado()"><i class="fa-solid fa-file-excel"></i> Exportar</button>
                 </div>
+            </div> -->
+        </div>
+
+
+        <!-- Tabla inteligente vieja-->
+        <!-- DATATABLES -->
+        <!--   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
+
+        <!-- BOOTSTRAP -->
+        <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>-->
+        <!-- Tabla inteligente Nueva-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> 
+
+
+
+        <!-- loader -->
+        <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="loader"></div>
+
+                    </div>
+                </div>
             </div>
         </div>
-</body>
 
+        <!-- Loader -->
+        <style>
+            .loader {
+                position: relative;
+                text-align: center;
+                margin: 15px auto 35px auto;
+                z-index: 9999;
+                display: block;
+                width: 80px;
+                height: 80px;
+                border: 10px solid rgba(0, 0, 0, .3);
+                border-radius: 50%;
+                border-top-color: #000;
+                animation: spin 1s ease-in-out infinite;
+                -webkit-animation: spin 1s ease-in-out infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+            @-webkit-keyframes spin {
+                to {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+
+            /** MODAL STYLING **/
+
+            .modal-content {
+                border-radius: 0px;
+                box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+            }
+
+            .modal-backdrop.show {
+                opacity: 0.75;
+            }
+
+            #output {
+                padding: 25px 15px;
+                background: #222;
+                border: 1px solid #222;
+                max-width: 350px;
+                margin: 35px auto;
+                font-family: 'Roboto', sans-serif !important;
+            }
+        </style>
+
+
+        <script>
+
+            
+
+        </script>
+
+
+
+</body>

@@ -94,7 +94,7 @@
                                         <label for="inputState" class="font-weight-bold">Clave / Descripción:</label>
                                         <input required type="text" id="BHerramienta" class="form-control"
                                             placeholder="Herramienta..." name="BHerramienta" autocomplete="off"
-                                            onkeypress="runScript(event)" autofocus="autofocus">
+                                            autofocus="autofocus">
                                     </div>
                                     <div class="p-2 align-self-center">
                                         <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs"
@@ -125,6 +125,7 @@
                         <tr>
                             <th>Planta</th>
                             <th>Clave</th>
+                            <th>Descripción</th>
                             <th>Estado</th>
                             <th>OT</th>
                             <th>Nomina</th>
@@ -154,7 +155,7 @@
 
         <!-- Tabla inteligente vieja-->
         <!-- DATATABLES -->
-      <!--   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
+        <!--   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
 
         <!-- BOOTSTRAP -->
         <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>-->
@@ -227,4 +228,82 @@
                 font-family: 'Roboto', sans-serif !important;
             }
         </style>
+
+
+        <script>
+
+            function TablaInteligente(params) {
+                setTimeout(function () {
+
+                    let table = new DataTable("#" + params, {
+                        language: {
+                            responsive: true,
+                            paging: false,
+                            searching: false,
+                            retrieve: true,
+                            processing: "Tratamiento en curso...",
+                            search: "Buscar&nbsp;:",
+                            lengthMenu: "Agrupar por _MENU_  ",
+                            info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                            infoEmpty: "No existen datos.",
+                            infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                            infoPostFix: "",
+                            loadingRecords: "Cargando...",
+                            zeroRecords: "No se encontraron datos con tu busqueda",
+                            emptyTable: "No hay datos disponibles en la tabla.",
+                            paginate: {
+                                first: "Primero",
+                                previous: "Anterior",
+                                next: "Siguiente",
+                                last: "Ultimo"
+                            },
+                            aria: {
+                                sortAscending: ": active para ordenar la columna en orden ascendente",
+                                sortDescending: ": active para ordenar la columna en orden descendente"
+                            }
+                        },
+                        scrollY: 400,
+                        lengthMenu: [
+                            [10, 25, -1],
+                            [10, 25, "All"]
+                        ],
+                    });
+
+
+
+
+                    /* $('#' + params).DataTable({
+                        language: {
+                            responsive: true,
+                            processing: "Tratamiento en curso...",
+                            search: "Buscar&nbsp;:",
+                            lengthMenu: "Agrupar por _MENU_  ",
+                            info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
+                            infoEmpty: "No existen datos.",
+                            infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                            infoPostFix: "",
+                            loadingRecords: "Cargando...",
+                            zeroRecords: "No se encontraron datos con tu busqueda",
+                            emptyTable: "No hay datos disponibles en la tabla.",
+                            paginate: {
+                                first: "Primero",
+                                previous: "Anterior",
+                                next: "Siguiente",
+                                last: "Ultimo"
+                            },
+                            aria: {
+                                sortAscending: ": active para ordenar la columna en orden ascendente",
+                                sortDescending: ": active para ordenar la columna en orden descendente"
+                            }
+                        },
+                        scrollY: 400,
+                        lengthMenu: [
+                            [10, 25, -1],
+                            [10, 25, "All"]
+                        ],
+                    }); */
+                }, 2000);
+            }
+
+        </script>
 </body>

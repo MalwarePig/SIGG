@@ -14,10 +14,12 @@ function MostrarReporte() {
     var Almacen = document.getElementById("Almacen").value;
     var fechaInicio = document.getElementById("inicio").value;
     var fechafin = document.getElementById("fin").value;
+    LimpiarTabla()
     //alert(fechaInicio);
     $.ajax({
         url: '/TipoReporteHerramental/' + categoria + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
         success: function (Herramientas) {
+            console.log(Herramientas)
             var Arreglo = [];
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
@@ -26,9 +28,11 @@ function MostrarReporte() {
             for (var i = 0; i < limite; i++) {
                 $("#Rows").remove(); //elimina los elementos con id Rows
             }
+ 
             for (var i = 0; i < TotalHerramientas; i++) {
                 var Planta = Herramientas[i].Planta;
                 var Clave = Herramientas[i].Clave;
+                var Descripcion = Herramientas[i].Descripcion;
                 var Estado = Herramientas[i].Estado || Herramientas[i].Cantidad;
                 var OT = Herramientas[i].OT || "-";
                 var Nomina = Herramientas[i].Nomina;
@@ -37,7 +41,7 @@ function MostrarReporte() {
                 var Maquina = Herramientas[i].Maquina || "-";
                 var Comentario = Herramientas[i].Comentario;
                 var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
-                Arreglo = [Planta,Clave,Estado,OT,Nomina,Empleado,Familia,Maquina,Comentario,Fecha]; 
+                Arreglo = [Planta, Clave, Descripcion, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario, Fecha];
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -50,11 +54,11 @@ function MostrarReporte() {
                     newCell.appendChild(newText);
                 } //fin de for de columnas
             } //fin de for de filas
-            TablaInteligente('TablaReporte'); 
+            TablaInteligente('TablaReporte');
             CerrarModalLoading()
         } //Funcion success
     }); //Ajax
-} 
+}
 
 
 function ExcelReporte() {
@@ -64,18 +68,19 @@ function ExcelReporte() {
     var sheet_1_data = [];
     for (var j = 0; j <= total - 1; j++) { //filas
 
-        var Planta  = tabla.rows[j].cells[0].childNodes[0].nodeValue;
-        var Clave  = tabla.rows[j].cells[1].childNodes[0].nodeValue;
-        var Estado  = tabla.rows[j].cells[2].childNodes[0].nodeValue;
-        var OT  = tabla.rows[j].cells[3].childNodes[0].nodeValue;
-        var Nomina  = tabla.rows[j].cells[4].childNodes[0].nodeValue;
-        var Empleado  = tabla.rows[j].cells[5].childNodes[0].nodeValue;
-        var Familia   = tabla.rows[j].cells[6].childNodes[0].nodeValue;
-        var Maquina  = tabla.rows[j].cells[7].childNodes[0].nodeValue;
-        var Comentario  = tabla.rows[j].cells[8].childNodes[0].nodeValue;
-        var Fecha  = tabla.rows[j].cells[9].childNodes[0].nodeValue;
- 
-        var Fila = [Planta,Clave,Estado,OT,Nomina,Empleado,Familia,Maquina,Comentario,Fecha]
+        var Planta = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Clave = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Descripcion = tabla.rows[j].cells[2].childNodes[0].nodeValue || '-';
+        var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var Nomina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
+        var Empleado = tabla.rows[j].cells[6].childNodes[0].nodeValue;
+        var Familia = tabla.rows[j].cells[7].childNodes[0].nodeValue;
+        var Maquina = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+        var Comentario = tabla.rows[j].cells[9].childNodes[0].nodeValue;
+        var Fecha = tabla.rows[j].cells[10].childNodes[0].nodeValue;
+
+        var Fila = [Planta, Clave, Descripcion, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
 
@@ -91,22 +96,26 @@ function ExcelReporte() {
 function MostrarReporteFiltrado() {
     var categoria = document.getElementById("CategoriaF").value;
     var Almacen = document.getElementById("AlmacenF").value;
-    var Argumento = document.getElementById("BHerramienta").value; 
+    var Argumento = document.getElementById("BHerramienta").value;
     //alert(fechaInicio);
     $.ajax({
         url: '/MostrarReporteFiltrado/' + categoria + '|' + Argumento + '|' + Almacen,
         success: function (Herramientas) {
+            console.log(Herramientas)
             var Arreglo = [];
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
             var TotalHerramientas = Herramientas.length;
+            var table = $("#TablaReporte").DataTable();
+            table.destroy();
             for (var i = 0; i < limite; i++) {
                 $("#Rows").remove(); //elimina los elementos con id Rows
             }
             for (var i = 0; i < TotalHerramientas; i++) {
                 var Planta = Herramientas[i].Planta;
                 var Clave = Herramientas[i].Clave;
+                var Descripcion = Herramientas[i].Descripcion || '-';
                 var Estado = Herramientas[i].Estado || Herramientas[i].Cantidad;
                 var OT = Herramientas[i].OT || "-";
                 var Nomina = Herramientas[i].Nomina;
@@ -115,7 +124,7 @@ function MostrarReporteFiltrado() {
                 var Maquina = Herramientas[i].Maquina || "-";
                 var Comentario = Herramientas[i].Comentario;
                 var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
-                Arreglo = [Planta,Clave,Estado,OT,Nomina,Empleado,Familia,Maquina,Comentario,Fecha]; 
+                Arreglo = [Planta, Clave, Descripcion, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario, Fecha];
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -127,59 +136,28 @@ function MostrarReporteFiltrado() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
                 } //fin de for de columnas
-            } //fin de for de filas
-            TablaInteligente('TablaReporte'); 
+            } //fin de for de filas 
+            TablaInteligente('TablaReporte');
             CerrarModalLoading()
         } //Funcion success
     }); //Ajax
-} 
-
-
-
-function TablaInteligente(params) {
-    $("#" + params).dataTable().fnDestroy();
-    setTimeout(function () {
-        $('#' + params).DataTable({
-            language: {
-                processing: "Tratamiento en curso...",
-                search: "Buscar&nbsp;:",
-                lengthMenu: "Agrupar por _MENU_  ",
-                info: "Mostrando del item _START_ al _END_ de un total de _TOTAL_ items",
-                infoEmpty: "No existen datos.",
-                infoFiltered: "(filtrado de _MAX_ elementos en total)",
-                infoPostFix: "",
-                loadingRecords: "Cargando...",
-                zeroRecords: "No se encontraron datos con tu busqueda",
-                emptyTable: "No hay datos disponibles en la tabla.",
-                paginate: {
-                    first: "Primero",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: "Ultimo"
-                },
-                aria: {
-                    sortAscending: ": active para ordenar la columna en orden ascendente",
-                    sortDescending: ": active para ordenar la columna en orden descendente"
-                }
-            },
-            scrollY: 400,
-            lengthMenu: [
-                [10, 25, -1],
-                [10, 25, "All"]
-            ],
-        });
-    },1700);
 }
 
 
 
+
+
 function CerrarModalLoading() {
-    var miModal = new bootstrap.Modal(document.getElementById('loading')); 
+    var miModal = new bootstrap.Modal(document.getElementById('loading'));
     miModal.show();
-    
+
     //$("#loading").modal();
- 
-    setTimeout(() => { 
+
+    setTimeout(() => {
         miModal.hide();
     }, 2500);
+}
+
+function LimpiarTabla() {
+    $("#TablaReporte").dataTable().fnDestroy();
 }

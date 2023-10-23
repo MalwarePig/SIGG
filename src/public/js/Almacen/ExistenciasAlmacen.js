@@ -196,8 +196,6 @@ function RegistrarOC() {
 }
 
 
-
-
 function MostrarOrdenes() {
     var ProductoBuscar = document.getElementById("ProductoBuscar").value;
 
