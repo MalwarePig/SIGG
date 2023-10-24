@@ -26,6 +26,7 @@ function MostrarReporte() {
                 var Caracteristicas = Herramientas[i].Caracteristicas || "-";
                 var Empleado = Herramientas[i].Empleado || "-";
                 var Maquina = Herramientas[i].Maquina || "-";
+                var fechaPrestamo = Herramientas[i].fechaPrestamo || "-";
                 var Codigo = Herramientas[i].Codigo || "-";
                 var Inserto = Herramientas[i].Inserto || "-";
                 var Marca = Herramientas[i].Marca || "-";
@@ -37,12 +38,12 @@ function MostrarReporte() {
                 
                 var Cantidad = Herramientas[i].Cantidad || "-";
 
-                Arreglo = [Planta, Clave, Descripcion, Diametro, Caracteristicas,Empleado, Maquina, Codigo, Inserto, Marca, Seat, Clamp, Screw, Estado, Comentario,  Cantidad];
+                Arreglo = [Planta, Clave, Descripcion, Diametro, Caracteristicas,Empleado, Maquina,fechaPrestamo, Codigo, Inserto, Marca, Seat, Clamp, Screw, Estado, Comentario,  Cantidad];
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                 for (var x = 0; x < Arreglo.length; x++) {
-                    if (x < 15) {//Evitar el ultimo valor del arreglo
+                    if (x < 16) {//Evitar el ultimo valor del arreglo
                         // inserta una celda en el indice 0
                         var newCell = newRow.insertCell(x);
                         newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
@@ -50,7 +51,7 @@ function MostrarReporte() {
                         var newText = document.createTextNode(Arreglo[x]);
                         newCell.appendChild(newText);
 
-                        if (Arreglo[15] == 1) {//Colorear
+                        if (Arreglo[16] == 1) {//Colorear
                             newCell.style.backgroundColor = "#b7efb2 "
                         } else {
                             newCell.style.backgroundColor = "#ff5e5e"
