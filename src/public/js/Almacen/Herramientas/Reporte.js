@@ -204,6 +204,7 @@ function TablaInteligente(params) {
                     sortDescending: ": active para ordenar la columna en orden descendente"
                 }
             },
+            scrollX: 800,
             scrollY: 400,
             lengthMenu: [
                 [10, 25, -1],
