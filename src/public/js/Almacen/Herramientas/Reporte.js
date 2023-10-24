@@ -142,8 +142,8 @@ function ExcelReporteAvanzado() {
 
     let Doc = []
     var Fila = []
-
-    for (let Fil = 0; Fil < totalFilas; Fil++) {
+    Doc.push(['Planta','Clave','Descripción','Diametro','Caracteristicas','Empleado','Maquina','Fecha Salida','Código','Inserto','Marca','Seat','Clamp','Screw','Estado','Comentario']);
+    for (let Fil = 1; Fil < totalFilas; Fil++) {//Empieza en 1 para evitar el encabezado ya que no funciona cuando es tabla dinamica
         Fila = []
         for (var Col = 0; Col < numeroDeColumnas; Col++) { //filas 
             Fila.push(tabla.rows[Fil].cells[Col].childNodes[0].nodeValue);
