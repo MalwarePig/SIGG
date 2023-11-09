@@ -12,27 +12,12 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <!-- Google Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-  <!-- Bootstrap core CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-  <!--======================================================  USO PARA EL ENORME MODAL ============================================================ -->
-  <!-- iconos -->
-  <script src="https://kit.fontawesome.com/86322b1947.js" crossorigin="anonymous"></script>
-  <!-- Barra -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
+  <%- include ('../../partials/head.html') %>
   <!------incluir cabezera navegacion----->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
   <script type="text/javascript" src="js/Almacen/ProdNuevo.js"></script>
  
-  <!------ JQUERY PARA USAR AJAX ----->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+ 
   <!-- css -->
   <link rel="stylesheet" href="css/StyleLogistica.css">
 
@@ -57,7 +42,7 @@
         </div>
         <div class="form-group col-md-7">
           <button type="button" id="NuevoProducto" name="NuevoProducto" class="btn btn-secondary btn-lg"
-            onclick="modal()">Nuevo Producto</button>
+            onclick="modal()" data-bs-toggle="modal" data-bs-target="#ModalNuevoPro">Nuevo Producto</button>
         </div>
       </div>
     </div>
@@ -86,48 +71,7 @@
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!------ Primera tarjeta ----->
-  <div class="card">
-    <div class="card-header" id="headingThree">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-          aria-controls="collapseThree">
-          Componente - NMY33-RC-C7-EST-001-REV1
-        </button>
-      </h5>
-    </div>
-  </div>
-
-
-
-
-
-
-  <div class="container">
-
-  </div>
-
+  
 
 
   <%- include ('../NuevoProducto/ModalNuevoPro.html') %>

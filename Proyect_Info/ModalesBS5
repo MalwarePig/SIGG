@@ -1,9 +1,22 @@
- var myModal = new bootstrap.Modal(document.getElementById('ConfirmarEliminar'), {
-        keyboard: false
-      })
-      
-      myModal.show()
+var myModal = new bootstrap.Modal(document.getElementById('ConfirmarEliminar'), {
+  keyboard: false
+})
 
-      myModal.hide() 
+myModal.show()
 
-      
+myModal.hide()
+
+
+
+//Ejemplo
+
+var myModal = new bootstrap.Modal(document.getElementById('Cambios'), {
+  keyboard: false
+})
+myModal.show()
+
+setTimeout(() => {
+  myModal.hide();
+}, 1500);
+
+

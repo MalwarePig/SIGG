@@ -90,7 +90,25 @@ function GuardarNota() {
             Tabla
         }, // data to be submit
         function (objeto, estatus) { // success callback
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            if (objeto == true) {
+                var myModal = new bootstrap.Modal(document.getElementById('Cambios'), {
+                  keyboard: false
+                })
+                myModal.show()
+      
+                setTimeout(() => {
+                  myModal.hide();
+                }, 1500);
+              }else{
+                var myModal = new bootstrap.Modal(document.getElementById('Error'), {
+                  keyboard: false
+                })
+                myModal.show()
+      
+                setTimeout(() => {
+                  myModal.hide();
+                }, 1500);
+              }
         });
         document.getElementById("FormNuevoPro").reset();
    

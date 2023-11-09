@@ -1,35 +1,38 @@
+<!------ Modal ----->
+<div class="container my-4">
+  <!-- Central Modal Fluid -->
+  <div class="modal fade" id="ModalNuevoPro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog  modal-xl modal-fluid" role="document">
+      <!--Content-->
+      <div class="modal-content">
+        <!--Header-->
+        <div class="modal-header">
+          <h4 class="modal-title w-100" id="myModalLabel">Producto Nuevo </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body">
+          <form id="Formulario">
+            <div class="form-group">
 
-  <!------ Modal ----->
-  <div class="container my-4">
-    <!-- Central Modal Fluid -->
-    <div class="modal fade" id="ModalNuevoPro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-fluid" role="document">
-        <!--Content-->
-        <div class="modal-content">
-          <!--Header-->
-          <div class="modal-header">
-            <h4 class="modal-title w-100" id="myModalLabel">Producto Nuevo </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <!--Body-->
-          <div class="modal-body">
-            <!-- AQUI VA NUESTRO CONTENIDO -->
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
-              <form id="FormNuevoPro">
               <div class="form-row">
 
-                <div class="form-group col-md-1">
+                <div class="form-group col-3">
                   <input type="text" id="Clave" class="form-control" placeholder="Clave..." name="Clave"
                     autocomplete="off" required>
                 </div>
 
-                <div class="form-group col-md-2">
+                <div class="form-group col">
                   <input type="text" id="Producto" class="form-control" placeholder="Producto..." name="Producto"
                     autocomplete="off" required>
                 </div>
+
+              </div>
+
+              <div class="form-row">
 
                 <div class="form-group col-md-2">
                   <select required id="Almacen" name="Almacen" class="form-select" onclick="getFamilias()">
@@ -41,32 +44,35 @@
                   </select>
                 </div>
 
-                <div class="form-group col-md-1">
+                <div class="form-group col-2">
                   <input type="text" id="Stock" class="form-control" placeholder="Stock actual" name="Stock"
                     autocomplete="off" required>
                 </div>
 
-                <div class="form-group col-md-1">
+                <div class="form-group col-2">
                   <input type="text" id="StockMin" class="form-control" placeholder="Stock minimo..." name="StockMin"
                     autocomplete="off" required>
                 </div>
 
-                <div class="form-group col-md-1">
+                <div class="form-group col-2">
                   <input type="text" id="StockMax" class="form-control" placeholder="Stock max..." name="StockMax"
                     autocomplete="off" required>
                 </div>
 
-                <div class="form-group col-md-1">
-                  <input type="text" id="StockUsado" class="form-control" placeholder="Stock usado..." name="StockUsado" autocomplete="off"
-                    required>
+                <div class="form-group col-2">
+                  <input type="text" id="StockUsado" class="form-control" placeholder="Stock usado..." name="StockUsado"
+                    autocomplete="off" required>
                 </div>
 
-                <div class="form-group col-md-1">
-                  <input type="text" id="Ubicacion" class="form-control" placeholder="Ubicacion..." name="Ubicacion" autocomplete="off"
-                    required>
+                <div class="form-group col-2">
+                  <input type="text" id="Ubicacion" class="form-control" placeholder="Ubicacion..." name="Ubicacion"
+                    autocomplete="off" required>
                 </div>
+              </div>
 
+              <div class="form-row">
                 <div class="form-group col">
+                  <label for="recipient-name" class="col-form-label">Categorias:</label>
                   <select required id="Categoria" name="Categoria" class="form-select">
                     <option value="Almacen" selected disabled>Categorias</option>
                     <option value="A" selected>A</option>
@@ -77,27 +83,50 @@
 
 
                 <div class="form-group col">
-                  <select id="Familia" name="Familia" class="form-select" >
+                  <label for="recipient-name" class="col-form-label">Familia:</label>
+                  <select id="Familia" name="Familia" class="form-select">
 
                   </select>
                 </div>
-
-
               </div>
-            </form>
+
             </div>
-          </div>
-          <!--Footer-->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" onclick="GuardarNota()"  data-dismiss="modal">Guardar</button>
-          </div>
+          </form>
         </div>
-        <!--/.Content-->
+
+        <!--Footer-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" onclick="GuardarNota()" data-bs-dismiss="modal">Guardar</button>
+        </div>
       </div>
     </div>
-    <!-- Central Modal Fluid -->
+    <!--/.Content-->
   </div>
-  <!------ Modal ----->
+</div>
 
- 
+
+
+    <!-- Modal Success-->
+    <div class="modal fade " id="Cambios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-success">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Cambios realizados con exito</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Error-->
+    <div class="modal fade " id="Error" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">No sé han realizado cambios</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    </div>

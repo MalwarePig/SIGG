@@ -338,6 +338,32 @@ Controller.update = (req, res) => {
 
 
 
+Controller.UbicacionesGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+
+            console.log( req.session.nivel)
+            if(req.session.nivel == 'Admin'){
+                conn.query("SELECT distinct Ubicacion FROM gavetas", (err, Data) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Data);
+                });
+            }else{
+                conn.query("SELECT distinct Ubicacion FROM gavetas WHERE Planta= '"+req.session.planta+"'", (err, Data) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Data);
+                });
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+};
 
 
 

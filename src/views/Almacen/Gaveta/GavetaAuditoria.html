@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>
+    GEMAK
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%- include ('../../partials/head.html') %>
+    <!------incluir cabezera navegacion----->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <!-----------------------------------------------     JavaScript     ---------------------------------------------------------------->
+    <script type="text/javascript" src="js/Almacen/Gaveta/Auditoria.js"></script>
+    <!-----------------------------------------------     CSS     ---------------------------------------------------------------->
+    <link rel="stylesheet" href="/css/TablesMod.css">
+
+</head>
+
+<body onload="Ubicaciones()">
+  <%- include ('../../partials/navegacion.html') %>
+    <!------incluir navegacion Menu----->
+  
+    <div class="card text-center">
+      <div class="card-header">
+        <!------------------------------ BUSCAR -------------------------------------->
+        <div class="d-flex flex-row justify-content-center ">
+          <div class="p-2 bd-highlight">
+            <label for="Planta" class="col-form-label">Ubicación:</label>
+          </div>
+          <div class="p-2 bd-highlight">
+            <select required id="Ubicacion" name="Ubicacion" class="form-select">
+              <option value="-" selected disabled>Seleccionar</option>
+            </select>
+          </div>
+          <div class="p-2 align-self-center">
+            <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="GETPRODUCTS()"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <!------------------------------ TABLA -------------------------------------->
+        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%;">
+          <table class="table table-condensed table-hover table-responsive tableFixHead" id="Herr_Encontradas">
+
+            <thead>
+              <tr>
+                <th style="width: 1%">índice</th>
+                <th style="width: 10%">Planta</th>
+                <th style="width: 10%">Ubicación</th>
+                <th>Clave H</th>
+                <th>Descripción</th>
+                <th style="width: 10%">Último Ajuste</th>
+                <th style="width: 10%">Auditor</th>
+                <th style="width: 2%">Cantidad</th>
+                <th style="width: 2%">Ajuste</th>
+                <th>Guardar</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Modal Success-->
+    <div class="modal fade " id="Cambios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-success">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Cambios realizados con exito</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Error-->
+    <div class="modal fade " id="Error" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">No sé han realizado cambios</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="ModalComentario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Alerta!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3" style="display: none">
+                <label for="recipient-name" class="col-form-label">Indice:</label>
+                <input type="text" class="form-control" id="Indice">
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Ajuste:</label>
+                <input type="text" class="form-control" id="CantidadAjuste">
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Describe razón:</label>
+                <textarea class="form-control" id="Comentario" maxlength="180"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="Limpiar()">Cancelar</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="Ajuste()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>

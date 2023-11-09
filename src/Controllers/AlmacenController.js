@@ -769,13 +769,18 @@ Controller.NuevoProducto = (req, res) => {
             var Ubicacion = Object.values(data)[0][7]; //obeter datos de un objeto Item
             var Categoria = Object.values(data)[0][8]; //obeter datos de un objeto Item
             var Familia = Object.values(data)[0][9]; //obeter datos de un objeto Item
+            const nombre = req.session.nombre;
 
-            conn.query("INSERT INTO almacen(Clave,Producto,Almacen,Stock,StockMin,StockMax,StockUsado,Ubicacion,Categoria,Familia)VALUES('" + Clave + "','" + Producto + "','" + Almacen + "'," + Stock + "," + StockMin + "," + StockMax + "," + StockUsado + ",'" + Ubicacion + "','" + Categoria + "','" + Familia + "')", (err, Herramientas) => {
-                if (err) {
-                    console.log('Error de lectura' + err);
-                }
-                res.json(Herramientas)
-            });
+            conn.query("call NuevoProducto('" + Clave + "','" + Producto + "','" + Almacen + "'," + Stock + "," + StockMin + "," + StockMax + "," + StockUsado + ",'" + Ubicacion + "','" + Categoria + "','" + Familia + "','"+nombre+"')", true, (err, rows, fields) => {
+                        if (err) {
+                            res.json(false);
+                            console.log('Error al agregar' + err);
+                        } else {
+                            console.log('Se agrego herramienta de almacen');
+                            res.json(true)
+                        }
+                    });
+ 
             // var Cantidad = Object.values(data)[0][i][2]; //obeter datos de un objeto Cantidad
             //console.log("id " + id + "','" + Item + "','" + Cantidad + "','" + Planta + "," + Usuario);
         });
@@ -1074,20 +1079,20 @@ Controller.reporteAjustesBasico = (req, res) => {
 
             if (BHerramienta == null || BHerramienta == '' || BHerramienta.length == 0) {
                 console.log("sin")
-                conn.query("SELECT * FROM ReporteAjusteBasico WHERE Almacen = '" + Almacen + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                conn.query("SELECT * FROM AjustebasicoAlmacen WHERE Planta = '" + Almacen + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
                     if (err) {
-                        res.json("Error json: " + err);
-                        console.log('Error de lectura');
-                    }
-
+                        res.json(err);
+                        console.log('Error de lectura '+err);
+                    } 
+                    console.log(Herramientas);
                     res.json(Herramientas)
                 });
             } else {
                 console.log("Producto: " + BHerramienta + " Almacen: " + Almacen + " fechaInicio: " + fechaInicio + " fechafin: " + fechafin)
-                conn.query("SELECT * FROM ReporteAjusteBasico WHERE Almacen = '" + Almacen + "' AND Producto = '" + BHerramienta + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
+                conn.query("SELECT * FROM AjustebasicoAlmacen WHERE Planta = '" + Almacen + "' AND Producto = '" + BHerramienta + "' AND FechaAjuste BETWEEN '" + fechaInicio + "' AND '" + fechafin + "'", (err, Herramientas) => {
                     if (err) {
-                        res.json("Error json: " + err);
-                        console.log('Error de lectura');
+                        res.json(err);
+                        console.log('Error de lectura' +err);
                     }
                     console.table(Herramientas)
                     res.json(Herramientas)
@@ -2385,7 +2390,6 @@ Controller.AjusteBasico = (req, res) => {
                     res.json(true)
                 }
             });
-
         });
     } else {
         res.render('Admin/Login.html');
@@ -3798,6 +3802,81 @@ Controller.HistorialReportesDaños = (req, res) => {
                     res.json(Herramientas)
                 }
             }); 
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+///////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////// == SALIDA == //////////////////// == SALIDA == ///////////////////// == SALIDA == ///////////////////////////////////////////////////////////////
+Controller.BuscarHerramientasUbicacion = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Ubicacion
+            } = req.params;
+         
+            const planta = "Almacen " + req.session.planta;
+            const area = req.session.area;
+
+            if (area == 'Admin') {
+                console.log("Entre como admin")
+                conn.query("SELECT * FROM gavetas where ubicacion = '"+Ubicacion+"'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas);
+                });
+            } else {
+                conn.query("SELECT * FROM gavetas where ubicacion = '"+Ubicacion+"' AND Almacen = '" + planta + "'", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas);
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+//Se registra una auditoria
+Controller.RegistrarAuditoria = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const data = req.body; //TRAE TODO EL OBJETO
+            console.log(Object.values(data)[0]);
+            var id = Object.values(data)[0].id; //obeter datos de un objeto id
+            var Cantidad = Object.values(data)[0].Cantidad; //obeter datos de un objeto Clave
+            var CantidadAjuste = Object.values(data)[0].CantidadAjuste; //obeter datos de un objeto Producto 
+            var Planta = Object.values(data)[0].Planta; //obeter datos de un objeto Producto 
+            var Ubicacion = Object.values(data)[0].Ubicacion; //obeter datos de un objeto Producto 
+            var Clave = Object.values(data)[0].Clave; //obeter datos de un objeto Producto 
+            var Descripcion = Object.values(data)[0].Descripcion; //obeter datos de un objeto Producto 
+            var Comentario = Object.values(data)[0].Comentario; //obeter datos de un objeto Producto 
+            const nombre = req.session.nombre;
+
+            console.log("id " + id + "','" + Cantidad + "','" + CantidadAjuste +","+nombre);
+            if (err) {
+                console.log("Conexion: " + err)
+            } else {
+                conn.query("call SPRegistrarAuditoria(" + id + "," + Cantidad + "," + CantidadAjuste+",'"+nombre+"','"+Planta+"','"+Ubicacion+"','"+Clave+"','"+Descripcion+"','"+Comentario+"');", true, (err, rows, fields) => {
+                        if (err) {
+                            console.log('Error al registrar folios' + err);
+                            res.json(false);
+                        }else{
+                            res.json(true);
+                        }
+                    });
+            }
         });
     } else {
         res.render('Admin/Login.html');

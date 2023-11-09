@@ -1318,6 +1318,33 @@ router.post('/GuardarPDFDanado', AlmacenController.GuardarPDFDanado);
 
 router.get('/HistorialReportesDanos/:parametros', AlmacenController.HistorialReportesDaños);
 
+
+
+
+
+
+
+
+
+
+
+//============================== Gaveta Auditoria ==============================//
+router.get('/AuditoriaGaveta', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/GavetaAuditoria.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+router.get('/UbicacionesGaveta', OTController.UbicacionesGaveta);
+
+router.get('/BuscarHerramientasUbicacion/:Ubicacion', AlmacenController.BuscarHerramientasUbicacion);
+
+//Registra auditoria con un objeto
+router.post('/RegistrarAuditoria', AlmacenController.RegistrarAuditoria);
+
 module.exports = router;
 
 /*ESTA ES UNA VERSION DIRECTA SIN VERIFICAR LOGIN

@@ -168,21 +168,23 @@ function MostrarReporteAjusteBasico() {
         $.ajax({
             url: '/reporteAjustesBasico/' + fechaInicio + '|' + fechafin + '|' + Almacen + '|' + BHerramienta,
             success: function (Herramientas) {
+                console.log(Herramientas)
                 if (Herramientas.length > 0) {
                     console.table(Herramientas)
                     var total = Herramientas.length //Total de filas 
                     var sheet_1_data = [];
 
-                    sheet_1_data[0] = ["Responsable", "Producto", "Cantidad Actual", "Cantidad Anterior", "Fecha de ajuste"]
+                    sheet_1_data[0] = ["Responsable", "Producto","Planta", "Cantidad Actual", "Cantidad Anterior", "Fecha de ajuste"]
                     for (var j = 0; j < total; j++) { //filas
                         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
 
                         var Responsable = Herramientas[j].Responsable;
                         var Producto = Herramientas[j].Producto;
+                        var Planta = Herramientas[j].Planta;
                         var Actual = Herramientas[j].CantidadActual;
                         var Anterior = Herramientas[j].CantidadAnterior;
                         var Fecha = moment(Herramientas[j].FechaAjuste).format('DD-MM-YYYY');
-                        var Fila = [Responsable, Producto, Actual, Anterior, Fecha]
+                        var Fila = [Responsable, Producto,Planta, Actual, Anterior, Fecha]
                         sheet_1_data.push(Fila);
                     } //fin filas
 
@@ -190,6 +192,7 @@ function MostrarReporteAjusteBasico() {
                         sheetid: 'Hoja1',
                         header: false
                     }];
+
                     var result = alasql('SELECT * INTO XLSX("Reporte- ' + moment().format("L") + '.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
                 } else {
                     alert("No hay registros")
