@@ -40,7 +40,7 @@ function MostrarReporte() {
                 var Familia = Herramientas[i].Familia || "-";
                 var Maquina = Herramientas[i].Maquina || "-";
                 var Comentario = Herramientas[i].Comentario;
-                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+                var Fecha = moment(Herramientas[i].Fecha).format('DD-MM-YYYY');
                 Arreglo = [Planta, Clave, Descripcion, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario, Fecha];
 
                 // inserta una fila al final de la tabla
@@ -123,7 +123,7 @@ function MostrarReporteFiltrado() {
                 var Familia = Herramientas[i].Familia || "-";
                 var Maquina = Herramientas[i].Maquina || "-";
                 var Comentario = Herramientas[i].Comentario;
-                var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+                var Fecha = moment(Herramientas[i].Fecha).format('DD-MM-YYYY');
                 Arreglo = [Planta, Clave, Descripcion, Estado, OT, Nomina, Empleado, Familia, Maquina, Comentario, Fecha];
 
                 // inserta una fila al final de la tabla

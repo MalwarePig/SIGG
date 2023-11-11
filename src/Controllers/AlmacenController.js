@@ -3883,6 +3883,32 @@ Controller.RegistrarAuditoria = (req, res) => {
     }
 };
 
+
+
+Controller.MostrarAuditoria = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Ubicacion
+            } = req.params;
+         
+            const planta = "Almacen " + req.session.planta;
+            const area = req.session.area;
+            conn.query("select * from AuditoriaGavetas where ubicacion = '"+Ubicacion+"'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 module.exports = Controller;
 
 

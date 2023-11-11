@@ -1345,6 +1345,8 @@ router.get('/BuscarHerramientasUbicacion/:Ubicacion', AlmacenController.BuscarHe
 //Registra auditoria con un objeto
 router.post('/RegistrarAuditoria', AlmacenController.RegistrarAuditoria);
 
+router.get('/MostrarAuditoria/:Ubicacion', AlmacenController.MostrarAuditoria);
+
 module.exports = router;
 
 /*ESTA ES UNA VERSION DIRECTA SIN VERIFICAR LOGIN

@@ -24,7 +24,7 @@
 <body onload="Ubicaciones()">
   <%- include ('../../partials/navegacion.html') %>
     <!------incluir navegacion Menu----->
-  
+
     <div class="card text-center">
       <div class="card-header">
         <!------------------------------ BUSCAR -------------------------------------->
@@ -67,9 +67,15 @@
             </tbody>
           </table>
         </div>
+
+        <div class="align-self-center">
+          <button type="button" id="Historial" name="Historial" class="btn btn-info "
+            data-bs-toggle="modal" data-bs-target="#Reporte">Historial
+          </button>
+        </div>
+
       </div>
     </div>
-
 
 
     <!-- Modal Success-->
@@ -129,4 +135,62 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+    <!-- Modal Reporte -->
+
+    <div class="modal fade " id="Reporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reporte</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="card-body">
+            <!------------------------------ BUSCAR -------------------------------------->
+            <div class="d-flex flex-row justify-content-center ">
+              <div class="p-2 bd-highlight">
+                <label for="Planta" class="col-form-label">Ubicación:</label>
+              </div>
+              <div class="p-2 bd-highlight">
+                <select required id="UbicacionReporte" name="Ubicacion" class="form-select">
+                  <option value="-" selected disabled>Seleccionar</option>
+                </select>
+              </div>
+              <div class="p-2 align-self-center">
+                <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="MostrarReporteHerramientaAdmin()"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
+              </div>
+            </div>
+            <!------------------------------ TABLA -------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%;">
+              <table class="table table-condensed table-hover table-responsive tableFixHead" id="TablaAuditoria">
+
+                <thead>
+                  <tr>
+                    <th>Clave</th>
+                    <th style="width: 10%">Planta</th>
+                    <th >Descripción</th>
+                    <th style="width: 10%">Ubicación</th>
+                    <th style="width: 10%">Cantidad Anterior</th>
+                    <th style="width: 10%">Cantidad ajustada</th>
+                    <th style="width: 10%">Fecha Ajuste</th>
+                    <th style="width: 10%">Auditor</th>  
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
 </body>
