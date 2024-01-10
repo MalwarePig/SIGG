@@ -8,7 +8,7 @@ function Ubicaciones() {
 
       for (let index = 0; index < 2; index++) {
         var listMaquina = document.getElementById(ListaSelect[index]); 
-        console.log(data)
+      
         for (let i = listMaquina.options.length; i >= 1; i--) { //Borrar elementos option de select
           listMaquina.remove(i);
         }
@@ -18,7 +18,6 @@ function Ubicaciones() {
           option.text = data[i].Ubicacion;
           listMaquina.add(option);
         }
-
       }  
     } //Funcion success
   }); //Ajax
@@ -136,6 +135,7 @@ function SinCambio(params) {
         setTimeout(() => {
           myModal.hide();
         }, 1500);
+        GETPRODUCTS()
       } else {
         var myModal = new bootstrap.Modal(document.getElementById('Error'), {
           keyboard: false
@@ -197,6 +197,7 @@ function Ajuste() {
         setTimeout(() => {
           myModal.hide();
         }, 1500);
+        GETPRODUCTS()
       } else {
         var myModal = new bootstrap.Modal(document.getElementById('Error'), {
           keyboard: false
@@ -209,8 +210,6 @@ function Ajuste() {
       }
     });
 }
-
-
 
 function MostrarReporteHerramientaAdmin() {
   var variable = document.getElementById("UbicacionReporte").value; //Cambia el simbolo '/'
@@ -257,5 +256,8 @@ function MostrarReporteHerramientaAdmin() {
               } //fin de for de filas
           } //Funcion success
       }); //Ajax 
-
 }
+
+
+
+ 

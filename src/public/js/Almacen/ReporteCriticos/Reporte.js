@@ -4,8 +4,7 @@ function MostrarReporte() {
     //alert(fechaInicio);
     $.ajax({
         url: '/MinCritico/' ,
-        success: function (Herramientas) {
-            console.log(Herramientas)
+        success: function (Herramientas) { 
             var Arreglo = [];
             //Limpiar tabla 
              var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
@@ -14,9 +13,14 @@ function MostrarReporte() {
             for (var i = 0; i < limite; i++) {
                 $("#Rows").remove(); //elimina los elementos con id Rows
             }
+            //proveedor (primario),  precio/ moneda / OC...Lo ideal seria que pusiera el consumo del ultimo mes, con eso sacamos todo
             for (var i = 0; i < TotalHerramientas; i++) {
                 var Clave = Herramientas[i].Clave || "-"; 
                 var Producto = Herramientas[i].Producto || "-"; 
+                var Proveedor = Herramientas[i].Proveedor || "-"; 
+                var Precio = Herramientas[i].Precio || "-"; 
+                var Moneda = Herramientas[i].Moneda || "-"; 
+                var OC = Herramientas[i].OC || "-"; 
                 var Almacen = Herramientas[i].Almacen || "-"; 
                 var Familia = Herramientas[i].Familia || "-"; 
                 var Stock = Herramientas[i].Stock || 0; 
@@ -24,7 +28,7 @@ function MostrarReporte() {
                 var Minimo = Herramientas[i].StockMin || "-"; 
                 var Maximo = Herramientas[i].StockMax || "-"; 
 
-                Arreglo = [Clave,Producto,Almacen,Familia,Stock,StockUsado,Minimo,Maximo];
+                Arreglo = [Clave,Producto,Proveedor,Precio,Moneda,OC,Almacen,Familia,Stock,StockUsado,Minimo,Maximo];
 
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -34,11 +38,11 @@ function MostrarReporte() {
                     newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
-                    if (x == 6) {
+                    if (x == 10) {
                         newCell.style.backgroundColor="#ffc432"//amarillo 
-                    }else if (x == 7) {
+                    }else if (x == 11) {
                         newCell.style.backgroundColor="#96ffb9" //verde
-                    }else if (x == 4) {
+                    }else if (x == 8) {
                         newCell.style.backgroundColor="#ff5e5e" 
                     }
                     newCell.appendChild(newText);
@@ -73,3 +77,45 @@ function ExcelReporte() {
     var result = alasql('SELECT * INTO XLSX("Reporte.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }
  
+
+
+
+function Pruebas() {
+    // Obtén la referencia a la tabla
+    var tabla = document.getElementById("TablaReporte");
+    var limite = tabla.rows.length;
+    //  var TotalHerramientas = Herramientas.length;
+    for (var i = 0; i <= limite; i++) {
+        //Producto a buscar
+        var Producto = tabla.rows[(i + 1)].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto
+         
+        var Herramientas = Tranformer(Producto);
+        $.ajax({
+            url: '/BuscarHerramienta/' + Herramientas,
+            success: function (data) {
+                console.log(i)
+
+                // Obtén la referencia a la fila a la que deseas agregar la celda (por ejemplo, la segunda fila)
+                var fila = tabla.rows[(i + 1)];
+
+                // Crea una nueva celda y asigna el contenido que desees
+                var nuevaCelda = fila.insertCell();
+                // Agrega contenido a la nueva celda
+                nuevaCelda.innerHTML = i + data;
+            } //Funcion success
+        }); //Ajax 
+    }
+}
+
+
+function Tranformer(variable) {
+    var Herramienta = "";
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '/') {
+            Herramienta += '|';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
+    }
+    return Herramienta;
+}

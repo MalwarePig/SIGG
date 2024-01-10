@@ -10,65 +10,99 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%- include ('../../partials/head.html') %>
-    <!------incluir cabezera navegacion----->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-    <!-- GENERAR EXCEL -->
-    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script><!-- GENERAR EXCEL -->
-    <script type="text/javascript" src="js/Almacen/ReporteCriticos/Reporte.js"></script>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
+        <!-- GENERAR EXCEL -->
+        <script type="text/javascript" src="js/Almacen/ReporteCriticos/Reporte.js"></script>
 
-    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 </head>
 
 <body onload="MostrarReporte()">
     <%- include ('../../partials/navegacion.html') %>
-    <!------ incluir navegacion Menu ----->
-    <div class="card text-center">
-        <div class="card-header">
-            <!------------------------------ BUSCAR -------------------------------------->
+        <!------ incluir navegacion Menu ----->
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
 
-            <div class="form-row">
-                <div class="form-group col-md-5 ">
-     
+                <div class="form-row">
+                    <div class="form-group col-md-5 ">
+
+                    </div>
+                    <div class="form-group col-md-1 ">
+                        <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
+                            onclick="ExcelReporte()">Exportar</button>
+                    </div>
+                    <!-- <div class="form-group col-md-1 ">
+                        <button type="button" class="btn btn-danger " onclick="PruebasFetch()">Pruebas</button>
+                    </div> -->
                 </div>
-                <div class="form-group col-md-1 ">
-                    <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
-                        onclick="ExcelReporte()">Exportar</button>
-                </div> 
+
             </div>
-
         </div>
-    </div>
-    <div class="card-body">
-        <div class="card-header">
-            <p class="card-text">Articulos con stock debajo del mínimo</p>
-        </div>
-        <!------------------------------ TABLA -------------------------------------->
-        <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
-            style="width:96%; height:650px; overflow: scroll;">
-            <table class="table table-condensed table-hover " id="TablaReporte">
-                <thead>
-                    <tr>
-                        <th style="width: 20%">Clave</th>
-                        <th>Producto</th>
-                        <th>Almacen</th>
-                        <th>Familia</th>
-                        <th>Stock</th> 
-                        <th>Usado</th> 
-                        <th>Minimo</th>
-                        <th>Maximo</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="card-body">
+            <div class="card-header">
+                <p class="card-text">Articulos con stock debajo del mínimo</p>
+            </div>
+            <!------------------------------ TABLA -------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                style="width:96%; height:650px; overflow: scroll;">
+                <table class="table table-condensed table-hover " id="TablaReporte">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">Clave</th>
+                            <th>Producto</th>
+                            <th>Proveedor</th>
+                            <th>Precio</th>
+                            <th>Moneda</th>
+                            <th>OC</th>
+                            <th>Almacen</th>
+                            <th>Familia</th>
+                            <th>Stock</th>
+                            <th>Usado</th>
+                            <th>Minimo</th>
+                            <th>Maximo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
-        </div> 
-    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+
+
+            function PruebasFetch() {
+                // Obtén la referencia a la tabla
+                var tabla = document.getElementById("TablaReporte");
+                var limite = tabla.rows.length;
+                console.log("limite: " + limite)
+                //  var TotalHerramientas = Herramientas.length;
+                for (var i = 0; i < limite-1; i++) {//Se elimina la ultima fila que se encuentra vacia por eso el -1
+                    //Producto a buscar
+                    var Producto = tabla.rows[(i + 1)].cells[1].childNodes[0].nodeValue; //Obtiene el valor de Producto 
+                  
+                  
+                    //console.log("indice: " + i + " Fila: " + (i+1) + " "+Herramientas)
+                    fetch("/BuscarHerramienta/" + Tranformer(Producto))
+                        .then(response => response.json())
+                        .then(data => { 
+                            console.log(data[0].Familia +" - "+ data[0].Producto) 
+                        })
+                        .catch(err => console.log('Solicitud fallida ' + Tranformer(Producto), err)); // Capturar errores
  
 
+                    //
+                }
+            }
+        </script>
 
 
- 
+
 </body>

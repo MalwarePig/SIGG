@@ -45,6 +45,15 @@ router.get('/LogueoActivo', (req, res) => {
 	res.json(req.session.area);
 });
 
+
+
+var reinicio = router.get('/Usuarios', (req, res) => {
+	//res.send('holoo');
+	res.render('Admin/Usuarios.html');
+});
+
+//Registrar usuario en db
+router.get('/listarUsuarios', UserController.listarUsuarios);
 /////////////////////////////////////////////////////////////////////////// ENTRAR A HOME ///////////////////////////////////////////////////////////////////////////////
 //Carga pagina principal
 router.get('/home', UserController.HOME);
@@ -1241,12 +1250,13 @@ router.get('/wh_ReporteHerramental', (req, res) => {
 });
 
 
+
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/TipoReporteHerramental/:parametros', AlmacenController.TipoReporteHerramental);
 
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/MostrarReporteFiltrado/:parametros', AlmacenController.TipoReporteHerramentalFiltro);
-//================================== MODULO DE Herramental =================================// 
+//================================== MODULO de Herramental =================================// 
 //Abre pagina principal para editar
 router.get('/AdminHerramental', (req, res) => {
 	if (req.session.loggedin) {
@@ -1346,6 +1356,26 @@ router.get('/BuscarHerramientasUbicacion/:Ubicacion', AlmacenController.BuscarHe
 router.post('/RegistrarAuditoria', AlmacenController.RegistrarAuditoria);
 
 router.get('/MostrarAuditoria/:Ubicacion', AlmacenController.MostrarAuditoria);
+
+router.get('/ResumenAuditoria/', AlmacenController.ResumenAuditoria);
+
+
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
+router.get('/ArticulosNuevos', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/ArticulosNuevos.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+router.get('/ConsultaArticulosNuevos/:Articulo', AlmacenController.ConsultaArticulosNuevos);
+
+router.get('/BuscarHerramienta/:Herra', AlmacenController.BuscarHerramienta);
+
 
 module.exports = router;
 

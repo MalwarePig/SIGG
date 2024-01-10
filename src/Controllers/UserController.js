@@ -30,7 +30,14 @@ Controller.EliminarUsuario = (req,res) => {
         var id = Object.values(data)[0].id;
 
         conn.query("delete from usuarios WHERE id = '"+id+"'", (err, ot) =>{
-            res.json(true);
+            if(err){
+                console.log(error);
+               
+                console.log('error en query' + err);
+            }else{
+                res.json(true);
+            }
+            
         });
     })
    /* console.log(req.body);//se obtienen los datos del formulario a traves del req.body
@@ -147,7 +154,22 @@ Controller.HOME = (req,res) => {
     })
 }
 
-
+Controller.listarUsuarios = (req,res) => {
+    const data = req.body;
+    const nombre = req.body.Planta;
+    req.getConnection((err,conn) => { 
+        conn.query("SELECT * FROM usuarios", (err, data) => {
+            if (err) {
+                console.log('Error de lectura');
+            }else{
+                res.json(data)
+                console.log(data);
+            }     
+        });
+    })
+   /* console.log(req.body);//se obtienen los datos del formulario a traves del req.body
+    res.send('works');*/
+}
 
 
 module.exports = Controller;

@@ -365,10 +365,9 @@ Controller.UbicacionesGaveta = (req, res) => {
     }
 };
 
-
-
-
-
+ 
 
 
 module.exports = Controller;
+
+

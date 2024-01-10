@@ -37,9 +37,14 @@
               <option value="-" selected disabled>Seleccionar</option>
             </select>
           </div>
-          <div class="p-2 align-self-center">
+          <div class="p-2 align-self-center"><!-- Boton buscar -->
             <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="GETPRODUCTS()"><i
                 class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+          <div class="p-2 align-self-center"><!-- Boton reporte rapido -->
+            <button type="button" class="btn btn-success btn-sm" data_but="btn-xs" onclick="ResumenAuditoria()"
+              data-toggle="tooltip" data-placement="top" title="Última auditoria" data-bs-toggle="modal"
+              data-bs-target="#ReporteRapido"><i class="fa-solid fa-file-circle-check"></i></button>
           </div>
         </div>
       </div>
@@ -69,8 +74,8 @@
         </div>
 
         <div class="align-self-center">
-          <button type="button" id="Historial" name="Historial" class="btn btn-info "
-            data-bs-toggle="modal" data-bs-target="#Reporte">Historial
+          <button type="button" id="Historial" name="Historial" class="btn btn-info " data-bs-toggle="modal"
+            data-bs-target="#Reporte">Historial
           </button>
         </div>
 
@@ -161,8 +166,8 @@
                 </select>
               </div>
               <div class="p-2 align-self-center">
-                <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="MostrarReporteHerramientaAdmin()"><i
-                    class="fa-solid fa-magnifying-glass"></i></button>
+                <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs"
+                  onclick="MostrarReporteHerramientaAdmin()"><i class="fa-solid fa-magnifying-glass"></i></button>
               </div>
             </div>
             <!------------------------------ TABLA -------------------------------------->
@@ -173,12 +178,12 @@
                   <tr>
                     <th>Clave</th>
                     <th style="width: 10%">Planta</th>
-                    <th >Descripción</th>
+                    <th>Descripción</th>
                     <th style="width: 10%">Ubicación</th>
                     <th style="width: 10%">Cantidad Anterior</th>
                     <th style="width: 10%">Cantidad ajustada</th>
                     <th style="width: 10%">Fecha Ajuste</th>
-                    <th style="width: 10%">Auditor</th>  
+                    <th style="width: 10%">Auditor</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -192,5 +197,78 @@
     </div>
 
 
+
+    <!--Modal Reporte rapido -->
+    <div class="modal fade " id="ReporteRapido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reporte rápido</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-condensed table-hover table-responsive tableFixHead" id="ResumenAuditoria">
+
+              <thead>
+                <tr>
+                  <th>Ubicación</th>
+                  <th>Última auditoria</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="Limpiar()">Cancelar</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="Ajuste()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script>
+      function ResumenAuditoria() {
+        $.ajax({
+          url: '/ResumenAuditoria/',
+          success: function (Herramientas) {
+            console.log(Herramientas)
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('ResumenAuditoria').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            var TotalHerramientas = Herramientas.length;
+            for (var i = 0; i < limite; i++) {
+              $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+            for (var i = 0; i < (TotalHerramientas-1); i++) {
+              var Ubicacion = Herramientas[i].Ubicacion;
+              var FechaAjuste;
+              if (Herramientas[i].fecha) {
+                FechaAjuste = moment(Herramientas[i].fecha).format('DD-MM-YYYY');
+              }else{
+                FechaAjuste = 'Sin registro'
+              }
+               
+              //Eliminar variable dentro del For
+              Arreglo = [Ubicacion, FechaAjuste];
+              // inserta una fila al final de la tabla
+              var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+              for (var x = 0; x < Arreglo.length; x++) {
+                // inserta una celda en el indice 0
+                var newCell = newRow.insertCell(x);
+                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                // adjuntar el texto al nodo
+                var newText = document.createTextNode(Arreglo[x]);
+                newCell.appendChild(newText);
+              } //fin de for de columnas
+            } //fin de for de filas
+          } //Funcion success
+        }); //Ajax 
+      }
+    </script>
 
 </body>

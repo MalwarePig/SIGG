@@ -3139,7 +3139,9 @@ Controller.MinCritico = (req, res) => {
             const {
                 parametros
             } = req.params;
-            conn.query("SELECT * FROM Almacen WHERE Stock <= StockMin order by almacen", (err, Herramientas) => {
+            const planta = "Almacen " + req.session.planta; 
+
+            conn.query("SELECT * FROM Almacen WHERE Stock <= StockMin and Almacen = '"+planta+"' order by almacen", (err, Herramientas) => {
                 if (err) {
                     res.json(err);
                     console.log('Error ListadoDespacho');
@@ -3908,6 +3910,93 @@ Controller.MostrarAuditoria = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+
+//Se registra una auditoria
+Controller.ResumenAuditoria = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+ 
+            const planta = req.session.planta; 
+            console.log(planta)
+            conn.query("call ResumenAuditoria('"+planta+"');", true, (err, rows, fields) => {
+                if (err) {
+                    console.log('Error al sp: ' + err);
+                    res.json(false);
+                }else{
+                    console.log(rows[0]);
+                    res.json(rows[0])
+                }
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.ConsultaArticulosNuevos = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Articulo
+            } = req.params;
+            console.log("con data")
+         
+            if(Articulo == '-'){
+                console.log("con data")
+                conn.query("select * from almacen order by FechaCreacion desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas);
+                });
+            }else{
+                console.log("sin data") 
+                conn.query("select * from almacen where Clave like '%"+Articulo+"%' order by FechaCreacion desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura');
+                    }
+                    res.json(Herramientas);
+                });
+            }
+            
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.BuscarHerramienta = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Herra
+            } = req.params; 
+            var Herramienta = TranformerReporte(Herra.split('|')[0]); 
+            const planta = "Almacen " + req.session.planta; 
+            conn.query("SELECT * FROM almacen WHERE producto = '" + Herramienta + "' AND Almacen = '" + planta + "'", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                console.log("Herramienta a buscar: "+Herramienta);
+                console.log(Herramientas);
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 
 module.exports = Controller;
 

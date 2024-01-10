@@ -153,3 +153,85 @@ select * from itemretorno
 select * from  itemprestado
 
 
+-------------------------
+ 
+ 
+DROP PROCEDURE IF EXISTS SPPruebas;
+
+DELIMITER //
+CREATE  PROCEDURE SPPruebas(IN inPlanta varchar(200))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+drop table ListaUbicaciones;
+drop table ResumenAuditoria;
+CREATE TEMPORARY TABLE ListaUbicaciones as select distinct Ubicacion from gavetas where Planta = 'Morelos' order by Ubicacion desc;/*clonar lista de ubicaciones a temporal*/
+CREATE TEMPORARY TABLE ResumenAuditoria(
+      id int,
+      Ubicacion varchar(255) DEFAULT NULL,
+      fecha datetime DEFAULT NULL,
+      primary key(id)
+    );
+
+SET @cantidad = 0;
+SET @cantidad = (select count(*) from ListaUbicaciones);
+    while @cantidad > 0 do
+     SET @cantidad = (select count(*) from ListaUbicaciones);
+        SET @Ubicacion = (select Ubicacion from ListaUbicaciones order by Ubicacion limit 1); /*Ubicacion actual*/
+        /*Obtener fecha de ultima */
+        
+        delete from ListaUbicaciones where Ubicacion = @Ubicacion;
+       select @Ubicacion, count(*) from ListaUbicaciones;
+     end while;
+END;
+
+call SPPruebas('Morelos');
+ 
+ select * from gavetas  
+ update gavetas set ubicacion = '-' where ubicacion = ''
+ 
+/************************************************************************************************************************************************************************************/ 
+ 
+DROP PROCEDURE IF EXISTS SPPruebas;
+
+DELIMITER //
+CREATE  PROCEDURE SPPruebas(IN inPlanta varchar(200))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+drop table ListaUbicaciones;
+drop table ResumenAuditoria;
+CREATE TEMPORARY TABLE ListaUbicaciones as select distinct Ubicacion from gavetas where Planta = 'Morelos' order by Ubicacion desc;/*clonar lista de ubicaciones a temporal*/
+CREATE TEMPORARY TABLE ResumenAuditoria(
+      id int,
+      Ubicacion varchar(255) DEFAULT NULL,
+      fecha datetime DEFAULT NULL,
+      primary key(id)
+    );
+
+SET @cantidad = 0;
+SET @Fecha='';
+SET @cantidad = (select count(*) from ListaUbicaciones);
+    while @cantidad > 0 do
+     SET @cantidad = (select count(*) from ListaUbicaciones);
+        SET @Ubicacion = (select Ubicacion from ListaUbicaciones order by Ubicacion limit 1); /*Ubicacion actual*/
+        /*Obtener fecha de ultima */
+        SELECT * FROM auditoriagavetas WHERE Ubicacion = @Ubicacion AND FechaAjuste = (SELECT MAX(FechaAjuste) from auditoriagavetas);
+
+        delete from ListaUbicaciones where Ubicacion = @Ubicacion;
+       /*select @Ubicacion, count(*) from ListaUbicaciones;*/
+     end while;
+END;
+
+call SPPruebas('Morelos');
+ 
+ select * from gavetas  
+ update gavetas set ubicacion = '-' where ubicacion = ''
+ 
+ 
+ 
+ 
+ SET @Fecha = CURDATE();
+ @Fecha := (SELECT * FROM auditoriagavetas WHERE Ubicacion = 'CAJA a' AND FechaAjuste = (SELECT MAX(FechaAjuste) from auditoriagavetas));
+
+
+
+/************************************************************************************************************************************************************************************/

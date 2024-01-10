@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+
+        <script type="text/javascript" src="js/Almacen/ReporteArtNuevo/Reporte.js"></script>
+</head>
+
+<body onload="Familias()">
+    <%- include ('../partials/navegacion.html') %>
+        <!------incluir navegacion Menu----->
+
+        <div class="card text-center">
+            <div class="card-header">
+                <!------------------------------ BUSCAR -------------------------------------->
+                <div class="d-flex flex-row justify-content-center ">
+                    <div class="p-2 bd-highlight">
+                        <label for="Planta" class="col-form-label">Clave / Descripción:</label>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
+                            name="BHerramienta" autocomplete="off" onkeypress="runScript(event)" autofocus="autofocus">
+                    </div>
+                    <div class="p-2 align-self-center">
+                        <button type="button" class="btn btn-dark btn-sm" data_but="btn-xs" onclick="GETPRODUCTS()"><i
+                                class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!------------------------------ TABLA -------------------------------------->
+                <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded"
+                    style="width:96%; height:490px; overflow: scroll;">
+                    <table class="table table-condensed table-hover" id="Herr_Encontradas">
+                        <thead>
+                            <tr>
+                                <th>Fecha alta</th>
+                                <th>Usuario</th>
+                                <th>Descripción</th>
+                                <th>Clave</th>
+                                <th>Planta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ModalExito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Correcto!</h5>
+
+                    </div>
+                    <div class="modal-body">
+                        Se creo despacho con exito!
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
+            function GETPRODUCTS() {
+                var Herramientas = document.getElementById("BHerramienta").value || "-";
+                console.log
+                $.ajax({
+                    url: '/ConsultaArticulosNuevos/' + Herramientas,
+                    success: function (Herramientas) {
+                        var Arreglo = [];
+                        //Limpiar tabla 
+                        var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+                        var limite = TablaAlmacen.rows.length;
+                        for (var i = 0; i < limite; i++) {
+                            $("#Rows").remove(); //elimina los elementos con id Rows
+                        }
+                        if (Herramientas.length == 0) {
+                            $("#Vacio").modal();
+                        }
+                        for (var i = 0; i < Herramientas.length; i++) {
+                            var FechaCreacion;
+                            if (Herramientas[i].FechaCreacion) {
+                                FechaCreacion = moment(Herramientas[i].FechaCreacion).format('DD-MM-YYYY');
+                            } else {
+                                FechaCreacion = 'Sin registro'
+                            }
+
+                            var Creador = Herramientas[i].Creador || 'Sin registro';
+                            var Producto = Herramientas[i].Producto;
+                            var Clave = Herramientas[i].Clave;
+                            var Almacen = Herramientas[i].Almacen;
+                            //Eliminar variable dentro del For
+                            Arreglo = [FechaCreacion, Creador, Producto, Clave, Almacen]
+                            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+                            // inserta una fila al final de la tabla
+                            var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                            for (var x = 0; x < Arreglo.length; x++) {
+                                // inserta una celda en el indice 0
+                                var newCell = newRow.insertCell(x);
+                                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                                // adjuntar el texto al nodo
+                                var newText = document.createTextNode(Arreglo[x]);
+                                newCell.appendChild(newText);
+
+                            } //fin de for de columnas
+                        } //fin de for de filas
+                    } //Funcion success
+                }); //Ajax
+            } //Evento clic 
+        </script>
+</body>
