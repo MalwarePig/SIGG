@@ -1376,6 +1376,19 @@ router.get('/ConsultaArticulosNuevos/:Articulo', AlmacenController.ConsultaArtic
 
 router.get('/BuscarHerramienta/:Herra', AlmacenController.BuscarHerramienta);
 
+//====== Reporte Herramienta ========
+//Abre pagina principal para requerir
+router.get('/wh_ConsumoBasico', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/ConsumoBasico/wh_ReporteArticulo.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+router.get('/ReporteConsumoBasico/:Herramienta', AlmacenController.ReporteConsumoBasico);
 
 module.exports = router;
 

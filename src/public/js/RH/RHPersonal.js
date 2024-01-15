@@ -295,6 +295,7 @@ function PrepararEnvio() {
 
 var PersonalSucces = [];
 //=========================================== Guardar elementos de la nota =================================================//
+//Recolecta la lista de empleados seleccionados par aenvío
 function RecolectarCandidatos() {
     if (document.getElementById("Semana").value == "") {
         alert("Campo de semana vacio o invalido")
@@ -325,15 +326,16 @@ function RecolectarCandidatos() {
 var Indice = 0;
 var TotalCorreos;
 
+//Se prepara para el envio de los correos con un array ya preparado
 function EnviarCorreo() {
     TotalCorreos = PersonalSucces.length
     console.table(PersonalSucces)
     document.getElementById("Estado").value = "Enviando...";
-    var intervalor = setInterval(function () {
+    var intervalor = setInterval(function () {//se comienza el envio
         console.log("TotalCorreos : " + TotalCorreos)
-        if (Indice < TotalCorreos) {
+        if (Indice < TotalCorreos) {//se comprueba que se envien el total de elementos
 
-            if (Indice % 20 == 0 && Indice != 0) {
+            if (Indice % 20 == 0 && Indice != 0) {//se evalua que sea primera tanda de 20
                 document.getElementById("Estado").value = "Pausando servicios...";
                 console.log("Pausando servicios");
                 clearInterval(intervalor);
@@ -342,9 +344,9 @@ function EnviarCorreo() {
                     console.log("Reanudando");
 
                     console.log("Enviando tmb: " + Indice);
-                    EjecutarEnvio();
+                    EjecutarEnvio();//se reinicia el time
                     EnviarCorreo();
-                }, 180000);
+                }, 180000);//se ejecuta cada 3 minutos
                 console.log(Indice)
             } else {
                 console.log("else: " + Indice)
@@ -355,7 +357,7 @@ function EnviarCorreo() {
             clearInterval(intervalor);
             alert("Termino!")
         }
-    }, 8000);
+    }, 9000);//se ejecuta cada 9 segundos
 }
 
 function EjecutarEnvio() {

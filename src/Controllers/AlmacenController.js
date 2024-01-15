@@ -3821,7 +3821,7 @@ Controller.BuscarHerramientasUbicacion = (req, res) => {
                 Ubicacion
             } = req.params;
          
-            const planta = "Almacen " + req.session.planta;
+            const planta = req.session.planta;
             const area = req.session.area;
 
             if (area == 'Admin') {
@@ -3834,7 +3834,7 @@ Controller.BuscarHerramientasUbicacion = (req, res) => {
                     res.json(Herramientas);
                 });
             } else {
-                conn.query("SELECT * FROM gavetas where ubicacion = '"+Ubicacion+"' AND Almacen = '" + planta + "'", (err, Herramientas) => {
+                conn.query("SELECT * FROM gavetas where ubicacion = '"+Ubicacion+"' AND Planta = '" + planta + "'", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
@@ -3996,6 +3996,56 @@ Controller.BuscarHerramienta = (req, res) => {
         res.render('Admin/Login.html');
     }
 };
+
+
+
+//============================================================================================================================================================================================================================================
+///////// == REPORTE Herramienta == ////////////////////////////// == REPORTE Herramienta == ////////////////////////////// == REPORTE Herramienta == ////////////////////////// == REPORTE Herramienta == //////////////////// == REPORTE Herramienta == ///////////////////// == REPORTE == ////////////
+//============================================================================================================================================================================================================================================
+
+Controller.ReporteConsumoBasico = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                Herramienta
+            } = req.params;
+
+            var Articulo = TranformerReporte(Herramienta.split('|')[0]);
+            var fechaInicio = Herramienta.split('|')[1]; // Fecha inicial
+            var fechafin = Herramienta.split('|')[2]; // Fecha limite
+            var Almacen = Herramienta.split('|')[3]; // Fecha limite
+
+            console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+
+            if (fechaInicio == null || fechaInicio == '') {
+                console.log("sin fecha ")
+                conn.query("SELECT * FROM itemprestado WHERE (Producto like '%" + Articulo + "%' OR OT = '" + Articulo + "') AND Almacen = '" + Almacen + "' ORDER BY Salida Desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json(Herramientas)
+                });
+            } else {
+                console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+                conn.query("SELECT SUM(Utilizado) AS Total,Producto FROM itemprestado  where (Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by Producto;", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    console.log(Herramientas);
+                    res.json(Herramientas)
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+
 
 
 module.exports = Controller;

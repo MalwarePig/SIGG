@@ -97,7 +97,7 @@ function MostrarReporteHerramienta() {
                     var Maquina = Herramientas[i].Maquina;
                     var Empleado = Herramientas[i].Empleado;
                     var Almacen = Herramientas[i].Almacen;
-                    var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY HH:MM');
+                    var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY');
 
                     //Eliminar variable dentro del For
                     Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha];

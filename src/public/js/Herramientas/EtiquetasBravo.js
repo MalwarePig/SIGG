@@ -79,7 +79,7 @@ function PDF() {
     doc.setFontType("bold");
     doc.text("Serie: ", 230, 220);
     doc.setFontType("normal");
-    doc.text(document.getElementById("Parte").value, 280, 220);
+    doc.text(document.getElementById("Serie").value, 280, 220);
 
     doc.setFontType("bold");
     doc.text("Descripción: ", 10, 245);

@@ -198,6 +198,10 @@ Controller.EnviarNomina = (req, res) => {
                             user: "recibos@gemak.com.mx", // generated ethereal user
                             pass: "=B]BzvvOB8}d", // generated ethereal password
                         },
+                        tls: {
+                          // do not fail on invalid certs
+                          rejectUnauthorized: false,
+                        },
                     });
                     var NombrePDF = Planta + '-' + Curp + '-' + Nomina.substr(1) + '-' + Semana + '.pdf';
                     var NombreXML = Planta + '-' + Curp + '-' + Nomina.substr(1) + '-' + Semana + '.xml';
@@ -207,10 +211,11 @@ Controller.EnviarNomina = (req, res) => {
                     // send mail with defined transport object
                     try {
                         if (fs.accessSync(rutaPDF) && fs.accessSync(rutaXML)) {
-                            console.log("Archivo existe")
+                            console.log("Ruta no existe: "+NomRuta)
+                            console.log("Archivo existe: "+NombrePDF)
                         }
                     } catch (e) {
-                        console.log("Archivo no existe");
+                        console.log("Archivo no existe"); 
                         res.json(false)
                     }
 
@@ -235,6 +240,7 @@ Controller.EnviarNomina = (req, res) => {
                     try {
                         fs.unlinkSync(rutaPDF)
                         fs.unlinkSync(rutaXML)
+                        console.log('Intento de borrado de los archivos')
                         console.log('File removed')
                     } catch (err) {
                         console.error('Something wrong happened removing the file', err)
