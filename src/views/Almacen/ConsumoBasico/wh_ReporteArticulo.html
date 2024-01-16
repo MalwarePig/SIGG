@@ -18,7 +18,7 @@
         <!-- GENERAR EXCEL -->
         <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-        <script type="text/javascript" src="js/Almacen/Reporte.js"></script>
+        <script type="text/javascript" src="js/Almacen/ConsumoBasico/Reporte.js"></script>
 </head>
 
 <body>
@@ -29,11 +29,11 @@
             <div class="card-header">
                 <!------------------------------ BUSCAR -------------------------------------->
                 <div class="form-row">
-                    <div class="form-group col-md-2">
+                   <!--  <div class="form-group col-md-2">
                         <label for="inputAddress2" class="font-weight-bold">Herramienta / OT</label>
                         <input required type="text" id="BHerramienta" class="form-control" name="BHerramienta"
                             autocomplete="off">
-                    </div>
+                    </div> -->
 
                     <div class="form-group col-md-2">
                         <label for="inputAddress2" class="font-weight-bold">Fecha inicio</label>
@@ -57,11 +57,11 @@
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
                             onclick="MostrarReporteHerramienta()">Buscar</button>
                     </div>
-
+<!-- 
                     <div class="form-group col-md-1 p-4">
                         <button type="button" id="getProducts" name="getProducts" class="btn btn-info "
                             onclick="ExcelArticulo()">Exportar</button>
-                    </div>
+                    </div> -->
 
                 </div>
             </div> 
@@ -75,16 +75,21 @@
                 style="width:96%; height:650px; overflow: scroll;">
                 <table class="table table-condensed table-hover " id="TablaReporte">
                     <thead>
-                        <tr>
-                            <th>Folio</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Estado</th>
-                            <th>OT</th>
-                            <th>Maquina</th>
-                            <th>Empleado</th>
+                        <tr> 
+                            <th>Clave</th>
+                            <th>Familia</th>
                             <th>Almacen</th>
-                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Consumo</th>
+                            <th>Stock</th>
+                            <th>Min</th>
+                            <th>Max</th>
+                            <th>Usado</th>
+                            <th>Precio</th>
+                            <th>Moneda</th>
+                            <th>OC/Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Entrega</th> 
                         </tr>
                     </thead>
                     <tbody>

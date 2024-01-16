@@ -4002,7 +4002,6 @@ Controller.BuscarHerramienta = (req, res) => {
 //============================================================================================================================================================================================================================================
 ///////// == REPORTE Herramienta == ////////////////////////////// == REPORTE Herramienta == ////////////////////////////// == REPORTE Herramienta == ////////////////////////// == REPORTE Herramienta == //////////////////// == REPORTE Herramienta == ///////////////////// == REPORTE == ////////////
 //============================================================================================================================================================================================================================================
-
 Controller.ReporteConsumoBasico = (req, res) => {
     if (req.session.loggedin) {
         req.getConnection((err, conn) => {
@@ -4010,12 +4009,13 @@ Controller.ReporteConsumoBasico = (req, res) => {
                 Herramienta
             } = req.params;
 
-            var Articulo = TranformerReporte(Herramienta.split('|')[0]);
-            var fechaInicio = Herramienta.split('|')[1]; // Fecha inicial
-            var fechafin = Herramienta.split('|')[2]; // Fecha limite
-            var Almacen = Herramienta.split('|')[3]; // Fecha limite
+          /*   var Articulo = TranformerReporte(Herramienta.split('|')[0]); */
+            var fechaInicio = Herramienta.split('|')[0]; // Fecha inicial
+            var fechafin = Herramienta.split('|')[1]; // Fecha limite
+            var Planta = Herramienta.split('|')[2]; // Fecha limite
+            var Almacen = "Almacen " + Planta; // Fecha limite
 
-            console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+           // console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
 
             if (fechaInicio == null || fechaInicio == '') {
                 console.log("sin fecha ")
@@ -4027,8 +4027,8 @@ Controller.ReporteConsumoBasico = (req, res) => {
                     res.json(Herramientas)
                 });
             } else {
-                console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
-                conn.query("SELECT SUM(Utilizado) AS Total,Producto FROM itemprestado  where (Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by Producto;", (err, Herramientas) => {
+                console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+                conn.query("SELECT SUM(i.Utilizado) AS Total,i.Producto,a.Clave,a.Familia,a.Almacen,a.Stock,a.StockMin,a.StockMax,a.StockUsado,a.Precio,a.Moneda,a.OC, a.Proveedor,a.TiempoEntrega FROM itemprestado i INNER JOIN almacen a where (i.Producto = a.Producto) AND (i.Almacen = '"+Planta+"' AND a.Almacen = '"+Almacen+"') AND (i.Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by i.Producto;", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
