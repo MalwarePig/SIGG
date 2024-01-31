@@ -1331,13 +1331,6 @@ router.get('/HistorialReportesDanos/:parametros', AlmacenController.HistorialRep
 
 
 
-
-
-
-
-
-
-
 //============================== Gaveta Auditoria ==============================//
 router.get('/AuditoriaGaveta', (req, res) => {
 	if (req.session.loggedin) {
@@ -1411,3 +1404,7 @@ app.get('/', (req, res) => {
     res.render('index',{title: 'Gemak'});
 });
 */
+
+//IG0126 - CCMT 32.52-HM YBG202
+//GM65352 16-01-24
+

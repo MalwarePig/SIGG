@@ -23,19 +23,20 @@ function Ubicaciones() {
   }); //Ajax
 }
 
-
+var ConsultaPendiente;
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
   var variable = document.getElementById("Ubicacion").value; //Cambia el simbolo '/'
   $.ajax({
     url: '/BuscarHerramientasUbicacion/' + variable,
     success: function (Herramientas) {
+      ConsultaPendiente = Herramientas;
       var Arreglo = [];
       //Limpiar tabla 
       var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
       var limite = TablaAlmacen.rows.length;
       for (var i = 0; i < limite; i++) {
-        $("#Rows").remove(); //elimina los elementos con id Rows
+        $("#Rows"+i).remove(); //elimina los elementos con id Rows
       }
       if (Herramientas.length == 0) {
         $("#Vacio").modal();
@@ -57,7 +58,8 @@ function GETPRODUCTS() {
         for (var x = 0; x < Arreglo.length; x++) {
           // inserta una celda en el indice 0
           var newCell = newRow.insertCell(x);
-          newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado 
+          newRow.setAttribute("id", "Rows"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado 
+          newRow.setAttribute("name", Arreglo[4]); //se asigna id al incrementar cada fila +1 para contar el encabezado 
           switch (x) {
             case 0:
               newCell.innerHTML = '<input required type="text" id="id' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
@@ -260,4 +262,41 @@ function MostrarReporteHerramientaAdmin() {
 
 
 
- 
+function ResumenAuditoria() {
+  $.ajax({
+    url: '/ResumenAuditoria/',
+    success: function (Herramientas) {
+      console.log(Herramientas)
+      var Arreglo = [];
+      //Limpiar tabla 
+      var TablaAlmacen = document.getElementById('ResumenAuditoria').getElementsByTagName('tbody')[0];
+      var limite = TablaAlmacen.rows.length;
+      var TotalHerramientas = Herramientas.length;
+      for (var i = 0; i < limite; i++) {
+        $("#Rows").remove(); //elimina los elementos con id Rows
+      }
+      for (var i = 0; i < (TotalHerramientas-1); i++) {
+        var Ubicacion = Herramientas[i].Ubicacion;
+        var FechaAjuste;
+        if (Herramientas[i].fecha) {
+          FechaAjuste = moment(Herramientas[i].fecha).format('DD-MM-YYYY');
+        }else{
+          FechaAjuste = 'Sin registro'
+        }
+         
+        //Eliminar variable dentro del For
+        Arreglo = [Ubicacion, FechaAjuste];
+        // inserta una fila al final de la tabla
+        var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+        for (var x = 0; x < Arreglo.length; x++) {
+          // inserta una celda en el indice 0
+          var newCell = newRow.insertCell(x);
+          newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+          // adjuntar el texto al nodo
+          var newText = document.createTextNode(Arreglo[x]);
+          newCell.appendChild(newText);
+        } //fin de for de columnas
+      } //fin de for de filas
+    } //Funcion success
+  }); //Ajax 
+}

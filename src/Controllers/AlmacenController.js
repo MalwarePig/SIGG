@@ -1746,10 +1746,12 @@ Controller.searchAjuste = (req, res) => {
             const {
                 Herra
             } = req.params;
-            var Herramienta = Tranformer(Herra);
-            const planta = "Almacen " + req.session.planta;
+
+            var Herramienta = Tranformer(Herra.split('|')[0]); 
+            var planta = "Almacen " + Herra.split('|')[1]; // Fecha inicial
+ 
             console.log("Salida: " + Herramienta + " Planta: " + planta);
-            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave LIKE '%" + Herramienta + "%'", (err, Herramientas) => {
+            conn.query("SELECT * FROM almacen WHERE (producto LIKE '%" + Herramienta + "%' OR Clave LIKE '%" + Herramienta + "%') and Almacen = '"+planta+"'", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');

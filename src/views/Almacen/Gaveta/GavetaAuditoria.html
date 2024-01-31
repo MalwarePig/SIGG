@@ -46,6 +46,17 @@
               data-toggle="tooltip" data-placement="top" title="Última auditoria" data-bs-toggle="modal"
               data-bs-target="#ReporteRapido"><i class="fa-solid fa-file-circle-check"></i></button>
           </div>
+
+          <div class="p-2 align-self-center"><!-- Boton buscar -->
+            <button type="button" class="btn btn-danger btn-sm" data_but="btn-xs" onclick="MostrarResultado()"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+
+          <div class="p-2 bd-highlight">
+            <input type="text" class="form-control" id="Buscador" onchange="Filtrador()">
+          </div>
+
+
         </div>
       </div>
       <div class="card-body">
@@ -231,44 +242,50 @@
 
 
     <script>
-      function ResumenAuditoria() {
-        $.ajax({
-          url: '/ResumenAuditoria/',
-          success: function (Herramientas) {
-            console.log(Herramientas)
-            var Arreglo = [];
-            //Limpiar tabla 
-            var TablaAlmacen = document.getElementById('ResumenAuditoria').getElementsByTagName('tbody')[0];
-            var limite = TablaAlmacen.rows.length;
-            var TotalHerramientas = Herramientas.length;
-            for (var i = 0; i < limite; i++) {
-              $("#Rows").remove(); //elimina los elementos con id Rows
-            }
-            for (var i = 0; i < (TotalHerramientas-1); i++) {
-              var Ubicacion = Herramientas[i].Ubicacion;
-              var FechaAjuste;
-              if (Herramientas[i].fecha) {
-                FechaAjuste = moment(Herramientas[i].fecha).format('DD-MM-YYYY');
-              }else{
-                FechaAjuste = 'Sin registro'
-              }
-               
-              //Eliminar variable dentro del For
-              Arreglo = [Ubicacion, FechaAjuste];
-              // inserta una fila al final de la tabla
-              var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-              for (var x = 0; x < Arreglo.length; x++) {
-                // inserta una celda en el indice 0
-                var newCell = newRow.insertCell(x);
-                newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                // adjuntar el texto al nodo
-                var newText = document.createTextNode(Arreglo[x]);
-                newCell.appendChild(newText);
-              } //fin de for de columnas
-            } //fin de for de filas
-          } //Funcion success
-        }); //Ajax 
+
+
+      function MostrarResultado() {
+        var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+        var limite = TablaAlmacen.rows.length;
+        for (var i = 0; i < limite; i++) {
+
+          let Fila = document.getElementById("Rows" + i)
+          let nombreFila = Fila.getAttribute("name");
+          var filtro = document.getElementById("Buscador").value
+
+          if (nombreFila.includes(filtro)) {
+            miElemento.classList.remove("oculto");
+          } else { 
+            Fila.classList.add("oculto"); // Agrega la clase CSS para ocultar
+          }
+        }
       }
+
+
+      function Filtrador() {
+        var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+        var limite = TablaAlmacen.rows.length;
+        for (var i = 0; i < limite; i++) {
+
+          let Fila = document.getElementById("Rows" + i)
+          let nombreFila = Fila.getAttribute("name");
+          var filtro = document.getElementById("Buscador").value
+
+          if (nombreFila.includes(filtro)) {
+            Fila.classList.remove("oculto");
+          } else { 
+            Fila.classList.add("oculto"); // Agrega la clase CSS para ocultar
+          }
+        }
+      }
+
     </script>
+
+    <style>
+      /* Estilo para ocultar el elemento */
+      .oculto {
+        display: none;
+      }
+    </style>
 
 </body>
