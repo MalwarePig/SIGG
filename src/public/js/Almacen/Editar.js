@@ -1,8 +1,9 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
     var variable = Tranformer(document.getElementById("BHerramienta").value); //Cambia el simbolo '/'
+    var Planta = document.querySelector('input[name="inlineRadioOptions"]:checked').value; 
     $.ajax({
-        url: '/BuscarHerramientasAjuste/' + variable,
+        url: '/BuscarHerramientasAjuste/' + variable + '|' + Planta,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
