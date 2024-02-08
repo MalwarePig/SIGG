@@ -9,7 +9,7 @@
     </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%- include ('../partials/head.html') %>
+    <%- include ('../../partials/head.html') %>
         <!------incluir cabezera navegacion----->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
         <!-- GENERAR EXCEL -->
@@ -18,11 +18,11 @@
         <!-- GENERAR EXCEL -->
         <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-        <script type="text/javascript" src="js/Almacen/Reporte.js"></script>
+        <script type="text/javascript" src="js/Almacen/ReporteIngresos/ReporteIngresos.js"></script>
 </head>
 
 <body>
-    <%- include ('../partials/navegacion.html') %>
+    <%- include ('../../partials/navegacion.html') %>
         <!------incluir navegacion Menu----->
 
         <div class="card text-center">
@@ -84,7 +84,6 @@
                             <th>FechaSalida</th>
                             <th>OC</th>
                             <th>FechaOC</th>
-                            <th>FechaIngreso</th>
                         </tr>
                     </thead>
                     <tbody>

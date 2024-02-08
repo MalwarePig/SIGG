@@ -314,6 +314,8 @@ router.get('/EliminarRecepcion/:id', AlmacenController.EliminarRecepcion);
 
 //============================== Almacen Aajuste ==============================//
 router.get('/BuscarHerramientasAjuste/:Herra', AlmacenController.searchAjuste);
+//============================== Almacen Editar ==============================//
+router.get('/BuscarHerramientasEditar/:Herra', AlmacenController.BuscarAlmacenEditar);
 
 //============================== Almacen  ==============================//
 //====== Tornilleria ========
@@ -578,7 +580,7 @@ router.get('/AjusteInventario', (req, res) => {
 
 //====== Ajuste Inventario Basico ========
 //Abre pagina principal para editar
-router.get('/wh_AjusteBasico', (req, res) => {
+router.get('/wh_Ingresos', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Almacen/AjusteBasico/AjusteBasico.html', {
 			title: 'Gemak'
@@ -1382,6 +1384,18 @@ router.get('/wh_ConsumoBasico', (req, res) => {
 });
 
 router.get('/ReporteConsumoBasico/:Herramienta', AlmacenController.ReporteConsumoBasico);
+
+//Abre pagina principal para requerir
+router.get('/wh_ReporteIngresos', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/ReporteIngresos/wh_ReporteIngresos.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
 
 module.exports = router;
 

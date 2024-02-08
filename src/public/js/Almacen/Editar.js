@@ -1,9 +1,9 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
     var variable = Tranformer(document.getElementById("BHerramienta").value); //Cambia el simbolo '/'
-    var Planta = document.querySelector('input[name="inlineRadioOptions"]:checked').value; 
+    //var Planta = document.querySelector('input[name="inlineRadioOptions"]:checked').value; 
     $.ajax({
-        url: '/BuscarHerramientasAjuste/' + variable + '|' + Planta,
+        url: '/BuscarHerramientasEditar/' + variable,
         success: function (Herramientas) {
             var Arreglo = [];
             //Limpiar tabla 
@@ -25,7 +25,7 @@ function GETPRODUCTS() {
                 var ProveedorSec = Herramientas[i].ProveedorSec || '-';
                 var Familia = Herramientas[i].Familia || '-';
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Ubicacion, Proveedor, ProveedorSec,Familia]
+                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Ubicacion, Proveedor, ProveedorSec, Familia]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -75,7 +75,7 @@ function GETPRODUCTS() {
                     }
                     if (x == 8) { //Si termina de registrar datos crear el boton
                         var newCell = newRow.insertCell(9); //CREAR CELDA
-                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Actualizar </button>';
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> <i class="fa-solid fa-pen-to-square"></i></button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -120,7 +120,11 @@ function Seleccion(variable) {
         function (objeto, estatus) { // success callback
             if (objeto == true) {
                 //alert("Cambios realizados")
-                $("#Cambios").modal();
+                GETPRODUCTS()
+
+                var miModal = new bootstrap.Modal(document.getElementById('Cambios'));
+                miModal.show();
+                //$("#Cambios").modal();
             }
         });
 }
@@ -188,7 +192,7 @@ function CargarProveedorSec(indice) {
 
 //=========================================== BUSCAR MAQUINAS POR TIPO DE FAMILIA =================================================//
 function CargarFamilias(indice) {
-    var listMaquina = document.getElementById("Familia"+indice);
+    var listMaquina = document.getElementById("Familia" + indice);
     $.ajax({
         url: '/ListaFamilias/',
         success: function (maquinas) {

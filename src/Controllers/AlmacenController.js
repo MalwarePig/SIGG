@@ -880,7 +880,7 @@ Controller.EditarProducto = (req, res) => {
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + ", Familia = '" + Familia + "' WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + ", Familia = '" + Familia + "' WHERE Producto = '" + Producto+"'", (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
@@ -1124,24 +1124,26 @@ Controller.MostrarReporteHerramienta = (req, res) => {
 
             console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
 
+            //Reporte solo Articulo sin fecha
             if (fechaInicio == null || fechaInicio == '') {
                 console.log("sin fecha ")
-                conn.query("SELECT * FROM itemprestado WHERE (Producto like '%" + Articulo + "%' OR OT = '" + Articulo + "') AND Almacen = '" + Almacen + "' ORDER BY Salida Desc", (err, Herramientas) => {
-                    if (err) {
-                        res.json("Error json: " + err);
-                        console.log('Error de lectura' + err);
-                    }
-                    res.json(Herramientas)
-                });
-            } else {
+                conn.query("call HerramientaOT('"+Articulo+"','"+Almacen+"')", true, (err, rows, fields) => {
+                        if (err) {
+                            res.json(err);
+                            console.log('Error al actualizar' + err);
+                        } else {
+                            res.json(rows[0])
+                        }
+                    });
+            } else {//Reporte Articulo Con fecha
                 console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
-                conn.query("SELECT * FROM itemprestado WHERE (Producto like '%" + Articulo + "%' OR OT = '" + Articulo + "') AND Almacen = '" + Almacen + "' AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc", (err, Herramientas) => {
+                conn.query("call HerramientaOTFecha('"+Articulo+"','"+Almacen+"','"+fechaInicio+"','"+fechafin+"')", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
                     }
-                    console.log(Herramientas);
-                    res.json(Herramientas)
+                    console.log(Herramientas.length);
+                    res.json(Herramientas[0])
                 });
             }
 
@@ -1765,6 +1767,33 @@ Controller.searchAjuste = (req, res) => {
 };
 
 
+///////// == AJUSTE == ////////////////////////////// == AJUSTE == ////////////////////////////// == AJUSTE == ////////////////////////// == AJUSTE == //////////////////// == AJUSTE == ///////////////////// == AJUSTE == ///////////////////////////////////////////////////////////////
+Controller.BuscarAlmacenEditar = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Herra
+            } = req.params;
+
+          
+            var Herramienta = Tranformer(Herra);   
+            console.log(Herramienta)
+            conn.query("SELECT * FROM almacen WHERE producto LIKE '%" + Herramienta + "%' OR Clave LIKE '%" + Herramienta + "%' order by Producto,almacen", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
 
 //=====================================================================================================================================================================================
 ///////// == Existencia == ////////////////////////////// == Existencia == ////////////////////////////// == Existencia == ////////////////////////// == Existencia == ////////////////
@@ -2376,14 +2405,14 @@ Controller.AjusteBasico = (req, res) => {
         req.getConnection((err, conn) => {
             const data = req.body;
             var id = Object.values(data)[0].indice;
-            var Cantidad = Object.values(data)[0].Cantidad;
+            var CantidadIngreso = Object.values(data)[0].Cantidad;
             var Nombre = Object.values(data)[0].Nombre;
             var CantidadAnterior = Object.values(data)[0].CantidadAnterior;
             var Producto = Object.values(data)[0].Producto;
             var Planta = Object.values(data)[0].Planta;
-            console.log(id + " - " + Cantidad + Nombre + CantidadAnterior + Producto + Planta)
+            console.log(id + " - " + CantidadIngreso + Nombre + CantidadAnterior + Producto + Planta)
 
-            conn.query("call AjusteBasico(" + id + ",'" + Producto + "','" + Planta + "','" + Nombre + "'," + Cantidad + "," + CantidadAnterior + ")", true, (err, rows, fields) => {
+            conn.query("call AjusteBasico(" + id + ",'" + Producto + "','" + Planta + "','" + Nombre + "'," + CantidadIngreso + "," + CantidadAnterior + ")", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);

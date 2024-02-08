@@ -91,7 +91,7 @@ function ModalEficiencia(fila) {
     document.getElementById("Mod_Clave").value = Clave;
     document.getElementById("Mod_Producto").value = Producto;
     document.getElementById("Mod_Almacen").value = Planta;
-    document.getElementById("Mod_Cantidad").value = Cantidad;
+    document.getElementById("Mod_Cantidad").value = 0;
     document.getElementById("Mod_indice").value = indice;
     localStorage.setItem("CantidadAnterior", Cantidad);
 
@@ -116,38 +116,35 @@ function AbrirHistorial() {
 function ActualizarCantidad() {
 
     let CantidadAnterior = localStorage.getItem("CantidadAnterior")
-
-    if (parseInt(document.getElementById("Mod_Cantidad").value) <= parseInt(CantidadAnterior)) {
-        alert("No se permite menor cantidad");
-    } else {
-
-        var ObjetoTabla = {
-            Clave: document.getElementById("Mod_Clave").value,
-            Producto: document.getElementById("Mod_Producto").value,
-            Planta: localStorage.getItem("PlantaGeneral"),
-            Cantidad: document.getElementById("Mod_Cantidad").value,
-            indice: document.getElementById("Mod_indice").value,
-            Nombre: localStorage.getItem("Nombre"),
-            CantidadAnterior: CantidadAnterior
-        }
-        console.table(ObjetoTabla);
-        $.post("/AjusteBasico", // url
-            {
-                ObjetoTabla
-            }, // data to be submit
-            function (objeto, estatus) { // success callback
-                //console.log("objeto: " + objeto + "Estatus: " + estatus);
-            });
-
-        $('#FormularioAjuste')[0].reset();
-        
-        var myModal = new bootstrap.Modal(document.getElementById('ModalEficiencia'), {
-            keyboard: false
-        })
-        myModal.show()
-       // $('#ModalEficiencia').modal('toggle');
-        GETPRODUCTS();
+    var ObjetoTabla = {
+        Clave: document.getElementById("Mod_Clave").value,
+        Producto: document.getElementById("Mod_Producto").value,
+        Planta: localStorage.getItem("PlantaGeneral"),
+        Cantidad: document.getElementById("Mod_Cantidad").value,
+        indice: document.getElementById("Mod_indice").value,
+        Nombre: localStorage.getItem("Nombre"),
+        CantidadAnterior: CantidadAnterior
     }
+    console.table(ObjetoTabla);
+    $.post("/AjusteBasico", // url
+        {
+            ObjetoTabla
+        }, // data to be submit
+        function (objeto, estatus) { // success callback
+            if(objeto == true){
+                var myModal = new bootstrap.Modal(document.getElementById('Cambios'), {
+                    keyboard: false
+                })
+                myModal.show()
+                GETPRODUCTS()
+            }else{
+                alert("Ha ocurrido algun error!")
+                GETPRODUCTS();
+            }
+            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+        });
+    $('#FormularioAjuste')[0].reset(); 
+    
 }
 
 
@@ -174,7 +171,7 @@ function MostrarReporteAjusteBasico() {
                     var total = Herramientas.length //Total de filas 
                     var sheet_1_data = [];
 
-                    sheet_1_data[0] = ["Responsable", "Producto","Planta", "Cantidad Actual", "Cantidad Anterior", "Fecha de ajuste"]
+                    sheet_1_data[0] = ["Responsable", "Producto", "Planta", "Cantidad Actual", "Cantidad Anterior", "Fecha de ajuste"]
                     for (var j = 0; j < total; j++) { //filas
                         //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
 
@@ -184,7 +181,7 @@ function MostrarReporteAjusteBasico() {
                         var Actual = Herramientas[j].CantidadActual;
                         var Anterior = Herramientas[j].CantidadAnterior;
                         var Fecha = moment(Herramientas[j].FechaAjuste).format('DD-MM-YYYY');
-                        var Fila = [Responsable, Producto,Planta, Actual, Anterior, Fecha]
+                        var Fila = [Responsable, Producto, Planta, Actual, Anterior, Fecha]
                         sheet_1_data.push(Fila);
                     } //fin filas
 

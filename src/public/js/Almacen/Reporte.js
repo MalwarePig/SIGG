@@ -80,6 +80,7 @@ function MostrarReporteHerramienta() {
         $.ajax({
             url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
             success: function (Herramientas) {
+                console.log(Herramientas)
                 var Arreglo = [];
                 //Limpiar tabla 
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
@@ -91,16 +92,19 @@ function MostrarReporteHerramienta() {
                 for (var i = 0; i < TotalHerramientas; i++) {
                     var Folio = Herramientas[i].Folio;
                     var Producto = Herramientas[i].Producto;
-                    var Cantidad =  Herramientas[i].Entregado.toString() || Herramientas[i].Cantidad;
+                    var Cantidad =  Herramientas[i].Entregado || Herramientas[i].Cantidad;
                     var Estado = Herramientas[i].Estado;
                     var OT = Herramientas[i].OT || "-";
                     var Maquina = Herramientas[i].Maquina;
                     var Empleado = Herramientas[i].Empleado;
-                    var Almacen = Herramientas[i].Almacen;
+                    var Almacen = Herramientas[i].Almacen; 
                     var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY');
+                    var OC = Herramientas[i].OC;
+                    var FechaRegistro = moment(Herramientas[i].FechaRegistro).format('DD-MM-YYYY');
+                    var FechaIngreso = moment(Herramientas[i].FechaIngreso).format('DD-MM-YYYY');
 
                     //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha];
+                    Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha,OC,FechaRegistro,FechaIngreso];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                     for (var x = 0; x < Arreglo.length; x++) {
@@ -114,7 +118,6 @@ function MostrarReporteHerramienta() {
                 } //fin de for de filas
             } //Funcion success
         }); //Ajax 
-
 }
 
 function MostrarReporteHerramientaAdmin() {

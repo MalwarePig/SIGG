@@ -557,45 +557,77 @@ END
 CREATE PROCEDURE `CargaCapturasPorEntregarTI`()
 BEGIN
  SELECT  T.FechaRegistro,T.Usuario, T.OT, T.PN, T.Articulo,T.Cantidad AS inicial, N.Cantidad AS final, N.Aprobado, N.Entregado, N.FechaEntrega,N.idtrabajoIn FROM trabajosin T, SalidaTrabajoIn N WHERE T.Cantidad > 0 AND T.id = N.idtrabajoIn ORDER BY N.FechaEntrega ASC;
-END
+END;
 
- 
-call CargaCapturasEntregadoTI('0000');
+  /*************************************************************************************************************************************************************/
+ DELIMITER //
+ CREATE PROCEDURE AjusteBasico(IN param_id int,IN param_Producto varchar(200), IN param_Planta varchar(200), IN param_Nombre varchar(200),IN param_Cantidad int, IN param_CantidadAnterior INT)
+	BEGIN
+		
+        SET @CantidadActual = (select stock from almacen WHERE id = param_id) + param_Cantidad;
+		select @CantidadActual;
+		UPDATE almacen SET Stock = @CantidadActual WHERE id = param_id;
 
-call CargaCapturasPorEntregarTI();
+		insert into AjustebasicoAlmacen(Producto,Responsable,Planta,CantidadAnterior,CantidadActual,CantIngreso)values(param_Producto,param_Nombre,param_Planta,param_CantidadAnterior,@CantidadActual,param_Cantidad);
 
-SELECT * FROM trabajosin ORDER BY  Entregado ASC,Cantidad DESC
-
-SELECT * FROM trabajosin;
-SELECT * FROM salidatrabajoin;
-
-SELECT * FROM notatrabajoin;
-
-TRUNCATE TABLE trabajosin;
-TRUNCATE TABLE NotaTrabajoIn;
-TRUNCATE TABLE salidatrabajoin;
-
-SET @Condicion := '0000';
-SELECT  T.FechaRegistro,T.Usuario, T.OT, T.PN, T.Articulo, N.Cantidad, N.Aprobado, N.Entregado, N.FechaEntrega,N.idtrabajoIn FROM trabajosin T, SalidaTrabajoIn N WHERE T.OT = @Condicion OR T.PN = @Condicion OR T.Articulo = @Condicion AND T.id = N.idtrabajoIn ORDER BY N.FechaEntrega ASC;
+	END;
+	  
+	 DROP PROCEDURE IF EXISTS AjusteBasico
  
  
+ select * from almacen where producto = 'Prueba'
  
- 
-SELECT  T.FechaRegistro,T.Usuario, T.OT, T.PN, T.Articulo, N.Cantidad, N.Aprobado, N.Entregado, N.FechaEntrega,N.idtrabajoIn FROM trabajosin T, SalidaTrabajoIn N WHERE T.Cantidad <= 0 AND T.id = N.idtrabajoIn ORDER BY N.FechaEntrega ASC;
 
+select * from AjustebasicoAlmacen
 
-
-SELECT  T.FechaRegistro,T.Usuario, T.OT, T.PN, T.Articulo, N.Cantidad, N.Aprobado, N.Entregado, N.FechaEntrega,N.idtrabajoIn FROM trabajosin T, SalidaTrabajoIn N WHERE T.Cantidad > 0 AND T.id = N.idtrabajoIn ORDER BY N.FechaEntrega ASC;
-
+UPDATE almacen SET stock = 0 WHERE id = 7021
  
   
  
+ SET @CantidadActual = (select stock from almacen WHERE id = 1984) + 5;
+		select @CantidadActual
  
+ /********************************************************************************************/
+ DELIMITER //
+CREATE  PROCEDURE HerramientaOT (IN ProductoOT varchar(200),IN Planta varchar(200))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+
+	/*OC Y FECHA DE LA TABLA OC*/
+   SET @OC = (select OC FROM ordencompra WHERE Producto = ProductoOT order by id desc limit 1);
+   SET @FechaRegistro = (SELECT FechaRegistro FROM ordencompra WHERE Producto = ProductoOT order by id desc limit 1);
+   	/*FECHA DE INGRESO DE PRODUCTOS A ALMACEN POR AJUSTEBASICO O INGRESOS*/
+   SET @FechaIngreso = (SELECT FechaAjuste FROM AjustebasicoAlmacen WHERE Producto = ProductoOT order by id desc limit 1);
+   SELECT *,  CONCAT(@OC) AS OC,CONCAT(@FechaRegistro) AS FechaRegistro,CONCAT(@FechaIngreso) AS FechaIngreso  FROM itemprestado WHERE (Producto like ProductoOT OR OT = ProductoOT) AND Almacen = Planta ORDER BY Salida Desc limit 1000;
+      
+END;
+
+DROP PROCEDURE IF EXISTS HerramientaOT;
+ /********************************************************************************************/
+ 
+ DELIMITER //
+CREATE PROCEDURE HerramientaOTFecha (IN ProductoOT varchar(200),IN Planta varchar(200),IN Inicio varchar(200),IN Fin varchar(200))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+
+	/*OC Y FECHA DE LA TABLA OC*/
+   SET @OC = (select OC FROM ordencompra WHERE Producto = ProductoOT order by id desc limit 1);
+   SET @FechaRegistro = (SELECT FechaRegistro FROM ordencompra WHERE Producto = ProductoOT order by id desc limit 1);
+   	/*FECHA DE INGRESO DE PRODUCTOS A ALMACEN POR AJUSTEBASICO O INGRESOS*/
+   SET @FechaIngreso = (SELECT FechaAjuste FROM AjustebasicoAlmacen WHERE Producto = ProductoOT order by id desc limit 1);
+   SELECT *,  CONCAT(@OC) AS OC,CONCAT(@FechaRegistro) AS FechaRegistro,CONCAT(@FechaIngreso) AS FechaIngreso  FROM itemprestado WHERE (Producto like ProductoOT OR OT = ProductoOT) AND Almacen = Planta AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc limit 2000;
+  
+END;
+
+DROP PROCEDURE IF EXISTS HerramientaOT;
+
+
+
+
+
  
  
  
  
 
- 
- 
-sigg
+  
