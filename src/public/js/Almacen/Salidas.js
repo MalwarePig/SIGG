@@ -403,3 +403,57 @@ function redireccionar() {
     var pagina = "/wh_Salidas";
     location.href = pagina;
 }
+
+
+function BuscarHerramientasOC() {
+    var Herramientas = Tranformer(document.getElementById("OCProducto").value);
+    $.ajax({
+        url: '/BuscarHerramientasOC/' + Herramientas,
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('TablaOC').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            for (var i = 0; i < limite; i++) {
+                $("#RowsOC").remove(); //elimina los elementos con id Rows
+            }
+            if (Herramientas.length == 0) {
+                $("#Vacio").modal();
+            }
+            for (var i = 0; i < Herramientas.length; i++) { 
+                var Producto = Herramientas[i].Producto;
+                var OC = Herramientas[i].OC;
+                var FechaRegistro = moment(Herramientas[i].FechaRegistro).format('DD-MM-YYYY'); 
+                //Eliminar variable dentro del For
+                Arreglo = [Producto,OC,FechaRegistro]
+                var TablaAlmacen = document.getElementById('TablaOC').getElementsByTagName('tbody')[0];
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "RowsOC"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText); 
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax
+} //Evento clic
+
+
+function LimpiarOC(){
+    // Obtén la referencia de la tabla
+    var tabla = document.getElementById("TablaOC");
+
+    // Obtén la cantidad de filas en la tabla
+    var rowCount = tabla.rows.length;
+
+    // Itera a través de las filas y elimínalas una por una
+    for (var i = rowCount - 1; i > 0; i--) {
+        tabla.deleteRow(i);
+    }
+
+    document.getElementById("OCProducto").value = ''
+}

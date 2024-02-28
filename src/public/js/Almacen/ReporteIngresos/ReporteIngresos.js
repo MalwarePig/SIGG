@@ -1,4 +1,5 @@
-alert("hola")
+
+
 function MostrarReporteHerramienta() {
     var Herramienta = Transformer(document.getElementById("BHerramienta").value);
     var Almacen = document.getElementById("Almacen").value;
@@ -14,7 +15,7 @@ function MostrarReporteHerramienta() {
     }
     
         $.ajax({
-            url: '/TipoReporteHerramienta/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
+            url: '/ReporteHerramientaIngresos/' + Herramienta + '|' + fechaInicio + '|' + fechafin + '|' + Almacen,
             success: function (Herramientas) {
                 console.log(Herramientas)
                 var Arreglo = [];
@@ -26,20 +27,15 @@ function MostrarReporteHerramienta() {
                     $("#Rows").remove(); //elimina los elementos con id Rows
                 }
                 for (var i = 0; i < TotalHerramientas; i++) {
-                    var Folio = Herramientas[i].Folio;
                     var Producto = Herramientas[i].Producto;
-                    var Cantidad =  Herramientas[i].Entregado || Herramientas[i].Cantidad;
-                    var Estado = Herramientas[i].Estado;
-                    var OT = Herramientas[i].OT || "-";
-                    var Maquina = Herramientas[i].Maquina;
-                    var Empleado = Herramientas[i].Empleado;
-                    var Almacen = Herramientas[i].Almacen; 
-                    var Fecha = moment(Herramientas[i].Salida).format('DD-MM-YYYY');
-                    var OC = Herramientas[i].OC;
-                    var FechaRegistro = moment(Herramientas[i].FechaRegistro).format('DD-MM-YYYY');
-
+                    var Responsable = Herramientas[i].Responsable;
+                    var Planta = Herramientas[i].Planta;
+                    var CantidadAnterior =  Herramientas[i].CantidadAnterior;
+                    var CantIngreso = Herramientas[i].CantIngreso;
+                    var CantidadActual = Herramientas[i].CantidadActual; 
+                    var FechaAjuste = moment(Herramientas[i].FechaAjuste).format('DD-MM-YYYY HH:MM'); 
                     //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha,OC,FechaRegistro];
+                    Arreglo = [Producto,Responsable,Planta,CantidadAnterior,CantIngreso,CantidadActual,FechaAjuste];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                     for (var x = 0; x < Arreglo.length; x++) {
@@ -53,4 +49,47 @@ function MostrarReporteHerramienta() {
                 } //fin de for de filas
             } //Funcion success
         }); //Ajax 
+}
+
+//Intercambiar el diagonal por otro simbolo para no tener problemas con el url
+function Transformer(variable) {
+    var Herramienta = "";
+    for (var q = 0; q < variable.length; q++) {
+        if (variable.charAt(q) == '/') {
+            Herramienta += '@';
+        } else {
+            Herramienta += variable.charAt(q);
+        }
+    }
+    return Herramienta;
+}
+
+
+
+function ExcelReporte() {
+    var tabla = document.getElementById("TablaReporte");
+    var total = tabla.rows.length //Total de filas
+
+
+    var sheet_1_data = [];
+    for (var j = 0; j <= total - 1; j++) { //filas
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+
+        var Producto = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Responsable = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Planta = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Anterior = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var Ingreso = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var Ajuste = tabla.rows[j].cells[5].childNodes[0].nodeValue; 
+        var Fecha  = tabla.rows[j].cells[5].childNodes[0].nodeValue; 
+        
+        var Fila = [Producto,Responsable,Planta,Anterior,Ingreso,Ajuste,Fecha]
+        sheet_1_data.push(Fila);
+    } //fin filas
+
+    var opts = [{
+        sheetid: 'Hoja1',
+        header: true
+    }];
+    var result = alasql('SELECT * INTO XLSX("Rep_Ingresos_'+moment().format('L')+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }

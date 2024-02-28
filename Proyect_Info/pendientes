@@ -7,3 +7,16 @@ Esta pendientes:
 
 
  filtro por: descrpcion / clave (como los que haces que le puedes poner ambas cosas y otro filtro por operador (num de nomina)
+
+
+
+
+
+Checo 
+Crees que puedas generar un reporte donde puedas filtrar por fecha de OC, además de por producto / planta
+Que es la fecha que viene en la penúltima columna para que los almacenistas puedan ver los pedidos recientes, pero sin precio ni proveedor 
+Este reporte que es estoy mandando , es el que sacamos del modulo de administración, exitencias-almacen que no todo mundo tiene acceso  y además los precios no lo pueden ver y quisiera que al menos filtrara por producto , fecha(si se puede?)  y planta para que pudieran checarlo..
+
+Le puedes llamar al reporte compras, y que todos tengan acceso
+
+Quedo de ti

@@ -12,8 +12,8 @@
   <%- include ('../partials/head.html') %>
     <!------incluir cabezera navegacion----->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-     <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 
     <script type="text/javascript" src="js/Almacen/Salidas.js"></script>
     <script type="text/javascript" src="js/Almacen/SalidasComplementos.js"></script>
@@ -29,19 +29,28 @@
 
         <div class="form-row">
           <div class="form-group col-md-0">
-            <a href="#" class="badge badge-success" data-target="#ModalOrdenado" data-toggle="modal" onclick="ConsultaOrdenado()"><span
-                id="value">0</span></a>
-            <a href="#" class="badge badge-info" data-target="#ModalRecoleccion" data-toggle="modal" onclick="MostrarRecepcion()"><span
-                id="value">0</span></a>
+            <a href="#" class="badge badge-success" data-target="#ModalOrdenado" data-toggle="modal"
+              onclick="ConsultaOrdenado()"><span id="value">0</span></a>
+            <a href="#" class="badge badge-info" data-target="#ModalRecoleccion" data-toggle="modal"
+              onclick="MostrarRecepcion()"><span id="value">0</span></a>
           </div>
           <div class="form-group col-md-2">
             <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
               name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
           </div>
           <div class="form-group col-md-1">
-            <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary"
-              onclick="GETPRODUCTS()">Buscar</button>
+            <button type="button" id="getProducts" name="getProducts" class="btn btn-dark" onclick="GETPRODUCTS()"><i
+                class="fa-solid fa-magnifying-glass"></i> Buscar</button>
           </div>
+
+
+          <div class="form-group col-md-5 ">
+            <button type="button" id="getProducts" name="getProducts" class="btn btn-dark" data-toggle="modal"
+            data-target="#ModalOC"> <i class="fa-solid fa-money-check-dollar"></i> OC</button>
+          </div>
+
+
+
         </div>
 
       </div>
@@ -104,7 +113,7 @@
                 <label for="inputState" class="font-weight-bold">Estado</label>
                 <select required id="Estado" name="Sal_Estado" class="form-select">
                   <option value="Nuevo" selected>Nuevo</option>
-                  <option value="Usado" >Usado</option>
+                  <option value="Usado">Usado</option>
                 </select>
               </div>
 
@@ -216,12 +225,12 @@
                   <tr>
                     <th>Producto</th>
                     <th class="col-sm-2">Recibido</th>
-                    <th class="col-sm-2">Almacen</th> 
-                    <th class="col-sm-1">Recolectar</th> 
+                    <th class="col-sm-2">Almacen</th>
+                    <th class="col-sm-1">Recolectar</th>
                   </tr>
                 </thead>
                 <tbody>
-      
+
                 </tbody>
               </table>
 
@@ -236,7 +245,7 @@
       </div>
     </div>
 
-  
+
 
     <!-- Modal Sin elementos -->
     <div class="modal fade" id="Vacio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -264,6 +273,56 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--ModalOC-->
+    <div class="modal fade bd-example-modal-lg" id="ModalOC" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title w-100" id="myModalLabel">Ultima OC</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="LimpiarOC()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <hr>
+
+          <div class="form-row mb-2">
+            <div class="col-4 ml-3">
+              <input type="text" id="OCProducto" class="form-control" placeholder="Producto..."
+                name="OCProducto" autocomplete="off">
+            </div>
+
+            <div class="col-4">
+              <button type="button" class="btn btn-dark btn-sm t-100" data_but="btn-xs" onclick="BuscarHerramientasOC()"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+
+          <div class="col">
+            <!------------------------------ TABLA-------------------------------------->
+            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+              <table class=" table table-bordered table-hover" id="TablaOC">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Fecha</th> 
+                    <th>OC</th>
+                  </tr>
+                </thead>
+                <tbody id="TablaOC">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+ 
         </div>
       </div>
     </div>

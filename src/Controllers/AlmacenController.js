@@ -4077,7 +4077,78 @@ Controller.ReporteConsumoBasico = (req, res) => {
 
 
 
+Controller.ReporteHerramientaIngresos = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                Herramienta
+            } = req.params;
 
+            var Articulo = TranformerReporte(Herramienta.split('|')[0]);
+            var fechaInicio = Herramienta.split('|')[1]; // Fecha inicial
+            var fechafin = Herramienta.split('|')[2]; // Fecha limite
+            var Almacen = Herramienta.split('|')[3]; // Fecha limite
+
+            console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+
+            //Reporte solo Articulo sin fecha
+            if (fechaInicio == null || fechaInicio == '') {
+                console.log("sin fecha ")
+                conn.query("select * from AjustebasicoAlmacen WHERE Producto LIKE '%"+Articulo+"%' AND Planta = '"+Almacen+"' order by FechaAjuste desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    console.log(Herramientas);
+                    res.json(Herramientas)
+                });
+            } else {//Reporte Articulo Con fecha
+                console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+                conn.query("select * from AjustebasicoAlmacen WHERE Producto LIKE '%"+Articulo+"%' AND Planta = '"+Almacen+"' AND FechaAjuste BETWEEN '"+fechaInicio+"' AND  '"+fechafin+"'  order by FechaAjuste asc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    console.log(Herramientas);
+                    res.json(Herramientas)
+                });
+            }
+
+
+
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+
+///////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////////// == SALIDA == ////////////////////////// == SALIDA == //////////////////// == SALIDA == ///////////////////// == SALIDA == ///////////////////////////////////////////////////////////////
+Controller.BuscarHerramientasOC = (req, res) => {
+    if (req.session.loggedin) {
+        //res.send('Metodo Get list');
+        req.getConnection((err, conn) => {
+            const {
+                Herra
+            } = req.params;
+            var Herramienta = Tranformer(Herra);
+            const planta = "Almacen " + req.session.planta;
+            const area = req.session.area;
+            console.log(Herramienta)
+
+            conn.query("SELECT * FROM ordenCompra WHERE Producto = '"+Herramienta+"' order by FechaRegistro desc limit 4", (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura');
+                }
+                res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
 
 module.exports = Controller;
 

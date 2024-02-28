@@ -1396,6 +1396,10 @@ router.get('/wh_ReporteIngresos', (req, res) => {
 	}
 });
 
+router.get('/ReporteHerramientaIngresos/:Herramienta', AlmacenController.ReporteHerramientaIngresos);
+
+ 
+router.get('/BuscarHerramientasOC/:Herra', AlmacenController.BuscarHerramientasOC);
 
 module.exports = router;
 

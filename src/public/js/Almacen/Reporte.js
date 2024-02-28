@@ -104,7 +104,7 @@ function MostrarReporteHerramienta() {
                     var FechaIngreso = moment(Herramientas[i].FechaIngreso).format('DD-MM-YYYY');
 
                     //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha,OC,FechaRegistro,FechaIngreso];
+                    Arreglo = [Folio, Producto, Cantidad, Estado, OT, Maquina, Empleado, Almacen, Fecha,OC,FechaIngreso];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                     for (var x = 0; x < Arreglo.length; x++) {
@@ -175,6 +175,50 @@ function MostrarReporteHerramientaAdmin() {
 
 }
 
+
+ 
+function ExcelReporteArticuloOT() {
+    var tabla = document.getElementById("TablaReporte");
+    var total = tabla.rows.length //Total de filas
+
+
+    var sheet_1_data = [];
+    for (var j = 0; j <= total - 1; j++) { //filas
+        //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+
+        var Folio = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+        var Producto = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+        var Cantida = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+        var Estado = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+        var OT = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+        var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue; 
+        var Empleado  = tabla.rows[j].cells[6].childNodes[0].nodeValue; 
+        var Almacen  = tabla.rows[j].cells[7].childNodes[0].nodeValue; 
+        var FechaSalida  = tabla.rows[j].cells[8].childNodes[0].nodeValue; 
+        var OC  = tabla.rows[j].cells[9].childNodes[0].nodeValue; 
+        var FechaIngreso  = tabla.rows[j].cells[10].childNodes[0].nodeValue; 
+        
+        var Fila = [Folio,Producto,Cantida,Estado,OT,Maquina,Empleado,Almacen,FechaSalida,OC,FechaIngreso]
+        sheet_1_data.push(Fila);
+    } //fin filas
+
+    var opts = [{
+        sheetid: 'Hoja1',
+        header: true
+    }];
+    var result = alasql('SELECT * INTO XLSX("Rep_ArticuloOT_'+moment().format('L')+'.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+}
+
+
+
+
+
+
+
+
+
+
+
  
 
 function ExcelArticulo() {
@@ -199,7 +243,7 @@ function ExcelArticulo() {
         var Maquina = tabla.rows[j].cells[5].childNodes[0].nodeValue;
         var Empleado = tabla.rows[j].cells[6].childNodes[0].nodeValue;
         var Almacen = tabla.rows[j].cells[7].childNodes[0].nodeValue;
-        var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue;
+        var Fecha = tabla.rows[j].cells[8].childNodes[0].nodeValue; 
         var Fila = [Folio, Producto, Entregado, Estado, OT, Maquina, Empleado, Almacen, Fecha]
         sheet_1_data.push(Fila);
     } //fin filas
@@ -220,8 +264,7 @@ function ExcelArticulo() {
 function ExcelArticuloAdmin() {
     var tabla = document.getElementById("TablaReporte");
     var total = tabla.rows.length //Total de filas
-    var Total = 0;
-
+    var Total = 0; 
 
     var sheet_1_data = [];
     for (var j = 0; j <= total - 1; j++) { //filas
