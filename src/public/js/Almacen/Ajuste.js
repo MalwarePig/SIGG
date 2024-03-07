@@ -1,7 +1,7 @@
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
 function GETPRODUCTS() {
     var Herramientas = Tranformer(document.getElementById("BHerramienta").value);
-    var Planta = document.querySelector('input[name="inlineRadioOptions"]:checked').value; 
+    var Planta = document.querySelector('input[name="inlineRadioOptions"]:checked').value;
     $.ajax({
         url: '/BuscarHerramientasAjuste/' + Herramientas + '|' + Planta,
         success: function (Herramientas) {
@@ -28,11 +28,12 @@ function GETPRODUCTS() {
                 var StockUsado = Herramientas[i].StockUsado;
                 var StockMinimo = Herramientas[i].StockMin;
                 var StockMaximo = Herramientas[i].StockMax;
+                var StockAfilado = Herramientas[i].StockAfilado;
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
                 //Eliminar variable dentro del For
 
-                Arreglo = [id, Clave, Producto, Planta, StockNuevo, StockUsado, StockMinimo, StockMaximo, Categoria, Familia]
+                Arreglo = [id, Clave, Producto, Planta, StockNuevo, StockUsado, StockMinimo, StockMaximo, StockAfilado, Categoria, Familia]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -79,27 +80,32 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input  type="text" id="StockMaximo' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                             break;
                         case 8:
-                            // newCell.innerHTML = '<input  type="text" id="Categoria' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
-                            let cat = Arreglo[x] || '-';
-                            newCell.innerHTML = '<select required id="Categoria' + i + '" class="form-control" onFocus=CargarCategorias(' + i + ')>' +
-                                '<option value="' + cat + '" selected disabled>' + Arreglo[x] + '</option></select>';
+                            newCell.innerHTML = '<input  type="text" id="StockAfilado' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
                             break;
                         case 9:
+                            // newCell.innerHTML = '<input  type="text" id="Categoria' + i + '" class="form-control" value="' + Arreglo[x] + '"></input>';
+                            let cat = Arreglo[x] || '-';
+                            newCell.innerHTML = '<select required id="Categoria' + i + '" class="form-select" onFocus=CargarCategorias(' + i + ')>' +
+                                '<option value="' + cat + '" selected disabled>' + Arreglo[x] + '</option></select>';
+                            break;
+                        case 10:
                             var fam = Arreglo[x] || '-';
-                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-control" onFocus="CargarFamilias(' + i + ')">' +
+                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-select" onFocus="CargarFamilias(' + i + ')">' +
                                 '<option value="' + fam + '" selected disabled>' + Arreglo[x] + '</option></select>';
                             break;
                     }
 
                     if (x == 4) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                        var newCell = newRow.insertCell(
+                            
+                        ); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" onclick=Eliminar(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Eliminar producto"> <i class="fas fa-trash-alt"></i> </button>';
 
                         var newCell = newRow.insertCell(6); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-info" name="btn" onclick=ModalAjuste(' + (i + 1) + ') data-toggle="tooltip" data-placement="top" title="Actualizar producto"> <i class="fas fa-edit"></i> </button>';
 
                         var newCell = newRow.insertCell(7); //CREAR CELDA
-                        newCell.innerHTML = '<button id="ActualizarUsados' + i + '" class="btn btn-success" name="btn" onclick=AjustarUsados(' + (i) + ') data-toggle="tooltip" data-placement="top" title="Actualiza stock usados"> <i class="fas fa-pen"></i></button>';
+                        newCell.innerHTML = '<button id="ActualizarUsados' + i + '" class="btn btn-success" name="btn" onclick=AjustarUsados(' + (i) + ') data-toggle="tooltip" data-placement="top" title="Actualizar campos"> <i class="fas fa-pen"></i></button>';
                     }
                 } //fin de for de columnas
             } //fin de for de filas
@@ -189,6 +195,7 @@ function AjustarUsados(variable) {
     var StockUsado = document.getElementById("StockUsado" + variable).value; //Obtiene el valor de Producto 
     var StockMinimo = document.getElementById("StockMinimo" + variable).value; //Obtiene el valor de Producto 
     var StockMaximo = document.getElementById("StockMaximo" + variable).value; //Obtiene el valor de Producto 
+    var StockAfilado = document.getElementById("StockAfilado" + variable).value; //Obtiene el valor de Producto 
 
     //var Ubicacion = document.getElementById("Ubicacion"+indice).value; //Obtiene el valor de Ubicacion
 
@@ -196,8 +203,8 @@ function AjustarUsados(variable) {
         id: id,
         StockUsado: StockUsado,
         StockMinimo: StockMinimo,
-        StockMaximo: StockMaximo
-
+        StockMaximo: StockMaximo,
+        StockAfilado: StockAfilado 
     }
 
     console.table(ObjetoTabla);

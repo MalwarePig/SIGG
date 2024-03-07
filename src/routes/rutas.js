@@ -1401,6 +1401,18 @@ router.get('/ReporteHerramientaIngresos/:Herramienta', AlmacenController.Reporte
  
 router.get('/BuscarHerramientasOC/:Herra', AlmacenController.BuscarHerramientasOC);
 
+
+//Abre pagina principal para requerir
+router.get('/Pruebas', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Soporte/Pruebas.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
 module.exports = router;
 
 /*ESTA ES UNA VERSION DIRECTA SIN VERIFICAR LOGIN

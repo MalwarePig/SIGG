@@ -513,6 +513,7 @@ Controller.GuardarNotaRetorno = (req, res) => {
                                 console.log('Error al registrar folios' + err);
                             } else {
                                 console.log('Se incremento folio');
+                                res.json(true)
                             }
                         });
                     });
@@ -843,12 +844,13 @@ Controller.ActualizarProductoUsado = (req, res) => {
             var StockUsado = Object.values(data)[0].StockUsado; //obeter datos de un objeto Ubicacion
             var StockMinimo = Object.values(data)[0].StockMinimo; //obeter datos de un objeto Ubicacion
             var StockMaximo = Object.values(data)[0].StockMaximo; //obeter datos de un objeto Ubicacion
+            var StockAfilado = Object.values(data)[0].StockAfilado; //obeter datos de un objeto Ubicacion
 
 
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + ",StockMin = " + StockMinimo + ", StockMax= " + StockMaximo + " WHERE id = " + id, (err, Herramientas) => {
+                conn.query("UPDATE almacen SET StockUsado = " + StockUsado + ",StockMin = " + StockMinimo + ", StockMax= " + StockMaximo + ",StockAfilado = "+StockAfilado+" WHERE id = " + id, (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }
@@ -2410,9 +2412,10 @@ Controller.AjusteBasico = (req, res) => {
             var CantidadAnterior = Object.values(data)[0].CantidadAnterior;
             var Producto = Object.values(data)[0].Producto;
             var Planta = Object.values(data)[0].Planta;
+            var Estado = Object.values(data)[0].Estado;
             console.log(id + " - " + CantidadIngreso + Nombre + CantidadAnterior + Producto + Planta)
 
-            conn.query("call AjusteBasico(" + id + ",'" + Producto + "','" + Planta + "','" + Nombre + "'," + CantidadIngreso + "," + CantidadAnterior + ")", true, (err, rows, fields) => {
+            conn.query("call AjusteBasico(" + id + ",'" + Producto + "','" + Planta + "','" + Nombre + "'," + CantidadIngreso + "," + CantidadAnterior + ",'"+Estado+"')", true, (err, rows, fields) => {
                 if (err) {
                     res.json(err);
                     console.log('Error al actualizar accesorio' + err);

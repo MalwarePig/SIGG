@@ -23,19 +23,19 @@
         <div class="card text-center">
             <div class="card-header">
                 <!------------------------------ BUSCAR -------------------------------------->
-                <form>
-                    <div class="form-row"> 
-                        <div class="form-group col-md-2">
-                    
-                            <input required type="text" id="BHerramienta" class="form-control" placeholder="Nombre empleado / OT.."
-                              name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
-                          </div>  
-                        <div class="form-group col-md-1">
-                            <button type="button" id="getProducts" name="getProducts"
-                                class="btn btn-secondary">Buscar</button>
-                        </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+
+                        <input required type="text" id="BHerramienta" class="form-control"
+                            placeholder="Nombre empleado / OT.." name="BHerramienta" autocomplete="off"
+                            onkeypress="runScript(event)">
                     </div>
-                </form>
+                    <div class="form-group col-md-1">
+                        <button type="button" id="BuscarProducts" name="BuscarProducts" class="btn btn-secondary"
+                            onclick="BuscarProducto()">Buscar</button>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <!------------------------------ TABLA -------------------------------------->
@@ -94,8 +94,8 @@
                             </div>
                             <div class="form-group col-md-1" style="display: none">
                                 <label for="inputAddress2" class="font-weight-bold">Cantidad Salida</label>
-                                <input type="text" id="CantidadSalida" class="form-control" name="CantidadSalida" autocomplete="off"
-                                    value="-">
+                                <input type="text" id="CantidadSalida" class="form-control" name="CantidadSalida"
+                                    autocomplete="off" value="-">
                             </div>
 
                             <div class="form-group col-md-1">
@@ -105,7 +105,7 @@
                                     <option value="Usado">Usado</option>
                                     <option value="Scrap">Scrap</option>
                                     <option value="Quebrado">Quebrado</option>
-                                    <option value="Afilado R">Afilado R</option>
+                                    <option value="Afilado">Afilado R</option>
                                 </select>
                             </div>
 

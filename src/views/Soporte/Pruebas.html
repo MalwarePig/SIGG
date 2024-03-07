@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copiar Input con JavaScript</title>
+</head>
+<body>
+
+  <input type="text" id="miInput" value="Texto a copiar" onclick="copiarTexto()">
+  <button onclick="copiarTexto()">Copiar Texto</button>
+
+  <script>
+    function copiarTexto() {
+      // Seleccionar el elemento de entrada
+      var inputElement = document.getElementById("miInput");
+
+      // Seleccionar el texto dentro del elemento de entrada
+      inputElement.select();
+
+      // Copiar el texto al portapapeles
+      document.execCommand("copy");
+
+      // Deseleccionar el texto
+      window.getSelection().removeAllRanges();
+
+      // Puedes mostrar un mensaje de éxito si lo deseas
+      alert("Texto copiado: " + inputElement.value);
+    }
+  </script>
+
+</body>
+</html>

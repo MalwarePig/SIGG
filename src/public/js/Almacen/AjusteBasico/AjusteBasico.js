@@ -123,7 +123,8 @@ function ActualizarCantidad() {
         Cantidad: document.getElementById("Mod_Cantidad").value,
         indice: document.getElementById("Mod_indice").value,
         Nombre: localStorage.getItem("Nombre"),
-        CantidadAnterior: CantidadAnterior
+        CantidadAnterior: CantidadAnterior,
+        Estado: document.getElementById("Estado").value,
     }
     console.table(ObjetoTabla);
     $.post("/AjusteBasico", // url

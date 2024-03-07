@@ -7,56 +7,59 @@ var Maquina = "";
 var Empleado = "";
 var Funcional = "";
 //CONSULTAR HERRAMIENTAS -- BOTON BUSCAR    
-$(function () {
-    // GET PRODUCTS
-    $('#getProducts').on('click', () => {
-        //OBTENER FILTRO DE FAMILIA
-        console.log("Maquina: " + document.getElementById("BHerramienta").value);
-        $.ajax({
-            url: '/BuscarHerrRetorno/' + document.getElementById("BHerramienta").value + '',
-            success: function (Herramientas) {
-                var Arreglo = [];
-                //Limpiar tabla 
+  
+function BuscarProducto() {
+    //OBTENER FILTRO DE FAMILIA
+    console.log("Maquina: " + document.getElementById("BHerramienta").value);
+    $.ajax({
+        url: '/BuscarHerrRetorno/' + document.getElementById("BHerramienta").value + '',
+        success: function (Herramientas) {
+            var Arreglo = [];
+            //Limpiar tabla 
+            var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
+            var limite = TablaAlmacen.rows.length;
+            for (var i = 0; i < limite; i++) {
+                $("#Rows").remove(); //elimina los elementos con id Rows
+            }
+
+            for (var i = 0; i < Herramientas.length; i++) {
+                var Folio = Herramientas[i].Folio;
+                var Producto = Herramientas[i].Producto;
+                var Entregado = Herramientas[i].Entregado;
+                var Devuelto = Herramientas[i].Devuelto;
+                var Estado = Herramientas[i].Estado;
+                var OT = Herramientas[i].OT;
+                var Maquina = Herramientas[i].Maquina;
+                var Empleado = Herramientas[i].Empleado;
+                var Salida = Fecha(Herramientas[i].Salida);
+                //Eliminar variable dentro del For
+                Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida];
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
-                var limite = TablaAlmacen.rows.length;
-                for (var i = 0; i < limite; i++) {
-                    $("#Rows").remove(); //elimina los elementos con id Rows
-                }
+                // inserta una fila al final de la tabla
+                var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+                for (var x = 0; x < Arreglo.length; x++) {
+                    // inserta una celda en el indice 0
+                    var newCell = newRow.insertCell(x);
+                    newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+                    // adjuntar el texto al nodo
+                    var newText = document.createTextNode(Arreglo[x]);
+                    newCell.appendChild(newText);
 
-                for (var i = 0; i < Herramientas.length; i++) {
-                    var Folio = Herramientas[i].Folio;
-                    var Producto = Herramientas[i].Producto;
-                    var Entregado = Herramientas[i].Entregado;
-                    var Devuelto = Herramientas[i].Devuelto;
-                    var Estado = Herramientas[i].Estado;
-                    var OT = Herramientas[i].OT;
-                    var Maquina = Herramientas[i].Maquina;
-                    var Empleado = Herramientas[i].Empleado;
-                    var Salida = Fecha(Herramientas[i].Salida);
-                    //Eliminar variable dentro del For
-                    Arreglo = [Folio, Producto, Entregado, Devuelto, Estado, OT, Maquina, Empleado, Salida];
-                    var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
-                    // inserta una fila al final de la tabla
-                    var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-                    for (var x = 0; x < Arreglo.length; x++) {
-                        // inserta una celda en el indice 0
-                        var newCell = newRow.insertCell(x);
-                        newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                        // adjuntar el texto al nodo
-                        var newText = document.createTextNode(Arreglo[x]);
-                        newCell.appendChild(newText);
+                    if (x == 4) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(5); //CREAR CELDA
+                        newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
+                    }
+                } //fin de for de columnas
+            } //fin de for de filas
+        } //Funcion success
+    }); //Ajax
+}
 
-                        if (x == 4) { //Si termina de registrar datos crear el boton
-                            var newCell = newRow.insertCell(5); //CREAR CELDA
-                            newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> Selección </button>';
-                        }
-                    } //fin de for de columnas
-                } //fin de for de filas
-            } //Funcion success
-        }); //Ajax
-    }); //Evento clic
-}); //Funcion JQuery
-
+function runScript(e) {
+    if (e.keyCode == 13) {
+        BuscarProducto();
+    }
+}
 //=========================================== EVENTO SOLO DATOS NUMERICOS EN CANTIDAD =================================================//
 $(function () {
     $(".solo-numero").keydown(function (event) {
@@ -223,6 +226,7 @@ function GuardarNota() {
                 Arreglo
             }, // data to be submit
             function (objeto, estatus) { // success callback
+                BuscarProducto();
                 //console.log("objeto: " + objeto + "Estatus: " + estatus);
             });
 

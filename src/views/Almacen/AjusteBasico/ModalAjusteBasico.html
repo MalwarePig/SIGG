@@ -37,17 +37,26 @@
                 <label for="recipient-name" class="col-form-label">Cantidad ingreso:</label>
                 <input type="number" class="form-control" id="Mod_Cantidad">
               </div>
-            </div> 
+
+              <div class="col">
+                <label for="inputState" class="col-form-label">Estado</label>
+                <select required id="Estado" name="Estado" class="form-select">
+                  <option value="a" selected disabled>seleccione estado</option>
+                  <option value="Nuevo">Nuevo</option>
+                  <option value="Usado">Usado</option>
+                </select>
+              </div>
+            </div>
             <hr>
- 
+
           </div>
 
         </form>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" onclick="ActualizarCantidad()"
-          data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-success" onclick="ActualizarCantidad()" data-dismiss="modal"><i
+            class="fa-solid fa-floppy-disk"></i> Guardar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
       </div>
 

@@ -561,18 +561,24 @@ END;
 
   /*************************************************************************************************************************************************************/
  DELIMITER //
- CREATE PROCEDURE AjusteBasico(IN param_id int,IN param_Producto varchar(200), IN param_Planta varchar(200), IN param_Nombre varchar(200),IN param_Cantidad int, IN param_CantidadAnterior INT)
-	BEGIN
-		
-        SET @CantidadActual = (select stock from almacen WHERE id = param_id) + param_Cantidad;
-		select @CantidadActual;
+CREATE  PROCEDURE `AjusteBasico`(IN param_id int,IN param_Producto varchar(200), IN param_Planta varchar(200), IN param_Nombre varchar(200),IN param_Cantidad int, IN param_CantidadAnterior INT,IN Condicion varchar(200))
+BEGIN
+SET SQL_SAFE_UPDATES = 0;
+IF (Condicion = 'Nuevo') THEN
+		SET @CantidadActual = (select stock from almacen WHERE id = param_id) + param_Cantidad;
 		UPDATE almacen SET Stock = @CantidadActual WHERE id = param_id;
+END IF;
 
-		insert into AjustebasicoAlmacen(Producto,Responsable,Planta,CantidadAnterior,CantidadActual,CantIngreso)values(param_Producto,param_Nombre,param_Planta,param_CantidadAnterior,@CantidadActual,param_Cantidad);
+IF (Condicion = 'Usado') THEN
+		SET @CantidadActual = (SELECT StockUsado FROM almacen WHERE id = param_id) + param_Cantidad; 	 
+		UPDATE almacen SET StockUsado = @CantidadActual WHERE id = param_id;
+END IF;  
 
-	END;
-	  
-	 DROP PROCEDURE IF EXISTS AjusteBasico
+INSERT INTO AjustebasicoAlmacen(Producto,Responsable,Planta,CantidadAnterior,CantidadActual,CantIngreso,Estado)values(param_Producto,param_Nombre,param_Planta,param_CantidadAnterior,@CantidadActual,param_Cantidad,Condicion);
+
+END
+ 
+ DROP PROCEDURE IF EXISTS AjusteBasico
  
  
  select * from almacen where producto = 'Prueba'
@@ -615,11 +621,11 @@ SET SQL_SAFE_UPDATES = 0;
    SET @FechaRegistro = (SELECT FechaRegistro FROM ordencompra WHERE Producto = ProductoOT order by id desc limit 1);
    	/*FECHA DE INGRESO DE PRODUCTOS A ALMACEN POR AJUSTEBASICO O INGRESOS*/
    SET @FechaIngreso = (SELECT FechaAjuste FROM AjustebasicoAlmacen WHERE Producto = ProductoOT order by id desc limit 1);
-   SELECT *,  CONCAT(@OC) AS OC,CONCAT(@FechaRegistro) AS FechaRegistro,CONCAT(@FechaIngreso) AS FechaIngreso  FROM itemprestado WHERE (Producto like ProductoOT OR OT = ProductoOT) AND Almacen = Planta AND Salida BETWEEN '" + fechaInicio + "' AND '" + fechafin + "' ORDER BY Salida Desc limit 2000;
+   SELECT *,  CONCAT(@OC) AS OC,CONCAT(@FechaRegistro) AS FechaRegistro,CONCAT(@FechaIngreso) AS FechaIngreso  FROM itemprestado WHERE (Producto like ProductoOT OR OT = ProductoOT) AND Almacen = Planta AND Salida BETWEEN Inicio AND Fin ORDER BY Salida Desc limit 2000;
   
 END;
 
-DROP PROCEDURE IF EXISTS HerramientaOT;
+DROP PROCEDURE IF EXISTS HerramientaOTFecha;
 
 
 
