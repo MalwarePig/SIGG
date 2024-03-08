@@ -4062,7 +4062,7 @@ Controller.ReporteConsumoBasico = (req, res) => {
                 });
             } else {
                 console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
-                conn.query("SELECT SUM(i.Utilizado) AS Total,i.Producto,a.Clave,a.Familia,a.Almacen,a.Stock,a.StockMin,a.StockMax,a.StockUsado,a.Precio,a.Moneda,a.OC, a.Proveedor,a.TiempoEntrega FROM itemprestado i INNER JOIN almacen a where (i.Producto = a.Producto) AND (i.Almacen = '"+Planta+"' AND a.Almacen = '"+Almacen+"') AND (i.Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by i.Producto;", (err, Herramientas) => {
+                conn.query("SELECT SUM(i.Utilizado) AS Total,i.Producto,a.Clave,a.Familia,a.Almacen,a.Stock,a.StockMin,a.StockMax,a.StockUsado,a.StockAfilado,a.Precio,a.Moneda,a.OC, a.Proveedor,a.TiempoEntrega FROM itemprestado i INNER JOIN almacen a where (i.Producto = a.Producto) AND (i.Almacen = '"+Planta+"' AND a.Almacen = '"+Almacen+"') AND (i.Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by i.Producto;", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);

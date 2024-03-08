@@ -235,3 +235,37 @@ call SPPruebas('Morelos');
 
 
 /************************************************************************************************************************************************************************************/
+DELIMITER //
+CREATE PROCEDURE `DespachoAlmacen`(IN inFolio varchar(200),IN inProducto varchar(200),IN inCantidad int,IN inEstado varchar(20),IN inOT varchar(20),IN inEstatus varchar(20),IN inMaquina varchar(50),
+IN inEmpleado varchar(70),IN inParcial varchar(40),IN inComentario varchar(200),IN inTurno varchar(30),IN inMovimiento varchar(40),IN inPlanta varchar(20),IN inUsuario varchar(40),IN inAlmacen varchar(40))
+BEGIN
+ 
+ INSERT INTO itemprestado(Folio, Producto, Entregado, Estado, OT,OTEstatus, Maquina, Empleado, Turno, Comentarios, Movimiento, Almacen, Usuario,Parcial,Utilizado)values
+(inFolio,inProducto,inCantidad,inEstado,inOT,inEstatus,inMaquina,inEmpleado,inTurno,inComentario,inMovimiento,inPlanta,inUsuario,inParcial,inCantidad);
+
+ 
+SET @ActualNuevo := (SELECT Stock From almacen WHERE Producto = inProducto AND Almacen = inAlmacen); 
+SET @TotalNuevo := (@ActualNuevo - inCantidad); 
+
+SET @ActualUsado := (SELECT StockUsado From almacen WHERE Producto = inProducto AND Almacen = inAlmacen);
+SET @TotalUsado := (@ActualUsado - inCantidad);
+
+SET @ActualAfilado := (SELECT StockAfilado From almacen WHERE Producto = inProducto AND Almacen = inAlmacen);
+SET @TotalAfilado := (@ActualAfilado - inCantidad);
+
+
+SELECT @TotalNuevo, @TotalUsado;
+	IF (inEstado = 'Nuevo') THEN UPDATE almacen SET Stock = @TotalNuevo WHERE Producto = inProducto AND Almacen = inAlmacen;
+    END IF;
+    IF (inEstado = 'Usado') THEN UPDATE almacen SET StockUsado = @TotalUsado WHERE Producto = inProducto AND  Almacen = inAlmacen;
+    END IF;
+    IF (inEstado = 'Afilado') THEN UPDATE almacen SET StockAfilado = @TotalAfilado WHERE Producto = inProducto AND  Almacen = inAlmacen;
+	END IF;
+
+ 
+INSERT INTO folioalmacen(Folio)values(inFolio);
+ 
+END
+
+ DROP PROCEDURE IF EXISTS DespachoAlmacen
+ 

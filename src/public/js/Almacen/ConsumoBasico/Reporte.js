@@ -44,13 +44,14 @@ function MostrarReporteHerramienta() {
                     var StockMin = Herramientas[i].StockMin;
                     var StockMax = Herramientas[i].StockMax;
                     var StockUsado = Herramientas[i].StockUsado;
+                    var StockAfilado = Herramientas[i].StockAfilado;
                     var Precio = Herramientas[i].Precio;
                     var Moneda = Herramientas[i].Moneda;
                     var OC = Herramientas[i].OC;
                     var Proveedor = Herramientas[i].Proveedor;
                     var TiempoEntrega = Herramientas[i].TiempoEntrega;
                     //Eliminar variable dentro del For
-                    Arreglo = [Clave, Familia, Almacen, Producto, Total, Stock, StockMin, StockMax, StockUsado, TiempoEntrega, OC, Proveedor, Precio, Moneda];
+                    Arreglo = [Clave, Familia, Almacen, Producto, Total, Stock, StockMin, StockMax, StockUsado,StockAfilado,TiempoEntrega, OC, Proveedor, Precio, Moneda];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                     for (var x = 0; x < Arreglo.length; x++) {
@@ -83,13 +84,14 @@ function ExcelReporte() {
         var StockMin = tabla.rows[j].cells[6].childNodes[0].nodeValue;
         var StockMax = tabla.rows[j].cells[7].childNodes[0].nodeValue;
         var StockUsado = tabla.rows[j].cells[8].childNodes[0].nodeValue;
-        var TiempoEntrega = tabla.rows[j].cells[9].childNodes[0].nodeValue;
-        var OC = tabla.rows[j].cells[10].childNodes[0].nodeValue;
-        var Proveedor = tabla.rows[j].cells[11].childNodes[0].nodeValue; 
-        var Precio = tabla.rows[j].cells[12].childNodes[0].nodeValue;
-        var Moneda = tabla.rows[j].cells[13].childNodes[0].nodeValue; 
+        var StockAfilado = tabla.rows[j].cells[9].childNodes[0].nodeValue;
+        var TiempoEntrega = tabla.rows[j].cells[10].childNodes[0].nodeValue;
+        var OC = tabla.rows[j].cells[11].childNodes[0].nodeValue;
+        var Proveedor = tabla.rows[j].cells[12].childNodes[0].nodeValue; 
+        var Precio = tabla.rows[j].cells[13].childNodes[0].nodeValue;
+        var Moneda = tabla.rows[j].cells[14].childNodes[0].nodeValue; 
 
-        var Fila = [Clave, Familia, Almacen, Producto, Total, Stock, StockMin, StockMax, StockUsado, TiempoEntrega, OC, Proveedor, Precio, Moneda]
+        var Fila = [Clave, Familia, Almacen, Producto, Total, Stock, StockMin, StockMax, StockUsado,StockAfilado, TiempoEntrega, OC, Proveedor, Precio, Moneda]
         sheet_1_data.push(Fila);
     } //fin filas
 
