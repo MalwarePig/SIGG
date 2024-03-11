@@ -877,12 +877,13 @@ Controller.EditarProducto = (req, res) => {
             var ProveedorSec = Object.values(data)[0].ProveedorSec; //obeter datos de un objeto ProveedorSec
             var Precio = Object.values(data)[0].Precio; //obeter datos de un objeto ProveedorSec
             var Familia = Object.values(data)[0].Familia; //obeter datos de un objeto ProveedorSec
+            var Moneda = Object.values(data)[0].Moneda; //obeter datos de un objeto ProveedorSec
 
             console.log("id " + id + "','" + Clave + "','" + Producto + "','" + Ubicacion + "','" + Proveedor + "','" + ProveedorSec + "',' " + Familia);
             if (err) {
                 console.log("Conexion: " + err)
             } else {
-                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + ", Familia = '" + Familia + "' WHERE Producto = '" + Producto+"'", (err, Herramientas) => {
+                conn.query("UPDATE almacen SET Clave = '" + Clave + "', Producto = '" + Producto + "', Ubicacion = '" + Ubicacion + "', Proveedor = '" + Proveedor + "', ProveedorSec= '" + ProveedorSec + "', Precio = " + Precio + ", Familia = '" + Familia + "',Moneda= '"+Moneda+"' WHERE Producto = '" + Producto+"'", (err, Herramientas) => {
                     if (err) {
                         console.log('Error de lectura' + err);
                     }

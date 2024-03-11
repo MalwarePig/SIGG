@@ -20,12 +20,13 @@ function GETPRODUCTS() {
                 var Clave = Herramientas[i].Clave;
                 var Producto = Herramientas[i].Producto;
                 var Precio = Herramientas[i].Precio;
+                var Moneda = Herramientas[i].Moneda;
                 var Ubicacion = Herramientas[i].Ubicacion;
                 var Proveedor = Herramientas[i].Proveedor;
                 var ProveedorSec = Herramientas[i].ProveedorSec || '-';
                 var Familia = Herramientas[i].Familia || '-';
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Ubicacion, Proveedor, ProveedorSec, Familia]
+                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio,Moneda, Ubicacion, Proveedor, ProveedorSec, Familia]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -50,31 +51,37 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<input required type="text" id="Precio' + i + '" class="form-control" placeholder="Precio.." value="' + Arreglo[x] + '"></input>';
                             break;
                         case 5:
-                            newCell.innerHTML = '<input required type="text" id="Ubicacion' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '"></input>';
+                            var Familia = Arreglo[x];
+                            newCell.innerHTML = '<select required id="Moneda' + i + '" class="form-select" onFocus="CargarMonedas(' + i + ')">' +
+                                '<option value="' + Moneda + '" selected disabled>' + Moneda + '</option></select>';
                             break;
                         case 6:
-                            var Prov = Arreglo[x] || '-';
-                            newCell.innerHTML = '<select required id="Proveedor' + i + '" class="form-control" onFocus="CargarProveedor(' + i + ')">' +
-                                '<option value="' + Prov + '" selected disabled>' + Prov + '</option></select>';
+                            newCell.innerHTML = '<input required type="text" id="Ubicacion' + i + '" class="form-control" placeholder="E5C9..." value="' + Arreglo[x] + '"></input>';
                             break;
                         case 7:
+                            var Prov = Arreglo[x] || '-';
+                            newCell.innerHTML = '<select required id="Proveedor' + i + '" class="form-select" onFocus="CargarProveedor(' + i + ')">' +
+                                '<option value="' + Prov + '" selected disabled>' + Prov + '</option></select>';
+                            break;
+                        case 8:
                             var ProvSec = Arreglo[x];
-                            newCell.innerHTML = '<select required id="ProveedorSec' + i + '" class="form-control" onFocus="CargarProveedorSec(' + i + ')">' +
+                            newCell.innerHTML = '<select required id="ProveedorSec' + i + '" class="form-select" onFocus="CargarProveedorSec(' + i + ')">' +
                                 '<option value="' + ProvSec + '" selected disabled>' + ProvSec + '</option></select>';
                             break;
 
-                        case 8:
+                        case 9:
                             var Familia = Arreglo[x];
-                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-control" onFocus="CargarFamilias(' + i + ')">' +
+                            newCell.innerHTML = '<select required id="Familia' + i + '" class="form-select" onFocus="CargarFamilias(' + i + ')">' +
                                 '<option value="' + Familia + '" selected disabled>' + Familia + '</option></select>';
                             break;
+
 
                         default:
                             break;
                         // code block
                     }
-                    if (x == 8) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(9); //CREAR CELDA
+                    if (x == 9) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(10); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> <i class="fa-solid fa-pen-to-square"></i></button>';
                     }
                 } //fin de for de columnas
@@ -101,6 +108,7 @@ function Seleccion(variable) {
     var ProveedorSec = document.getElementById("ProveedorSec" + indice).value; //Obtiene el valor de Proveedor
     var Precio = document.getElementById("Precio" + indice).value; //Obtiene el valor de Precio
     var Familia = document.getElementById("Familia" + indice).value; //Obtiene el valor de Precio
+    var Moneda = document.getElementById("Moneda" + indice).value; //Obtiene el valor de Precio
 
     var ObjetoTabla = {
         id: id,
@@ -110,7 +118,8 @@ function Seleccion(variable) {
         Proveedor: Proveedor,
         ProveedorSec: ProveedorSec,
         Precio: Precio,
-        Familia: Familia
+        Familia: Familia,
+        Moneda: Moneda
     }
 
     $.post("/EditarProducto", // url
@@ -208,4 +217,22 @@ function CargarFamilias(indice) {
             }
         } //Funcion success
     }); //Ajax
+}
+
+
+//=========================================== BUSCAR Monedas =================================================//
+function CargarMonedas(indice) {
+    var listMoneda = document.getElementById("Moneda" + indice);
+    for (let i = listMoneda.options.length; i >= 1; i--) { //Borrar elementos option de select
+        listMoneda.remove(i);
+    }
+
+    Monedas = ["usd","m.n"]
+     
+    for (var i = 0; i < Monedas.length; i++) { //Agregar nuevos options del select
+
+        var option = document.createElement("option");
+        option.text = Monedas[i];
+        listMoneda.add(option);
+    }
 }
