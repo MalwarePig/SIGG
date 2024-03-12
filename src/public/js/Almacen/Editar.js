@@ -25,8 +25,9 @@ function GETPRODUCTS() {
                 var Proveedor = Herramientas[i].Proveedor;
                 var ProveedorSec = Herramientas[i].ProveedorSec || '-';
                 var Familia = Herramientas[i].Familia || '-';
+                var TiempoEntrega = Herramientas[i].TiempoEntrega || '-';
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio,Moneda, Ubicacion, Proveedor, ProveedorSec, Familia]
+                Arreglo = [id, Clave, Producto, Herramientas[i].Almacen, Precio, Moneda, Ubicacion, Proveedor, ProveedorSec, Familia,TiempoEntrega]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -74,14 +75,17 @@ function GETPRODUCTS() {
                             newCell.innerHTML = '<select required id="Familia' + i + '" class="form-select" onFocus="CargarFamilias(' + i + ')">' +
                                 '<option value="' + Familia + '" selected disabled>' + Familia + '</option></select>';
                             break;
+                        case 10:
+                            newCell.innerHTML = '<input required type="text" id="TiempoEntrega' + i + '" class="form-control"  value="' + Arreglo[x] + '"></input>';
+                            break;
 
 
                         default:
                             break;
                         // code block
                     }
-                    if (x == 9) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                    if (x == 10) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(11); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=Seleccion(' + (i + 1) + ')> <i class="fa-solid fa-pen-to-square"></i></button>';
                     }
                 } //fin de for de columnas
@@ -109,6 +113,7 @@ function Seleccion(variable) {
     var Precio = document.getElementById("Precio" + indice).value; //Obtiene el valor de Precio
     var Familia = document.getElementById("Familia" + indice).value; //Obtiene el valor de Precio
     var Moneda = document.getElementById("Moneda" + indice).value; //Obtiene el valor de Precio
+    var TiempoEntrega = document.getElementById("TiempoEntrega" + indice).value; //Obtiene el valor de Precio
 
     var ObjetoTabla = {
         id: id,
@@ -119,7 +124,8 @@ function Seleccion(variable) {
         ProveedorSec: ProveedorSec,
         Precio: Precio,
         Familia: Familia,
-        Moneda: Moneda
+        Moneda: Moneda,
+        TiempoEntrega: TiempoEntrega
     }
 
     $.post("/EditarProducto", // url
@@ -227,8 +233,8 @@ function CargarMonedas(indice) {
         listMoneda.remove(i);
     }
 
-    Monedas = ["usd","m.n"]
-     
+    Monedas = ["usd", "m.n"]
+
     for (var i = 0; i < Monedas.length; i++) { //Agregar nuevos options del select
 
         var option = document.createElement("option");
