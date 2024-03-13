@@ -5,6 +5,7 @@ function GETPRODUCTS() {
         url: '/BuscarHerramientas/' + Herramientas,
         success: function (Herramientas) {
             var Arreglo = [];
+            console.log(Herramientas)
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
@@ -19,10 +20,11 @@ function GETPRODUCTS() {
                 var Producto = Herramientas[i].Producto;
                 var Stock = Herramientas[i].Stock;
                 var StockUsado = Herramientas[i].StockUsado;
-                var StockAfilado = Herramientas[i].StockAfilado;
+                var StockAfilado = Herramientas[i].Stockafilado;
                 var Ubicacion = Herramientas[i].Ubicacion;
                 //Eliminar variable dentro del For
                 Arreglo = [Clave, Producto, Stock, StockUsado,StockAfilado, Ubicacion]
+                console.log(Arreglo)
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);

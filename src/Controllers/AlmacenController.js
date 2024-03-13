@@ -24,6 +24,7 @@ Controller.search = (req, res) => {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
                     }
+                    console.log(Herramientas);
                     res.json(Herramientas);
                 });
             } else {
@@ -32,6 +33,7 @@ Controller.search = (req, res) => {
                         res.json("Error json: " + err);
                         console.log('Error de lectura');
                     }
+                    console.log(Herramientas);
                     res.json(Herramientas);
                 });
             }
