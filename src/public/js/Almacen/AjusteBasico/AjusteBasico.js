@@ -26,8 +26,9 @@ function GETPRODUCTS() {
                 var StockMax = Herramientas[i].StockMax;
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
+                var Stockafilado = Herramientas[i].Stockafilado;
                 //Eliminar variable dentro del For
-                Arreglo = [id, Clave, Producto, Planta, Stock, StockUsado, StockMin, StockMax, Categoria, Familia]
+                Arreglo = [id, Clave, Producto, Planta, Stock, StockUsado, StockMin, StockMax,Stockafilado, Categoria, Familia,]
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -38,8 +39,12 @@ function GETPRODUCTS() {
 
                     if (x == 0) {
                         newCell.innerHTML = '<input required type="text" id="id' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly style="display: none"></input>';
-                    } else if (x == 9) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(10); //CREAR CELDA
+                    } else if (x == 10) { //Si termina de registrar datos crear el boton
+                        // adjuntar el texto al nodo
+                        var newText = document.createTextNode(Arreglo[x]);
+                        newCell.appendChild(newText); 
+
+                        var newCell = newRow.insertCell(11); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" name="btn" onclick=ModalEficiencia(' + (i + 1) + ')> <i class="fas fa-record-vinyl"></i> </button>';
                     } else {
                         // adjuntar el texto al nodo
