@@ -28,7 +28,7 @@ function GETPRODUCTS() {
                 var StockUsado = Herramientas[i].StockUsado;
                 var StockMinimo = Herramientas[i].StockMin;
                 var StockMaximo = Herramientas[i].StockMax;
-                var StockAfilado = Herramientas[i].StockAfilado;
+                var StockAfilado = Herramientas[i].Stockafilado;
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
                 //Eliminar variable dentro del For

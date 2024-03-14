@@ -1844,7 +1844,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
             Familia == 'Todo' ? Familia = ' AND Familia IS not null' : Familia = " AND Familia = '" + Familia + "'";
 
-            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Familia,Categoria,Cotizado,OC FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia + " order by almacen";
+            let consulta = "SELECT id,Clave,Producto,Proveedor,Precio,Moneda,TiempoEntrega,ProveedorSec,Almacen,Stock,StockMin,StockMax,StockUsado,Stockafilado,Familia,Categoria,Cotizado,OC FROM almacen WHERE VISIBLE = 1 AND Almacen" + Almacen + Categoria + Familia + " order by almacen";
 
             //console.log(consulta);
             conn.query(consulta, (err, Herramientas) => {

@@ -110,6 +110,7 @@ function MostrarReporte() {
                 var StockUsado = Herramientas[i].StockUsado;
                 var StockMinimo = Herramientas[i].StockMin;
                 var StockMaximo = Herramientas[i].StockMax;
+                var Stockafilado = Herramientas[i].Stockafilado;
                 var Ubicacion = Herramientas[i].Ubicacion;
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
@@ -117,7 +118,7 @@ function MostrarReporte() {
                 var OC = Herramientas[i].OC || "-";
                 //Eliminar variable dentro del For
 
-                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia,OC]
+                Arreglo = [Clave, Producto, Proveedor, ProveedorSec, Precio, Moneda, TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado,Stockafilado, Categoria, Familia,OC]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -131,8 +132,8 @@ function MostrarReporte() {
                     var newText = document.createTextNode(Arreglo[x]);
                     newCell.appendChild(newText);
 
-                    if (x == 10) { //Si termina de registrar datos crear el boton
-                        var newCell = newRow.insertCell(11); //CREAR CELDA
+                    if (x == 11) { //Si termina de registrar datos crear el boton
+                        var newCell = newRow.insertCell(12); //CREAR CELDA
                         newCell.innerHTML = '<button id="' + i + '" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario" onclick=Seleccion(' + i + ')> Selección </button>';
                     }
 

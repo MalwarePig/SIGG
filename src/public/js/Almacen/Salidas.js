@@ -232,6 +232,7 @@ function GuardarNota() {
             Arreglo
         }, // data to be submit
         function (objeto, estatus) { // success callback
+            GETPRODUCTS()
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
 
