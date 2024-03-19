@@ -235,6 +235,7 @@ function GuardarNota() {
             GETPRODUCTS()
             //console.log("objeto: " + objeto + "Estatus: " + estatus);
         });
+        
 
     //Limpiar tabla 
     var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];

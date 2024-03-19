@@ -7,7 +7,8 @@ const myConnection = require('express-myconnection');
 const session = require('express-session');
 const OS = require("os");
 const fileupload = require('express-fileupload');//Subida de archivos
-
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 //Configuracion Servidor
 app.set('port',process.env.PORT || 3000)//asignar puerto, si lo da el So que lo tome, sino el 3000

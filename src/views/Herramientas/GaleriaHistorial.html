@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+        <script type="text/javascript" src="js/Herramientas/EtiquetasDos.js"></script>
+</head>
+
+<body>
+    <%- include ('../partials/navegacion.html')%>
+
+    
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
+                            aria-describedby="button-search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="button-search">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-md-3 text-center">
+                    <img src="https://via.placeholder.com/300" class="img-fluid w-100" alt="Imagen">
+                  </div>
+                  
+            </div>
+        </div>
+</body>
+
+</html>

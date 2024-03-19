@@ -19,6 +19,12 @@ const PNCController = require('../Controllers/PNCController');
 const RHController = require('../Controllers/RHController');
 const PeticionesController = require('../Controllers/PeticionesController');
 const CalidadController = require('../Controllers/CalidadController');
+const ControlImagenesController = require('../Controllers/ControlImagenesController');
+
+const fs = require('node:fs')
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
 //Acceder a login
 var reinicio = router.get('/', (req, res) => {
@@ -1411,6 +1417,48 @@ router.get('/Pruebas', (req, res) => {
 	} else {
 		res.render('Admin/Login.html');
 	}
+});
+
+//====== Tornilleria ========
+//Abre pagina principal para tomar fotos
+router.get('/HistorialOT', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Herramientas/HistorialOT.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+
+router.post('/UpluadImages', upload.single('avatar'), function (req, res, next) {
+	// req.file is the `avatar` file
+	// req.body will hold the text fields, if there were any
+	//console.log(req); // log to see uploaded file
+	//console.log(req.body.avatar); // log to see uploaded file
+	console.log(req.file); // log to see uploaded file
+	res.send('Recibido')
+	saveImage(req.file)
+  })
+
+  function saveImage(file) {
+	
+	const newPath = `./uploads/${file.originalname}`;
+	fs.renameSync(file.path,newPath);
+	return newPath;
+  }
+
+  router.get('/HistorialGaleria', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Herramientas/GaleriaHistorial.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
 });
 
 module.exports = router;

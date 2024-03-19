@@ -12,6 +12,7 @@ timeago.js //Convierte fechas en tiempos transcurrido pasados
 conect-flash //Mostrar mensajes de error o mensajes a usuario
 express-validatos //Validar datos de usuario
 ejs //Para trabajar con html
+multer //para el manejo de imagenes de web a servidor
 
 npm i express express-handlebars express-session mysql express-mysql-session morgan passport express-validator express-myconnection ejs
 npm install read-excel-file //Para lectura de excel por servidor

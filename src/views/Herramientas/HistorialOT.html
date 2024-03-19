@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
+        <script src="js/Recursos/jspdf.min.js"></script>
+        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
+        <script type="text/javascript" src="js/Herramientas/EtiquetasDos.js"></script>
+</head>
+
+<body>
+    <%- include ('../partials/navegacion.html')%>
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="text-center">
+                        <h2>Captura </h2>
+                        <video id="video" width="100%" height="auto" autoplay></video>
+                        <br>
+                        <button id="capture-btn" class="btn btn-primary mt-3" data-toggle="modal"
+                            data-target="#previewModal">Tomar Foto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Vista Previa -->
+        <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="previewModalLabel">Vista Previa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <canvas id="canvas" class="img-fluid"></canvas>
+                    </div>
+                    <div class="modal-footer">
+                        <label for="inputAddress2" class="font-weight-bold">OT: </label>
+                        <div class="form-group col-md-5"> 
+                            <input type="text" id="OT" class="form-control" name="Sal_OT" autocomplete="off" required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button id="download-btn" class="btn btn-success">Descargar Foto HD</button>
+                        <button id="save-btn" class="btn btn-success">Guardar Foto HD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Acceder a la cámara web
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    var video = document.getElementById('video');
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function (err) {
+                    console.log("Ocurrió un error al acceder a la cámara web: " + err);
+                });
+
+            // Tomar una foto y mostrar en el modal
+            document.getElementById('capture-btn').addEventListener('click', function () {
+                var video = document.getElementById('video');
+                var canvas = document.getElementById('canvas');
+                var context = canvas.getContext('2d');
+                // Limpiar el canvas
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                // Establecer la resolución HD
+                canvas.width = 1280;
+                canvas.height = 720;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                // Mostrar el modal
+
+                var myModal = new bootstrap.Modal(document.getElementById('#previewModal'), {
+                    keyboard: false
+                })
+                myModal.show()
+            });
+
+            // Guardar la foto
+            document.getElementById('download-btn').addEventListener('click', function () {
+                var canvas = document.getElementById('canvas');
+                var dataURL = canvas.toDataURL('image/jpeg'); // Obtener la imagen en formato JPEG
+                // Crear un enlace para descargar la imagen
+                var link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'foto_hd.jpg';
+                link.click();
+            });
+
+
+
+            document.getElementById('save-btn').addEventListener('click', function () {
+                var NombreOT = document.getElementById("OT").value
+ 
+                var canvas = document.getElementById('canvas');
+                var dataURL = canvas.toDataURL('image/jpeg'); // Convertir el canvas a una imagen base64
+                // Convertir la imagen base64 a un Blob
+                var byteCharacters = atob(dataURL.split(',')[1]);
+                var byteNumbers = new Array(byteCharacters.length);
+                for (var i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                var blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+                // Crear un FormData y adjuntar el Blob como un campo
+                var formData = new FormData();
+                formData.append('avatar', blob, NombreOT+'.jpg'); // Añadir el Blob al FormData
+                 if (NombreOT) {
+                    // Enviar la solicitud con los datos del FormData al servidor
+                fetch('/UpluadImages', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('La imagen se ha guardado exitosamente.');
+                        } else {
+                            alert('Hubo un error al guardar la imagen.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al guardar la imagen:', error);
+                        alert('Hubo un error al guardar la imagen.');
+                    });
+                }else{
+                    alert("Nombre requerido")
+                }
+                
+
+            });
+        </script>
+
+</body>
+
+</html>
