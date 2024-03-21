@@ -12,7 +12,7 @@
     <%- include ('../partials/head.html') %>
         <!------incluir cabezera navegacion----->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-
+ 
 </head>
 
 <body>
@@ -27,7 +27,6 @@
                         <br>
                         <button id="capture-btn" class="btn btn-primary mt-3" data-toggle="modal"
                             data-target="#previewModal">Tomar Foto</button>
-                            <button onclick="activarCamara()">Activar Cámara</button>
                     </div>
                 </div>
             </div>
@@ -49,9 +48,8 @@
                     </div>
                     <div class="modal-footer">
                         <label for="inputAddress2" class="font-weight-bold">OT: </label>
-                        <div class="form-group col-md-5">
-                            <input type="text" id="PO" class="form-control" name="PO" autocomplete="off" required
-                                oninput="ajustarEspacios()">
+                        <div class="form-group col-md-5"> 
+                            <input type="text" id="PO" class="form-control" name="PO" autocomplete="off" required oninput="ajustarEspacios()">
                         </div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <!-- <button id="download-btn" class="btn btn-success" data-dismiss="modal">Descargar</button> -->
@@ -61,19 +59,17 @@
             </div>
         </div>
 
-
-
         <script>
             // Acceder a la cámara web
-            async function activarCamara() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                    const videoElement = document.getElementById('video');
-                    videoElement.srcObject = stream;
-                } catch (error) {
-                    console.error('Error al acceder a la cámara:', error);
-                }
-            }
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    var video = document.getElementById('video');
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function (err) {
+                    console.log("Ocurrió un error al acceder a la cámara web: " + err);
+                });
 
             // Tomar una foto y mostrar en el modal
             document.getElementById('capture-btn').addEventListener('click', function () {
@@ -95,22 +91,22 @@
             });
 
             // Guardar la foto
-            /*  document.getElementById('download-btn').addEventListener('click', function () {
-                 var canvas = document.getElementById('canvas');
-                 var dataURL = canvas.toDataURL('image/jpeg'); // Obtener la imagen en formato JPEG
-                 // Crear un enlace para descargar la imagen
-                 var link = document.createElement('a');
-                 link.href = dataURL;
-                 link.download = 'foto_hd.jpg';
-                 link.click();
-             }); */
+           /*  document.getElementById('download-btn').addEventListener('click', function () {
+                var canvas = document.getElementById('canvas');
+                var dataURL = canvas.toDataURL('image/jpeg'); // Obtener la imagen en formato JPEG
+                // Crear un enlace para descargar la imagen
+                var link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'foto_hd.jpg';
+                link.click();
+            }); */
 
 
 
             document.getElementById('save-btn').addEventListener('click', function () {
                 var NombrePO = document.getElementById("PO").value
                 let POFormateado = NombrePO.trimRight();
-
+ 
                 var canvas = document.getElementById('canvas');
                 var dataURL = canvas.toDataURL('image/jpeg'); // Convertir el canvas a una imagen base64
                 // Convertir la imagen base64 a un Blob
@@ -124,36 +120,36 @@
 
                 // Crear un FormData y adjuntar el Blob como un campo
                 var formData = new FormData();
-                formData.append('avatar', blob, POFormateado + '.jpg'); // Añadir el Blob al FormData
-                if (POFormateado) {
+                formData.append('avatar', blob, POFormateado+'.jpg'); // Añadir el Blob al FormData
+                 if (POFormateado) {
                     // Enviar la solicitud con los datos del FormData al servidor
-                    fetch('/UpluadImages', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                document.getElementById("PO").value = ''
-                                console.log('La imagen se ha guardado exitosamente.');
-                            } else {
-                                document.getElementById("PO").value = ''
-                                alert('Hubo un error al guardar la imagen.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error al guardar la imagen:', error);
+                fetch('/UpluadImages', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            document.getElementById("PO").value = ''
+                            console.log('La imagen se ha guardado exitosamente.');
+                        } else {
+                            document.getElementById("PO").value = ''
                             alert('Hubo un error al guardar la imagen.');
-                        });
-                } else {
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al guardar la imagen:', error);
+                        alert('Hubo un error al guardar la imagen.');
+                    });
+                }else{
                     alert("Nombre requerido")
-                }
+                } 
             });
 
             function ajustarEspacios() {
-                let cadena = document.getElementById("PO").value
+                let cadena =  document.getElementById("PO").value  
                 let cadenaSinEspacioAlFinal = cadena.trimRight();
                 document.getElementById("PO").value = cadenaSinEspacioAlFinal
-                alert("Se ingreso" + cadenaSinEspacioAlFinal)
+                alert("Se ingreso" +cadenaSinEspacioAlFinal)
             }
         </script>
 
