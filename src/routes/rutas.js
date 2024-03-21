@@ -22,7 +22,7 @@ const CalidadController = require('../Controllers/CalidadController');
 const ControlImagenesController = require('../Controllers/ControlImagenesController');
 
 const fs = require('node:fs')
-const multer  = require('multer')
+const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
 /////////////////////////////////////////////////////////////////////////// USUARIOS /////////////////////////////////////////////////////////////////////////////////
@@ -37,8 +37,8 @@ router.post('/Login', UserController.login);
 //Acceder formulario Registrar usuario
 
 //Iniciar logueo
-router.get('/Signup',  UserController.SignUp);
- 
+router.get('/Signup', UserController.SignUp);
+
 //Registrar usuario en db
 router.post('/AddUser', UserController.save);
 
@@ -73,7 +73,7 @@ router.get('/cPlaner', function (request, response) {
 		//response.send('Welcome back, ' + request.session.username + '!');
 	} else {
 		response.render('Admin/Login.html');
-	} 
+	}
 });
 
 router.get('/Planeacion', function (request, response) {
@@ -124,7 +124,7 @@ router.get('/delete/:id', OTController.delete);
 router.get('/CargarTodoOT/', OTController.CargarTodoOT);
 router.post('/ActualizarOT/', OTController.ActualizarOT);
 //router.post('/add', OTController.save);
- 
+
 /////////////////////////////////////////////////////////////////////////// ENTRAR A Vencidas //////////////////////////////////////////////////////////////////////////////
 router.get('/Vencidas', VencidasController.listVencidas);
 /////////////////////////////////////////////////////////////////////////// REGISTRO DE MAQUINARIA CNC /////////////////////////////////////////////////////////////////////
@@ -197,7 +197,7 @@ router.post('/RegistrarEficiencia/', FlujoController.RegistrarEficiencia);
 router.get('/RegistrosArea/:parametros', FlujoController.RegistrosArea);
 //Registrar eficiencia
 router.post('/NuevoProceso/', FlujoController.NuevoProceso);
- 
+
 
 /////////////////////////////////////////////////////////////////////////// Materiales ///////////////////////////////////////////////////////////////////////////////
 router.get('/Materiales', (req, res) => {
@@ -210,7 +210,7 @@ router.get('/Materiales', (req, res) => {
 	}
 	res.end();
 });
- 
+
 router.get('/ConsultaMateriales/:parametros', MaterialesController.MostrarReporte);
 router.post('/ActualizarMaterial/', MaterialesController.ActualizarMaterial);
 
@@ -246,7 +246,7 @@ router.get('/Admin', (req, res) => {
 		} else {
 			res.render('Admin/Login.html');
 		}
-	} else { 
+	} else {
 		res.render('Admin/Login.html');
 	}
 	res.end();
@@ -282,7 +282,7 @@ router.get('/wh_Admin', (req, res) => {
 		}
 	} else {
 		res.render('Admin/Login.html');
-	} 
+	}
 });
 
 //====== Salidas ========
@@ -357,7 +357,7 @@ router.get('/wh_Criticos', (req, res) => {
 router.get('/MinCritico/', AlmacenController.MinCritico);
 
 //Muestra la lista de herramientas despachadas por almacen
-router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho); 
+router.get('/ListadoDespacho/:parametros', AlmacenController.ListadoDespacho);
 //Muestra el consumo por cada herramienta
 router.get('/SumaMensual/:parametros', AlmacenController.SumaMensual);
 //Muestra detalle de las herramienta
@@ -432,7 +432,7 @@ router.get('/AdminGaveta', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 });
- 
+
 
 router.get('/GavetaRetorno', (req, res) => {
 	if (req.session.loggedin) {
@@ -454,20 +454,20 @@ router.get('/BuscarGavetaId/:parametros', AlmacenController.BuscarGavetaId);
 //Busca Pendientes de recolectar en gaveta
 router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
 //Guarda la recoleccion en gaveta
-router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta); 
+router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
 //Existencias Gaveta 
 router.get('/ExistenciasGaveta', AlmacenController.ExistenciasGaveta);
 
 router.post('/addNuevoProducto', AlmacenController.NuevoProducto);
 
 //Guarda la recoleccion en gaveta
-router.post('/postAjusteGaveta', AlmacenController.postAjusteGaveta); 
+router.post('/postAjusteGaveta', AlmacenController.postAjusteGaveta);
 
-router.get('/ListaFamiliasGaveta', AlmacenController.ListaFamiliasGaveta); 
+router.get('/ListaFamiliasGaveta', AlmacenController.ListaFamiliasGaveta);
 //Guarda la recoleccion en gaveta
-router.post('/GuardarCambiosGaveta', AlmacenController.GuardarCambiosGaveta); 
-router.post('/GuardarNuevoGaveta', AlmacenController.GuardarNuevoGaveta); 
-router.post('/EliminarGaveta', AlmacenController.EliminarGaveta); 
+router.post('/GuardarCambiosGaveta', AlmacenController.GuardarCambiosGaveta);
+router.post('/GuardarNuevoGaveta', AlmacenController.GuardarNuevoGaveta);
+router.post('/EliminarGaveta', AlmacenController.EliminarGaveta);
 //============================== Almacen Gaveta Despacho (Oficina) ==============================//
 router.get('/GavetaDespacho', (req, res) => {
 	if (req.session.loggedin) {
@@ -728,7 +728,7 @@ router.get('/whCompras', (req, res) => {
 
 //Busca Herramientas Cotizadas activadas
 router.get('/ListaDeCotizaciones/', AlmacenController.ListaDeCotizaciones);
- 
+
 router.post('/Ordenar/', AlmacenController.Ordenar);
 
 router.post('/CancelarOrden/', AlmacenController.CancelarOrden);
@@ -849,7 +849,7 @@ router.get('/CargaMateriales', (req, res) => {
 router.post('/CargaMaterial', MaterialesController.CargaMaterial);
 //====== Carga Lista Materiales ========
 router.get('/listaMateriales', MaterialesController.listaMateriales);
- 
+
 /////////////////////////////////////////////////////////////////////////// Proceso //////////////////////////////////////////////////////////////////////////////
 //====== Cargar Reporte Inventario ========
 router.get('/VerInventario', (req, res) => {
@@ -873,7 +873,7 @@ router.get('/Pronosticos', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 	res.end();
-}); 
+});
 
 //====== Buscar Herramientas ========
 router.get('/VerAlmacen/:Herramienta', ProcesosController.searchPlanta);
@@ -918,7 +918,7 @@ router.get('/Logistica', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 	res.end();
-}); 
+});
 
 //====== Guardar Lista Logistica ========
 router.post('/NuevaImportacion', LogisiticaController.NuevaImportacion);
@@ -946,11 +946,11 @@ router.get('/Etiquetas', (req, res) => {
 	if (req.session.loggedin) {
 		let area = req.session.area;
 		console.log(area);
-		if(area == 'Embarques'){
+		if (area == 'Embarques') {
 			res.render('Herramientas/Etiquetas.html', {
 				title: 'Gemak'
 			});
-		}else{
+		} else {
 			console.log("No area");
 			res.redirect('/home');
 		}
@@ -966,11 +966,11 @@ router.get('/Etiqueta_dos', (req, res) => {
 	if (req.session.loggedin) {
 		let area = req.session.area;
 		console.log(area);
-		if(area == 'Embarques'){
+		if (area == 'Embarques') {
 			res.render('Herramientas/Daimler.html', {
 				title: 'Gemak'
 			});
-		}else{
+		} else {
 			console.log("No area");
 			res.redirect('/home');
 		}
@@ -986,11 +986,11 @@ router.get('/Etiqueta_Baker', (req, res) => {
 	if (req.session.loggedin) {
 		let area = req.session.area;
 		console.log(area);
-		if(area == 'Embarques'){
+		if (area == 'Embarques') {
 			res.render('Herramientas/Baker.html', {
 				title: 'Gemak'
 			});
-		}else{
+		} else {
 			console.log("No area");
 			res.redirect('/home');
 		}
@@ -1007,11 +1007,11 @@ router.get('/EtiquetasBravo', (req, res) => {
 	if (req.session.loggedin) {
 		let area = req.session.area;
 		console.log(area);
-		if(area == 'Embarques'){
+		if (area == 'Embarques') {
 			res.render('Herramientas/EtiquetasBravo.html', {
 				title: 'Gemak'
 			});
-		}else{
+		} else {
 			console.log("No area");
 			res.redirect('/home');
 		}
@@ -1027,11 +1027,11 @@ router.get('/Cotizador', (req, res) => {
 	if (req.session.loggedin) {
 		let area = req.session.area;
 		console.log(area);
-		if(area == 'Admin'){
+		if (area == 'Admin') {
 			res.render('Herramientas/Cotizador.html', {
 				title: 'Gemak'
 			});
-		}else{
+		} else {
 			console.log("No area");
 			res.redirect('/home');
 		}
@@ -1044,44 +1044,44 @@ router.get('/Cotizador', (req, res) => {
 
 /////////////////=============================================== -HERRAMIENTAS- =================================================/////////////////////////////////
 //Reinicia cola de impresion
-router.get('/Impresoras/',function(req,res){
-	res.download('192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Impresoras.bat', 'Impresoras.bat', function(err){
-	//res.download('./src/public/RecursosArchivos/Impresoras.bat', 'Impresoras.bat', function(err){
-		if(err){
+router.get('/Impresoras/', function (req, res) {
+	res.download('192.168.2.191/Archivos Compartidos Servidor/RecursosSIGG/Impresoras.bat', 'Impresoras.bat', function (err) {
+		//res.download('./src/public/RecursosArchivos/Impresoras.bat', 'Impresoras.bat', function(err){
+		if (err) {
 			console.log(err);
-		}else{
+		} else {
 			console.log("Descargado");
 		}
 	})
 });
 //Renicializa ip
-router.get('/Internet/',function(req,res){
-	res.download('.SIGG/src/public/RecursosArchivos/Red.bat', 'Red.bat', function(err){
-		if(err){
+router.get('/Internet/', function (req, res) {
+	res.download('.SIGG/src/public/RecursosArchivos/Red.bat', 'Red.bat', function (err) {
+		if (err) {
 			console.log(err);
-		}else{
+		} else {
 			console.log("Descargado");
 		}
 	})
 });
- 
-router.get('/Api/',function(req,res){
+
+router.get('/Api/', function (req, res) {
 	var Prueba = [
-        {
-			id:0,
-            Nombre: "Sergio",
-            Edad: 28,
-            Sexo: "Hombre"
-        },
-        {
-			id:0,
-            Nombre: "Womy",
-            Edad: 26,
-            Sexo: "Mujer"
-        },
-        
-    ]
-    res.json(Prueba);
+		{
+			id: 0,
+			Nombre: "Sergio",
+			Edad: 28,
+			Sexo: "Hombre"
+		},
+		{
+			id: 0,
+			Nombre: "Womy",
+			Edad: 26,
+			Sexo: "Mujer"
+		},
+
+	]
+	res.json(Prueba);
 });
 
 /////////////////=============================================== -PNC- =================================================/////////////////////////////////
@@ -1135,7 +1135,7 @@ router.get('/FormularioAddEmp', (req, res) => {
 });
 
 //Registrar empleado
-router.post('/RegistraEmeplado',  RHController.RegistrarEmpleado);
+router.post('/RegistraEmeplado', RHController.RegistrarEmpleado);
 //====== Abre modulo de correos ========
 router.get('/CorreoNomina', (req, res) => {
 	var nivel = "RH";
@@ -1153,7 +1153,7 @@ router.get('/CorreoNomina', (req, res) => {
 //====== Listar Personal ========
 router.get('/PrepararEnvio/:Planta', RHController.PrepararEnvio);
 //Registrar empleado
-router.post('/EnviarNomina',  RHController.EnviarNomina);
+router.post('/EnviarNomina', RHController.EnviarNomina);
 
 //Actualiza informacion de empleados
 router.post('/DesactivarPersonal', RHController.DesactivarPersonal);
@@ -1162,7 +1162,7 @@ router.post('/DesactivarPersonal', RHController.DesactivarPersonal);
 router.post('/ActivarPersonal', RHController.ActivarPersonal);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- //====== Abre modulo de Inspeccion ========
+//====== Abre modulo de Inspeccion ========
 router.get('/Inspeccion', (req, res) => {
 	res.render('Calidad/Inspeccion/Inspeccion.html', {
 		title: 'Gemak'
@@ -1170,22 +1170,22 @@ router.get('/Inspeccion', (req, res) => {
 });
 
 
- //====== Abre modulo de Inspeccion ========
- router.get('/RegistroInspeccion', (req, res) => {
+//====== Abre modulo de Inspeccion ========
+router.get('/RegistroInspeccion', (req, res) => {
 	res.render('Calidad/Inspeccion/RegistrarInspeccion.html', {
 		title: 'Gemak'
 	});
 });
 
- //====== Abre modulo de Inspeccion ========
- router.get('/AdminCalidad', (req, res) => {
+//====== Abre modulo de Inspeccion ========
+router.get('/AdminCalidad', (req, res) => {
 	res.render('Calidad/Admin/AdminCalidad.html', {
 		title: 'Gemak'
 	});
 });
 
- //====== Abre modulo de Inspeccion ========
- router.get('/InspectoresList', (req, res) => {
+//====== Abre modulo de Inspeccion ========
+router.get('/InspectoresList', (req, res) => {
 	res.render('Calidad/Admin/InspectoresList.html', {
 		title: 'Gemak'
 	});
@@ -1202,8 +1202,8 @@ router.get('/ListarPersonalCalidad/:variable', CalidadController.ListarPersonal)
 router.get('/EliminarInspector/:variable', CalidadController.EliminarInspector);
 //Asignar Inspector
 router.get('/ActivarInspector/:variable', CalidadController.ActivarInspector);
- //====== Abre modulo de Inspeccion de reportes ========
- router.get('/ReporteInspeccion', (req, res) => {
+//====== Abre modulo de Inspeccion de reportes ========
+router.get('/ReporteInspeccion', (req, res) => {
 	res.render('Calidad/Inspeccion/ListaInspeccion.html', {
 		title: 'Gemak'
 	});
@@ -1214,7 +1214,7 @@ router.get('/ListaInspecciones/:parametros', CalidadController.ListaInspecciones
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.get('/Ex_Salidas', (req, res) => {
 	if (req.session.loggedin) {
-		if (req.session.area == "Proceso" || (req.session.nivel == "Admin" && req.session.area == "Admin") ) {
+		if (req.session.area == "Proceso" || (req.session.nivel == "Admin" && req.session.area == "Admin")) {
 			res.render('Externos/Salidas/Ex_Salidas.html', {
 				title: 'Gemak'
 			});
@@ -1286,9 +1286,9 @@ router.get('/wh_EditarHerramental', (req, res) => {
 //Busca Herramientas en Herramental por id
 router.get('/BuscarHerramentalID/:parametros', AlmacenController.BuscarHerramentalID);
 router.get('/HerramentalClave/:parametros', AlmacenController.HerramentalClave);
-router.post('/GuardarCambiosHerramental', AlmacenController.GuardarCambiosHerramental); 
-router.post('/EliminarHerramental', AlmacenController.EliminarHerramental); 
-router.post('/GuardarNuevoHerramental', AlmacenController.GuardarNuevoHerramental); 
+router.post('/GuardarCambiosHerramental', AlmacenController.GuardarCambiosHerramental);
+router.post('/EliminarHerramental', AlmacenController.EliminarHerramental);
+router.post('/GuardarNuevoHerramental', AlmacenController.GuardarNuevoHerramental);
 
 
 
@@ -1332,7 +1332,7 @@ router.get('/ReporteD', (req, res) => {
 
 //Muestra reporte de entradas y salidas de herramienta
 router.get('/HerramentalDano/:parametros', AlmacenController.HerramentalDano);
-router.post('/GuardarPDFDanado', AlmacenController.GuardarPDFDanado); 
+router.post('/GuardarPDFDanado', AlmacenController.GuardarPDFDanado);
 
 router.get('/HistorialReportesDanos/:parametros', AlmacenController.HistorialReportesDaños);
 
@@ -1404,7 +1404,7 @@ router.get('/wh_ReporteIngresos', (req, res) => {
 
 router.get('/ReporteHerramientaIngresos/:Herramienta', AlmacenController.ReporteHerramientaIngresos);
 
- 
+
 router.get('/BuscarHerramientasOC/:Herra', AlmacenController.BuscarHerramientasOC);
 
 
@@ -1441,18 +1441,30 @@ router.post('/UpluadImages', upload.single('avatar'), function (req, res, next) 
 	console.log(req.file); // log to see uploaded file
 	res.send('Recibido')
 	saveImage(req.file)
-  })
+})
 
-  function saveImage(file) {
-	
-	const newPath = `./uploads/${file.originalname}`;
-	fs.renameSync(file.path,newPath);
+function saveImage(file) {
+	const newPath = `./src/public/images/HistorialOT/${file.originalname}`;
+	//const newPath = `./uploads/${file.originalname}`;
+	fs.renameSync(file.path, newPath);
 	return newPath;
-  }
+}
 
-  router.get('/HistorialGaleria', (req, res) => {
+router.get('/HistorialGaleria', (req, res) => {
 	if (req.session.loggedin) {
 		res.render('Herramientas/GaleriaHistorial.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+
+router.get('/HistorialGaleriaGrid', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Herramientas/Matriz.html', {
 			title: 'Gemak'
 		});
 	} else {
@@ -1465,21 +1477,21 @@ module.exports = router;
 
 /*ESTA ES UNA VERSION DIRECTA SIN VERIFICAR LOGIN
 router.get('/home', (req, res) => {
-    //res.send('holoo');
-    res.render('index.html',{title: 'Gemak'});
+	//res.send('holoo');
+	res.render('index.html',{title: 'Gemak'});
 });*/
 
 /*router.get('/Maquinas', (req, res) => {
-    res.render('Maquinas.html',{title: 'Maquinas'});
+	res.render('Maquinas.html',{title: 'Maquinas'});
 });*/
 
 /*
 //rutas
 app.get('/', (req, res) => {
-    //res.sendFile(path.join(__dirname,'/views/index.html'));//Obtiene ruta de este archiv Js + ruta del archivo a mostrar
-    //console.log(__dirname);//Muestra ruta generica de archivo que lo ejecuta
-    //console.log(path.join(__dirname,'views/index.html'));
-    res.render('index',{title: 'Gemak'});
+	//res.sendFile(path.join(__dirname,'/views/index.html'));//Obtiene ruta de este archiv Js + ruta del archivo a mostrar
+	//console.log(__dirname);//Muestra ruta generica de archivo que lo ejecuta
+	//console.log(path.join(__dirname,'views/index.html'));
+	res.render('index',{title: 'Gemak'});
 });
 */
 

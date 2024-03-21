@@ -12,10 +12,7 @@
     <%- include ('../partials/head.html') %>
         <!------incluir cabezera navegacion----->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-        <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
-        <script src="js/Recursos/jspdf.min.js"></script>
-        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
-        <script type="text/javascript" src="js/Herramientas/EtiquetasDos.js"></script>
+ 
 </head>
 
 <body>
@@ -23,7 +20,7 @@
 
         <div class="container mt-5">
             <div class="row">
-                <div class="col-md-6 offset-md-3">
+                <div class="col-md-8 offset-md-2">
                     <div class="text-center">
                         <h2>Captura </h2>
                         <video id="video" width="100%" height="auto" autoplay></video>
@@ -38,7 +35,7 @@
         <!-- Modal de Vista Previa -->
         <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-dialog modal-dialog-centered modal-l">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="previewModalLabel">Vista Previa</h5>
@@ -52,11 +49,11 @@
                     <div class="modal-footer">
                         <label for="inputAddress2" class="font-weight-bold">OT: </label>
                         <div class="form-group col-md-5"> 
-                            <input type="text" id="OT" class="form-control" name="Sal_OT" autocomplete="off" required>
+                            <input type="text" id="PO" class="form-control" name="PO" autocomplete="off" required oninput="ajustarEspacios()">
                         </div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button id="download-btn" class="btn btn-success">Descargar Foto HD</button>
-                        <button id="save-btn" class="btn btn-success">Guardar Foto HD</button>
+                        <!-- <button id="download-btn" class="btn btn-success" data-dismiss="modal">Descargar</button> -->
+                        <button id="save-btn" class="btn btn-success" data-dismiss="modal">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -82,7 +79,7 @@
                 // Limpiar el canvas
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 // Establecer la resolución HD
-                canvas.width = 1280;
+                canvas.width = 720;
                 canvas.height = 720;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 // Mostrar el modal
@@ -94,7 +91,7 @@
             });
 
             // Guardar la foto
-            document.getElementById('download-btn').addEventListener('click', function () {
+           /*  document.getElementById('download-btn').addEventListener('click', function () {
                 var canvas = document.getElementById('canvas');
                 var dataURL = canvas.toDataURL('image/jpeg'); // Obtener la imagen en formato JPEG
                 // Crear un enlace para descargar la imagen
@@ -102,12 +99,13 @@
                 link.href = dataURL;
                 link.download = 'foto_hd.jpg';
                 link.click();
-            });
+            }); */
 
 
 
             document.getElementById('save-btn').addEventListener('click', function () {
-                var NombreOT = document.getElementById("OT").value
+                var NombrePO = document.getElementById("PO").value
+                let POFormateado = NombrePO.trimRight();
  
                 var canvas = document.getElementById('canvas');
                 var dataURL = canvas.toDataURL('image/jpeg'); // Convertir el canvas a una imagen base64
@@ -122,8 +120,8 @@
 
                 // Crear un FormData y adjuntar el Blob como un campo
                 var formData = new FormData();
-                formData.append('avatar', blob, NombreOT+'.jpg'); // Añadir el Blob al FormData
-                 if (NombreOT) {
+                formData.append('avatar', blob, POFormateado+'.jpg'); // Añadir el Blob al FormData
+                 if (POFormateado) {
                     // Enviar la solicitud con los datos del FormData al servidor
                 fetch('/UpluadImages', {
                     method: 'POST',
@@ -131,8 +129,10 @@
                 })
                     .then(response => {
                         if (response.ok) {
-                            alert('La imagen se ha guardado exitosamente.');
+                            document.getElementById("PO").value = ''
+                            console.log('La imagen se ha guardado exitosamente.');
                         } else {
+                            document.getElementById("PO").value = ''
                             alert('Hubo un error al guardar la imagen.');
                         }
                     })
@@ -142,10 +142,15 @@
                     });
                 }else{
                     alert("Nombre requerido")
-                }
-                
-
+                } 
             });
+
+            function ajustarEspacios() {
+                let cadena =  document.getElementById("PO").value  
+                let cadenaSinEspacioAlFinal = cadena.trimRight();
+                document.getElementById("PO").value = cadenaSinEspacioAlFinal
+                alert("Se ingreso" +cadenaSinEspacioAlFinal)
+            }
         </script>
 
 </body>

@@ -13,34 +13,61 @@
         <!------incluir cabezera navegacion----->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
         <!-----------------------------------------------     PDF     ---------------------------------------------------------------->
-        <script src="js/Recursos/jspdf.min.js"></script>
-        <script src="js/Recursos/jspdf.plugin.autotable.min.js"></script>
-        <script type="text/javascript" src="js/Herramientas/EtiquetasDos.js"></script>
 </head>
 
 <body>
     <%- include ('../partials/navegacion.html')%>
 
-    
+
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
-                            aria-describedby="button-search">
+                            aria-describedby="button-search" id="Buscador">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="button-search">Buscar</button>
+                            <button class="btn btn-outline-secondary" type="button" id="button-search"
+                                onclick="Buscar()">Buscar</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 offset-md-3 text-center">
-                    <img src="https://via.placeholder.com/300" class="img-fluid w-100" alt="Imagen">
-                  </div>
-                  
+                <div class="col-md-10 offset-md-1 text-center">
+                    <img id="mi-imagen" class="img-fluid w-100" width="1920" height="1080" alt="Imagen">
+                </div>
             </div>
         </div>
+
+        <script>
+            function Buscar() {
+                let OT = document.getElementById("Buscador").value;
+                const ruta = "./images/HistorialOT/"
+                const nuevaRuta = ruta + OT + ".jpg";
+                if (nuevaRuta) {
+                    console.log("Existe")
+                    console.log(nuevaRuta)
+
+                } else {
+                    console.log(" No Existe")
+                }
+                document.getElementById('mi-imagen').src = nuevaRuta; // o removeAttribute('src');
+            }
+
+        </script>
+
+        <script>
+            // Cadena de caracteres
+            var cadena = "Esta es una cadena con palabras separadas por espacios";
+
+            // Dividir la cadena en un array utilizando los espacios como separador
+            var palabras = cadena.split(" ");
+
+            // Contar la cantidad de palabras en el array
+            var cantidadPalabras = palabras.length;
+
+            console.log("La cantidad de palabras en la cadena es:", cantidadPalabras);
+        </script>
 </body>
 
 </html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Imágenes</title>
+    <!-- Enlace al CDN de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!-- Botón de regresar con icono -->
+    <a id="botonRegreso" href="/home"><i class="fas fa-arrow-left"></i> Regresar</a>
+
+    <div id="Main">
+        <label for="cantidad">Introduce la cantidad de imágenes:</label>
+        <input type="text" id="cantidad" min="1" value="1">
+        <!-- Botón de insertar imágenes con icono -->
+        <button onclick="insertarImagenes()"><i class="fas fa-images"></i> Generar</button>
+       <!--  <button onclick="Contar()"><i class="fas fa-images"></i> Contar</button>
+ -->
+        <div id="container"></div>
+    </div>
+
+
+
+
+
+    <script>
+        function Contar() {
+            let cadena = document.getElementById('cantidad').value;
+            let numEspacios = (cadena.match(/  /g) || []).length; // Contar el número de espacios en la cadena
+            var cantidad = numEspacios + 1; // Agregar 1 para contar la última palabra
+            let arrayDibujos = cadena.split("  "); // Separar la cadena en un array utilizando "  " como separador
+            // Eliminar espacios en blanco al final de la última palabra, si los hay
+            if (arrayDibujos.length > 0) {
+                arrayDibujos[arrayDibujos.length - 1] = arrayDibujos[arrayDibujos.length - 1].trim();
+            }
+
+            console.log("Número de palabras en la cadena:" + cantidad);
+            console.log("Array de palabras:", arrayDibujos);
+
+        }
+    </script>
+
+
+
+    <script>
+        function insertarImagenes() {
+            const ruta = "./images/HistorialOT/"
+          
+            let cadena = document.getElementById('cantidad').value;
+            let numEspacios = (cadena.match(/  /g) || []).length; // Contar el número de espacios en la cadena
+            var cantidad = numEspacios + 1; // Agregar 1 para contar la última palabra
+            let arrayDibujos = cadena.split("  "); // Separar la cadena en un array utilizando "  " como separador
+            // Eliminar espacios en blanco al final de la última palabra, si los hay
+            if (arrayDibujos.length > 0) {
+                arrayDibujos[arrayDibujos.length - 1] = arrayDibujos[arrayDibujos.length - 1].trim();
+            }
+
+            var container = document.getElementById('container');
+            container.innerHTML = '';
+
+            var ladoImagen = Math.floor(Math.min(600 / Math.ceil(Math.sqrt(cantidad)), 600 / 2) - 2);
+           
+            for (var i = 0; i < cantidad; i++) {
+                const nuevaRuta = ruta + arrayDibujos[i] + ".jpg";
+                var imgSrc = nuevaRuta;
+                var imageContainer = document.createElement('div');
+                imageContainer.classList.add('image');
+                imageContainer.style.width = ladoImagen + 'px';
+                imageContainer.style.height = ladoImagen + 'px';
+                var imgElement = document.createElement('img');
+                imgElement.src = imgSrc;
+                imageContainer.appendChild(imgElement);
+                container.appendChild(imageContainer);
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        #Main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        #container {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .image {
+            width: calc(50% - 2px);
+            height: calc(50% - 2px);
+            margin: 1px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #botonRegreso {
+            padding: 10px 20px;
+            background-color: #463775;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #botonRegreso:hover {
+            background-color: #bd1a31;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 450px;
+            /* Modificar el ancho del input de texto */
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</body>
+
+</html>
