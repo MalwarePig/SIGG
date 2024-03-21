@@ -21,7 +21,8 @@ const PeticionesController = require('../Controllers/PeticionesController');
 const CalidadController = require('../Controllers/CalidadController');
 const ControlImagenesController = require('../Controllers/ControlImagenesController');
 
-const fs = require('node:fs')
+var fs = require('fs'); 
+/* const fs = require('node:fs') */
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
