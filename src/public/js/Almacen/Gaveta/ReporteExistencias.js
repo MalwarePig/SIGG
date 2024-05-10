@@ -1,4 +1,4 @@
-
+var Herramientas = []
 function ExistenciasGaveta() {
     var miModal = new bootstrap.Modal(document.getElementById('loading')); 
     miModal.show();
@@ -13,10 +13,12 @@ function ExistenciasGaveta() {
 function Consulta() {
     LimpiarTabla()
     $.ajax({
-        url: '/ExistenciasGaveta/',
-        success: function (Herramientas) {
-
+        url: '/ExistenciasGaveta/'+document.getElementById("Almacen").value,
+        success: function (data) {
+             
             var Arreglo = [];
+            Herramientas = data[0];
+            var PermisoPrecios = data[1]
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
@@ -39,9 +41,9 @@ function Consulta() {
                 var Ubicacion = Herramientas[i].Ubicacion;
                 var Cantidad = Herramientas[i].Cantidad;
                 var CantidadUsados = Herramientas[i].CantidadUsados;
-                var Comentarios = Herramientas[i].Comentarios;
+                var Comentarios = Herramientas[i].Comentarios; 
                 var Link = Herramientas[i].Link;
-                var Precio = Herramientas[i].Precio || "0";
+                var Precio = PermisoPrecios ? Herramientas[i].Precio : '-'
                 var Arreglo = [Clave, Familia, Planta, Marca, Grado, Tipo, Descripcion, MedidaDiametro, Parte, Ubicacion, Cantidad, CantidadUsados, Comentarios, Precio,Link]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
@@ -101,7 +103,7 @@ function ExportarExistenciaGavetas() {
         sheetid: 'Sheet One',
         header: true
     }];
-    //var result = alasql('SELECT * INTO XLSX("Existencias Gaveta '+moment().add(1, 'days').calendar()+' .xlsx",?) FROM ?', [opts, [sheet_1_data]]);
+    var result = alasql('SELECT * INTO XLSX("Existencias Gaveta '+moment().add(1, 'days').calendar()+' .xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }
 
 function TablaInteligente(params) {

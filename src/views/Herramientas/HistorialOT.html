@@ -15,7 +15,7 @@
 
 </head>
 
-<body>
+<body onload="activarCamara()">
     <%- include ('../partials/navegacion.html')%>
 
         <div class="container mt-5">
@@ -27,7 +27,7 @@
                         <br>
                         <button id="capture-btn" class="btn btn-primary mt-3" data-toggle="modal"
                             data-target="#previewModal">Tomar Foto</button>
-                            <button onclick="activarCamara()">Activar Cámara</button>
+                           
                     </div>
                 </div>
             </div>

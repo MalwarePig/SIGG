@@ -1839,6 +1839,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
             var Almacen = parametros.split('|')[0]; // categoria o tipo de reporte
             var Categoria = parametros.split('|')[1]; // Fecha inicial
             var Familia = parametros.split('|')[2]; // Fecha limite
+            let PermisoPrecios =  req.session.PermisoPrecios;
 
             Almacen == 'Todo' ? Almacen = ' IS not null' : Almacen = " = 'Almacen " + Almacen + "'";
             Categoria == 'Todo' ? Categoria = ' AND Categoria IS not null' : Categoria = " AND Categoria = '" + Categoria + "'";
@@ -1852,8 +1853,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error de lectura' + err);
                 }
-                console.table(Herramientas.length)
-                res.json(Herramientas)
+                res.json([Herramientas,PermisoPrecios])
             });
         });
     } else {
@@ -3096,15 +3096,28 @@ Controller.ExistenciasGaveta = (req, res) => {
         //res.send('Metodo Get list');
         req.getConnection((err, conn) => {
             const {
-                Maquina
+                Almacen
             } = req.params;
             let Planta = req.session.planta;
-            conn.query("SELECT * FROM gavetas order by Planta,Clave", (err, Herramientas) => {
-                if (err) {
-                    console.log('Error de lectura' + err);
-                }
-                res.json(Herramientas)
-            });
+            let PermisoPrecios =  req.session.PermisoPrecios;
+
+            console.log('Consultar' + Almacen);
+            if(Almacen == 'Todo'){
+                conn.query("SELECT * FROM gavetas order by Planta,Clave", (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json([Herramientas,PermisoPrecios])
+                });
+            }else{
+                conn.query("SELECT * FROM gavetas where Planta = '"+Almacen+"' order by Clave", (err, Herramientas) => {
+                    if (err) {
+                        console.log('Error de lectura' + err);
+                    }
+                    res.json([Herramientas,PermisoPrecios])
+                });
+            }
+            
         });
     } else {
         res.render('Admin/Login.html');
@@ -4150,6 +4163,34 @@ Controller.BuscarHerramientasOC = (req, res) => {
                     console.log('Error de lectura');
                 }
                 res.json(Herramientas);
+            });
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
+
+Controller.ExistenciaTotalHerramientas = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                parametros
+            } = req.params;
+            
+            var consulta = ''
+            if (parametros == 'Todo') {
+                consulta = "SELECT * FROM herramienta order by Planta,Caracteristicas asc";
+            }else{
+                consulta = "SELECT * FROM herramienta WHERE Planta = '" + parametros + "' order by Caracteristicas asc";
+            } 
+            conn.query(consulta, (err, Herramientas) => {
+                if (err) {
+                    res.json("Error json: " + err);
+                    console.log('Error de lectura' + err);
+                } 
+
+                res.json(Herramientas)
             });
         });
     } else {

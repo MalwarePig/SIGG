@@ -83,7 +83,9 @@ function MostrarReporte() {
 
     $.ajax({
         url: '/ExistenciaTotalAlmacen/' + Almacen + '|' + Categoria + '|' + Familia,
-        success: function (Herramientas) {
+        success: function (Data) {
+            var Herramientas = Data[0]
+            var PermisoPrecios = Data[1]
             HerramientasConsultadas = Herramientas;
             //console.table(Herramientas)
             var Arreglo = [];
@@ -104,7 +106,7 @@ function MostrarReporte() {
                 var Moneda = Herramientas[i].Moneda || "-";
                 var TiempoEntrega = Herramientas[i].TiempoEntrega || "-";
                 var ProveedorSec = Herramientas[i].ProveedorSec || "-";
-                var Precio = Herramientas[i].Precio || "0";
+                var Precio = PermisoPrecios ? Herramientas[i].Precio : "-";
                 var Planta = Herramientas[i].Almacen;
                 var StockNuevo = Herramientas[i].Stock;
                 var StockUsado = Herramientas[i].StockUsado;

@@ -21,23 +21,46 @@
         <script type="text/javascript" src="js/Almacen/Gaveta/ReporteExistencias.js"></script>
 </head>
 
-<body onload="ExistenciasGaveta()">
+<body >
     <%- include ('../../partials/navegacion.html') %>
         <!------incluir navegacion Menu----->
 
         <div class="card text-center">
             <div class="card-header">
                 <!------------------------------ BUSCAR -------------------------------------->
+                <div class="row">
+                    <div class="col d-flex justify-content-center align-items-center">
+                        <div class="mx-2" >
+                            <label for="inputState" class="font-weight-bold">Almacen</label>
+                        </div>
+                        <div class="mx-2" > 
+                            <select required id="Almacen" name="Sal_Estatus" class="form-select">
+                                <option value="Todo" selected>Todo</option>
+                                <option value="Bravo">Bravo</option>
+                                <option value="Morelos">Morelos</option>
+                            </select>
+                        </div> 
 
-                <div class="form-row">
+                        <div class="mx-2">
+                            <button type="button" id="getProducts" name="getProducts" class="btn btn-secondary "
+                                onclick="ExistenciasGaveta()"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                        </div>
+
+                        <div class="mx-2">
+                            <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
+                                onclick="ExportarExistenciaGavetas()" data-toggle="tooltip" data-placement="top"
+                                title="Exportar a Excel"><i class="fa-solid fa-file-csv"></i></button>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body mx-2" style="width:96%; height:750px;">
             <!------------------------------ TABLA -------------------------------------->
-            <div class="container-fluid shadow-lg p-3 my-5 bg-white rounded" style="width:96%; height:100%;  ">
-                <table class="table table-condensed table-hover fs-6" id="TablaReporte">
+            <div class="container-fluid shadow-lg p-3 bg-white rounded" style="width:96%; height:100%;  ">
+                <table class="table table-condensed table-hover fs-6 table-bordered" id="TablaReporte">
                     <thead class="table-dark">
                         <tr>
                             <th>Clave</th>
@@ -69,7 +92,7 @@
 
         <!-- Tabla inteligente vieja-->
         <!-- DATATABLES -->
-      <!--   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
+        <!--   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
 
         <!-- BOOTSTRAP -->
         <!-- <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>-->
@@ -77,7 +100,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 
-<!-- 
+        <!-- 
 
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
             tabindex="-1">

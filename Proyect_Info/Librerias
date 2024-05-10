@@ -13,6 +13,11 @@ conect-flash //Mostrar mensajes de error o mensajes a usuario
 express-validatos //Validar datos de usuario
 ejs //Para trabajar con html
 multer //para el manejo de imagenes de web a servidor
+npm i https
+ 
+ 
+openssl req -nodes -x509 -newkey rsa:4096 -keyout server.key -out server.cer -days 30650 -subj /CN=*.192.168.2.48 
+
 
 npm i express express-handlebars express-session mysql express-mysql-session morgan passport express-validator express-myconnection ejs
 npm install read-excel-file //Para lectura de excel por servidor

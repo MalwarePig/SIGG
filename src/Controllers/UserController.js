@@ -65,6 +65,7 @@ Controller.login = (req,res) => {
                 const Area = results[0].Area//Obtener nivel de la consulta
                 const Turno = results[0].Turno//Obtener nivel de la consulta
                 const Nombre = results[0].Nombre//Obtener nivel de la consulta
+                const PermisoPrecios = results[0].PermisoPrecios//Obtener nivel de la consulta
                 if(password == pass){//si las contraseñas coinciden entran
                     req.session.loggedin = true;
                     req.session.idDB = id;
@@ -75,6 +76,7 @@ Controller.login = (req,res) => {
                     //req.session.nombre = OS.hostname();
                     req.session.nombre = Nombre;
                     req.session.turno = Turno;
+                    req.session.PermisoPrecios = PermisoPrecios;
                     let ip = req.connection.remoteAddres;
 
                         conn.query("SELECT * FROM usuarios WHERE usuario = '"+username+"'", (err, user) => {

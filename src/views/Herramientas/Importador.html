@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload CSV File</title>
+</head>
+<body>
+  <h1>Upload CSV File</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="csvFile" accept=".csv">
+    <button type="button" onclick="uploadCSV()">Upload</button>
+  </form>
+  <div id="status"></div>
+
+  <script>
+    function uploadCSV() {
+      var form = document.getElementById('uploadForm');
+      var formData = new FormData(form);
+
+      fetch('/ImportadorExcel', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('status').innerText = data.message;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</body>
+</html>

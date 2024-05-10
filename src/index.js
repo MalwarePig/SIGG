@@ -9,6 +9,9 @@ const OS = require("os");
 const fileupload = require('express-fileupload');//Subida de archivos
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
+const https = require('https');
+const fs = require('fs')
+
 
 //Configuracion Servidor
 app.set('port',process.env.PORT || 3000)//asignar puerto, si lo da el So que lo tome, sino el 3000
@@ -28,6 +31,16 @@ app.use(myConnection(mysql,{
      port: 3306,
      database: 'sigg'
 },'single'))
+
+ 
+var credentials = {
+	cert: fs.readFileSync('server.cer'),
+     key: fs.readFileSync('server.key')
+};
+
+
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(443);
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 

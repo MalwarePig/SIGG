@@ -457,7 +457,7 @@ router.get('/MostrarRecoleccionGav', AlmacenController.MostrarRecoleccionGav);
 //Guarda la recoleccion en gaveta
 router.post('/GuardarRecoleccionGaveta', AlmacenController.GuardarRecoleccionGaveta);
 //Existencias Gaveta 
-router.get('/ExistenciasGaveta', AlmacenController.ExistenciasGaveta);
+router.get('/ExistenciasGaveta/:Almacen', AlmacenController.ExistenciasGaveta);
 
 router.post('/addNuevoProducto', AlmacenController.NuevoProducto);
 
@@ -1405,9 +1405,7 @@ router.get('/wh_ReporteIngresos', (req, res) => {
 
 router.get('/ReporteHerramientaIngresos/:Herramienta', AlmacenController.ReporteHerramientaIngresos);
 
-
 router.get('/BuscarHerramientasOC/:Herra', AlmacenController.BuscarHerramientasOC);
-
 
 //Abre pagina principal para requerir
 router.get('/Pruebas', (req, res) => {
@@ -1473,6 +1471,29 @@ router.get('/HistorialGaleriaGrid', (req, res) => {
 	}
 	res.end();
 });
+
+
+router.get('/Importador', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Herramientas/Importador.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+router.get('/ExistenciaHerramienta', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Herramienta/ExistenciaHerramienta.html');
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+//Busca Herramientas en 
+router.get('/ExistenciaTotalHerramientas/:parametros', AlmacenController.ExistenciaTotalHerramientas);
 
 module.exports = router;
 
