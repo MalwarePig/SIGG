@@ -56,11 +56,7 @@ function MostrarReporte() {
         } //Funcion success
     }); //Ajax 
 }
-
-
-
-
-
+ 
 
 function ExportarExistencia() {
     console.log(Herramientas)
