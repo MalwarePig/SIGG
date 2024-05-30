@@ -82,7 +82,8 @@ function MostrarReporte() {
 
     $.ajax({
         url: '/ExistenciaTotalAlmacen/' + Almacen + '|' + Categoria + '|' + Familia,
-        success: function (Herramientas) {
+        success: function (data) {
+            var Herramientas = data[0]
             //console.table(Herramientas)
             var Arreglo = [];
             //Limpiar tabla 

@@ -1853,6 +1853,7 @@ Controller.ExistenciaTotalAlmacen = (req, res) => {
                     res.json("Error json: " + err);
                     console.log('Error de lectura' + err);
                 }
+                console.log(Herramientas)
                 res.json([Herramientas,PermisoPrecios])
             });
         });
