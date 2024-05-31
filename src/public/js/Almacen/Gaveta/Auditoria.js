@@ -47,11 +47,13 @@ function GETPRODUCTS() {
         var Ubicacion = Herramientas[i].Ubicacion;
         var Clave = Herramientas[i].Clave;
         var Descripcion = Herramientas[i].Descripcion;
+        var Grado = Herramientas[i].Grado;
+        var Marca = Herramientas[i].Marca;
         var FechaAjuste = Herramientas[i].FechaAjuste ? moment(Herramientas[i].FechaAjuste).format('DD-MM-YYYY') : '-'
         var Auditor = Herramientas[i].Auditor || '-';
         var Cantidad = Herramientas[i].Cantidad || '0';
         //Eliminar variable dentro del For
-        Arreglo = [id, Planta, Ubicacion, Clave, Descripcion, FechaAjuste, Auditor, Cantidad]
+        Arreglo = [id, Planta, Ubicacion, Clave, Descripcion,Grado,Marca, FechaAjuste, Auditor, Cantidad]
         var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
         // inserta una fila al final de la tabla
         var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
