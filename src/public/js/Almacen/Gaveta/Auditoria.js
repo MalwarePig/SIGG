@@ -1,14 +1,14 @@
 function Ubicaciones() {
 
-  var ListaSelect = ['Ubicacion','UbicacionReporte']
+  var ListaSelect = ['Ubicacion', 'UbicacionReporte']
 
   $.ajax({
     url: '/UbicacionesGaveta',
     success: function (data) {
 
       for (let index = 0; index < 2; index++) {
-        var listMaquina = document.getElementById(ListaSelect[index]); 
-      
+        var listMaquina = document.getElementById(ListaSelect[index]);
+
         for (let i = listMaquina.options.length; i >= 1; i--) { //Borrar elementos option de select
           listMaquina.remove(i);
         }
@@ -18,7 +18,7 @@ function Ubicaciones() {
           option.text = data[i].Ubicacion;
           listMaquina.add(option);
         }
-      }  
+      }
     } //Funcion success
   }); //Ajax
 }
@@ -36,7 +36,7 @@ function GETPRODUCTS() {
       var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
       var limite = TablaAlmacen.rows.length;
       for (var i = 0; i < limite; i++) {
-        $("#Rows"+i).remove(); //elimina los elementos con id Rows
+        $("#Rows" + i).remove(); //elimina los elementos con id Rows
       }
       if (Herramientas.length == 0) {
         $("#Vacio").modal();
@@ -53,14 +53,14 @@ function GETPRODUCTS() {
         var Auditor = Herramientas[i].Auditor || '-';
         var Cantidad = Herramientas[i].Cantidad || '0';
         //Eliminar variable dentro del For
-        Arreglo = [id, Planta, Ubicacion, Clave, Descripcion,Grado,Marca, FechaAjuste, Auditor, Cantidad]
+        Arreglo = [id, Planta, Ubicacion, Clave, Descripcion, Grado, Marca, FechaAjuste, Auditor, Cantidad]
         var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
         // inserta una fila al final de la tabla
         var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
         for (var x = 0; x < Arreglo.length; x++) {
           // inserta una celda en el indice 0
           var newCell = newRow.insertCell(x);
-          newRow.setAttribute("id", "Rows"+i); //se asigna id al incrementar cada fila +1 para contar el encabezado 
+          newRow.setAttribute("id", "Rows" + i); //se asigna id al incrementar cada fila +1 para contar el encabezado 
           newRow.setAttribute("name", Arreglo[4]); //se asigna id al incrementar cada fila +1 para contar el encabezado 
           switch (x) {
             case 0:
@@ -79,12 +79,18 @@ function GETPRODUCTS() {
               newCell.innerHTML = '<input required type="text" id="Descripcion' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
               break;
             case 5:
-              newCell.innerHTML = '<input required type="text" id="FechAjuste' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+              newCell.innerHTML = '<input required type="text" id="Grado' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
               break;
             case 6:
-              newCell.innerHTML = '<input required type="text" id="Auditor' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+              newCell.innerHTML = '<input required type="text" id="Marca' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
               break;
             case 7:
+              newCell.innerHTML = '<input required type="text" id="FechAjuste' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+              break;
+            case 8:
+              newCell.innerHTML = '<input required type="text" id="Auditor' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
+              break;
+            case 9:
               newCell.innerHTML = '<input required type="text" id="Cantidad' + i + '" class="form-control" value="' + Arreglo[x] + '" readonly></input>';
               break;
 
@@ -92,10 +98,10 @@ function GETPRODUCTS() {
               break;
             // code block
           }
-          if (x == 6) { //Si termina de registrar datos crear el boton
-            var newCell = newRow.insertCell(7); //CREAR CELDA
+          if (x == 8) { //Si termina de registrar datos crear el boton
+            var newCell = newRow.insertCell(9); //CREAR CELDA
             newCell.innerHTML = '<button id="' + i + '" class="btn btn-danger" name="btn" data-bs-toggle="modal" data-bs-target="#ModalComentario" onclick=AsignarIndice(' + (i) + ')> <i class="fa-solid fa-pen-to-square"></i> </button>';
-            var newCell = newRow.insertCell(8); //CREAR CELDA
+            var newCell = newRow.insertCell(10); //CREAR CELDA
             newCell.innerHTML = '<button id="' + i + '" class="btn btn-success" name="btn" onclick=SinCambio(' + (i) + ')> <i class="fa-regular fa-square-check"></i> </button>';
           }
         } //fin de for de columnas
@@ -218,48 +224,48 @@ function Ajuste() {
 function MostrarReporteHerramientaAdmin() {
   var variable = document.getElementById("UbicacionReporte").value; //Cambia el simbolo '/'
 
-  /*Limpiar tabla*/ 
+  /*Limpiar tabla*/
   var TablaAlmacen = document.getElementById('TablaAuditoria').getElementsByTagName('tbody')[0];
   var limite = TablaAlmacen.rows.length;
   for (var i = 0; i < limite; i++) {
-      $("#Rows").remove(); //elimina los elementos con id Rows
+    $("#Rows").remove(); //elimina los elementos con id Rows
   }
-      $.ajax({
-          url: '/MostrarAuditoria/' + variable,
-          success: function (Herramientas) {
-              var Arreglo = [];
-              //Limpiar tabla 
-              var TablaAlmacen = document.getElementById('TablaAuditoria').getElementsByTagName('tbody')[0];
-              var limite = TablaAlmacen.rows.length;
-              var TotalHerramientas = Herramientas.length;
-              for (var i = 0; i < limite; i++) {
-                  $("#Rows").remove(); //elimina los elementos con id Rows
-              }
-              for (var i = 0; i < TotalHerramientas; i++) {
-                  var Clave = Herramientas[i].Clave;
-                  var Planta = Herramientas[i].Planta;
-                  var Descripcion = Herramientas[i].Descripcion;
-                  var Ubicacion = Herramientas[i].Ubicacion;
-                  var CantidadActual = Herramientas[i].CantidadActual;
-                  var CantidadAjustada = Herramientas[i].CantidadAjustada
-                  var Fecha = moment(Herramientas[i].FechaAjuste).format('DD-MM-YYYY HH:MM');
-                  var Auditor = Herramientas[i].Auditor; 
-                  
-                  //Eliminar variable dentro del For
-                  Arreglo = [Clave,Planta,Descripcion,Ubicacion,CantidadActual,CantidadAjustada,Fecha,Auditor];
-                  // inserta una fila al final de la tabla
-                  var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
-                  for (var x = 0; x < Arreglo.length; x++) {
-                      // inserta una celda en el indice 0
-                      var newCell = newRow.insertCell(x);
-                      newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
-                      // adjuntar el texto al nodo
-                      var newText = document.createTextNode(Arreglo[x]);
-                      newCell.appendChild(newText);
-                  } //fin de for de columnas
-              } //fin de for de filas
-          } //Funcion success
-      }); //Ajax 
+  $.ajax({
+    url: '/MostrarAuditoria/' + variable,
+    success: function (Herramientas) {
+      var Arreglo = [];
+      //Limpiar tabla 
+      var TablaAlmacen = document.getElementById('TablaAuditoria').getElementsByTagName('tbody')[0];
+      var limite = TablaAlmacen.rows.length;
+      var TotalHerramientas = Herramientas.length;
+      for (var i = 0; i < limite; i++) {
+        $("#Rows").remove(); //elimina los elementos con id Rows
+      }
+      for (var i = 0; i < TotalHerramientas; i++) {
+        var Clave = Herramientas[i].Clave;
+        var Planta = Herramientas[i].Planta;
+        var Descripcion = Herramientas[i].Descripcion;
+        var Ubicacion = Herramientas[i].Ubicacion;
+        var CantidadActual = Herramientas[i].CantidadActual;
+        var CantidadAjustada = Herramientas[i].CantidadAjustada
+        var Fecha = moment(Herramientas[i].FechaAjuste).format('DD-MM-YYYY HH:MM');
+        var Auditor = Herramientas[i].Auditor;
+
+        //Eliminar variable dentro del For
+        Arreglo = [Clave, Planta, Descripcion, Ubicacion, CantidadActual, CantidadAjustada, Fecha, Auditor];
+        // inserta una fila al final de la tabla
+        var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
+        for (var x = 0; x < Arreglo.length; x++) {
+          // inserta una celda en el indice 0
+          var newCell = newRow.insertCell(x);
+          newRow.setAttribute("id", "Rows"); //se asigna id al incrementar cada fila +1 para contar el encabezado
+          // adjuntar el texto al nodo
+          var newText = document.createTextNode(Arreglo[x]);
+          newCell.appendChild(newText);
+        } //fin de for de columnas
+      } //fin de for de filas
+    } //Funcion success
+  }); //Ajax 
 }
 
 
@@ -277,15 +283,15 @@ function ResumenAuditoria() {
       for (var i = 0; i < limite; i++) {
         $("#Rows").remove(); //elimina los elementos con id Rows
       }
-      for (var i = 0; i < (TotalHerramientas-1); i++) {
+      for (var i = 0; i < (TotalHerramientas - 1); i++) {
         var Ubicacion = Herramientas[i].Ubicacion;
         var FechaAjuste;
         if (Herramientas[i].fecha) {
           FechaAjuste = moment(Herramientas[i].fecha).format('DD-MM-YYYY');
-        }else{
+        } else {
           FechaAjuste = 'Sin registro'
         }
-         
+
         //Eliminar variable dentro del For
         Arreglo = [Ubicacion, FechaAjuste];
         // inserta una fila al final de la tabla
