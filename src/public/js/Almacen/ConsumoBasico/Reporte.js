@@ -3,7 +3,7 @@
 function MostrarReporteHerramienta() {
     /* var Herramienta = Transformer(document.getElementById("BHerramienta").value); */
     var Almacen = document.getElementById("Almacen").value;
-
+    var descripcion = document.getElementById("descripcion").value;
     var fechaInicio = document.getElementById("inicio").value;
     var fechafin = document.getElementById("fin").value;
 
@@ -20,7 +20,7 @@ function MostrarReporteHerramienta() {
         }
 
         $.ajax({
-            url: '/ReporteConsumoBasico/' + fechaInicio + '|' + fechafin + '|' + Almacen,
+            url: '/ReporteConsumoBasico/' + fechaInicio + '|' + fechafin + '|' + Almacen+ '|' + descripcion,
             success: function (Herramientas) {
 
                 if (!Herramientas.length) {

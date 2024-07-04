@@ -3949,7 +3949,7 @@ Controller.MostrarAuditoria = (req, res) => {
          
             const planta = "Almacen " + req.session.planta;
             const area = req.session.area;
-            conn.query("select * from AuditoriaGavetas where ubicacion = '"+Ubicacion+"'", (err, Herramientas) => {
+            conn.query("select * from AuditoriaGavetas where ubicacion = '"+Ubicacion+"' order by FechaAjuste desc", (err, Herramientas) => {
                 if (err) {
                     res.json("Error json: " + err);
                     console.log('Error de lectura');
@@ -4065,6 +4065,7 @@ Controller.ReporteConsumoBasico = (req, res) => {
             var fechaInicio = Herramienta.split('|')[0]; // Fecha inicial
             var fechafin = Herramienta.split('|')[1]; // Fecha limite
             var Planta = Herramienta.split('|')[2]; // Fecha limite
+            var descripcion = Herramienta.split('|')[3]; // Fecha limite
             var Almacen = "Almacen " + Planta; // Fecha limite
 
            // console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
@@ -4078,9 +4079,19 @@ Controller.ReporteConsumoBasico = (req, res) => {
                     }
                     res.json(Herramientas)
                 });
-            } else {
-                console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
+            } else if(descripcion == null || descripcion == ''){
+                console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen + "descripcion " +descripcion)
                 conn.query("SELECT SUM(i.Utilizado) AS Total,i.Producto,a.Clave,a.Familia,a.Almacen,a.Stock,a.StockMin,a.StockMax,a.StockUsado,a.StockAfilado,a.Precio,a.Moneda,a.OC, a.Proveedor,a.TiempoEntrega FROM itemprestado i INNER JOIN almacen a where (i.Producto = a.Producto) AND (i.Almacen = '"+Planta+"' AND a.Almacen = '"+Almacen+"') AND (i.Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by i.Producto;", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }
+                    console.log(Herramientas);
+                    res.json(Herramientas)
+                });
+            }else{
+                console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen + "descripcion " +descripcion)
+                conn.query("SELECT SUM(i.Utilizado) AS Total,i.Producto,a.Clave,a.Familia,a.Almacen,a.Stock,a.StockMin,a.StockMax,a.StockUsado,a.StockAfilado,a.Precio,a.Moneda,a.OC, a.Proveedor,a.TiempoEntrega FROM itemprestado i INNER JOIN almacen a where (i.Producto = '"+descripcion+"') AND (i.Producto = a.Producto) AND (i.Almacen = '"+Planta+"' AND a.Almacen = '"+Almacen+"') AND (i.Salida) BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' group by i.Producto;", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);

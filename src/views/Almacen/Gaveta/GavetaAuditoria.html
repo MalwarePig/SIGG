@@ -12,6 +12,9 @@
   <%- include ('../../partials/head.html') %>
     <!------incluir cabezera navegacion----->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+    <!-- GENERAR EXCEL -->
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script><!-- GENERAR EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
     <!-----------------------------------------------     FECHAS MOMENTS     ---------------------------------------------------------------->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <!-----------------------------------------------     JavaScript     ---------------------------------------------------------------->
@@ -47,14 +50,15 @@
               data-bs-target="#ReporteRapido"><i class="fa-solid fa-file-circle-check"></i></button>
           </div>
 
-          <div class="p-2 align-self-center"><!-- Boton buscar -->
+          <!-- Boton buscar -->
+          <!-- <div class="p-2 align-self-center">
             <button type="button" class="btn btn-danger btn-sm" data_but="btn-xs" onclick="MostrarResultado()"><i
                 class="fa-solid fa-magnifying-glass"></i></button>
           </div>
 
           <div class="p-2 bd-highlight">
             <input type="text" class="form-control" id="Buscador" onchange="Filtrador()">
-          </div>
+          </div> -->
 
 
         </div>
@@ -184,7 +188,7 @@
               </div>
             </div>
             <!------------------------------ TABLA -------------------------------------->
-            <div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded" style="width:96%;">
+            <div class="container-fluid shadow-lg p-3  bg-white rounded" style="width:96%;">
               <table class="table table-condensed table-hover table-responsive tableFixHead" id="TablaAuditoria">
 
                 <thead>
@@ -204,6 +208,12 @@
                 </tbody>
               </table>
             </div>
+            <div class="col m-2 text-center">
+              <button type="button" id="Excel" name="Excel" class="btn btn-success btn-lg"
+              onclick="ExportarAuditoria()" data-toggle="tooltip" data-placement="top"
+              title="Exportar a Excel"><i class="fa-solid fa-file-csv"></i></button>
+            </div>
+            
           </div>
         </div>
       </div>

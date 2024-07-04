@@ -248,7 +248,7 @@ function MostrarReporteHerramientaAdmin() {
         var Ubicacion = Herramientas[i].Ubicacion;
         var CantidadActual = Herramientas[i].CantidadActual;
         var CantidadAjustada = Herramientas[i].CantidadAjustada
-        var Fecha = moment(Herramientas[i].FechaAjuste).format('DD-MM-YYYY HH:MM');
+        var Fecha = moment(Herramientas[i].FechaAjuste).format('DD-MM-YYYY');
         var Auditor = Herramientas[i].Auditor;
 
         //Eliminar variable dentro del For
@@ -307,4 +307,37 @@ function ResumenAuditoria() {
       } //fin de for de filas
     } //Funcion success
   }); //Ajax 
+}
+
+
+
+
+
+function ExportarAuditoria() {
+  var tabla = document.getElementById("TablaAuditoria");
+  var total = tabla.rows.length //Total de filas
+
+
+  var sheet_1_data = [];
+  for (var j = 0; j <= total - 1; j++) { //filas
+      //var dato = tabla.rows[j].cells[h].childNodes[0].nodeValue;
+
+      var Clave = tabla.rows[j].cells[0].childNodes[0].nodeValue;
+      var Planta = tabla.rows[j].cells[1].childNodes[0].nodeValue;
+      var Descripcion = tabla.rows[j].cells[2].childNodes[0].nodeValue;
+      var Ubicacion = tabla.rows[j].cells[3].childNodes[0].nodeValue;
+      var Anterior = tabla.rows[j].cells[4].childNodes[0].nodeValue;
+      var ajustada = tabla.rows[j].cells[5].childNodes[0].nodeValue;  
+      var Fecha = tabla.rows[j].cells[6].childNodes[0].nodeValue;  
+      var Auditor = tabla.rows[j].cells[7].childNodes[0].nodeValue;  
+      
+      var Fila = [Clave,Planta,Descripcion,Ubicacion,Anterior,ajustada,Fecha,Auditor]
+      sheet_1_data.push(Fila);
+  } //fin filas
+
+  var opts = [{
+      sheetid: 'Hoja1',
+      header: true
+  }];
+  var result = alasql('SELECT * INTO XLSX("His_Auditoria.xlsx",?) FROM ?', [opts, [sheet_1_data]]);
 }

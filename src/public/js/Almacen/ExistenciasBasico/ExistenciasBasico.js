@@ -111,9 +111,10 @@ function MostrarReporte() {
                 var Categoria = Herramientas[i].Categoria;
                 var Familia = Herramientas[i].Familia;
                 var Cotizado = Herramientas[i].Cotizado;
+                var OC = Herramientas[i].OC;
                 //Eliminar variable dentro del For
 
-                Arreglo = [Clave, Producto,Proveedor, ProveedorSec,TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia]
+                Arreglo = [Clave, Producto,Proveedor, ProveedorSec,TiempoEntrega, Herramientas[i].Almacen, StockNuevo, StockMinimo, StockMaximo, StockUsado, Categoria, Familia,OC]
                 var TablaAlmacen = document.getElementById('TablaReporte').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
