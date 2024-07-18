@@ -21,8 +21,9 @@ function MostrarReporteHerramienta() {
 
         $.ajax({
             url: '/ReporteConsumoBasico/' + fechaInicio + '|' + fechafin + '|' + Almacen+ '|' + descripcion,
-            success: function (Herramientas) {
-
+            success: function (data) {
+                var Herramientas = data[0]
+                var PermisoPrecios = data[1]
                 if (!Herramientas.length) {
                     alert("No se encontraron datos en la consulta")
                 }
@@ -45,7 +46,7 @@ function MostrarReporteHerramienta() {
                     var StockMax = Herramientas[i].StockMax;
                     var StockUsado = Herramientas[i].StockUsado;
                     var StockAfilado = Herramientas[i].StockAfilado;
-                    var Precio = Herramientas[i].Precio;
+                    var Precio = PermisoPrecios == 0 ? '-' : Herramientas[i].Precio;
                     var Moneda = Herramientas[i].Moneda;
                     var OC = Herramientas[i].OC;
                     var Proveedor = Herramientas[i].Proveedor;

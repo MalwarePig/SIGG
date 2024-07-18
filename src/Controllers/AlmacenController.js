@@ -4067,6 +4067,7 @@ Controller.ReporteConsumoBasico = (req, res) => {
             var Planta = Herramienta.split('|')[2]; // Fecha limite
             var descripcion = Herramienta.split('|')[3]; // Fecha limite
             var Almacen = "Almacen " + Planta; // Fecha limite
+            let PermisoPrecios =  req.session.PermisoPrecios;
 
            // console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen)
 
@@ -4077,7 +4078,7 @@ Controller.ReporteConsumoBasico = (req, res) => {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
                     }
-                    res.json(Herramientas)
+                    res.json([Herramientas,PermisoPrecios])
                 });
             } else if(descripcion == null || descripcion == ''){
                 console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen + "descripcion " +descripcion)
@@ -4087,7 +4088,7 @@ Controller.ReporteConsumoBasico = (req, res) => {
                         console.log('Error de lectura' + err);
                     }
                     console.log(Herramientas);
-                    res.json(Herramientas)
+                    res.json([Herramientas,PermisoPrecios])
                 });
             }else{
                 console.log("Articulo: " + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Almacen + "descripcion " +descripcion)
@@ -4097,7 +4098,7 @@ Controller.ReporteConsumoBasico = (req, res) => {
                         console.log('Error de lectura' + err);
                     }
                     console.log(Herramientas);
-                    res.json(Herramientas)
+                    res.json([Herramientas,PermisoPrecios])
                 });
             }
         });
