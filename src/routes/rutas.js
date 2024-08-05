@@ -576,7 +576,7 @@ router.post('/EliminarProveedor', AlmacenController.EliminarProveedor);
 //====== Ajuste Inventario ========
 //Abre pagina principal para editar
 router.get('/AjusteInventario', (req, res) => {
-	if (req.session.loggedin) {
+	if ((req.session.loggedin) && (req.session.PermisoAjuste == 'Activado')) {
 		res.render('Almacen/wh_AjustesInventario.html', {
 			title: 'Gemak'
 		});

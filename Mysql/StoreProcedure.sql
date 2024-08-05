@@ -604,9 +604,10 @@ SET SQL_SAFE_UPDATES = 0;
    SET @FechaRegistro = (SELECT FechaRegistro FROM ordencompra WHERE Producto = ProductoOT order by id desc limit 1);
    	/*FECHA DE INGRESO DE PRODUCTOS A ALMACEN POR AJUSTEBASICO O INGRESOS*/
    SET @FechaIngreso = (SELECT FechaAjuste FROM AjustebasicoAlmacen WHERE Producto = ProductoOT order by id desc limit 1);
-   SELECT *,  CONCAT(@OC) AS OC,CONCAT(@FechaRegistro) AS FechaRegistro,CONCAT(@FechaIngreso) AS FechaIngreso  FROM itemprestado WHERE (Producto like ProductoOT OR OT = ProductoOT) AND Almacen = Planta ORDER BY Salida Desc limit 1000;
+   SELECT *,  CONCAT(@OC) AS OC,CONCAT(@FechaRegistro) AS FechaRegistro,CONCAT(@FechaIngreso) AS FechaIngreso  FROM itemprestado WHERE (Producto like ProductoOT OR OT = ProductoOT OR Empleado like ProductoOT) AND Almacen = Planta ORDER BY Salida Desc limit 1000;
       
 END;
+
 
 DROP PROCEDURE IF EXISTS HerramientaOT;
  /********************************************************************************************/
