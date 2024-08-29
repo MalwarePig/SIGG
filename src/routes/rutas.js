@@ -529,6 +529,18 @@ router.get('/HistorialAjusteGaveta', (req, res) => {
 	}
 });
 
+router.get('/ReporteDespachoGaveta', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Gaveta/wh_ReporteArticulo.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+router.get('/TipoReporteHerramientaGaveta/:Herramienta', AlmacenController.MostrarReporteHerramientaGaveta);
+
 //============================== Almacen  Gaveta (Oficina) ==============================//
 
 //====== Crear Herramienta ========

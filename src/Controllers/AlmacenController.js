@@ -4211,6 +4211,57 @@ Controller.ExistenciaTotalHerramientas = (req, res) => {
     }
 };
 
+
+Controller.MostrarReporteHerramientaGaveta = (req, res) => {
+    if (req.session.loggedin) {
+        req.getConnection((err, conn) => {
+            const {
+                Herramienta
+            } = req.params;
+
+            
+            var fechaInicio = Herramienta.split('|')[0]; // Fecha inicial
+            var fechafin = Herramienta.split('|')[1]; // Fecha limite
+            var Planta = Herramienta.split('|')[2]; // Fecha limite
+            var Articulo = TranformerReporte(Herramienta.split('|')[3]);
+
+            console.log("Articulo: " + Articulo + " con fecha " + fechaInicio + " y " + fechafin + "  es de " + Planta)
+
+            //Reporte solo Articulo sin fecha
+            if (fechaInicio == null || fechaInicio == '') {
+                console.log("sin fecha gaveta")
+                conn.query("select * from DespachoHerramienta where (Clave = '"+Articulo+"' or OT = '"+Articulo+"') AND Planta = '"+Planta+"' order by Fecha desc", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }  
+                    res.json(Herramientas)
+                });
+            } else if (Articulo == null || Articulo == '') {//Reporte Articulo Con fecha 
+                console.log("solo fecha gaveta")
+                conn.query("SELECT * FROM DespachoHerramienta WHERE Fecha BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' order by Fecha desc;", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }  
+                    res.json(Herramientas)
+                });
+            } else {//Reporte Articulo Con fecha 
+                console.log("completo gaveta")
+                conn.query("SELECT * FROM DespachoHerramienta WHERE(Clave = '"+Articulo+"' or OT = '"+Articulo+"') AND Planta = '"+Planta+"'  AND Fecha BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' order by Fecha desc;", (err, Herramientas) => {
+                    if (err) {
+                        res.json("Error json: " + err);
+                        console.log('Error de lectura' + err);
+                    }  
+                    res.json(Herramientas)
+                });
+            }
+        });
+    } else {
+        res.render('Admin/Login.html');
+    }
+};
+
 module.exports = Controller;
 
 
