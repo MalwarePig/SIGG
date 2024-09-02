@@ -30,21 +30,19 @@ function MostrarReporteHerramienta() {
                     $("#Rows").remove(); //elimina los elementos con id Rows
                 }
 
-                //Planta,Clave,Estado,OT,Nomina,Empleado,Familia,Maquina,Comentario,Descripcion,Fecha
+                //,,,,, ,, , 
                 for (var i = 0; i < TotalHerramientas; i++) {
-                    var Planta = Herramientas[i].Planta;
-                    var Clave = Herramientas[i].Clave;
-                    var Estado = Herramientas[i].Estado;
+                    var Producto = Herramientas[i].Producto;
                     var OT = Herramientas[i].OT;
-                    var Nomina = Herramientas[i].Nomina;
+                    var Entregado = Herramientas[i].Entregado;
+                    var Devuelto = Herramientas[i].Devuelto;
+                    var Salida = moment(Herramientas[i].Salida).format('DD-MM-YYYY')  
                     var Empleado = Herramientas[i].Empleado;
                     var Maquina = Herramientas[i].Maquina;
-                    var Comentario = Herramientas[i].Comentario;
-                    var Descripcion = Herramientas[i].Descripcion;
-                    var Fecha = moment(Herramientas[i].Fecha).format('DD-MM-YYYY')  
-
+                    var Estado = Herramientas[i].Estado;
+                    var Comentario = Herramientas[i].Comentarios; 
                     //Eliminar variable dentro del For
-                    Arreglo = [Planta,Clave,Estado,OT,Nomina,Empleado,Maquina,Comentario,Descripcion,Fecha];
+                    Arreglo = [Producto,OT,Entregado,Devuelto,Salida, Empleado,Maquina, Estado, Comentario];
                     // inserta una fila al final de la tabla
                     var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
                     for (var x = 0; x < Arreglo.length; x++) {

@@ -4230,7 +4230,7 @@ Controller.MostrarReporteHerramientaGaveta = (req, res) => {
             //Reporte solo Articulo sin fecha
             if (fechaInicio == null || fechaInicio == '') {
                 console.log("sin fecha gaveta")
-                conn.query("select * from DespachoHerramienta where (Clave = '"+Articulo+"' or OT = '"+Articulo+"') AND Planta = '"+Planta+"' order by Fecha desc", (err, Herramientas) => {
+                conn.query("select * from SalidaGaveta where (Producto LIKE '%"+Articulo+"%' or OT = '"+Articulo+"') AND Planta = '"+Planta+"' order by Salida desc", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
@@ -4239,7 +4239,7 @@ Controller.MostrarReporteHerramientaGaveta = (req, res) => {
                 });
             } else if (Articulo == null || Articulo == '') {//Reporte Articulo Con fecha 
                 console.log("solo fecha gaveta")
-                conn.query("SELECT * FROM DespachoHerramienta WHERE Fecha BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' order by Fecha desc;", (err, Herramientas) => {
+                conn.query("SELECT * FROM SalidaGaveta WHERE Salida BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' order by Salida desc;", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
@@ -4248,7 +4248,7 @@ Controller.MostrarReporteHerramientaGaveta = (req, res) => {
                 });
             } else {//Reporte Articulo Con fecha 
                 console.log("completo gaveta")
-                conn.query("SELECT * FROM DespachoHerramienta WHERE(Clave = '"+Articulo+"' or OT = '"+Articulo+"') AND Planta = '"+Planta+"'  AND Fecha BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' order by Fecha desc;", (err, Herramientas) => {
+                conn.query("SELECT * FROM SalidaGaveta WHERE(Producto LIKE '%"+Articulo+"%' or OT = '"+Articulo+"') AND Planta = '"+Planta+"'  AND Salida BETWEEN '"+fechaInicio+"' AND '"+fechafin+"' order by Salida desc;", (err, Herramientas) => {
                     if (err) {
                         res.json("Error json: " + err);
                         console.log('Error de lectura' + err);
