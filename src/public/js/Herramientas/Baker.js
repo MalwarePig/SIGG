@@ -170,9 +170,13 @@ function PDF() {
 
 
     //Rectangulo negro
-    doc.rect(40, 240, 125, 20, "F");
+    doc.rect(150, 240, 125, 20, "F");
     doc.setTextColor(255, 255, 255);
-    doc.text("Made in México", 40, 255);
+    doc.text("Made in México", 150, 255);
+
+    //Origin
+    doc.setTextColor(0, 0, 0);
+    doc.text("Country of origin:", 10, 255);
 
     doc.save("ss" + '.pdf');
 }
