@@ -20,7 +20,8 @@
 </head>
 
 <body onload="Folios()">
-  <%- include ('../partials/navegacion.html') %>
+ <%- include ('../partials/navegacion.html') %> 
+ 
     <!------incluir navegacion Menu----->
 
     <div class="card text-center">
@@ -28,12 +29,12 @@
         <!------------------------------ BUSCAR -------------------------------------->
 
         <div class="form-row">
-          <div class="form-group col-md-0">
+          <!-- <div class="form-group col-md-0">
             <a href="#" class="badge badge-success" data-target="#ModalOrdenado" data-toggle="modal"
               onclick="ConsultaOrdenado()"><span id="value">0</span></a>
             <a href="#" class="badge badge-info" data-target="#ModalRecoleccion" data-toggle="modal"
               onclick="MostrarRecepcion()"><span id="value">0</span></a>
-          </div>
+          </div> -->
           <div class="form-group col-md-2">
             <input required type="text" id="BHerramienta" class="form-control" placeholder="Herramienta..."
               name="BHerramienta" autocomplete="off" onkeypress="runScript(event)">
@@ -46,10 +47,8 @@
 
           <div class="form-group col-md-5 ">
             <button type="button" id="getProducts" name="getProducts" class="btn btn-dark" data-toggle="modal"
-            data-target="#ModalOC"> <i class="fa-solid fa-money-check-dollar"></i> OC</button>
-          </div>
-
-
+              data-target="#ModalOC"> <i class="fa-solid fa-money-check-dollar"></i> OC</button>
+          </div> 
 
         </div>
 
@@ -193,8 +192,7 @@
           </table>
           <br><br>
           <hr />
-          <button type="button" class="btn btn-secondary" onclick="GuardarNota()" data-target="#exampleModal"
-            data-toggle="modal">Registrar</button>
+          <button type="button" class="btn btn-secondary" onclick="GuardarNota()" >Registrar</button> 
         </div>
       </div>
     </div>
@@ -208,7 +206,22 @@
             Nota creada correctamente
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Nota -->
+    <div class="modal fade" id="exampleModalError" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            Ha ocurrido un error en el proceso
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Folios()">Cerrar</button>
           </div>
         </div>
       </div>
@@ -297,13 +310,13 @@
 
           <div class="form-row mb-2">
             <div class="col-4 ml-3">
-              <input type="text" id="OCProducto" class="form-control" placeholder="Producto..."
-                name="OCProducto" autocomplete="off">
+              <input type="text" id="OCProducto" class="form-control" placeholder="Producto..." name="OCProducto"
+                autocomplete="off">
             </div>
 
             <div class="col-4">
-              <button type="button" class="btn btn-dark btn-sm t-100" data_but="btn-xs" onclick="BuscarHerramientasOC()"><i
-                class="fa-solid fa-magnifying-glass"></i></button>
+              <button type="button" class="btn btn-dark btn-sm t-100" data_but="btn-xs"
+                onclick="BuscarHerramientasOC()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
           </div>
 
@@ -314,7 +327,7 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Fecha</th> 
+                    <th>Fecha</th>
                     <th>OC</th>
                   </tr>
                 </thead>
@@ -324,7 +337,7 @@
               </table>
             </div>
           </div>
- 
+
         </div>
       </div>
     </div>

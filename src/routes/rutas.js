@@ -288,7 +288,23 @@ router.get('/wh_Admin', (req, res) => {
 
 //====== Salidas ========
 router.get('/BuscarHerramientas/:Herra', AlmacenController.search);
-router.get('/wh_Salidas', AlmacenController.list);
+//router.get('/wh_Salidas', AlmacenController.list);
+
+//Abre pagina principal para tornilleria
+router.get('/wh_Salidas', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/wh_Salidas.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+	res.end();
+});
+
+
+
+
 router.get('/Folio', AlmacenController.Folio);
 router.get('/Num_Nomina', AlmacenController.Num_Nomina);
 router.get('/listaMaquinas/:familia', AlmacenController.Maquinas);
@@ -738,6 +754,21 @@ router.get('/whCompras', (req, res) => {
 		res.render('Admin/Login.html');
 	}
 });
+
+//Modulo de Entrega de caja de herramientas
+router.get('/wh_Entregas', (req, res) => {
+	if (req.session.loggedin) {
+		res.render('Almacen/Entregas/wh_Entregas.html', {
+			title: 'Gemak'
+		});
+	} else {
+		res.render('Admin/Login.html');
+	}
+});
+
+
+
+
 
 //Busca Herramientas Cotizadas activadas
 router.get('/ListaDeCotizaciones/', AlmacenController.ListaDeCotizaciones);
@@ -1506,6 +1537,16 @@ router.get('/ExistenciaHerramienta', (req, res) => {
 
 //Busca Herramientas en 
 router.get('/ExistenciaTotalHerramientas/:parametros', AlmacenController.ExistenciaTotalHerramientas);
+
+
+//cajas de herramientas
+router.get('/BuscarCajaOperador/:parametro', AlmacenController.BuscarCajaOperador);
+
+//cajas de herramientas
+router.get('/BuscarModalCajaOperador/:parametro', AlmacenController.BuscarModalCajaOperador);
+
+//guardar Cambio en caja de herramientas operador
+router.post('/GaurdarCajaOperador', AlmacenController.GaurdarCajaOperador);
 
 module.exports = router;
 

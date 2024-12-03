@@ -5,7 +5,7 @@ function GETPRODUCTS() {
         url: '/BuscarHerramientas/' + Herramientas,
         success: function (Herramientas) {
             var Arreglo = [];
-            console.log(Herramientas)
+            //console.log(Herramientas)
             //Limpiar tabla 
             var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
             var limite = TablaAlmacen.rows.length;
@@ -23,8 +23,8 @@ function GETPRODUCTS() {
                 var StockAfilado = Herramientas[i].Stockafilado;
                 var Ubicacion = Herramientas[i].Ubicacion;
                 //Eliminar variable dentro del For
-                Arreglo = [Clave, Producto, Stock, StockUsado,StockAfilado, Ubicacion]
-                console.log(Arreglo)
+                Arreglo = [Clave, Producto, Stock, StockUsado, StockAfilado, Ubicacion]
+                //console.log(Arreglo)
                 var TablaAlmacen = document.getElementById('Herr_Encontradas').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -74,10 +74,10 @@ function Seleccion(variable) {
 function CrearNota() {
     let tabla = document.getElementById("Almacen");
     let total = tabla.rows.length //Total de filas
- 
-    if(total > 1){
+
+    if (total > 1) {
         alert("No se permiten más articulos")
-    }else{ 
+    } else {
         var Folio = document.getElementById("Folio").value; //Obtiene el valor de Clave
         var Producto = document.getElementById("Producto").value; //Obtiene el valor de Clave
         var Cantidad = document.getElementById("cantidad").value; //Obtiene el valor de Clave
@@ -90,14 +90,14 @@ function CrearNota() {
         var Comentario = document.getElementById("Comentario").value; //Obtiene el valor de Clave
         var Parcial = document.getElementById("Parcial").value; //Obtiene el valor de Clave
         var Arreglo = [Folio, Producto, Cantidad, Estado, OT, Estatus, Maquina, Empleado, Parcial, Comentario];
-    
+
         var Condicion = true; //para campos vacios
         for (var a in Arreglo) { //recorrer arreglo en busca de campos vacios
             if (Arreglo[a].length == 0) {
                 Condicion = false; //si algun campo esta vacio cambia a falso
             }
         }
-    
+
         if (Condicion == true) { //si todos los campos estan llenos avanza
             var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
             // inserta una fila al final de la tabla
@@ -105,7 +105,7 @@ function CrearNota() {
             let indice = (TablaAlmacen.rows.length + 1);
             newRow.setAttribute("id", "fila" + indice); //se asigna id al incrementar cada fila +1 para contar el encabezado
             for (var x = 0; x < Arreglo.length; x++) {
-    
+
                 // inserta una celda en el indice 0
                 var newCell = newRow.insertCell(x);
                 // adjuntar el texto al nodo
@@ -168,7 +168,7 @@ function Familias() {
     $.ajax({
         url: '/ListaFamilias/',
         success: function (maquinas) {
-            console.log(maquinas)
+            //console.log(maquinas)
             for (let i = listMaquina.options.length; i >= 1; i--) { //Borrar elementos option de select
                 listMaquina.remove(i);
             }
@@ -232,10 +232,27 @@ function GuardarNota() {
             Arreglo
         }, // data to be submit
         function (objeto, estatus) { // success callback
-            GETPRODUCTS()
-            //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            console.log(objeto,estatus);
+            // Selecciona el modal por su ID
+            if (objeto) {
+                var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                    keyboard: false
+                });
+                // Muestra el modal
+                myModal.show();
+    
+                GETPRODUCTS()
+                //console.log("objeto: " + objeto + "Estatus: " + estatus);
+            }else{
+                var myModal = new bootstrap.Modal(document.getElementById('exampleModalError'), {
+                    keyboard: false
+                });
+                // Muestra el modal
+                myModal.show();
+            }
+            
         });
-        
+
 
     //Limpiar tabla 
     var TablaAlmacen = document.getElementById('Almacen').getElementsByTagName('tbody')[0];
@@ -245,6 +262,7 @@ function GuardarNota() {
     }
     document.getElementById("RegistroSalida").reset();
 }
+
 
 //=========================================== PreAuditoria =================================================//
 function PreAuditoria() {
@@ -425,12 +443,12 @@ function BuscarHerramientasOC() {
             if (Herramientas.length == 0) {
                 $("#Vacio").modal();
             }
-            for (var i = 0; i < Herramientas.length; i++) { 
+            for (var i = 0; i < Herramientas.length; i++) {
                 var Producto = Herramientas[i].Producto;
                 var OC = Herramientas[i].OC;
-                var FechaRegistro = moment(Herramientas[i].FechaRegistro).format('DD-MM-YYYY'); 
+                var FechaRegistro = moment(Herramientas[i].FechaRegistro).format('DD-MM-YYYY');
                 //Eliminar variable dentro del For
-                Arreglo = [Producto,OC,FechaRegistro]
+                Arreglo = [Producto, OC, FechaRegistro]
                 var TablaAlmacen = document.getElementById('TablaOC').getElementsByTagName('tbody')[0];
                 // inserta una fila al final de la tabla
                 var newRow = TablaAlmacen.insertRow(TablaAlmacen.rows.length);
@@ -440,7 +458,7 @@ function BuscarHerramientasOC() {
                     newRow.setAttribute("id", "RowsOC"); //se asigna id al incrementar cada fila +1 para contar el encabezado
                     // adjuntar el texto al nodo
                     var newText = document.createTextNode(Arreglo[x]);
-                    newCell.appendChild(newText); 
+                    newCell.appendChild(newText);
                 } //fin de for de columnas
             } //fin de for de filas
         } //Funcion success
@@ -448,7 +466,7 @@ function BuscarHerramientasOC() {
 } //Evento clic
 
 
-function LimpiarOC(){
+function LimpiarOC() {
     // Obtén la referencia de la tabla
     var tabla = document.getElementById("TablaOC");
 

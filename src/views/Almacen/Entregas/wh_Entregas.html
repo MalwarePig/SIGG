@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        GEMAK
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include ('../../partials/head.html') %>
+        <!------incluir cabezera navegacion----->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+        <script type="text/javascript" src="js/Almacen/Entregas/Entregas.js"></script>
+</head>
+
+<body>
+    <%- include ('../../partials/navegacion.html') %>
+        <!------incluir navegacion Menu----->
+        <div class="card text-center">
+            <div class="card-header">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-6">
+                            <div class="row mb-1 align-items-center">
+                                <label for="Nomina" class="col-sm-2 col-form-label">Nomina:</label>
+                                <div class="col-sm-2">
+                                    <input type="Nomina" class="form-control" id="Nomina" placeholder="557" value="557">
+                                </div>
+                                <div class="col-sm-1">
+                                    <button type="submit" class="btn btn-dark " onclick="Generar()"><i
+                                            class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-dark" title="Editar caja operador" onclick="ModalEditar()"><i
+                                            class="fa-solid fa-list-check"></i></button>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button type="submit" class="btn btn-dark" title="Editar lista de herramientas"><i
+                                            class="fa-solid fa-table-list"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            /* Estilo personalizado para reducir la altura de los inputs */
+            .custom-input {
+                height: 20px;
+                /* Ajusta esta altura según tus necesidades */
+                padding: 5px;
+            }
+        </style>
+
+        <div class="card-body">
+
+            <!-- Herramienta estándar -->
+            <div class="container mt-3">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-10">
+                        <div class="card shadow-lg">
+                            <div class="card-body" id="CardInfo">
+
+                                <div class="row mb-1 align-items-center">
+                                    <div class="col-sm-6 col-md-4">
+                                        <label for="input1" class="form-label">Nombre de quien recibe</label>
+                                        <input type="text" class="form-control" id="input1" placeholder="Input 1">
+                                    </div>
+                                    <div class="col-sm-6 col-md-2">
+                                        <label for="input1" class="form-label">Nomina</label>
+                                        <input type="text" class="form-control" id="input1" placeholder="Input 1">
+                                    </div>
+                                    <div class="col-sm-6 col-md-3">
+                                        <label for="input1" class="form-label">Area</label>
+                                        <input type="text" class="form-control" id="input1" placeholder="Input 1">
+                                    </div>
+                                    <div class="col-sm-6 col-md-3">
+                                        <label for="input1" class="form-label">Fecha</label>
+                                        <input type="text" class="form-control" id="input1" placeholder="Input 1">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+            <!-- Herramienta estándar -->
+            <div class="container mt-3">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-10">
+                        <div class="card shadow-lg">
+                            <div class="card-body" id="CardHerramienta">
+
+                                <!-- Filas -->
+
+                                <!-- Button -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- Modal Nota -->
+        <div class="modal fade" id="ModalSinRegistro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        Sin registro
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable modal Editar -->
+        <div class="modal fade  modal-dialog-scrollable" id="ModalEditar" tabindex="-1" role="dialog" aria-labelledby="ModalEditar"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <!-- Herramienta estándar -->
+                            <div class="container mt-3">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-10">
+                                        <div class="card shadow-lg">
+                                            <div class="card-body" id="CardEditar">
+                
+                                                <!-- Filas -->
+                
+                                                <!-- Button -->
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            function Generar() {
+
+                var nomina = document.getElementById("Nomina").value
+                console.log("agregando" + nomina)
+                $.ajax({
+                    url: '/BuscarCajaOperador/' + nomina,
+                    success: function (Herramientas) {
+                        if (Herramientas.length == 0) {
+
+                            console.log(Herramientas.length)
+                            var myModal = new bootstrap.Modal(document.getElementById('ModalSinRegistro'), {
+                                keyboard: false
+                            });
+                            // Muestra el modal
+                            myModal.show();
+                        }
+                        console.log(Herramientas.length)
+
+                        /************************** FILAS **************************/
+                        var Tarjeta = document.getElementById('CardHerramienta');
+                        Tarjeta.innerHTML = ''
+                        //Titulo de tarjeta
+                        var dataTitulo = Herramientas[0].Categoria
+                        const titulo = document.createElement("h5");
+                        titulo.setAttribute('class', 'card-title text-center mb-4');
+                        titulo.innerText = dataTitulo
+                        Tarjeta.appendChild(titulo);
+
+                        for (let index = 0; index < Herramientas.length; index++) {
+                            //Comprobar cambio de titulo
+                            if (dataTitulo != Herramientas[index].Categoria) {
+                                const titulo = document.createElement("h5");
+                                titulo.setAttribute('class', 'card-title text-center mb-4');
+                                titulo.innerText = Herramientas[index].Categoria
+                                Tarjeta.appendChild(titulo);
+                                dataTitulo = Herramientas[index].Categoria
+                            }
+
+                            //Crear el div de fila
+                            const divRow = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+                            divRow.setAttribute('class', 'row mb-3');
+
+                            //Crear el div de columna Articulo
+                            const divColArt = document.createElement("div");
+                            divColArt.setAttribute('class', 'col-sm-6 col-md-5');
+
+                            if (index == 0) {
+                                const labArt = document.createElement("label");
+                                labArt.setAttribute('class', 'form-label font-weight-bold');
+                                labArt.textContent = 'Articulo:';
+                                divColArt.appendChild(labArt);
+                            }
+
+                            const InputArt = document.createElement("input");
+                            InputArt.setAttribute('class', 'form-control custom-input');
+                            InputArt.value = Herramientas[index].Articulo
+                            divColArt.appendChild(InputArt);
+
+                            divRow.appendChild(divColArt);
+
+                            //Crear el div de columna Cantidad
+                            const divColCant = document.createElement("div");
+                            divColCant.setAttribute('class', 'col-sm-6 col-md-2');
+
+                            if (index == 0) {
+                                const labCant = document.createElement("label");
+                                labCant.setAttribute('class', 'form-label font-weight-bold');
+                                labCant.textContent = 'Cantidad:';
+                                divColCant.appendChild(labCant);
+                            }
+
+
+                            const InputCant = document.createElement("input");
+                            InputCant.setAttribute('class', 'form-control custom-input');
+                            InputCant.value = Herramientas[index].Cantidad
+                            divColCant.appendChild(InputCant);
+                            divRow.appendChild(divColCant);
+
+                            //Crear el div de columna Estado
+                            const divColEstado = document.createElement("div");
+                            divColEstado.setAttribute('class', 'col-sm-6 col-md-2');
+
+                            if (index == 0) {
+                                const labEstado = document.createElement("label");
+                                labEstado.setAttribute('class', 'form-label font-weight-bold');
+                                labEstado.textContent = 'Estado:';
+                                divColEstado.appendChild(labEstado);
+                            }
+
+                            const InputEstado = document.createElement("input");
+                            InputEstado.setAttribute('class', 'form-control custom-input');
+                            InputEstado.value = Herramientas[index].Estado
+                            divColEstado.appendChild(InputEstado)
+                            divRow.appendChild(divColEstado);
+
+                            //Crear el div de columna Fecha
+                            const divColFecha = document.createElement("div");
+                            divColFecha.setAttribute('class', 'col-sm-6 col-md-3');
+
+                            if (index == 0) {
+                                const labFecha = document.createElement("label");
+                                labFecha.setAttribute('class', 'form-label font-weight-bold');
+                                labFecha.textContent = 'Fecha:';
+                                divColFecha.appendChild(labFecha);
+                            }
+
+                            const InputFecha = document.createElement("input");
+                            InputFecha.setAttribute('class', 'form-control custom-input');
+                            InputFecha.value = Herramientas[index].Fecha
+                            divColFecha.appendChild(InputFecha);
+                            divRow.appendChild(divColFecha);
+
+                            Tarjeta.appendChild(divRow)
+                        }
+
+                        const EstandarButton = document.createElement("button");
+                        EstandarButton.setAttribute('class', 'btn btn-success btn-sm');
+
+                        const EstandarIcon = document.createElement("i");
+                        EstandarIcon.setAttribute('class', 'fa-regular fa-floppy-disk');
+
+                        EstandarButton.appendChild(EstandarIcon)
+
+                        const divButton = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+                        divButton.setAttribute('class', 'col-12 text-center');
+                        divButton.appendChild(EstandarButton)
+
+                        //Crear el div de fila
+                        const divRowButton = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+                        divRowButton.setAttribute('class', 'row');
+                        divRowButton.appendChild(divButton)
+
+                        Tarjeta.appendChild(divRowButton)
+
+
+
+
+
+                    } //Funcion success
+                }); //Ajax
+
+
+
+            }
+
+            function ModalEditar() {
+                console.log("Editar")
+                var myModal = new bootstrap.Modal(document.getElementById('ModalEditar'), {
+                    keyboard: false
+                });
+                // Muestra el modal
+                myModal.show();
+                ListarModalEditar()
+            }
+
+            function ListarModalEditar() {
+                var nomina = document.getElementById("Nomina").value
+                $.ajax({
+                    url: '/BuscarModalCajaOperador/' + nomina,
+                    success: function (Herramientas) {
+                        console.table(Herramientas)
+
+                        /************************** FILAS **************************/
+                        var Tarjeta = document.getElementById('CardEditar');
+                        Tarjeta.innerHTML = ''
+
+                        for (let index = 0; index < Herramientas.length; index++) {
+                            //Crear el div de fila
+                        const divRow = document.createElement("div"); //Creo un nuevo div para la nueva tarjeta
+                            divRow.setAttribute('class', 'row mb-3');
+
+                            //Crear el div de columna Articulo
+                            const divColArt = document.createElement("div");
+                            divColArt.setAttribute('class', 'col-sm-6 col-md-8');
+
+                            if (index == 0) {
+                                const labArt = document.createElement("label");
+                                labArt.setAttribute('class', 'form-label font-weight-bold');
+                                labArt.textContent = 'Articulo:';
+                                divColArt.appendChild(labArt);
+                            }
+
+                            const InputArt = document.createElement("input");
+                            InputArt.setAttribute('class', 'form-control custom-input'); 
+                            InputArt.value = Herramientas[index].Articulo
+                            InputArt.readOnly = true;
+                            divColArt.appendChild(InputArt);
+
+                            divRow.appendChild(divColArt);
+
+                            //Crear el div de columna Cantidad
+                            const divColCant = document.createElement("div");
+                            divColCant.setAttribute('class', 'col-sm-6 col-md-4');
+
+                            if (index == 0) {
+                                const labCant = document.createElement("label");
+                                labCant.setAttribute('class', 'form-label font-weight-bold');
+                                labCant.textContent = 'Cantidad:';
+                                divColCant.appendChild(labCant);
+                            }
+
+                            const InputCant = document.createElement("input");
+                            InputCant.setAttribute('class', 'form-control custom-input');
+                            InputCant.setAttribute('id', 'Campo'+index);
+                            InputCant.setAttribute('Oninput', 'ActualizarCantidad("Campo'+index+'")');
+                            InputCant.dataset.myId = Herramientas[index].id
+                            InputCant.value = Herramientas[index].Cantidad ? Herramientas[index].Cantidad  : 0
+                            divColCant.appendChild(InputCant);
+                            divRow.appendChild(divColCant);
+
+                            Tarjeta.appendChild(divRow)
+                        }
+
+                    } //Funcion success
+                }); //Ajax
+            }
+
+            function ActualizarCantidad(campo) { 
+                const CampoSeleccionado= document.getElementById(campo)
+                const idArticulo =  CampoSeleccionado.dataset.myId
+                const cantidad = CampoSeleccionado.value;
+                const nomina = document.getElementById('Nomina').value;
+                console.log(idArticulo + " - " + cantidad )
+
+                var Arreglo = [idArticulo, cantidad, nomina]
+
+                $.post("/GaurdarCajaOperador", // url
+                    {
+                        Arreglo
+                    }, // data to be submit
+                    function (objeto, estatus) { // success callback
+                      
+                    });
+            }
+        </script>
+
+</body>

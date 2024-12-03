@@ -1,69 +1,75 @@
 imgPN = new Image;
+imgRev = new Image;
 imgPO = new Image;
 imgSerie = new Image;
 imgFecha = new Image;
+
+var CamposValidos = true;
+
 function modal() {
     document.getElementById("Fecha").value = moment().format('DD-MM-YY')
 
     var myModal = new bootstrap.Modal(document.getElementById('ModalBaker'), {
         keyboard: false
-      })
-      
-      myModal.show()
-    
-     
-    //CargarImagen()
+    })
+
+    myModal.show()
 }
 
 /***Valores de formulario*/
-let arrayCodigos = ['CodigoPN', 'CodigoPO', 'CodigoSerie', 'CodigoFecha']
+let arrayCodigos = ['CodigoPN', 'CodigoRev', 'CodigoPO', 'CodigoSerie', 'CodigoFecha']
 function Generar() {
     var PN = document.getElementById("PN").value
+    var Rev = document.getElementById("Rev").value
     var PO = document.getElementById("PO").value
     var Serie = document.getElementById("Serie").value
     var Fecha = document.getElementById("Fecha").value
 
-    let arrayCampos = [PN, PO, Serie, Fecha]
+    let arrayCampos = [PN, Rev, PO, Serie, Fecha]
 
-    for (let index = 0; index < arrayCampos.length; index++) {
-        if (index == 1) {
-            JsBarcode("#" + arrayCodigos[index], arrayCampos[index], {
-                format: "CODE128",
-                lineColor: "#000000",
-                width: 8,
-                height: 40,
-                displayValue: false,
-                fontSize: 35
-            });
-        } else {
-            JsBarcode("#" + arrayCodigos[index], arrayCampos[index], {
-                format: "CODE128",
-                lineColor: "#000000",
-                width: 2,
-                height: 40,
-                displayValue: false,
-                fontSize: 35
-            });
+    if (arrayCampos.every(campo => campo.length > 0)) {//Comprobar que todos los campos esten completos
+        for (let index = 0; index < arrayCampos.length; index++) {
+            CamposValidos = true
+            if (index == 1) {
+                JsBarcode("#" + arrayCodigos[index], arrayCampos[index], {
+                    format: "CODE128",
+                    lineColor: "#000000",
+                    width: 8,
+                    height: 40,
+                    displayValue: false,
+                    fontSize: 35
+                });
+            } else {
+                JsBarcode("#" + arrayCodigos[index], arrayCampos[index], {
+                    format: "CODE128",
+                    lineColor: "#000000",
+                    width: 2,
+                    height: 40,
+                    displayValue: false,
+                    fontSize: 35
+                });
+            }
         }
-
+    } else {
+        alert("campos incompletos")
+        CamposValidos = false
     }
-
 }
 
 
 
 async function ConverterPNG() {
-    let arraySalidas = ['SalidaPN', 'SalidaPO', 'SalidaSerie', 'SalidaFecha']
+    let arraySalidas = ['SalidaPN', 'SalidaRev', 'SalidaPO', 'SalidaSerie', 'SalidaFecha']
 
     for (let index = 0; index < arraySalidas.length; index++) {
 
         let promise = new Promise(function (resolve, reject) {
 
             var outputss = document.querySelector('#' + arraySalidas[index]) // Salida
-            console.log(arraySalidas[index])
+
             //Codigo de barras
             var svg = document.getElementById(arrayCodigos[index]);
-            console.log(arrayCodigos[index])
+
             var svgData = new XMLSerializer().serializeToString(svg);
 
             var canvas = document.createElement("canvas");
@@ -93,28 +99,29 @@ async function ConverterPNG() {
             setTimeout(() => resolve("hecho"), 100);
         });
     }
-
 }
 
 function GenerarPDF(params) {
     //Generar codigos de barra
     Generar();
-    //Convertir imagenes en PNG
-    setTimeout(() => {
-        ConverterPNG()
-    }, 1000);
-    setTimeout(() => {
-        PDF()
-    }, 1500);
+    //Comprobar que todos los campos esten completos en comprobacion de funcion "Generar"
+    if (CamposValidos) {
+        //Convertir imagenes en PNG
+        setTimeout(() => {
+            ConverterPNG()
+        }, 1000);
+        setTimeout(() => {
+            PDF()
+        }, 1500);
+    }
 }
 
 function PDF() {
-    
-    
 
     var doc = new jsPDF('l', 'mm', [432, 279.5]);
 
     imgPN = document.getElementById("SalidaPN").src
+    imgRev = document.getElementById("SalidaRev").src
     imgPO = document.getElementById("SalidaPO").src
     imgSerie = document.getElementById("SalidaSerie").src
     imgFecha = document.getElementById("SalidaFecha").src
@@ -128,15 +135,14 @@ function PDF() {
     doc.setFontType("normal");
     doc.text(document.getElementById("PN").value, 105, 65);
 
-
-
     /*Rev: */
     doc.setFontType("bold");
     doc.setFontSize(50);
     doc.setTextColor(25);
     doc.text("Rev: ", 10, 90);
     doc.setFontType("normal");
-    doc.text(document.getElementById("Rev").value, 50, 90);
+    doc.text(document.getElementById("Rev").value, 105, 107);
+    doc.addImage(imgRev, 'PNG', 50, 65, 300, 60);
 
     /*PN*/
     doc.setFontType("bold");
@@ -164,10 +170,10 @@ function PDF() {
 
 
     //Rectangulo negro
-    doc.rect(40, 240, 125, 20, "F"); 
-    doc.setTextColor(255,255,255);
+    doc.rect(40, 240, 125, 20, "F");
+    doc.setTextColor(255, 255, 255);
     doc.text("Made in México", 40, 255);
- 
+
     doc.save("ss" + '.pdf');
 }
 
